@@ -1,0 +1,281 @@
+Ext.define('escape.controller.ProductSections', {
+    extend: 'Ext.app.Controller',
+    requires: ['escape.view.subSection.Product', 'escape.model.Content', 'escape.view.ui.ProductListItem'],
+    config: {
+        currentSection: 'about',
+        refs: {
+            navView: '#thingsToDoSection > navigationview',
+            listView: '#thingsToDoSection listTypesSubSection',
+            thingsToDoSection: '#thingsToDoSection'
+        },
+        control: {
+            '#thingsToDoSection thingsToDoCatigoriesPage list': {
+                select: 'catigoriesSelected'
+            },
+            'productSubSection': {
+                openView: 'loadContent'
+            },
+            'productSubSection segmentedbutton': {
+                toggle: 'switchType'
+            },
+            'productListItem': {
+                initialize: 'loadProduct',
+                tap: 'openProductListItem'
+            },
+            'productSubSection list[action=productList]': {
+                select: 'productSelected'
+            }
+
+        }
+    },
+    loadProduct: function(productListItem) {
+        var data = productListItem.getData();
+        escape.model.Product.getProxy().setUrl(escape.utils.AppVars.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details/_nocache');
+        escape.model.Product.load(data.productId, {
+            success: function(product) {
+                console.log(product.raw);
+                var data = {
+                    name: productListItem.getData().name,
+                    suburb: '-',
+                    imagePath: ''
+                };
+                if (product.raw.Contact.Address.Suburb) {
+                    data.suburb = product.raw.Contact.Address.Suburb;
+                }
+                if (product.raw.Images) {
+                    if (product.raw.Images.length > 0) {
+                        data.imagePath = product.raw.Images[0]['Full Size'];
+                    }
+                }
+                productListItem.setData(data);
+            },
+            error: function(error) {
+                this.setItems({
+                    xtype: 'loadError'
+                });
+            },
+            scope: this
+        });
+    },
+    catigoriesSelected: function(list, record) {
+        this.getNavView().push({
+            pageTitle: record.data.title,
+            contentPath: record.data.contentPath,
+            xtype: 'productSubSection'
+        });
+    },
+    loadContent: function(productSubSection) {
+        var selfRef = this;
+        // load the content data
+        escape.model.ContentPage.getProxy().setUrl(productSubSection.getContentPath());
+        escape.model.ContentPage.load(0, {
+            success: function(content) {
+                selfRef.buildSubSection(productSubSection, content.getData());
+            },
+            error: function(error) {},
+            scope: this
+        });
+    },
+    buildSubSection: function(productSubSection, content) {
+        content = escape.model.Content.process(content);
+        // link the content to the page
+        productSubSection.setContent(content);
+        //
+        var menuOptions = [{
+            text: escape.utils.Translator.translate('About'),
+            type: 'about',
+            pressed: true,
+            flex: 1
+        }];
+        for (var i = 0; i < content.productLists.length; i++) {
+            var productList = content.productLists[i];
+            menuOptions.push({
+                text: escape.utils.Translator.translate(productList.name),
+                type: productList.type,
+                url: productList.url,
+                flex: 1
+            });
+        }
+
+        var items = [];
+        if (menuOptions.length > 1) {
+            items.push({
+                xtype: 'segmentedbutton',
+                layout: 'hbox',
+                allowMultiple: false,
+                allowDepress: false,
+                docked: 'top',
+                items: menuOptions
+            });
+        }
+        items.push({
+            xtype: 'container',
+            layout: 'card',
+            flex: 1,
+            items: {
+                xtype: 'container',
+
+                scrollable: {
+                    direction: 'vertical',
+                    directionLock: true
+                },
+                itemId: 'contents',
+                items: escape.model.Content.buildItems(productSubSection.getContent(), 'productSubSection')
+            }
+        });
+
+        productSubSection.setItems(items);
+        productSubSection.setCardView(productSubSection.getItems().items[productSubSection.getCardViewItemId()]);
+        console.log(productSubSection.getCardView());
+    },
+    switchType: function(container, btn, pressed) {
+        this.setCurrentSection(btn.config.type);
+        var productSubSection = container.parent;
+
+        if (btn.config.type == 'about') {
+            productSubSection.getCardView().getComponent('contents').setPadding(0);
+            productSubSection.getCardView().getComponent('contents').setItems(escape.model.Content.buildItems(productSubSection.getContent(), 'productSubSection'));
+        } else {
+            var loadingDislay = Ext.create('escape.view.ui.LoadingDisplay');
+            productSubSection.getCardView().getComponent('contents').setPadding("10px");
+            productSubSection.getCardView().getComponent('contents').setItems(loadingDislay);
+        }
+        if (btn.config.type == 'mustDo') {
+
+            this.loadMustDos(btn.config.url, productSubSection);
+        }
+        if (btn.config.type == 'productList') {
+            this.loadProductList(btn.config.url, productSubSection);
+        }
+
+
+    },
+    loadMustDos: function(url, productSubSection) {
+        var selfRef = this;
+        escape.model.ContentPage.getProxy().setUrl(url);
+        escape.model.ContentPage.load(0, {
+            success: function(content) {
+                selfRef.mustDosLoaded(content.getData(), productSubSection);
+            },
+            error: function(error) {},
+            scope: this
+        });
+    },
+
+    mustDosLoaded: function(content, productSubSection) {
+        if (this.getCurrentSection() == 'mustDo') {
+            var linksStartBreakdown = content.description.split('<a href="');
+            var output = '';
+            var mustDoItems = [];
+            for (var i = 0; i < linksStartBreakdown.length; i++) {
+                var linksEndBreakdown = linksStartBreakdown[i].split('</a>');
+                if (linksEndBreakdown.length > 1) {
+                    // process the link
+                    var linkParts = linksEndBreakdown[0].split('">');
+                    var link = linkParts[0];
+                    var linkText = linkParts[1];
+
+                    var urlBreakdown = link.split('/');
+                    var type = urlBreakdown[urlBreakdown.length - 2];
+                    var productId = urlBreakdown[urlBreakdown.length - 1];
+
+                    if (type == 'attractions') {
+                        type = 'attraction';
+                    }
+
+                    if (type !== null && productId !== null) {
+
+                        var typeAllowed = false;
+                        for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
+                            if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
+                                typeAllowed = true;
+                                break;
+                            }
+                        }
+                        if (typeAllowed) {
+                            mustDoItems.push({
+                                xtype: 'productListItem',
+                                data: {
+                                    name: linkText,
+                                    type: type,
+                                    productId: productId,
+                                    suburb:'-'
+                                }
+
+                            });
+                        }
+                    }
+                }
+            }
+            productSubSection.getCardView().getComponent('contents').setPadding(0);
+            productSubSection.getCardView().getComponent('contents').setItems(mustDoItems);
+        }
+    },
+    loadProductList: function(url, productSubSection) {
+        var selfRef = this;
+        var currentList = 0;
+        var productList = '';
+        var values = url.split('/product-list-generator/')[1].split('&');
+        var params = {};
+        for (var i = 0; i < values.length; i++) {
+            var param = values[i].split('=');
+            params[param[0]] = param[1].split(',').join(';');
+        }
+        // if no destination are sent use the default ones
+        if (!params.destination_id) {
+            params.destination_id = escape.utils.AppVars.destinationIds;
+        }
+        // if no limit is sent add one
+        if (!params.limit_by) {
+            params.limit_by = 10;
+        }
+
+        Ext.Ajax.request({
+            method: 'GET',
+            url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator/_nocache',
+            params: params,
+            success: function(response) {
+                productList = (JSON.parse(response.responseText));
+                selfRef.productListLoaded(productList, productSubSection);
+
+            },
+            failure: function(response, opts) {}
+        });
+    },
+    productListLoaded: function(productList, productSubSection) {
+        if (this.getCurrentSection() == 'productList') {
+            var items = {
+                xtype: 'list',
+                margin: '10 10 10 10',
+                itemTpl: '{Name}',
+                cls: 'selectionList',
+                action:'productList',
+                scrollable: false,
+                data: productList
+            };
+            productSubSection.getCardView().getComponent('contents').setPadding(0);
+            productSubSection.getCardView().getComponent('contents').setItems(items);
+        }
+    },
+    openProductListItem: function(openProductListItem) {
+        var data = openProductListItem.getData();
+        this.getNavView().push({
+            pageTitle: data.type,
+            xtype: 'productPage',
+            productId: data.productId,
+            productType: data.type
+        });
+    },
+    productSelected: function(list, record) {
+        console.log(record);
+        var data = record.getData();
+        console.log(data);
+        //
+        this.getNavView().push({
+            pageTitle: 'attraction',//collection.name,
+            xtype: 'productPage',
+            productId: data['Web Path'],
+            productType: 'attraction'
+        });
+    }
+});

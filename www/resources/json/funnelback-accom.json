@@ -1,0 +1,115 @@
+{
+    "Results Summary": {
+        "Start Index": 0,
+        "End Index": 2,
+        "Total": 433,
+        "MaxRating": "5"
+    },
+    "Destinations": {
+        "Sydney": 433
+    },
+    "Types": {
+        "Hotel and Motel": "199",
+        "Self Contained": "189",
+        "Bed and Breakfasts": "75",
+        "Backpackers and Hostels": "44",
+        "Cabins and Cottages": "31",
+        "Caravan and Camping": "15",
+        "Farm Stays": "6",
+        "Spa and Retreats": "5",
+        "Resorts": "4"
+    },
+    "Features": {
+        "Iron": "287",
+        "Laundry": "285",
+        "Car park": "283",
+        "Linen": "247",
+        "Cots Available": "204",
+        "Internet access": "185",
+        "24 hour Reception": "177",
+        "Non Smoking Establishment": "176",
+        "TV/Lounge Area": "166",
+        "BBQ Facilities": "165",
+        "Pay/Satellite TV": "157",
+        "Conference/Convention Facilities": "139",
+        "Non Smoking Floor": "133",
+        "Wireless Internet Access": "128",
+        "Microwave oven": "127",
+        "Bar": "127"
+    },
+    "Star Rating": {
+        "0": "261",
+        "4": "59",
+        "3.5": "44",
+        "4.5": "41",
+        "5": "19",
+        "3": "6",
+        "2.5": "3"
+    },
+    "Experiences": {
+        "Food and Wine": "106",
+        "__NULL__": "83",
+        "Beach": "77",
+        "Indulgence/Luxury": "72",
+        "Historic/Heritage": "48",
+        "Lakes/Rivers/Dams": "47",
+        "Rural/Country": "36",
+        "Health and Wellbeing": "35",
+        "Sport": "28",
+        "Water based": "27",
+        "Nature based": "27",
+        "Flora/Fauna": "24",
+        "Fishing": "20",
+        "Educational Tourism": "17",
+        "National Park": "14",
+        "Adventure": "12"
+    },
+    "Activities": {
+        "Swimming": "128",
+        "Barbecue": "103",
+        "Self-Guided": "72",
+        "Birdwatching": "64",
+        "Bushwalking": "54",
+        "Tennis": "29",
+        "Cycling": "24",
+        "Fishing - rivers, estuaries and lakes": "23",
+        "Fishing - Beach": "22",
+        "Meditating": "22",
+        "Canoeing": "22",
+        "Kayaking": "21",
+        "Animal Viewing": "19",
+        "Surfing": "18",
+        "Meditating/Relaxing": "18"
+    },
+    "Results": [{
+        "Name": "Breakers Cove",
+        "URL": "breakers-cove",
+        "Town": "Homebush Bay",
+        "Kind": "Self Contained|",
+        "Region": "Sydney",
+        "Area": "Sydney West",
+        "Latitude": "-33.833591",
+        "Longitude": "151.075581",
+        "Star Rating": "0"
+    }, {
+        "Name": "Homebush Bay Apartments Olympic Park Sydney",
+        "URL": "homebush-bay-apartments-olympic-park-sydney",
+        "Town": "Homebush Bay",
+        "Kind": "Self Contained|",
+        "Region": "Sydney",
+        "Area": "Sydney West",
+        "Latitude": "-33.833591",
+        "Longitude": "151.075581",
+        "Star Rating": "0"
+    }, {
+        "Name": "Carlingford Serviced Apartments",
+        "URL": "carlingford-serviced-apartments",
+        "Town": "Carlingford",
+        "Kind": "Self Contained|",
+        "Region": "Sydney",
+        "Area": "Sydney West",
+        "Latitude": "-33.783589",
+        "Longitude": "151.045836",
+        "Star Rating": "4"
+    }]
+}

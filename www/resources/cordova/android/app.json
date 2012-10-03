@@ -1,0 +1,13 @@
+{
+	"js": [
+		{
+			"path": "cordova/cordova-2.0.0.js"
+		},
+		{
+			"path": "cordova/SQLitePlugin.js"
+		},
+		{
+			"path": "cordova/ChildBrowser.js"
+		}
+	]
+}
