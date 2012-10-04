@@ -23,7 +23,7 @@ Ext.define("escape.view.page.ThingsToDoCatigories", {
         var items = [{
             xtype: 'list',
             margin: '10 10 20 10',
-            itemTpl: '<div><span>{number}</span><h3>{title}</h3></div><div class="img" style="background-image:url({imgPath})"></div>',
+           itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
             cls: 'imgList numberedList',
             action: 'changeListPage',
             scrollable: false,

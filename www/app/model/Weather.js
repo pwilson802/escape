@@ -12,68 +12,62 @@ Ext.define("escape.model.Weather", {
     translations: null,
     weatherTerms: [{
         icon: 1,
-        term: 'Sunny',
-        transId: 245
+        term: 'Sunny'
     }, {
         icon: 2,
-        term: 'Clear',
-        transId: 246
+        term: 'Clear'
     }, {
         icon: 3,
-        term: 'Partly cloudy',
-        transId: 247
+        term: 'Partly cloudy'
     }, {
         icon: 4,
-        term: 'Cloudy',
-        transId: 262
+        term: 'Cloudy'
     }, {
         icon: 6,
-        term: 'Hazy',
-        transId: 248
+        term: 'Hazy'
     }, {
         icon: 8,
-        term: 'Light rain',
-        transId: 249
+        term: 'Light rain'
     }, {
         icon: 9,
-        term: 'Windy',
-        transId: 250
+        term: 'Windy'
     }, {
         icon: 10,
-        term: 'Fog',
-        transId: 260
+        term: 'Fog'
     }, {
         icon: 11,
-        term: 'Shower',
-        transId: 251
+        term: 'Shower'
     }, {
         icon: 12,
-        term: 'Rain',
-        transId: 252
+        term: 'Rain'
     }, {
         icon: 13,
-        term: 'Dusty',
-        transId: 253
+        term: 'Dusty'
     }, {
         icon: 14,
-        term: 'Frost',
-        transId: 254
+        term: 'Frost'
     }, {
         icon: 15,
-        term: 'Snow',
-        transId: 255
+        term: 'Snow'
     }, {
         icon: 16,
-        term: 'Storm',
-        transId: 256
+        term: 'Storm'
     }, {
         icon: 17,
-        term: 'Light shower',
-        transId: 258
+        term: 'Light shower'
     }],
 
     config: {
         isDegrees: null
+    },
+    getIconName : function(icon){
+        for (var i = this.weatherTerms.length - 1; i >= 0; i--) {
+           var item = this.weatherTerms[i];
+           if (item.icon === icon){
+                return item.term;
+           }
+        }
+        return '';
     },
     //
     setUp: function(callback, scope) {
@@ -192,7 +186,7 @@ Ext.define("escape.model.Weather", {
         });
     },
     fullWeatherLoaded: function(weatherData, callback, scope) {
-        this.todaysDate = new Date(parseInt(weatherData.Date.substr(6)));
+        this.todaysDate = new Date( parseInt( weatherData.Date.substr(6) ) );
         this.currentTemp = weatherData.TempCurrent;
         var forcasts = [];
         for (var i = 0; i < 8; i++) {

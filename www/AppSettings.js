@@ -37,33 +37,33 @@ AppSettings.getSMPSectionURL = function() {
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [{
     title: 'Arts & Culture',
-    subheading: 'Best of arts and culture in Sydney',
+    subheading: 'Best of arts and culture in '+AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_a.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
 }, {
     title: 'Food & Wine',
-    subheading: 'Food and wine in Sydney',
+    subheading: 'Food and wine in '+AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_b.png',
     hideInSubSections: true, // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
 }, {
     title: 'Nature & Parks',
-    subheading: 'Explore Sydney’s great outdoors',
+    subheading: 'Explore '+AppSettings.appAreaName+'’s great outdoors',
     imgPath: 'resources/images/home_experience_c.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
     title: 'Fashion & Shopping',
-    subheading: 'Shopping in Sydney',
+    subheading: 'Shopping in '+AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_d.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
     title: 'Beach Lifestyle',
-    subheading: 'Beach lifestyle in Sydney',
+    subheading: 'Beach lifestyle in '+AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_e.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
 }, {
     title: 'Family Holidays',
-    subheading: 'Family travel in sydney',
+    subheading: 'Family travel in '+AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_f.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
 }];

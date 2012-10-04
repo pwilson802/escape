@@ -64,7 +64,6 @@ Ext.define('escape.controller.GlobalActions', {
                     case 'makeBooking':
                         this.makeBooking(data.data);
                         break;
-
                     }
                     list.deselectAll();
                 }
@@ -84,12 +83,15 @@ Ext.define('escape.controller.GlobalActions', {
             },
             'page list[action="changeSection"]': {
                 select: 'listSectionChange'
+            },
+            'selectfield label' : {
+                tap : 'showSelectFieldOptions'
             }
         }
     },
 
-    pageInit: function() {
-
+    showSelectFieldOptions: function() {
+        console.log('showSelectFieldOptions');
     },
     scrollTopTop: function() {
         var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();

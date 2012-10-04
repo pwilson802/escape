@@ -161,6 +161,10 @@ Ext.define('escape.controller.Events', {
                     }
                 }
             }
+             featuredItems.push({
+                margin: '20px 0 0 0',
+             xtype: 'footer'
+             });
             var viewportSize = Ext.Viewport.getSize();
             var contents = this.getEventsPage().getComponent('contents');
             contents.setPadding(0);

@@ -42,14 +42,11 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     createMapElement: function() {
         if (!this.getBuilt()) {
-            EMS.Services.communicationMode = "CrossDomain";
+            //EMS.Services.communicationMode = "CrossDomain";
             this.setMapId('mapContainier' + Math.random() * 1000000000);
             var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
             this.add({
                 html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"></div>'
-            });
-            this.add({
-                html: '<div id="bing-map" style="width:0; height:0;"></div>'
             });
             this.createWhereIsMap();
         }

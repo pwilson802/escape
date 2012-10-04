@@ -55,16 +55,16 @@ Ext.define("escape.view.Main", {
             }
         }, {
 
-            title: escape.utils.Translator.translate('About Sydney'),
+            title: 'About '+AppSettings.appAreaName,
             group: 'Group 1',
             id: 'aboutSection',
             firstPage: {
                 xtype: 'contentPage',
-                title: 'About Sydney',
+                title: 'About '+AppSettings.appAreaName,
                 contentPath: AppSettings.getSMPSectionURL() + '/about-sydney'
             }
         }, {
-            title: escape.utils.Translator.translate('My Itinerary'),
+            title: 'My Itinerary',
             group: 'Group 1',
             id: 'myItinerarySection',
             firstPage: {
@@ -72,7 +72,7 @@ Ext.define("escape.view.Main", {
                 xtype: 'myItineraryPage'
             }
         }, {
-            title: escape.utils.Translator.translate('My Favourites'),
+            title: 'My Favourites',
             group: 'Group 1',
             id: 'myFavouritesSection',
             firstPage: {
@@ -80,7 +80,7 @@ Ext.define("escape.view.Main", {
                 xtype: 'myFavouritesPage'
             }
         }, {
-            title: escape.utils.Translator.translate('Things to do'),
+            title: 'Things to do',
             group: 'Group 2',
             id: 'thingsToDoSection',
             collectionType: 'attr',
@@ -90,7 +90,7 @@ Ext.define("escape.view.Main", {
                 contentPath: AppSettings.getSMPSectionURL() + '/things-to-do'
             }
         }, {
-            title: escape.utils.Translator.translate('Food & Wine'),
+            title: 'Food & Wine',
             group: 'Group 2',
             id: 'foodAndWineSection',
             collectionType: 'restaurants',
@@ -100,17 +100,17 @@ Ext.define("escape.view.Main", {
                 contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
             }
         }, {
-            title: escape.utils.Translator.translate('Accommodation'),
+            title: 'Accommodation',
             group: 'Group 2',
             id: 'accommodationSection',
             collectionType: 'accom',
             firstPage: {
-                xtype: 'listTypesSubSection',
                 title: 'Accommodation',
-                rightBtn: 'searchBtn'
+                collectionType: 'accom',
+                xtype: 'searchPage'
             }
         }, {
-            title: escape.utils.Translator.translate('Events'),
+            title: 'Events',
             group: 'Group 2',
             id: 'eventsSection',
             collectionType: 'event',
@@ -121,7 +121,7 @@ Ext.define("escape.view.Main", {
                 contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
             }
         }, {
-            title: escape.utils.Translator.translate('Services & Facilities'),
+            title: 'Services & Facilities',
             group: 'Group 3',
             id: 'servicesSection',
             firstPage: {
@@ -129,7 +129,7 @@ Ext.define("escape.view.Main", {
                 xtype: 'servicesAndFacilitiesPage'
             }
         }, {
-            title: escape.utils.Translator.translate('Hire'),
+            title: 'Hire',
             group: 'Group 3',
             id: 'hireSection',
             firstPage: {
@@ -138,7 +138,7 @@ Ext.define("escape.view.Main", {
                 xtype: 'searchPage'
             }
         }, {
-            title: escape.utils.Translator.translate('Tours'),
+            title: 'Tours',
             group: 'Group 3',
             id: 'toursSection',
             firstPage: {
@@ -147,7 +147,7 @@ Ext.define("escape.view.Main", {
                 xtype: 'searchPage'
             }
         }, {
-            title: escape.utils.Translator.translate('Deals'),
+            title: 'Deals',
             group: 'Group 3',
             id: 'dealsSection',
             firstPage: {
@@ -157,15 +157,15 @@ Ext.define("escape.view.Main", {
             }
 
         }, {
-            title: escape.utils.Translator.translate('Current Weather'),
+            title: 'Current '+  AppSettings.appAreaName +' Weather',
             group: 'Group 4',
             id: 'currentWeather',
             firstPage: {
-                title: 'Weather',
+                title:  AppSettings.appAreaName + ' Weather',
                 xtype: 'weatherPage'
             }
         }, {
-            title: escape.utils.Translator.translate('Currency Converter'),
+            title: 'Currency Converter',
             group: 'Group 4',
             id: 'currencyConverter',
             firstPage: {
@@ -173,7 +173,7 @@ Ext.define("escape.view.Main", {
                 xtype: 'currencyConverterPage'
             }
         }, {
-            title: escape.utils.Translator.translate('Transport Info'),
+            title: 'Transport Info',
             group: 'Group 4',
             id: 'tranportSection',
             firstPage: {
@@ -183,7 +183,7 @@ Ext.define("escape.view.Main", {
             }
 
         }, {
-            title: escape.utils.Translator.translate('Visitor Information Centres'),
+            title: 'Visitor Information Centres',
             group: 'Group 4',
             id: 'visitorInoSection',
             firstPage: {
@@ -192,7 +192,7 @@ Ext.define("escape.view.Main", {
                 xtype: 'searchPage'
             }
         }, {
-            title: escape.utils.Translator.translate('About Desination NSW'),
+            title: 'About Desination NSW',
             group: 'Group 4',
             id: 'aboutDNSWSection',
             firstPage: {
@@ -201,7 +201,7 @@ Ext.define("escape.view.Main", {
                 contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
             }
         }, {
-            title: escape.utils.Translator.translate('Other NSW Apps'),
+            title: 'Other NSW Apps',
             group: 'Group 4',
             id: 'otherAppsSection',
             firstPage: {
@@ -210,7 +210,7 @@ Ext.define("escape.view.Main", {
                 contentPath: AppSettings.getSMPSectionURL() + '/other-dnsw-apps'
             }
         }, {
-            title: escape.utils.Translator.translate('Settings'),
+            title: 'Settings',
             group: 'Group 5',
             id: 'settingsSection',
             firstPage: {

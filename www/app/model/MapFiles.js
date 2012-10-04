@@ -23,7 +23,6 @@ Ext.define("escape.model.MapFiles", {
         //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
         var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=8348923927920532480';
         LazyLoad.js([url], function() {
-            EMS.Services.communicationMode = "CrossDomain";
             Ext.callback(callback.success, scope, []);
         });
 

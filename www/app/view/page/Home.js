@@ -5,7 +5,7 @@ Ext.define("escape.view.page.Home", {
     config: {
         addToItemId: 1,
         rightBtn: 'searchBtn',
-        title: 'Sydney',
+        title: AppSettings.appAreaName,
         pageTypeId: 7,
         pageTrackingId: 7,
         //<h4>Destination Guide</h4>,

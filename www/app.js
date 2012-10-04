@@ -7,7 +7,7 @@ Ext.Loader.setPath({
 Ext.application({
     name: 'escape',
     requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox','escape.utils.DatabaseManager', 'escape.utils.Tracking','escape.utils.AppFuncs','escape.utils.AppVars'],
-    views: ['Main', 'section.Section', 'page.Home', 'page.Area', 'page.FeaturedList', 'page.FoodAndWine', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer','page.CurrencyConverter','page.ContentPage'],
+    views: ['Main', 'section.Section', 'page.Home', 'page.Area', 'page.FeaturedList', 'page.FoodAndWine', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer','page.CurrencyConverter','page.ContentPage','ui.SelectField'],
     controllers: ['GlobalActions', 'Section', 'Search', 'Sharing','Itinerarys','ItineraryViewer', 'Product', 'Towns', 'About', 'FoodAndWine', 'ProductSections', 'Accommodation', 'Events','CurrencyConverter','Weather','MyFavourites','ContentPage'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register','ProductSearch','Itineraries'],

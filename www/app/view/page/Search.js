@@ -33,7 +33,7 @@ Ext.define("escape.view.page.Search", {
                     margin: '0 0 10px 0'
                 },
                 items: [{
-                    xtype: 'selectfield',
+                    xtype: 'selectField',
                     label: 'Distance',
                     name:'distance',
                     options: [{

@@ -57,6 +57,12 @@ Ext.define('escape.controller.Search', {
                 picker: {
                     yearFrom: todaysDate.getFullYear(),
                     yearTo: maxDate.getFullYear()
+                },
+                listeners: {
+                    element: 'label',
+                    tap: function() {
+                        this.getPicker().show();
+                    }
                 }
             }, {
                 xtype: 'datepickerfield',
@@ -67,6 +73,12 @@ Ext.define('escape.controller.Search', {
                 picker: {
                     yearFrom: todaysDate.getFullYear(),
                     yearTo: maxDate.getFullYear()
+                },
+                listeners: {
+                    element: 'label',
+                    tap: function() {
+                        this.getPicker().show();
+                    }
                 }
             }];
             this.getSearchForm().getComponent('searchOptions').add(items);
@@ -162,7 +174,7 @@ Ext.define('escape.controller.Search', {
         if (choices.length > 2) {
             // add a destinations
             var selectfield = {
-                xtype: 'selectfield',
+                xtype: 'selectField',
                 label: name,
                 labelWidth: '50%',
                 name: name.toLowerCase(),
@@ -213,7 +225,7 @@ Ext.define('escape.controller.Search', {
         if (collectionType === 'deals') {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
-            params.meta_C_not='dest';
+            params.meta_C_not = 'dest';
             params.meta_o_phrase = 1; // search only were items have a deal
         } else if (collectionType == 'vic') {
             params.collection = 'visitor-information-centres'; //'prototype-dnsw-' +
@@ -224,7 +236,7 @@ Ext.define('escape.controller.Search', {
         } else {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
-            params.meta_C_not='dest';
+            params.meta_C_not = 'dest';
         }
         return params;
     },
