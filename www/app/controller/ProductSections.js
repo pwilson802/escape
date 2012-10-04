@@ -210,6 +210,10 @@ Ext.define('escape.controller.ProductSections', {
                     }
                 }
             }
+             mustDoItems.push({
+                margin: '20px 0 0 0',
+             xtype: 'footer'
+             });
             productSubSection.getCardView().getComponent('contents').setPadding(0);
             productSubSection.getCardView().getComponent('contents').setItems(mustDoItems);
         }
@@ -262,7 +266,7 @@ Ext.define('escape.controller.ProductSections', {
     },
     openProductListItem: function(openProductListItem) {
         var data = openProductListItem.getData();
-        this.getNavView().push({
+        escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: data.type,
             xtype: 'productPage',
             productId: data.productId,
@@ -274,7 +278,7 @@ Ext.define('escape.controller.ProductSections', {
         var data = record.getData();
         console.log(data);
         //
-        this.getNavView().push({
+        escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: 'attraction',//collection.name,
             xtype: 'productPage',
             productId: data['Web Path'],

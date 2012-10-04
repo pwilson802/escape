@@ -107,6 +107,9 @@ Ext.define("escape.model.Content", {
                 data: this.buildChildren(content.children)
             });
         }
+        items.push({
+            xtype: 'footer'
+        });
         return items;
     },
 

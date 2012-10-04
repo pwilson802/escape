@@ -28,6 +28,8 @@ Ext.define("escape.view.page.ThingsToDoCatigories", {
             action: 'changeListPage',
             scrollable: false,
             data: listData
+        }, {
+            xtype: 'footer'
         }];
         this.setItems(items);
     }

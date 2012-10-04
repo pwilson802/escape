@@ -213,6 +213,7 @@ Ext.define('escape.controller.Search', {
         if (collectionType === 'deals') {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
+            params.meta_C_not='dest';
             params.meta_o_phrase = 1; // search only were items have a deal
         } else if (collectionType == 'vic') {
             params.collection = 'visitor-information-centres'; //'prototype-dnsw-' +
@@ -223,6 +224,7 @@ Ext.define('escape.controller.Search', {
         } else {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
+            params.meta_C_not='dest';
         }
         return params;
     },
