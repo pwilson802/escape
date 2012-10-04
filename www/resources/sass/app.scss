@@ -91,7 +91,7 @@ p {
 	background: url(../images/linen_bg.png);
 }
 .x-scroll-scroller {
-	background-color:#f7f5f1;
+	background-color:$page-bg-color;
 }
 .badge {
 	background-image: url(../images/badge_home_syd.png);
@@ -101,7 +101,7 @@ p {
 	top:30px;
 	left:15px;
 	position:absolute;
-	z-index:2;
+	z-index:10;
 }
 .loadError,
 .loadingDisplay {
@@ -211,6 +211,14 @@ p {
 	}
 }
 
+.questionAction {
+	.question {
+		font-weight: bold;
+		text-align:center;
+		font-size:16px;
+	}
+}
+
 .noFavourites {
 	background: url(../images/favs_no_badge.png) no-repeat center center;
 	width:222px;
@@ -248,6 +256,8 @@ p {
 	h3 {
 		font-size:20px;
 	}
+	background: #F6F5F1 !important;
+
 }
 .productDates {
 	background-color:$highlightLight;
@@ -585,7 +595,7 @@ p {
 	color:$mediumGrey !important;
 }
 .x-list{
-	background:$page-bg-color;
+	//background:$page-bg-color;
 	.x-list-item-label {
 		border:none;
 	}
@@ -620,14 +630,16 @@ p {
 .radioList,
 .pageList,
 .selectionList {
+	background:transparent !important;
 	padding: 10px 0 10px 0;
 	.x-list-item {
-		@include background-image(linear-gradient(#f8f7f3,#f4f3f1,#f1f0ee));
+		background:transparent !important;
 	}
 	.x-list-item-label {
+		@include background-image(linear-gradient(#f8f7f3,#f4f3f1,#f1f0ee));
 		border:1px solid $cellStroke !important;
 		@include text-shadow(1px 1px 0 #fff);
-
+		background-color:#f4f3f1;
 		background-image:url('../images/arrow_cell.png') !important;
 		background-repeat:no-repeat;
 		background-position: right 18px;
@@ -988,10 +1000,37 @@ p {
 // ITINERARY
 ///////////////////////
 
+#myItinerarySection {
+	.x-layout-card-item {
+		background: #cbbdab url('../images/pattern_sand.png');
+		
+	}
+	.x-scroll-scroller {
+		background: #cbbdab url('../images/pattern_sand.png');
+	}
+}
+.addToItineraryPage,
+.newItinerary { 
+	.x-scroll-scroller {
+		background: #cbbdab url('../images/pattern_sand.png');
+	}
+}
+
+.itineraryInstructions {
+	padding:140px 0 0 0;
+	background: url('../images/ico_itinerary_badge.png') center 0 no-repeat;
+	p {
+		color:#84817d;
+		font-size:12px;
+		font-weight:bold;
+		text-align:center;
+	}
+}
+
 .itineraryProducts {
 	background: #cbbdab;
 	.x-scroll-scroller {
-		background: #cbbdab url('../images/pattern_sand.png');
+		
 	}
 }
 .createItineraryBtnLarge {

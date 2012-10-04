@@ -10,7 +10,6 @@ Ext.define("escape.view.ui.EditItineraryProduct", {
         maxDays: null
     },
     initialize: function() {
-        console.log('initialize: ' + this.getDayNum());
         var items = [];
         // make sure there are other days we can move the product to
         if (this.getMaxDays() > 1) {

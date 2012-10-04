@@ -39,7 +39,7 @@ Ext.define('escape.controller.Events', {
     loadWeekly: function() {
         var params = {
             // linit the search to the apps destination webpath
-            meta_D_phrase_sand: escape.utils.AppVars.destinationWebpath
+            meta_D_phrase_sand: AppSettings.destinationWebpath
         };
         // set the serach to use the right collection
         params.collection = 'event'; //'prototype-dnsw-' +
@@ -77,7 +77,6 @@ Ext.define('escape.controller.Events', {
             data: records.results,
             grouper: {
                 groupFn: function(record) {
-                    console.log(record.get('Start Date'));
                     var dateStr = record.get('Start Date').split('-');
                     var date = new Date(dateStr[0],Number(dateStr[1])-1,dateStr[2]);
 

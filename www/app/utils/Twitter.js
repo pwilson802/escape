@@ -32,7 +32,7 @@
      startAccessProcess: function(callback, scope) {
          var selfRef = this;
          //
-         this.oauth = OAuth(escape.utils.AppVars.twitter);
+         this.oauth = OAuth(AppSettings.twitter);
          this.oauth.get('https://api.twitter.com/oauth/request_token', function(data) {
              requestParams = data.text;
              var childbrowser = escape.utils.AppVars.childbrowser;
@@ -45,7 +45,7 @@
          });
      },
      broswerLocChnage: function(loc, callback, scope) {
-         if (loc.indexOf(escape.utils.AppVars.twitter.callbackUrl) >= 0) {
+         if (loc.indexOf(AppSettings.twitter.callbackUrl) >= 0) {
              var selfRef = this;
              // Parse the returned URL
              var index, verifier = '';
@@ -102,11 +102,11 @@
      /////////////////////////////////////////////////////
      tweet: function(tweet,callback,scope) {
          console.log('!!! tweet');
-         escape.utils.AppVars.twitter.accessTokenKey = this.twitterKey.accessTokenKey; // This is saved when they first sign in
-         escape.utils.AppVars.twitter.accessTokenSecret = this.twitterKey.accessTokenSecret; // this is saved when they first sign in
-         console.log(escape.utils.AppVars.twitter);
+         AppSettings.twitter.accessTokenKey = this.twitterKey.accessTokenKey; // This is saved when they first sign in
+         AppSettings.twitter.accessTokenSecret = this.twitterKey.accessTokenSecret; // this is saved when they first sign in
+         console.log(AppSettings.twitter);
          // jsOAuth takes care of everything for us we just need to provide the options
-         this.oauth = OAuth(escape.utils.AppVars.twitter);
+         this.oauth = OAuth(AppSettings.twitter);
          var selfRef = this;
          this.oauth.get('https://api.twitter.com/1/account/verify_credentials.json?skip_status=true', function(data) {
              console.log('!!! verified!');

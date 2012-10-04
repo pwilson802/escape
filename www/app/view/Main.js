@@ -61,7 +61,7 @@ Ext.define("escape.view.Main", {
             firstPage: {
                 xtype: 'contentPage',
                 title: 'About Sydney',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/about-sydney'
+                contentPath: AppSettings.getSMPSectionURL() + '/about-sydney'
             }
         }, {
             title: escape.utils.Translator.translate('My Itinerary'),
@@ -87,7 +87,7 @@ Ext.define("escape.view.Main", {
             firstPage: {
                 title: 'Things to do',
                 xtype: 'thingsToDoCatigoriesPage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/things-to-do'
+                contentPath: AppSettings.getSMPSectionURL() + '/things-to-do'
             }
         }, {
             title: escape.utils.Translator.translate('Food & Wine'),
@@ -97,7 +97,7 @@ Ext.define("escape.view.Main", {
             firstPage: {
                 title: 'Food & Wine',
                 xtype: 'thingsToDoTypePage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/food-and-wine'
+                contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
             }
         }, {
             title: escape.utils.Translator.translate('Accommodation'),
@@ -118,7 +118,7 @@ Ext.define("escape.view.Main", {
                 xtype: 'eventsPage',
                 title: 'Events',
                 rightBtn: 'searchBtn',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/things-to-do/arts,-culture'
+                contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
             }
         }, {
             title: escape.utils.Translator.translate('Services & Facilities'),
@@ -179,7 +179,7 @@ Ext.define("escape.view.Main", {
             firstPage: {
                 title: 'Transport Info',
                 xtype: 'contentPage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/transport-information'
+                contentPath: AppSettings.getSMPSectionURL() + '/transport-information'
             }
 
         }, {
@@ -198,7 +198,7 @@ Ext.define("escape.view.Main", {
             firstPage: {
                 title: 'About Desination NSW',
                 xtype: 'contentPage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/about-destination-nsw'
+                contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
             }
         }, {
             title: escape.utils.Translator.translate('Other NSW Apps'),
@@ -207,7 +207,7 @@ Ext.define("escape.view.Main", {
             firstPage: {
                 title: 'Other DNSW apps',
                 xtype: 'contentPage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/other-dnsw-apps'
+                contentPath: AppSettings.getSMPSectionURL() + '/other-dnsw-apps'
             }
         }, {
             title: escape.utils.Translator.translate('Settings'),

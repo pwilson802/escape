@@ -27,7 +27,6 @@ Ext.define("escape.view.ui.ContentImg", {
                 });
             }
         }
-
     },
     dispalyInfo: function(translation) {
         if (!this.getInfoOpen()) {

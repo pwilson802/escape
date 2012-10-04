@@ -8,13 +8,12 @@ Ext.define("escape.view.page.ItineraryEditor", {
         rightBtn: 'hide',
         itinerary: null,
         productAddData: null,
-        items: [{
-            xtype: 'loadingDisplay'
-        }],
         layout: 'vbox'
 
     },
-    openView: function() {
+    
+    viewCreated: function() {
+        this.setNavTitle(this.getPageTitle());
 
         var todaysDate = new Date();
         var maxDate = new Date();
@@ -96,6 +95,7 @@ Ext.define("escape.view.page.ItineraryEditor", {
             },
             items: btns
         }];
+        this.removeAll(true, true);
         this.setItems(items);
     }
 

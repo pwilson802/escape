@@ -5,7 +5,7 @@ Ext.define('escape.store.ProductSearch', {
         model: 'escape.model.ProductSearch',
         proxy: {
             type: 'ajax',
-            url: escape.utils.AppVars.searchURL,
+            url: AppSettings.searchURL,
             startParam: 'start_rank',
             limitParam: 'num_ranks',
             reader: {

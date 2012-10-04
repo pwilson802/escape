@@ -2,6 +2,10 @@ Ext.define('escape.controller.Section', {
     extend: 'Ext.app.Controller',
     requires: ['Ext.util.DelayedTask'],
     config: {
+        menuBtn: null,
+        rightBtn: null,
+        oldPage: null,
+        newPage: null,
         control: {
             'slidenavigationview': {
                 menuClosed: 'menuClosed'
@@ -10,6 +14,9 @@ Ext.define('escape.controller.Section', {
                 activeitemchange: 'activeItemChange'
             },
             'section > navigationview > page': {
+                hide: 'itemHidden'
+            },
+            'section > navigationview > subSection': {
                 hide: 'itemHidden'
             },
             'section > navigationview toolbar': {
@@ -29,6 +36,11 @@ Ext.define('escape.controller.Section', {
             width: Ext.Viewport.getSize().width - 120
         });
         section.setTopText(scrollTopTopBtn.getComponent('topBtn'));
+        // define menu btns
+        var menuBtn = section.getComponent('menuBtn'); //Ext.ComponentQuery.query('#' + section.id + ' menuBtn')[0]; // get a referance to the menu button
+        var rightBtn = section.getComponent('rightBtn'); //Ext.ComponentQuery.query('#' + section.id + ' button[action="rightBtn"]')[0]; // get a referance to the menu button
+        this.setMenuBtn(menuBtn);
+        this.setRightBtn(rightBtn);
         // a new section has be activate, add the first view
         var sec = Ext.ComponentQuery.query('#' + section.id);
         var navView = Ext.ComponentQuery.query('#' + section.id + ' navigationview')[0];
@@ -48,31 +60,29 @@ Ext.define('escape.controller.Section', {
         page.viewOpened();
     },
     activeItemChange: function(navView, page, oldPage) {
+        this.setOldPage(oldPage);
+        this.setNewPage(page);
+        // get references to the view
         escape.utils.AppVars.currentPage = page;
-        var view = navView.parent; // reference to the parent of the Naviagtion view
-        var menuBtn = Ext.ComponentQuery.query('#' + view.id + ' menuBtn')[0]; // get a referance to the menu button
-        var rightBtn = Ext.ComponentQuery.query('#' + view.id + ' button[action="rightBtn"]')[0]; // get a referance to the menu button
-        //rightBtn.replaceCls(rightBtn.getCls(),); // change the class of the right button of the navigation view as it is required
+        // control which buttons are shown and hiiden
+        var menuBtn = this.getMenuBtn();
+        var rightBtn = this.getRightBtn();
         rightBtn.setCls(page.getRightBtn() + ' iconBtn');
         var itemIndex = navView.items.indexOf(page); // The index of the page
         if (itemIndex > 1) {
             // hide the menu button
             menuBtn.hide();
-            var task1 = Ext.create('Ext.util.DelayedTask', function() {
-                page.viewOpened();
-            });
-            task1.delay(500);
-
         } else {
-            // show the main menu button after a delay
-            var task2 = Ext.create('Ext.util.DelayedTask', function() {
-                menuBtn.show();
-            });
-            task2.delay(500);
+            // show the menu btn we are on the first page
+            menuBtn.show();
         }
-        // set the current page
     },
-    itemHidden: function(page) {
+    itemHidden: function(hiddenPage) {
+        if (this.getOldPage()) {
+            if (hiddenPage.getId() == this.getOldPage().getId()) {
+                this.getNewPage().viewOpened();
+            }
+        }
 
     }
 });

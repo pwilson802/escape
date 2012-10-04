@@ -3,6 +3,8 @@ Ext.define('escape.controller.MyFavourites', {
     requires: ['Ext.Anim', 'escape.view.page.Product'],
     config: {
         refs: {
+            myFavouritesSection: '#myFavouritesSection',
+            removeActionSheet: '#myFavouritesSection #removeActionSheet',
             myFavouritesPage: 'myFavouritesPage'
         },
         control: {
@@ -13,9 +15,16 @@ Ext.define('escape.controller.MyFavourites', {
             'myFavouritesPage list': {
                 select: 'productSelected',
                 disclose: 'showRemoveQuestion'
+            },
+            '#myFavouritesSection #removeActionSheet': {
+                hide: 'removeRemoveQs'
+            },
+            '#myFavouritesSection #removeActionSheet button[action=cancel]': {
+                tap: 'hideRemoveQs'
+            },
+            '#myFavouritesSection #removeActionSheet button[action=remove]': {
+                tap: 'removeFromFavourites'
             }
-
-
         }
     },
     reLoadList: function() {
@@ -92,26 +101,56 @@ Ext.define('escape.controller.MyFavourites', {
         var selfRef = this;
         var productId = record.getData().productId;
         // var msgBox = Ext.create('Ext.Msg');
-        Ext.Msg.show({
-            message: 'Remove from favourites?',
-            buttons: [{
-                text: 'NO',
-                itemId: 'no'
-            }, {
-                text: 'YES',
-                itemId: 'yes'
-            }],
-            fn: function(buttonId) {
-                if (buttonId == 'yes') {
-                    selfRef.removeFromFavourites(productId);
-                }
+        // Ext.Msg.show({
+        //     message: 'Remove from favourites?',
+        //     buttons: [{
+        //         text: 'NO',
+        //         itemId: 'no'
+        //     }, {
+        //         text: 'YES',
+        //         itemId: 'yes'
+        //     }],
+        //     fn: function(buttonId) {
+        //         if (buttonId == 'yes') {
+        //             selfRef.removeFromFavourites(productId);
+        //         }
 
-            }
+        //     }
+        // });
+        var removeActionSheet = Ext.create('escape.view.ui.QuestionAction', {
+            itemId:'removeActionSheet',
+            data: {
+                productId: productId
+            },
+            question: 'Remove from favourites?',
+            btns: [{
+                cls: 'reset',
+                action: 'remove',
+                text: 'Remove'
+            }, {
+                cls: 'reset',
+                action: 'cancel',
+                text: 'Cancel'
+            }]
         });
+        this.getMyFavouritesSection().add(removeActionSheet);
+        removeActionSheet.show();
 
     },
-    removeFromFavourites: function(productId) {
+     hideRemoveQs: function() {
+        console.log('hideRemoveQs');
+        var removeActionSheet = this.getRemoveActionSheet();
+        removeActionSheet.hide();
+    },
+    removeRemoveQs: function() {
+        console.log('removeRemoveQs');
+        var removeActionSheet = this.getRemoveActionSheet();
+        this.getMyFavouritesSection().remove(removeActionSheet);
+    },
+    removeFromFavourites: function() {
         var selfRef = this;
+        var productId = this.getRemoveActionSheet().getData().productId;
+        console.log('productId');
         escape.model.Favourites.remove(productId, {
             success: function(result) {
                 selfRef.reLoadList();
@@ -121,6 +160,9 @@ Ext.define('escape.controller.MyFavourites', {
             },
             scope: this
         });
+        
+        this.hideRemoveQs();
+
         var removedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt removedAddedMsg',
             modal: true,

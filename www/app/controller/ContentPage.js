@@ -3,6 +3,7 @@ Ext.define('escape.controller.ContentPage', {
     requires: ['escape.model.ContentPage'],
     config: {
         refs: {},
+        selectedRecord: null,
         control: {
             'contentPage': {
                 openView: 'loadContent'
@@ -24,26 +25,33 @@ Ext.define('escape.controller.ContentPage', {
         });
     },
     openPage: function(list, record) {
-        console.log(list);
-        
-        // Content Page
-        var data = record.getData();
-        console.log(data);
-        var xtype = (data.xtype) ? data.xtype : 'contentPage';
-        if (data.typeId == 'like-a-local') {
-            xtype = 'townsSubSection';
+        var changeAllowed = true;
+        if (this.getSelectedRecord()) {
+            if (record.getId() == this.getSelectedRecord().getId()) {
+                changeAllowed = false;
+            }
         }
-
-        console.log('list.subPageXtype: ' + list.subPageXtype);
-        if (list.subPageXtype) {
-            // let the list overwrite the page type
-            xtype = list.subPageXtype;
+        if (changeAllowed) {
+            this.setSelectedRecord(record);
+            console.log(record);
+            // Content Page
+            var data = record.getData();
+            console.log(data);
+            var xtype = (data.xtype) ? data.xtype : 'contentPage';
+            if (data.typeId == 'like-a-local') {
+                xtype = 'townsSubSection';
+            }
+            console.log('list.subPageXtype: ' + list.subPageXtype);
+            if (list.subPageXtype) {
+                // let the list overwrite the page type
+                xtype = list.subPageXtype;
+            }
+            console.log('xtype: ' + xtype);
+            escape.utils.AppVars.currentSection.getNavigationView().push({
+                pageTitle: data.Name,
+                xtype: xtype,
+                contentPath: data.Url
+            });
         }
-        console.log('xtype: ' + xtype);
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            pageTitle: data.Name,
-            xtype: xtype,
-            contentPath: data.Url
-        });
     }
 });

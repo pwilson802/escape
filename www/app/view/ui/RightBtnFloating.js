@@ -4,6 +4,7 @@ Ext.define("escape.view.ui.RightBtnFloating", {
     config: {
         cls: 'iconBtn',
         action: 'rightBtn',
+        itemId: 'rightBtn',
         top: 0,
         right: 0
     }

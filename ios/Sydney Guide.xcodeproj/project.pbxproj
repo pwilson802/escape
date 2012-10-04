@@ -54,6 +54,9 @@
 		B792CC44160805CB00BD25D7 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B792CC3C160805CB00BD25D7 /* ChildBrowserViewController.xib */; };
 		B792CC46160805CB00BD25D7 /* SQLitePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = B792CC40160805CB00BD25D7 /* SQLitePlugin.m */; };
 		B792CC4D16080EAD00BD25D7 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B792CC4C16080EAD00BD25D7 /* libsqlite3.dylib */; };
+		B7E63E4A161BC78F00A8569E /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E63E49161BC78F00A8569E /* Icon-57.png */; };
+		B7E63E4C161BC79800A8569E /* Icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E63E4B161BC79800A8569E /* Icon-114.png */; };
+		B7E63E4E161BC7B300A8569E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E63E4D161BC7B300A8569E /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +149,9 @@
 		B792CC3F160805CB00BD25D7 /* SQLitePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SQLitePlugin.h; path = ../../../plugins/ios/SQLitePlugin.h; sourceTree = "<group>"; };
 		B792CC40160805CB00BD25D7 /* SQLitePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SQLitePlugin.m; path = ../../../plugins/ios/SQLitePlugin.m; sourceTree = "<group>"; };
 		B792CC4C16080EAD00BD25D7 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		B7E63E49161BC78F00A8569E /* Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-57.png"; sourceTree = "<group>"; };
+		B7E63E4B161BC79800A8569E /* Icon-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-114.png"; sourceTree = "<group>"; };
+		B7E63E4D161BC7B300A8569E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +224,9 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B7E63E4D161BC7B300A8569E /* Default-568h@2x.png */,
+				B7E63E4B161BC79800A8569E /* Icon-114.png */,
+				B7E63E49161BC78F00A8569E /* Icon-57.png */,
 				B73840CA160C4313008B16F7 /* MessageUI.framework */,
 				B73840C2160C2A83008B16F7 /* Accounts.framework */,
 				B73840C0160C2A5B008B16F7 /* Twitter.framework */,
@@ -461,6 +470,9 @@
 				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
 				B792CC41160805CB00BD25D7 /* ChildBrowser.bundle in Resources */,
 				B792CC44160805CB00BD25D7 /* ChildBrowserViewController.xib in Resources */,
+				B7E63E4A161BC78F00A8569E /* Icon-57.png in Resources */,
+				B7E63E4C161BC79800A8569E /* Icon-114.png in Resources */,
+				B7E63E4E161BC7B300A8569E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +562,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -560,7 +574,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Sydney Guide";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "0842C6EC-5F30-4782-ABFD-90B210458C76";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0842C6EC-5F30-4782-ABFD-90B210458C76";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -569,6 +585,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Sydney Guide-Prefix.pch";
@@ -577,7 +595,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Sydney Guide";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "0842C6EC-5F30-4782-ABFD-90B210458C76";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0842C6EC-5F30-4782-ABFD-90B210458C76";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

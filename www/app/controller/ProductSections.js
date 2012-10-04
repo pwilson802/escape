@@ -9,6 +9,9 @@ Ext.define('escape.controller.ProductSections', {
             thingsToDoSection: '#thingsToDoSection'
         },
         control: {
+             'homePage #thingsToDoList': {
+                select: 'catigoriesSelected'
+            },
             '#thingsToDoSection thingsToDoCatigoriesPage list': {
                 select: 'catigoriesSelected'
             },
@@ -30,7 +33,7 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadProduct: function(productListItem) {
         var data = productListItem.getData();
-        escape.model.Product.getProxy().setUrl(escape.utils.AppVars.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details/_nocache');
+        escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
                 console.log(product.raw);
@@ -58,7 +61,7 @@ Ext.define('escape.controller.ProductSections', {
         });
     },
     catigoriesSelected: function(list, record) {
-        this.getNavView().push({
+        escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: record.data.title,
             contentPath: record.data.contentPath,
             xtype: 'productSubSection'
@@ -223,7 +226,7 @@ Ext.define('escape.controller.ProductSections', {
         }
         // if no destination are sent use the default ones
         if (!params.destination_id) {
-            params.destination_id = escape.utils.AppVars.destinationIds;
+            params.destination_id = AppSettings.destinationIds;
         }
         // if no limit is sent add one
         if (!params.limit_by) {
@@ -232,7 +235,7 @@ Ext.define('escape.controller.ProductSections', {
 
         Ext.Ajax.request({
             method: 'GET',
-            url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator/_nocache',
+            url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator',
             params: params,
             success: function(response) {
                 productList = (JSON.parse(response.responseText));

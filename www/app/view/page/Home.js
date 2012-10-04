@@ -37,6 +37,15 @@ Ext.define("escape.view.page.Home", {
         if (!this.getHomeBuilt()) {
             this.setHomeBuilt(true);
             var screenWidth = Ext.Viewport.getSize().width;
+
+            var thingsToDoCats = [];
+            for (var i = 0; i < AppSettings.attractionCats.length; i++) {
+                var cat = AppSettings.attractionCats[i];
+                cat.number = i+1;
+                thingsToDoCats.push(cat);
+            }
+
+
             this.setItems([{
                 cls: 'badge',
                 html: ''
@@ -112,40 +121,11 @@ Ext.define("escape.view.page.Home", {
             }, {
                 xtype: 'list',
                 margin: '10 10 20 10',
+                itemId: 'thingsToDoList',
                 itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
                 cls: 'imgList numberedList',
                 scrollable: false,
-                data: [{
-                    number: 1,
-                    title: 'Arts & Culture',
-                    subheading: 'Best of arts and culture in Sydney',
-                    imgPath: 'resources/images/home_experience_a.png'
-                }, {
-                    number: 2,
-                    title: 'Food & Wine',
-                    subheading: 'Food and wine in Sydney',
-                    imgPath: 'resources/images/home_experience_b.png'
-                }, {
-                    number: 3,
-                    title: 'Nature & Parks',
-                    subheading: 'Explore Sydney’s great outdoors',
-                    imgPath: 'resources/images/home_experience_c.png'
-                }, {
-                    number: 4,
-                    title: 'Fashion & Shopping',
-                    subheading: 'Shopping in Sydney',
-                    imgPath: 'resources/images/home_experience_d.png'
-                }, {
-                    number: 5,
-                    title: 'Beach Lifestyle',
-                    subheading: 'Beach lifestyle in Sydney',
-                    imgPath: 'resources/images/home_experience_e.png'
-                }, {
-                    number: 6,
-                    title: 'Family Holidays',
-                    subheading: 'Family travel in sydney',
-                    imgPath: 'resources/images/home_experience_f.png'
-                }]
+                data: thingsToDoCats
             }, {
                 xtype: 'footer'
             }]);

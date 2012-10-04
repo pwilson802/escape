@@ -41,9 +41,9 @@ Ext.define("escape.view.page.ItineraryDay", {
 
     showEmptyDay: function() {
         items = [{
-            cls: 'itinerayInstructions',
+            cls: 'itineraryInstructions',
             margin: '10 10 10 10',
-            html: '<h2>You have no items on this day.</h2><p>Start adding items to your itinerary when you see this icon.</p>'
+            html: '<p>Start adding items to your itinerary when you see this icon.</p>'
         }, {
             xtype: 'list',
             margin: '10 10 10 10',

@@ -35,9 +35,9 @@
          var childbrowser = escape.utils.AppVars.childbrowser;
          // Buid Authorization URL
          var authorizeUrl = "https://graph.facebook.com/oauth/authorize?";
-         authorizeUrl += "client_id=" + escape.utils.AppVars.facebook.clientId;
-         authorizeUrl += "&redirect_uri=" + escape.utils.AppVars.facebook.redirectUrl;
-         authorizeUrl += "&display=" + escape.utils.AppVars.facebook.display;
+         authorizeUrl += "client_id=" + AppSettings.facebook.clientId;
+         authorizeUrl += "&redirect_uri=" + AppSettings.facebook.redirectUrl;
+         authorizeUrl += "&display=" + AppSettings.facebook.display;
          authorizeUrl += "&scope=publish_stream,offline_access";
          // Listen for child browser window changes
          var selfRef = this;
@@ -51,14 +51,14 @@
      },
      broswerLocChange: function(loc, callback, scope) {
          // When the childBrowser window changes locations we check to see if that page is our success page.
-         if (loc.indexOf(escape.utils.AppVars.facebook.redirectUrl) >= 0) {
+         if (loc.indexOf(AppSettings.facebook.redirectUrl) >= 0) {
              var fbCode = loc.match(/code=(.*)$/)[1];
              this.getAccessToken(fbCode, callback, scope);
          }
      },
      getAccessToken: function(fbCode, callback, scope) {
          var selfRef = this;
-         var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + escape.utils.AppVars.facebook.clientId + '&client_secret=' + escape.utils.AppVars.facebook.secret + '&code=' + fbCode + '&redirect_uri=' + escape.utils.AppVars.facebook.redirectUrl;
+         var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + AppSettings.facebook.clientId + '&client_secret=' +AppSettings.facebook.secret + '&code=' + fbCode + '&redirect_uri=' + AppSettings.facebook.redirectUrl;
 
          Ext.Ajax.request({
              url: url,

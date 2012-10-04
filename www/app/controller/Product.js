@@ -15,7 +15,6 @@ Ext.define('escape.controller.Product', {
                 tap: 'removeFromFavourites'
             },
             'page button[action="addToItineray"]': {
-
                 tap: 'addToItineray'
             }
         }

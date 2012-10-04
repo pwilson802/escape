@@ -173,12 +173,14 @@ Ext.define('escape.controller.Search', {
 
     },
     search: function() {
+        console.log('search');
         // add the results page
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'searchResultsPage'
         });
     },
     resultsOpened: function() {
+        console.log('resultsOpened');
         var values = this.getSearchForm().getValues();
 
         if (values.distance == -1) {
@@ -204,7 +206,7 @@ Ext.define('escape.controller.Search', {
     getSearchParams: function() {
         var params = {
             // linit the search to the apps destination webpath
-            meta_D_phrase_sand: escape.utils.AppVars.destinationWebpath
+            meta_D_phrase_sand: AppSettings.destinationWebpath
         };
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();

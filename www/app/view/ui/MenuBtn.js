@@ -3,6 +3,7 @@ Ext.define("escape.view.ui.MenuBtn", {
     xtype: 'menuBtn',
     config: {
         action: 'showMenu',
-        cls: 'menuBtn iconBtn'
+        cls: 'menuBtn iconBtn',
+        itemId: 'menuBtn'
     }
 });

@@ -1,9 +1,9 @@
 Ext.define("escape.view.page.AddToItinerary", {
     extend: 'escape.view.page.Page',
     xtype: 'addToItineraryPage',
-    requires: ['Ext.field.Select', 'Ext.form.Panel','Ext.form.FieldSet','Ext.field.Spinner'],
+    requires: ['Ext.field.Select', 'Ext.form.Panel', 'Ext.form.FieldSet', 'Ext.field.Spinner'],
     config: {
-        cls: 'searchPage formPage',
+        cls: 'searchPage formPage addToItineraryPage',
         collectionType: null,
         pageTitle: 'Add to Itinerary',
         rightBtn: 'hide',
@@ -31,12 +31,14 @@ Ext.define("escape.view.page.AddToItinerary", {
                     selfRef.buildPage(itineraries);
                 } else {
                     // error you have no itineraries
-                    selfRef.buildPage();
+                    console.log('error you have no itineraries');
+                    selfRef.fireEvent('addToNewItinerary', this);
                 }
             },
             error: function(error) {
                 // error show the create button
-                selfRef.buildPage();
+                console.log('error show the create button');
+                selfRef.fireEvent('addToNewItinerary', this);
             },
             scope: this
         });
@@ -51,7 +53,7 @@ Ext.define("escape.view.page.AddToItinerary", {
                         label: itinerary.name,
                         labelWidth: '80%',
                         xtype: 'checkboxfield',
-                        name: 'add-'+itinerary.id
+                        name: 'add-' + itinerary.id
                     }];
                     var startDate = new Date(itinerary.startDate);
                     var endDate = new Date(itinerary.endDate);
@@ -62,10 +64,10 @@ Ext.define("escape.view.page.AddToItinerary", {
                         itineraryOptions.push({
                             label: 'Day',
                             xtype: 'spinnerfield',
-                            increment : 1,
+                            increment: 1,
                             minValue: 1,
                             maxValue: daysDiff,
-                            name: 'day-'+itinerary.id
+                            name: 'day-' + itinerary.id
                         });
                     }
 

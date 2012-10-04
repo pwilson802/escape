@@ -20,7 +20,7 @@ Ext.define("escape.view.page.Product", {
     openView: function() {
         if (this.getProductData() === null) {
             // load the product data
-            escape.model.Product.getProxy().setUrl(escape.utils.AppVars.smartphoneURL+'product-details/' +  this.getProductType().toLowerCase() + '-details/_nocache');
+            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL+'product-details/' +  this.getProductType().toLowerCase() + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
                     this.setProductData(product.raw);
@@ -112,7 +112,7 @@ Ext.define("escape.view.page.Product", {
                 section: this
             });
             contactList.push({
-                title: escape.utils.Translator.translate('Get Directions'),
+                title: product.Contact.Address.Street + '</br>' + product.Contact.Address.Suburb + '</br>' + product.Contact.Address.State + ' ' + product.Contact.Address.Postcode,
                 action: 'getDirections',
                 data: {
                     latlog: [product.Contact.Latitude, product.Contact.Longitude],
@@ -122,19 +122,52 @@ Ext.define("escape.view.page.Product", {
             });
         }
         // check phone number
+        var contactBtnAdded = false;
         if (product.Contact.Phone && product.Contact.Phone !== "") {
             contactBtns.push({
 
                 html: '<a href="tel:' + product.Contact.Phone + '" onclick="escape.utils.AppFuncs.trackPhoneCall()"></a>',
                 cls: 'callBtn contactSheetBtn'
             });
+            contactBtnAdded = true;
             contactList.push({
                 title: '<a href="tel:' + product.Contact.Phone + '" onclick="escape.utils.AppFuncs.trackPhoneCall()">' + product.Contact.Phone + '</a>',
                 action: 'makePhoneCall',
                 data: '02994961000',
                 itemCls: 'callIcon'
             });
-
+        }
+        // check mobile number
+        if (product.Contact.Mobile && product.Contact.Mobile !== "") {
+            if (!contactBtnAdded) {
+                contactBtns.push({
+                    html: '<a href="tel:' + product.Contact.Mobile + '"  onclick="escape.utils.AppFuncs.trackPhoneCall()"></a>',
+                    cls: 'callBtn contactSheetBtn'
+                });
+            }
+            contactBtnAdded = true;
+            contactList.push({
+                title: '<a href="tel:' + product.Contact.Mobile + '" onclick="escape.utils.AppFuncs.trackPhoneCall()">' + product.Contact.Mobile + '</a>',
+                action: 'makePhoneCall',
+                data: product.Contact.Mobile,
+                itemCls: 'callIcon'
+            });
+        }
+        // check toll free number
+        if (product.Contact["Toll Free"] && product.Contact["Toll Free"] !== "") {
+            if (!contactBtnAdded) {
+                contactBtns.push({
+                    html: '<a href="tel:' + product.Contact["Toll Free"] + '" onclick="escape.utils.AppFuncs.trackPhoneCall()"></a>',
+                    cls: 'callBtn contactSheetBtn'
+                });
+            }
+            contactBtnAdded = true;
+            contactList.push({
+                title: '<a href="tel:' + product.Contact["Toll Free"] + '" onclick="escape.utils.AppFuncs.trackPhoneCall()">' + product.Contact["Toll Free"] + '</a>',
+                action: 'makePhoneCall',
+                data: product.Contact["Toll Free"],
+                itemCls: 'callIcon'
+            });
         }
         // check email
         if (product.Contact.Email && product.Contact.Email !== "") {

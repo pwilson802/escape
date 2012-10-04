@@ -1,5 +1,5 @@
 Ext.define("escape.view.page.ThingsToDoCatigories", {
-    extend: 'escape.view.page.ContentPage',
+    extend: 'escape.view.page.Page',
     xtype: 'thingsToDoCatigoriesPage',
     requires: [],
     config: {
@@ -8,26 +8,17 @@ Ext.define("escape.view.page.ThingsToDoCatigories", {
         scrollable: {
             direction: 'vertical',
             directionLock: true
-        },
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
-
+        }
     },
-    buildPage: function() {
-
-        var content = this.getContent();
+    openView: function() {
         var listData = [];
-        if (content.children) {
-            for (var i = 0; i < content.children.length; i++) {
-                var child = content.children[i];
-                listData.push({
-                    number: i + 1,
-                    title: child.Name,
-                    imgPath: 'resources/images/home_hero_carousel_a.png',
-                    contentPath: child.Url
-                });
+        for (var i = 0; i < AppSettings.attractionCats.length; i++) {
+            var cat = AppSettings.attractionCats[i];
+            if (!cat.hideInSubSections) {
+                cat.number = listData.length + 1;
+                listData.push(cat);
             }
+
         }
         var items = [{
             xtype: 'list',

@@ -1,9 +1,11 @@
 Ext.define('escape.controller.Itinerarys', {
     extend: 'Ext.app.Controller',
-    requires: ['Ext.Anim', 'escape.view.page.ItineraryEditor', 'escape.view.subSection.Itinerary', 'escape.model.Itineraries'],
+    requires: ['Ext.Anim', 'escape.view.page.ItineraryEditor', 'escape.view.subSection.Itinerary', 'escape.model.Itineraries', 'escape.view.ui.QuestionAction'],
     config: {
         currentItineray: null,
+        deleteItineraryAction: null,
         refs: {
+            myItinerarySection :'#myItinerarySection',
             myItineraryPage: 'myItineraryPage',
             navView: '#myItinerarySection > navigationview',
             itinerarySubSection: 'itinerarySubSection',
@@ -27,6 +29,15 @@ Ext.define('escape.controller.Itinerarys', {
             'itineraryEditorPage button[action=create]': {
                 tap: 'createItineray'
             },
+            '#myItinerarySection #deletActionSheet': {
+                hide: 'removeItinerayQs'
+            },
+            '#myItinerarySection #deletActionSheet button[action=cancel]': {
+                tap: 'hideItinerayQs'
+            },
+            '#myItinerarySection #deletActionSheet button[action=delete]': {
+                tap: 'deleteItinerary'
+            },
             'itineraryEditorPage button[action=update]': {
                 tap: 'updateItineray'
             },
@@ -35,6 +46,9 @@ Ext.define('escape.controller.Itinerarys', {
             },
             '#myItinerarySection button[cls="editBtn iconBtn"]': {
                 tap: 'showEditItinerary'
+            },
+            'addToItineraryPage': {
+                addToNewItinerary: 'showNewItineraryWithProduct'
             },
             'addToItineraryPage button[action=add]': {
                 tap: 'addProductToItineraries'
@@ -103,13 +117,28 @@ Ext.define('escape.controller.Itinerarys', {
         this.getMyItineraryPage().setItems(items);
     },
     showCreatePage: function() {
-        this.getMyItineraryPage().setItems({
+        this.getMyItineraryPage().removeAll(true, true);
+        this.getMyItineraryPage().setItems([{
             xtype: 'button',
             action: 'createItinerary',
             cls: 'createItineraryBtnLarge',
             text: 'Create a new Itinerary',
             flex: 1
-        });
+        }, {
+            xtype: 'container',
+            docked: 'bottom',
+            cls: 'btnsArea',
+            padding: '10xp',
+            defaults: {
+                margin: '10px 0 0 0'
+            },
+            items: [{
+                xtype: 'button',
+                text: 'Create Itinerary',
+                action: 'createItinerary',
+                cls: 'search'
+            }]
+        }]);
     },
     showNewItinerary: function() {
         this.getNavView().push({
@@ -187,6 +216,7 @@ Ext.define('escape.controller.Itinerarys', {
                             scope: this
                         });
                     } else {
+                        escape.utils.AppVars.currentSection.getNavigationView().pop();
                         selfRef.showItinerary(result.item(0));
                     }
 
@@ -321,7 +351,6 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     deleteFromForm: function() {
-
         this.deleteItinerayQs(this.getCurrentItineray().id);
     },
 
@@ -332,37 +361,52 @@ Ext.define('escape.controller.Itinerarys', {
 
     deleteItinerayQs: function(id) {
         var selfRef = this;
-
-        // var msgBox = Ext.create('Ext.Msg');
-        Ext.Msg.show({
-            message: 'Delete Itinarery?',
-            buttons: [{
-                text: 'NO',
-                itemId: 'no'
+        var deletActionSheet = Ext.create('escape.view.ui.QuestionAction', {
+            itemId:'deletActionSheet',
+            data: {
+                itineraryId: id
+            },
+            question: 'Delete Itinerary?',
+            btns: [{
+                cls: 'reset',
+                action: 'delete',
+                text: 'Delete'
             }, {
-                text: 'YES',
-                itemId: 'yes'
-            }],
-            fn: function(buttonId) {
-                if (buttonId == 'yes') {
-                    selfRef.deleteItinerary(id);
-                }
-
-            }
+                cls: 'reset',
+                action: 'cancel',
+                text: 'Cancel'
+            }]
         });
+        this.setDeleteItineraryAction(deletActionSheet);
+        this.getMyItinerarySection().add(deletActionSheet);
+        deletActionSheet.show();
 
     },
-    deleteItinerary: function(id) {
+    hideItinerayQs: function() {
+        console.log('hideItinerayQs');
+        var deletActionSheet = this.getDeleteItineraryAction();
+        deletActionSheet.hide();
+    },
+    removeItinerayQs: function() {
+        console.log('removeItinerayQs');
+        var deletActionSheet = this.getDeleteItineraryAction();
+        this.getMyItinerarySection().remove(deletActionSheet);
+    },
+    deleteItinerary: function(deleteBtn) {
+        var deletActionSheet = this.getDeleteItineraryAction();
+        console.log(deletActionSheet);
+        var id = deletActionSheet.getData().itineraryId;
+        console.log('itineraryId: ' + id);
         var selfRef = this;
         escape.model.Itineraries.deleteItinerary(id, {
             success: function(result) {
                 selfRef.checkItineraries();
             },
-            error: function(error) {
-
-            },
+            error: function(error) {},
             scope: this
         });
+        this.hideItinerayQs();
+        // show removed message
         var removedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt removedAddedMsg',
             modal: true,
@@ -383,7 +427,6 @@ Ext.define('escape.controller.Itinerarys', {
             removedMsg.hide();
         }, this);
         task.delay(1000);
-
         Ext.Viewport.add(removedMsg);
         removedMsg.show();
     }
