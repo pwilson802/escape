@@ -36,7 +36,6 @@ Ext.define('escape.controller.ProductSections', {
         escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
-                console.log(product.raw);
                 var data = {
                     name: productListItem.getData().name,
                     suburb: '-',
@@ -274,10 +273,7 @@ Ext.define('escape.controller.ProductSections', {
         });
     },
     productSelected: function(list, record) {
-        console.log(record);
         var data = record.getData();
-        console.log(data);
-        //
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: 'attraction',//collection.name,
             xtype: 'productPage',

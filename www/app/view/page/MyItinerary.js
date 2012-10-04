@@ -5,9 +5,6 @@ Ext.define("escape.view.page.MyItinerary", {
     config: {
         pageTitle: 'My Itinerary',
         rightBtn: '',
-         items: [{
-            xtype: 'loadingDisplay'
-        }],
         layout:'vbox'
     }
 });

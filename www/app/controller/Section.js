@@ -30,7 +30,8 @@ Ext.define('escape.controller.Section', {
     },
     sectionActivated: function(section) {
         // add the scroll to top button
-        section.setNavigationView(section.getItems().items[section.getNavViewItemId()]);
+        var navView = section.getItems().items[section.getNavViewItemId()];
+        section.setNavigationView(navView);
         var scrollTopTopBtn = section.add({
             xtype: 'scrollTopTopBtn',
             width: Ext.Viewport.getSize().width - 120
@@ -42,8 +43,6 @@ Ext.define('escape.controller.Section', {
         this.setMenuBtn(menuBtn);
         this.setRightBtn(rightBtn);
         // a new section has be activate, add the first view
-        var sec = Ext.ComponentQuery.query('#' + section.id);
-        var navView = Ext.ComponentQuery.query('#' + section.id + ' navigationview')[0];
         var firstPage = section.getFirstPage();
         if (firstPage.pageTitle !== null && firstPage.pageTitle !== '' && firstPage.pageTitle !== undefined) {
             section.getTopText().setHtml(firstPage.pageTitle);

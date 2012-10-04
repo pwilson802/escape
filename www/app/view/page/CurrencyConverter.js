@@ -12,10 +12,7 @@ Ext.define("escape.view.page.CurrencyConverter", {
         scrollable: {
             direction: 'vertical',
             directionLock: true
-        },
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
+        }
     },
     // load the currencys
     openView: function() {
@@ -31,6 +28,9 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 });
             },
             scope: this
+        });
+          this.setItems({
+            xtype: 'loadingDisplay'
         });
         
 

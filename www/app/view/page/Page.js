@@ -63,19 +63,5 @@ Ext.define("escape.view.page.Page", {
         escape.utils.Tracking.trackEvent(this.getPageTypeId(), this.getPageTrackingId(), 1);
     },
     openView: function() {}
-    // if (!this.isBuilt) {
-    //         this.isBuilt = true;
-    //         // get the item to add to
-    //         var addToItemTo = this;
-    //         if (this.getAddToItemId() != -1) {
-    //             // an add to id has been set find the item
-    //             var itemsList = this.getItems().items;
-    //             addToItemTo = itemsList[this.getAddToItemId()];
-    //         }
-    //         for (var i = 0; i < this.getItemsToAdd().length; i++) {
-    //             if (addToItemTo) {
-    //                 addToItemTo.add(this.getItemsToAdd()[i]);
-    //             }
-    //         }
-    //     }
+   
 });

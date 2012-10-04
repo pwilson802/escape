@@ -79,7 +79,8 @@
         "resources/fonts",
         "resources/json",
         "resources/js",
-        "config.xml"
+        "config.xml",
+        "AppSettings.js"
     ],
 
     /**

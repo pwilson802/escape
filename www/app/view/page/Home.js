@@ -23,15 +23,15 @@ Ext.define("escape.view.page.Home", {
     },
     checkOpened: function() {
         this.setNavTitle(this.getPageTitle());
-        // var task = new Ext.util.DelayedTask(function() {
-        //     this.openView();
-        // }, this);
-        // task.delay(1000);
         this.openView();
     },
-
-
-
+    viewClosed: function() {
+        this.setItems([]);
+    },
+    viewReOpened: function(){
+         this.setHomeBuilt(false);
+         this.openView();
+    },
 
     openView: function() {
         if (!this.getHomeBuilt()) {

@@ -67,19 +67,6 @@ Ext.define("escape.view.subSection.SubSection", {
     },
 
     calulateCardHeight: function() {
-        var cardHeight = 0; //this.getCardView().getActiveItem().getHeight();
-        if (!this.getCardView()) {
-            this.setCardView(this.getItems().items[this.getCardViewItemId()]);
-        }
-        try {
-            var items = this.getCardView().getActiveItem().getItems().items;
-            for (var i = 0; i < items.length; i++) {
-                cardHeight += items[i].element.getHeight();
-            }
-
-            //this.getCardView().setHeight(cardHeight);
-        } catch (e) {
-
-        }
+    
     }
 });

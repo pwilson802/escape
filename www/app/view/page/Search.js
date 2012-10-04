@@ -8,7 +8,10 @@ Ext.define("escape.view.page.Search", {
         pageTitle: 'Search',
         rightBtn: 'hide',
         layout: 'hbox',
-        items: [{
+        items: []
+    },
+    openView: function() {
+        this.setItems([{
             xtype: 'formpanel',
             layout: 'hbox',
             width: '100%',
@@ -25,17 +28,17 @@ Ext.define("escape.view.page.Search", {
                 }]
             }, {
                 xtype: 'container',
-                itemId:'searchOptions',
+                itemId: 'searchOptions',
                 cls: 'searchOptions',
                 flex: 1,
                 padding: '10px',
-                defaults : {
+                defaults: {
                     margin: '0 0 10px 0'
                 },
                 items: [{
                     xtype: 'selectField',
                     label: 'Distance',
-                    name:'distance',
+                    name: 'distance',
                     options: [{
                         text: 'Any',
                         value: -1
@@ -82,13 +85,8 @@ Ext.define("escape.view.page.Search", {
                     text: 'Search',
                     action: 'search',
                     cls: 'search'
-                }, {
-                    xtype: 'button',
-                    text: 'Reset',
-                    action: 'cancelSearch',
-                    cls: 'reset'
                 }]
             }]
-        }]
+        }]);
     }
 });

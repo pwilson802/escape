@@ -13,14 +13,14 @@ Ext.define("escape.view.page.Weather", {
         scrollable: {
             direction: 'vertical',
             directionLock: true
-        },
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
+        }
     },
     openView: function() {
         this.getTheWeather();
         this.setNavTitle(this.getPageTitle());
+        this.setItems({
+            xtype: 'loadingDisplay'
+        });
 
     },
     getTheWeather: function() {
@@ -55,7 +55,7 @@ Ext.define("escape.view.page.Weather", {
             //docked: 'top',
             cls: 'todaysWeather',
             itemId: 'todaysWeather',
-            padding: '20px',
+            padding: '20px 0 20px 20px',
             html: this.buildTodaysWeather()
         }, {
             xtype: 'container',

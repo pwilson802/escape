@@ -8,9 +8,6 @@ Ext.define("escape.view.page.ThingsToDoType", {
             directionLock: true
         },
         subPageXtype: 'listTypesSubSection',
-        rightBtn: 'searchBtn',
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
+        rightBtn: 'searchBtn'
     }
 });

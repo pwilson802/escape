@@ -1873,9 +1873,9 @@ p {
 
 
 		.info {
-			margin: -15px 0 0  0;
-			width:50%;
-			float:right;
+			margin: -15px 0 0 45%;
+			width: 50%;
+			float: left;
 			h1 {
 				font-size:65px;
 				color:$active-color;
@@ -1910,11 +1910,23 @@ p {
 			}
 
 			h4 {
-				width:50%;
+				width:40%;
 				float:left;
 				color:#6d7075;
 				font-size:12px;
 				margin:0;
+				padding:0 0 0 15px;
+				background:url(../images/ico_rain_amount.png) no-repeat 0px 5px;
+			}
+
+			h4.wind {
+				width:60%;
+				float:left;
+				color:#6d7075;
+				font-size:12px;
+				margin:0;
+				padding:0 0 0 20px;
+				background:url(../images/ico_wind_amount.png) no-repeat 0px 5px;
 			}
 		}
 	}

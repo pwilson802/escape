@@ -186,6 +186,7 @@ Ext.define("escape.model.Weather", {
         });
     },
     fullWeatherLoaded: function(weatherData, callback, scope) {
+        console.log(weatherData);
         this.todaysDate = new Date( parseInt( weatherData.Date.substr(6) ) );
         this.currentTemp = weatherData.TempCurrent;
         var forcasts = [];

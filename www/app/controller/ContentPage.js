@@ -14,6 +14,9 @@ Ext.define('escape.controller.ContentPage', {
         }
     },
     loadContent: function(contentPage) {
+        contentPage.setItems({
+            xtype: 'loadingDisplay'
+        });
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(contentPage.getContentPath());
         escape.model.ContentPage.load(0, {

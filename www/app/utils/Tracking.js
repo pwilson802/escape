@@ -5,9 +5,9 @@ Ext.define('escape.utils.Tracking', {
     uploadSize: 10,
     RegID: 0,
     trackEvent: function(pageCode, pageId, eventId) {
-        // console.log('pageCode: ' + pageCode);
-        // console.log('pageId: ' + pageId);
-        // console.log('eventId: ' + eventId);
+         console.log('pageCode: ' + pageCode);
+         console.log('pageId: ' + pageId);
+         console.log('eventId: ' + eventId);
         this.insertTracking(pageCode, pageId, eventId);
     },
      trackEventOnCurrent: function(eventId) {

@@ -8,10 +8,7 @@ Ext.define("escape.view.page.Events", {
         pageTrackingId: 0,
         scrollable: false,
         padding: 0,
-        layout: 'hbox',
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
+        layout: 'hbox'
     },
     contentLoaded: function(content) {
         this.setContent(content);

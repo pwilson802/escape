@@ -96,7 +96,7 @@ Ext.define("escape.view.Main", {
             collectionType: 'restaurants',
             firstPage: {
                 title: 'Food & Wine',
-                xtype: 'thingsToDoTypePage',
+                xtype: 'productSubSection',
                 contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
             }
         }, {

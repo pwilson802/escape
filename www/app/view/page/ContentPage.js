@@ -9,9 +9,6 @@ Ext.define("escape.view.page.ContentPage", {
         rightBtn: 'hide',
         padding: '10px 0 0 0',
         subPageXtype : null,
-        items: [{
-            xtype: 'loadingDisplay'
-        }],
         scrollable: {
             direction: 'vertical',
             directionLock: true
