@@ -107,7 +107,6 @@ Ext.define('escape.controller.ItineraryViewer', {
         var selfRef = this;
         var editSheet = this.getEditItineraryProduct();
         var dayField = editSheet.getComponent('dayField');
-        console.log('move to day: ' + dayField.getValue());
         escape.model.Itineraries.changeProductDay(editSheet.getProductId(),dayField.getValue(), {
             success: function() {
                 console.log('product moved');
@@ -125,7 +124,6 @@ Ext.define('escape.controller.ItineraryViewer', {
     removeProduct: function() {
         var selfRef = this;
         var editSheet = this.getEditItineraryProduct();
-        console.log('removeProduct: ' + editSheet.getProductId());
         escape.model.Itineraries.deleteProduct(editSheet.getProductId(), {
             success: function() {
                 console.log('product deleted');

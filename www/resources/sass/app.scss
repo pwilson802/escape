@@ -355,14 +355,19 @@ p {
 	.secondLevelBtn {
 		width:48%;
 		font-size:12px;
-		.x-button-label {
-			margin:0 0 0 50%;
-			width:50%;
-			display:block;
-			overflow:visible;
-			text-align:left;
-			white-space:normal;
-		}
+		float:left;
+		border:none;
+		@include border-radius(8px); // border radius
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background-color: #f7f5f1; // layer fill content
+		@include box-shadow(0 2px 1px rgba(0,0,0,.16)); // drop shadow
+		@include background-image(linear-gradient(bottom, #f7f5f1 0%, #fff 100%)); // gradient overlay
+	}
+
+	.x-button.x-button-pressed.secondLevelBtn,
+	.x-button.x-button-pressing.secondLevelBtn {
+		@include box-shadow(0 -2px 1px rgba(0,0,0,.16)); // drop shadow
+		@include background-image(linear-gradient(bottom, #fff 0%, #f7f5f1 100%)); // gradient overlay
 	}
 	
 	.favoritesBtnLarge {
@@ -372,6 +377,11 @@ p {
 		background-repeat: no-repeat;
 		.x-button-label {
 			margin:0 0 0 37%;
+			width:50%;
+			display:block;
+			overflow:visible;
+			text-align:left;
+			white-space:normal;
 		}
 	}
 	.x-button.x-button-pressed.favoritesBtnLarge,
@@ -383,21 +393,28 @@ p {
 		background-image: url(../images/ico_add_itinerary.png);
 		background-position: 10px 10px;
 		background-repeat: no-repeat;	
+		.x-button-label {
+			margin:0 0 0 37%;
+			width:50%;
+			display:block;
+			overflow:visible;
+			text-align:left;
+			white-space:normal;
+		}
 	}
 	.x-button.x-button-pressed.itinerayBtnLarge,
 	.x-button.x-button-pressing.itinerayBtnLarge {
 		background-position: 10px -46px;
 	}
 	.x-button.reset,
-	.secondLevelBtn {
+	 {
 		color:#383837;
 		@include box-shadow(inset 0px 1px 1px 0px #908e8b,0px 1px 1px 0px #fff);
 		border:none;
 	}
 	.x-button.x-button-pressed.reset,
-	.x-button.x-button-pressing.reset,
-	.x-button.x-button-pressed.secondLevelBtn,
-	.x-button.x-button-pressing.secondLevelBtn {
+	.x-button.x-button-pressing.reset {
+	
 		background-color:$highlightLight;
 		@include text-shadow(1px 1px 0 #000);
 		.x-button-label {
@@ -491,6 +508,48 @@ p {
 
 
 }
+.itinerariesList {
+	.x-list-item {
+		margin:0 0 10px 0;
+		background-image:url(../images/itinerary_list_ico.png);
+		background-position: 15px 15px;
+		background-repeat:no-repeat !important;
+	}
+	.x-list-item-label {
+
+		height:80px;
+		color:#32373f;
+		padding: 10px 40px 10px 70px !important;
+		@include border-radius(10px); // border radius
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background-color: rgba(135,128,118,.15); // layer fill content
+		@include box-shadow(0 2px 2px rgba(255,255,255,.4), inset 0 2px 2px rgba(0,0,0,.4)); // drop shadow and inner shadow
+		
+
+		background-image:url('../images/arrow_cell.png') !important;
+		background-repeat:no-repeat;
+		background-position: right center;
+		h3 {
+			padding:12px 0 5px 0;
+			line-height: 1;
+			font-weight:bold;
+			font-size:15px;
+		}
+		h4 {
+			line-height: 1;
+			font-weight:normal;
+			font-size:15px;
+		}
+	}
+
+	.x-list-item.x-item-pressed .x-list-item-label{
+		background-color: rgba(255,255,255,.15); // layer fill content
+		background-image:url(../images/itinerary_list_ico.png);
+		background-position: 15px 15px;
+		background-repeat:no-repeat !important;
+	}
+}
+
 .favouritesList {
 	.x-list-item-label {
 		padding: 10px 40px 10px 10px !important;
@@ -1036,33 +1095,47 @@ p {
 }
 .createItineraryBtnLarge {
 	border:none !important;
-	background:url('../images/itinerary_no_badge.png') center center no-repeat !important;
+	background:url('../images/itinerary_badge_add.png') center center no-repeat !important;
 	.x-button-label {
 		text-indent:-9999px;
 		border:none;
 		
 	}
 }
+.createItineraryInstructions {
+	@include opacity(.8); // layer alpha
+	color: #32373f; // text color
+	font-family: "Helvetica Neue";
+	font-size: 16px;
+	text-align:center;
+}
 
 .itineraryList {
 	background: #cbbdab url('../images/pattern_sand.png');
 	.x-list-item {
 		margin: 0 0 10px 0;
-		background-color:#fdfdfc;
-		background-image:url('../images/ico_collection.png') !important;
-		background-repeat:no-repeat;
-		background-position:  10px center;
+		
 	}
 	.x-list-disclosure {
-		top:5px;
+		top:0;
+		right:0;
+		background-color:transparent;;
+		-webkit-mask:none;
+		background-image:url('../images/itinerary_item_edit.png');
+		background-repeat:no-repeat;
+		background-position: right top;
+
 	}
 	.x-list-item-label {
 		padding: 10px 30px 10px 70px !important;
 		height:80px;
-		@include text-shadow(1px 1px 0 #fff);
-		background-image:url('../images/arrow_cell.png') !important;
+		background-image:url('../images/ico_collection.png') !important;
 		background-repeat:no-repeat;
-		background-position: right center;
+		background-position:  10px center;
+		@include border-radius(10px); // border radius
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background-color: #fff; // layer fill content
+		@include background-image(linear-gradient(bottom, #f7f5f1 0%, #fff 100%)); // gradient overlay
 		.labels {
 			margin:15px 0 0 0;
 			h3 {
@@ -1073,7 +1146,6 @@ p {
 				line-height:1;
 				font-style:italic;
 			}
-
 		}
 		.dragIcon {
 			width:30px;
@@ -1085,9 +1157,9 @@ p {
 	.x-list-item.x-item-selected .x-list-item-label,
 	.x-list-item.x-item-pressing .x-list-item-label,
 	.x-list-item.x-item-pressed .x-list-item-label {
-		background-image:url('../images/arrow_cell_o.png') !important;
 		background-repeat:no-repeat;
-		background-position: right center;
+		background-position:  10px center;
+		background-color: #fff; // layer fill content
 	}
 }
 
@@ -1556,9 +1628,10 @@ p {
 // FORMS
 ///////////////////////
 
-.x-field-textarea textarea {
-		border:1px solid #a5abb2;
+.x-field-textarea .x-field-textarea {
+		border:none;
 		@include border-radius(8px);
+		@include background-clip(); // prevents bg color from leaking 
 }
 
 .formPage {
@@ -2075,6 +2148,11 @@ p {
 	body {
 		background-image: url(../images/loading@2x~splash.png);
 		-webkit-background-size: 320px 480px; 
+	}
+
+	.createItineraryBtnLarge {
+		background-image:url('../images/itinerary_badge_add@2x.png');
+	    -webkit-background-size: 130px 151px;
 	}
 
 	.favouritesList {

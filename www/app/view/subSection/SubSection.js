@@ -25,8 +25,7 @@ Ext.define("escape.view.subSection.SubSection", {
             try {
                 this.setPageTitle(title);
                 escape.utils.AppVars.currentSection.getTopText().setHtml(title);
-            } catch (e) {
-            }
+            } catch (e) {}
         }
 
     },
@@ -55,6 +54,10 @@ Ext.define("escape.view.subSection.SubSection", {
     },
 
     openView: function() {},
+    viewClose: function() {
+        this.fireEvent('closeView', this);
+        this.closeView();
+    },
     closeView: function() {},
     calulateCardHeight: function() {}
 });

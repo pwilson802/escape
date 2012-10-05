@@ -5,7 +5,7 @@ Ext.define('escape.controller.Itinerarys', {
         currentItineray: null,
         deleteItineraryAction: null,
         refs: {
-            myItinerarySection :'#myItinerarySection',
+            myItinerarySection: '#myItinerarySection',
             myItineraryPage: 'myItineraryPage',
             navView: '#myItinerarySection > navigationview',
             itinerarySubSection: 'itinerarySubSection',
@@ -87,22 +87,41 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     buildItineraryList: function(itineraries) {
-        var itinerary = [];
+        var itinerariesList = [];
         for (var i = itineraries.length - 1; i >= 0; i--) {
-            itinerary.push(itineraries.item(i));
+            var itinerary = itineraries.item(i);
+            var startDate = new Date(itinerary.startDate);
+            var endDate = new Date(itinerary.endDate);
+            var oneDay = 1000 * 60 * 60 * 24;
+            var daysDiff =1 + (Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay)));
+            var days = daysDiff;
+            if (daysDiff>1){
+                days+=' days';
+            } else {
+                 days+=' day';
+            }
+            console.log(startDate);
+            itinerariesList.push({
+                id: itinerary.id,
+                name: itinerary.name,
+                startDateStr: Ext.Date.format(startDate, 'd/m/y'),
+                endDateStr: Ext.Date.format(endDate, 'd/m/y'),
+                days: days
+            });
         }
         var items = [{
             xtype: 'list',
-            itemTpl: '{name}',
-            cls: 'favouritesList',
-            data: itinerary,
-            onItemDisclosure: true,
+            itemTpl: '<h3>{name}</h3><h4>{days} {startDateStr} - {endDateStr}</h4>',
+            cls: 'itinerariesList',
+            data: itinerariesList,
+            padding: '10px',
+            //onItemDisclosure: true,
             flex: 1
         }, {
             xtype: 'container',
             docked: 'bottom',
             cls: 'btnsArea',
-            padding: '10xp',
+            padding: '10px',
             defaults: {
                 margin: '10px 0 0 0'
             },
@@ -122,7 +141,12 @@ Ext.define('escape.controller.Itinerarys', {
             xtype: 'button',
             action: 'createItinerary',
             cls: 'createItineraryBtnLarge',
-            text: 'Create a new Itinerary',
+            text: '',
+            flex: 3
+        },{
+            cls: 'createItineraryInstructions',
+            padding:'20px',
+            html:'<p>Create a new itinerary and start planning your trip, add notes and organise your day</p>',
             flex: 1
         }, {
             xtype: 'container',
@@ -362,7 +386,7 @@ Ext.define('escape.controller.Itinerarys', {
     deleteItinerayQs: function(id) {
         var selfRef = this;
         var deletActionSheet = Ext.create('escape.view.ui.QuestionAction', {
-            itemId:'deletActionSheet',
+            itemId: 'deletActionSheet',
             data: {
                 itineraryId: id
             },

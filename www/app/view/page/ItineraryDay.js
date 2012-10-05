@@ -74,7 +74,6 @@ Ext.define("escape.view.page.ItineraryDay", {
         var data = [];
         for (var i = 0; i < products.length; i++) {
             product = products.item(i);
-            console.log(JSON.parse(product.data));
             data.push({
                 id: product.id,
                 productId: product.product_id,
@@ -95,7 +94,7 @@ Ext.define("escape.view.page.ItineraryDay", {
         items = [{
             xtype: 'sortableList',
             margin: '10 10 10 10',
-            itemTpl: '<div class="dragIcon"></div><div class="labels"><h3>{name}</h3><h4>{suburb}</h4><div>',
+            itemTpl: '<div class="labels"><h3>{name}</h3><h4>{suburb}</h4><div>',
             cls: 'itineraryList',
             action: 'product',
             onItemDisclosure: true,
@@ -112,9 +111,16 @@ Ext.define("escape.view.page.ItineraryDay", {
             },
             items: [{
                 xtype: 'button',
+                text: 'Map',
+                action: 'map',
+                cls: 'secondLevelBtn',
+                style: 'float:left'
+            },{
+                xtype: 'button',
                 text: 'Notes',
                 action: 'notes',
-                cls: 'search',
+                cls: 'secondLevelBtn',
+                style: 'float:right',
                 data: {
                     itineraryId: this.getItineraryId(),
                     dayNum: this.getDayNum()
