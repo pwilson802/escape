@@ -59,6 +59,10 @@ Ext.define('escape.controller.Section', {
         page.viewOpened();
     },
     activeItemChange: function(navView, page, oldPage) {
+        // close the old page
+        if (oldPage){
+            oldPage.viewClose();
+        }
         this.setOldPage(oldPage);
         this.setNewPage(page);
         // get references to the view

@@ -17,15 +17,7 @@ Ext.define("escape.view.subSection.SubSection", {
         listeners: {
             activate: function() {
                 this.setCardView(this.getItems().items[this.getCardViewItemId()]);
-                //this.calulateCardHeight();
             }
-            //,
-            // painted: function() {
-            //     this.calulateCardHeight();
-            // },
-            // show: function() {
-            //     this.refreshPage();
-            // }
         }
     },
     setNavTitle: function(title) {
@@ -62,11 +54,7 @@ Ext.define("escape.view.subSection.SubSection", {
         }
     },
 
-    openView: function() {
-
-    },
-
-    calulateCardHeight: function() {
-    
-    }
+    openView: function() {},
+    closeView: function() {},
+    calulateCardHeight: function() {}
 });

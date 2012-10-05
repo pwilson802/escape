@@ -1,5 +1,4 @@
 /**
- *  {@link escape.view.AppSetUp} is a subclass of {@link Ext.Container}
  *  Provides extended functionality to Containers that are pages within the application
  *  @author Ryan O'Connell
  */
@@ -52,16 +51,27 @@ Ext.define("escape.view.page.Page", {
      *   All items defined in the itemsToAdd arry are added to the view
      **/
     viewOpened: function() {
+        console.log('viewOpened');
         if (!this.getIsBuilt()) {
             this.setIsBuilt(true);
             this.setNavTitle(this.getPageTitle());
             // get the item to add to
             this.openView();
             this.fireEvent('openView', this);
+        } else {
+            this.reOpenView();
         }
         // after the view has opened and set up track the open event
         escape.utils.Tracking.trackEvent(this.getPageTypeId(), this.getPageTrackingId(), 1);
     },
-    openView: function() {}
+    openView: function() {},
+    viewClose: function() {
+        this.fireEvent('closeView', this);
+        this.closeView();
+    },
+    reOpenView: function() {
+        console.log('reOpenView');
+    },
+    closeView: function() {}
    
 });

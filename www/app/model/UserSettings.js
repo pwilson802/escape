@@ -25,7 +25,6 @@ Ext.define("escape.model.UserSettings", {
                 Ext.callback(callback.success, scope, []);
             }
         }, function(t, e) {
-            console.log(e);
             // error return null for the user value
             Ext.callback(callback.success, scope, []);
         }, [key]);

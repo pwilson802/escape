@@ -69,7 +69,7 @@ Ext.define('escape.utils.Tracking', {
 
         var trackingObj = {
             RegID: this.RegID,
-            AppID: 1,
+            AppID: AppSettings.AppID,
             events: []
         };
         //pageCode,,eventId

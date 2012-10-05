@@ -10,6 +10,9 @@ Ext.define('escape.controller.Weather', {
             'weatherPage togglefield': {
                 change: 'tempChanges'
             },
+            'weatherPage selectField': {
+                change: 'stationChanges'
+            },
             'settingsPage togglefield': {
                 change: 'tempChanges'
             }
@@ -25,6 +28,17 @@ Ext.define('escape.controller.Weather', {
         try {
             this.getWeatherPage().tempMeasureChange();
             this.getHomePage().showWeather();
+        } catch (e) {
+
+        }
+    },
+    // a language has been selected
+    stationChanges: function(field,newValue) {
+        //console.log(field.value.getValue());
+        console.log(newValue.getData().value);
+        escape.model.Weather.setStationId(newValue.getData().value);
+        try {
+            this.getWeatherPage().getTheWeather();
         } catch (e) {
 
         }

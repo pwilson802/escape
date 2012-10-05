@@ -8,6 +8,7 @@ Ext.define('escape.controller.Search', {
         searchStore: null,
         resultsStore: null,
         listShowing: false,
+        searchValues: null,
         refs: {
             searchPage: 'searchPage',
             searchForm: 'searchPage formpanel',
@@ -16,8 +17,10 @@ Ext.define('escape.controller.Search', {
         },
         control: {
             'searchPage': {
-                openView: 'loadOptions'
+                openView: 'loadOptions',
+                closeView: 'saveValues'
             },
+
             'searchResultsPage': {
                 openView: 'resultsOpened'
             },
@@ -41,6 +44,7 @@ Ext.define('escape.controller.Search', {
             }
         }
     },
+
     loadOptions: function() {
         // check to see if dates need to be added
         var collectionType = this.getSearchPage().getCollectionType();
@@ -191,9 +195,13 @@ Ext.define('escape.controller.Search', {
             xtype: 'searchResultsPage'
         });
     },
+    saveValues: function() {
+        var values = this.getSearchForm().getValues();
+        this.setSearchValues(values);
+    },
     resultsOpened: function() {
         console.log('resultsOpened');
-        var values = this.getSearchForm().getValues();
+        var values = this.getSearchValues();
 
         if (values.distance == -1) {
             this.defineSearch();
@@ -204,7 +212,6 @@ Ext.define('escape.controller.Search', {
 
     getLocation: function() {
         var selfRef = this;
-        // the app is running on a phone
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
                 selfRef.defineSearch(position.coords);
@@ -251,7 +258,7 @@ Ext.define('escape.controller.Search', {
         this.setListShowing(false);
         this.setResultsPage(1);
         // get the form valuse
-        var values = this.getSearchForm().getValues();
+        var values = this.getSearchValues();
         // build the search paramaters
         var params = this.getSearchParams();
         // add the users query search

@@ -10,6 +10,12 @@ Ext.define("escape.view.page.Search", {
         layout: 'hbox',
         items: []
     },
+    reOpenView: function() {
+        this.openView();
+    },
+    closeView: function() {
+        this.setItems([]);
+    },
     openView: function() {
         this.setItems([{
             xtype: 'formpanel',

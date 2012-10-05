@@ -59,22 +59,7 @@ Ext.define("escape.view.page.Home", {
                     width: screenWidth,
                     height: 200
                 },
-                items: [{
-                    imagePath: 'resources/images/content/tnsw1086897-c.jpg',
-                    altText: 'Sydney Harbour by Hamilton Lund'
-                }, {
-                    imagePath: 'resources/images/content/tnsw1038472-c.jpg',
-                    altText: 'Bondi Baths by Sally Mayman'
-                }, {
-                    imagePath: 'resources/images/content/dnsw1147828-c.jpg',
-                    altText: 'Picnic at Mrs Macquarie\'s Chair by Pierre Toussaint'
-                }, {
-                    imagePath: 'resources/images/content/dnsw1116000-c1.jpg',
-                    altText: 'Sydney Harbour by Hamilton Lund'
-                }, {
-                    imagePath: 'resources/images/content/dnsw1377836-c.jpg',
-                    altText: 'Walsh Bay Piers by James Horan'
-                }]
+                items: AppSettings.homeImgs
             }, {
                 xtype: 'container',
                 cls: 'btnsHomeContainer',

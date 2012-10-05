@@ -18,12 +18,12 @@ Ext.define("escape.view.page.Weather", {
     openView: function() {
         this.getTheWeather();
         this.setNavTitle(this.getPageTitle());
-        this.setItems({
-            xtype: 'loadingDisplay'
-        });
 
     },
     getTheWeather: function() {
+        this.setItems({
+            xtype: 'loadingDisplay'
+        });
         // check to see if the product is a favourite or not
         var selfRef = this;
         escape.model.Weather.getFullWeather({
@@ -40,13 +40,36 @@ Ext.define("escape.view.page.Weather", {
     },
     // build the weather page
     build: function() {
+         // get the weather model
         var wm = escape.model.Weather;
+        console.log(wm);
+        var stationId = wm.getStationId();
+        var initStationValue = -1;
+        // build the weather locations
+        var closesName = 'Closest';
+        console.log(wm.weatherData);
+        if (stationId===0){
+            closesName+=' ('+ wm.weatherData.SiteName+')';
+        }
+        var weatherOptions = [{
+            value: 0,
+            text: closesName
+        }];
+        for (var i = 0; i < AppSettings.weatherStations.length; i++) {
+            var station = AppSettings.weatherStations[i];
+            console.log(station);
+            weatherOptions.push({
+                value: station.stationId,
+                text: station.name
+            });
+        }
+        console.log(weatherOptions);
         var forcastItems = [];
 
-        for (var i = 1; i < 8; i++) {
+        for (var f = 1; f < 8; f++) {
             forcastItems.push({
-                itemId: 'forecast' + i,
-                html: this.buildDayWeather(i)
+                itemId: 'forecast' + f,
+                html: this.buildDayWeather(f)
             });
         }
         var toggleValue = (wm.getIsDegrees()) ? 1 : 0;
@@ -68,11 +91,9 @@ Ext.define("escape.view.page.Weather", {
                 xtype: 'selectField',
                 label: 'Location',
                 name: 'location',
-                labelAlign:'top',
-                options: [{
-                    text: 'Sydney',
-                    value: -1
-                }]
+                labelAlign: 'top',
+                options: weatherOptions,
+                value: stationId
             }]
         }, {
             xtype: 'container',
@@ -150,7 +171,15 @@ Ext.define("escape.view.page.Weather", {
         todaysWeather += '<div class="extremes"><h3 class="high">' + wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
         // }
         todaysWeather += '<h2>' + wm.getIconName(today.icon) + '</h2><p>' + today.forecast + '</p>';
-        todaysWeather += '<h4 class="rain">12mm</h4><h4 class="wind">45km/h NNE</h4></div>';
+        if (wm.weatherData.RainFall!=-9999){
+             todaysWeather += '<h4 class="rain">'+wm.weatherData.RainFall+'</h4>';
+        }
+         if (wm.weatherData.WindSpeedmps!=-9999){
+            var windKm = wm.weatherData.WindSpeedmps*(3.6);
+              todaysWeather += '<h4 class="wind">'+windKm+ ' KM/H '+wm.weatherData.WindDirection+'</h4></div>';
+        }
+       
+       
         return todaysWeather;
     }
 

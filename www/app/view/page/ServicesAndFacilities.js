@@ -1,5 +1,5 @@
 Ext.define("escape.view.page.ServicesAndFacilities", {
-    extend: 'Ext.Container',
+    extend: 'escape.view.page.Page',
     xtype: 'servicesAndFacilitiesPage',
     requires: ['escape.view.ui.MenuBtn'],
     config: {
