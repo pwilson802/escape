@@ -74,6 +74,7 @@ Ext.define("escape.view.page.ItineraryDay", {
         var data = [];
         for (var i = 0; i < products.length; i++) {
             product = products.item(i);
+            console.log(product.type);
             data.push({
                 id: product.id,
                 productId: product.product_id,

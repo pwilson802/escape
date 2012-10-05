@@ -51,7 +51,6 @@ Ext.define("escape.view.page.Page", {
      *   All items defined in the itemsToAdd arry are added to the view
      **/
     viewOpened: function() {
-        console.log('viewOpened');
         if (!this.getIsBuilt()) {
             this.setIsBuilt(true);
             this.setNavTitle(this.getPageTitle());
@@ -70,7 +69,6 @@ Ext.define("escape.view.page.Page", {
         this.closeView();
     },
     reOpenView: function() {
-        console.log('reOpenView');
     },
     closeView: function() {}
    

@@ -196,6 +196,7 @@ Ext.define('escape.controller.Search', {
         });
     },
     saveValues: function() {
+        console.log('saveValues');
         var values = this.getSearchForm().getValues();
         this.setSearchValues(values);
     },

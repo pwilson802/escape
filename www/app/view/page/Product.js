@@ -255,10 +255,13 @@ Ext.define("escape.view.page.Product", {
                 altText: imageData['Alt']
             });
         }
+
+         var indicator  = (imageItems.length>1) ? true : false;
         items.push({
             xtype: 'carousel',
             height: 200,
-            items: imageItems
+            items: imageItems,
+            indicator: indicator
         });
 
 

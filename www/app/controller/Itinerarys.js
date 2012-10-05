@@ -53,6 +53,9 @@ Ext.define('escape.controller.Itinerarys', {
             'addToItineraryPage button[action=add]': {
                 tap: 'addProductToItineraries'
             },
+            'addToItineraryPage button[action=cancel]': {
+                tap: 'cancelAdd'
+            },
             'addToItineraryPage button[action=create]': {
                 tap: 'showNewItineraryWithProduct'
             }
@@ -93,12 +96,12 @@ Ext.define('escape.controller.Itinerarys', {
             var startDate = new Date(itinerary.startDate);
             var endDate = new Date(itinerary.endDate);
             var oneDay = 1000 * 60 * 60 * 24;
-            var daysDiff =1 + (Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay)));
+            var daysDiff = 1 + (Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay)));
             var days = daysDiff;
-            if (daysDiff>1){
-                days+=' days';
+            if (daysDiff > 1) {
+                days += ' days';
             } else {
-                 days+=' day';
+                days += ' day';
             }
             console.log(startDate);
             itinerariesList.push({
@@ -143,10 +146,10 @@ Ext.define('escape.controller.Itinerarys', {
             cls: 'createItineraryBtnLarge',
             text: '',
             flex: 3
-        },{
+        }, {
             cls: 'createItineraryInstructions',
-            padding:'20px',
-            html:'<p>Create a new itinerary and start planning your trip, add notes and organise your day</p>',
+            padding: '20px',
+            html: '<p>Create a new itinerary and start planning your trip, add notes and organise your day</p>',
             flex: 1
         }, {
             xtype: 'container',
@@ -260,11 +263,16 @@ Ext.define('escape.controller.Itinerarys', {
         var errors = this.checkItineraryErrors(data);
         if (errors.length === 0) {
             // create the new itinerary
-            escape.model.Itineraries.updateItinerary(this.getCurrentItineray().id, data.name, data.startDate, data.endDate, {
+            var itineraryId = this.getCurrentItineray().id;
+            escape.model.Itineraries.updateItinerary(itineraryId, data.name, data.startDate, data.endDate, {
                 success: function(result) {
+                    console.log(result);
+                    escape.utils.AppVars.currentSection.getNavigationView().pop(2);
                     selfRef.showItinerary(result.item(0));
                 },
-                error: function(error) {},
+                error: function(error) {
+                    escape.utils.AppVars.currentSection.getNavigationView().pop(2);
+                },
                 scope: this
             });
         } else {
@@ -335,7 +343,9 @@ Ext.define('escape.controller.Itinerarys', {
         escape.utils.AppVars.currentSection.getNavigationView().pop();
 
     },
-
+    cancelAdd: function() {
+        escape.utils.AppVars.currentSection.getNavigationView().pop();
+    },
     showAddedMsg: function() {
         var addedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt favsAddedMsg',
@@ -430,6 +440,10 @@ Ext.define('escape.controller.Itinerarys', {
             scope: this
         });
         this.hideItinerayQs();
+        console.log(escape.utils.AppVars.currentPage.getXTypes());
+        if (escape.utils.AppVars.currentPage.getXTypes().indexOf('itineraryEditorPage') != -1) {
+            escape.utils.AppVars.currentSection.getNavigationView().pop(2);
+        }
         // show removed message
         var removedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt removedAddedMsg',

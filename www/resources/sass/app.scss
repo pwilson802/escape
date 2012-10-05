@@ -71,7 +71,7 @@ body {
 	line-height:175%;
 	/* Helvetica Light */
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
-	background: $active-color url(../images/loading~splash.png) no-repeat center top;
+	background: $active-color url(../images/Splash_Portrait.png) no-repeat center top;
 }
 
 
@@ -251,47 +251,6 @@ p {
 		background:url(../images/footer_logo.png) center center no-repeat;
 		width:100%;
 		height:219px;
-	}
-}
-.productPage {
-	h3 {
-		font-size:20px;
-	}
-	background: #F6F5F1 !important;
-
-}
-.productDates {
-	background-color:$highlightLight;
-	padding:20px;
-	color:#fff;
-	.dateDisplay {
-		width:70px;
-		float:left;
-		line-height:100%;
-		padding:10px 0;
-		h3 {
-			margin: 0 0 5px 0;
-			padding: 0;
-			font-size:34px;
-			line-height:100%;
-		}
-		h4 {
-			margin:0;
-			padding:0;
-			font-style:italic;
-			line-height: 100%;
-		}
-		&.end {
-			padding-left:40px;
-			background: url(../images/arrow_event.png) left 6px no-repeat;
-			width:140px
-		}
-	}
-	.year {
-		width:70;
-		float:right;
-		font-size:28px;
-		margin: 43px 0 0 0;
 	}
 }
 
@@ -523,7 +482,7 @@ p {
 		@include border-radius(10px); // border radius
 		@include background-clip(); // prevents bg color from leaking outside the border
 		background-color: rgba(135,128,118,.15); // layer fill content
-		@include box-shadow(0 2px 2px rgba(255,255,255,.4), inset 0 2px 2px rgba(0,0,0,.4)); // drop shadow and inner shadow
+		@include box-shadow(0 1px 1px rgba(255,255,255,.4), inset 0 1px 1px rgba(0,0,0,.4)); // drop shadow and inner shadow
 		
 
 		background-image:url('../images/arrow_cell.png') !important;
@@ -545,7 +504,7 @@ p {
 	.x-list-item.x-item-pressed .x-list-item-label{
 		background-color: rgba(255,255,255,.15); // layer fill content
 		background-image:url(../images/itinerary_list_ico.png);
-		background-position: 15px 15px;
+		background-position: right center;
 		background-repeat:no-repeat !important;
 	}
 }
@@ -1119,6 +1078,8 @@ p {
 	.x-list-disclosure {
 		top:0;
 		right:0;
+		width:50px;
+		height:50px;
 		background-color:transparent;;
 		-webkit-mask:none;
 		background-image:url('../images/itinerary_item_edit.png');
@@ -1129,7 +1090,8 @@ p {
 	.x-list-item-label {
 		padding: 10px 30px 10px 70px !important;
 		height:80px;
-		background-image:url('../images/ico_collection.png') !important;
+		background-image:url('../images/ico_accommodation@2x.png') !important;
+		-webkit-background-size: 54px 54px;
 		background-repeat:no-repeat;
 		background-position:  10px center;
 		@include border-radius(10px); // border radius
@@ -1160,6 +1122,55 @@ p {
 		background-repeat:no-repeat;
 		background-position:  10px center;
 		background-color: #fff; // layer fill content
+		-webkit-background-size: 54px 54px;
+	}
+}
+
+
+.productPage {
+	h3 {
+		font-size:20px;
+	}
+	
+	.x-scroll-scroller {
+		background: #F6F5F1 !important;
+	}
+}
+///////////////////////
+// PRODUCT PAGE
+///////////////////////
+.productDates {
+	background-color:$highlightLight;
+	padding:20px;
+	color:#fff;
+	.dateDisplay {
+		width:70px;
+		float:left;
+		line-height:100%;
+		padding:10px 0;
+		h3 {
+			margin: 0 0 5px 0;
+			padding: 0;
+			font-size:34px;
+			line-height:100%;
+		}
+		h4 {
+			margin:0;
+			padding:0;
+			font-style:italic;
+			line-height: 100%;
+		}
+		&.end {
+			padding-left:40px;
+			background: url(../images/arrow_event.png) left 6px no-repeat;
+			width:140px
+		}
+	}
+	.year {
+		width:70;
+		float:right;
+		font-size:28px;
+		margin: 43px 0 0 0;
 	}
 }
 
@@ -2146,7 +2157,7 @@ p {
        (min-resolution: 100dpi),           /* Everyone else */
        (min-resolution: 1.5dppx)              /* The Future */ {
 	body {
-		background-image: url(../images/loading@2x~splash.png);
+		background-image: url(../images/Splash_Portrait@2x.png);
 		-webkit-background-size: 320px 480px; 
 	}
 
@@ -2294,6 +2305,9 @@ p {
 	}
 	.shareBtn {
 		background-image: url('../images/btn_share@2x.png');
+	}
+	.editBtn {
+		background-image: url('../images/btn_edit@2x.png');
 	}
 	.favoriteBtn {
 		background-image: url('../images/btn_favourite@2x.png');
@@ -2637,5 +2651,31 @@ p {
 		background:url(../images/bing_sm.png) no-repeat;
 		
 	}	
+	.itinerariesList {
+		.x-list-item {
+			background-image:url(../images/itinerary_list_ico@2x.png);
+			-webkit-background-size: 43px 53px;
+		}
+		.x-list-item-label {
+			background-image:url('../images/arrow_cell@2x.png') !important;
+			-webkit-background-size: 21px 13px;
+		}
+
+		.x-list-item.x-item-pressed .x-list-item-label{
+			background-image:url(../images/itinerary_list_ico@2x.png);
+			-webkit-background-size: 43px 53px;
+		}
+	}
+	.itineraryList {
+		background: #cbbdab url('../images/pattern_sand@2x.png');
+		-webkit-background-size: 150px 150px;
+		
+		.x-list-disclosure {
+			background-image:url('../images/itinerary_item_edit@2x.png');
+			-webkit-background-size: 29px 29px;
+
+		}
+	}
+
 }
 

@@ -3,6 +3,7 @@ Ext.define("escape.view.page.ItineraryNotes", {
     xtype: 'ItineraryNotesPage',
     requires: ['Ext.field.TextArea'],
     config: {
+        
         pageTitle: 'Notes',
         rightBtn: '',
         padding: '10px',
