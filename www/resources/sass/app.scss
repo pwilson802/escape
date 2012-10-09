@@ -911,10 +911,11 @@ p {
 		}
 		h3 {
 			margin : 25px 0 0 50px;
-			padding:8px 0 0 0;
-			font-size:18px;
-			color:#323840;
-			font-family:"HelveticaNeue-CondensedBold";
+			padding:0 0 0 0;
+			font-size:16px;
+			color:#181d2a;
+			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+			font-weight:bold;
 		}
 
 		h4 {
@@ -1259,15 +1260,19 @@ p {
 	.x-button {
 		float:left;
 		@include border-radius(0);
-		@include background-image(linear-gradient(#f7f5f1,#edece9));
+		@include background-image(linear-gradient(#f7f5f1,#dddcda));
+		@include text-shadow(0 2px 0 rgba(255,255,255,.75));
+		
 		border-top:1px solid #fff;
 		border-left:1px solid #fff;
 		border-right:1px solid #bcbdbe;
 		border-bottom:1px solid #bcbdbe;
 		color:$mediumGrey;
 		font-weight:normal;
-		font-size:15px;
-		font-family: "HelveticaNeue-CondensedBold";
+		font-size:14px;
+		
+		// Shange
+		font-family: "HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		
 		width:50%;
 		text-align:center;
@@ -1282,6 +1287,7 @@ p {
 		}
 		
 	}
+	
 	border-bottom:2px solid $lightGray;
 }
 
@@ -1402,8 +1408,10 @@ p {
 }
 .scrollTopTopBtn {
 	background:none;
-	text-transform:uppercase;
-	font-size:14px;
+	// Shange
+	//text-transform:uppercase;
+	font-size:16px;
+	color:#181d2a;
 	border:none !important;
 }
 .x-button.x-button-pressed.scrollTopTopBtn,
@@ -1661,6 +1669,7 @@ p {
 .x-carousel-indicator-dark span {
 	background-color:#fff;
 }
+
 ///////////////////////
 // FORMS
 ///////////////////////
