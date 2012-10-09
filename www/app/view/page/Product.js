@@ -232,6 +232,7 @@ Ext.define("escape.view.page.Product", {
             xtype: 'button',
             text: escape.utils.Translator.translate('Add to Itinerary'),
             action: 'addToItineray',
+            productPage: this,
             cls: 'itinerayBtnLarge secondLevelBtn'
         });
 

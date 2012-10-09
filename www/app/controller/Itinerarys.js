@@ -114,7 +114,7 @@ Ext.define('escape.controller.Itinerarys', {
         }
         var items = [{
             xtype: 'list',
-            itemTpl: '<h3>{name}</h3><h4>{days} {startDateStr} - {endDateStr}</h4>',
+            itemTpl: '<div><h3>{name}</h3><h4>{days} {startDateStr} - {endDateStr}</h4></div>',
             cls: 'itinerariesList',
             data: itinerariesList,
             padding: '10px',

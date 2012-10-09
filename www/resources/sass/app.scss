@@ -470,15 +470,17 @@ p {
 .itinerariesList {
 	.x-list-item {
 		margin:0 0 10px 0;
-		background-image:url(../images/itinerary_list_ico.png);
-		background-position: 15px 15px;
-		background-repeat:no-repeat !important;
+		
+
+		
 	}
+
+
 	.x-list-item-label {
 
 		height:80px;
 		color:#32373f;
-		padding: 10px 40px 10px 70px !important;
+		padding: 0 40px 0 10px !important;
 		@include border-radius(10px); // border radius
 		@include background-clip(); // prevents bg color from leaking outside the border
 		background-color: rgba(135,128,118,.15); // layer fill content
@@ -488,6 +490,15 @@ p {
 		background-image:url('../images/arrow_cell.png') !important;
 		background-repeat:no-repeat;
 		background-position: right center;
+
+
+		div {
+			padding: 10px 0 10px 70px;
+			background-image:url(../images/itinerary_list_ico.png);
+			background-position: 15px 15px;
+			background-repeat:no-repeat !important;
+		}
+
 		h3 {
 			padding:12px 0 5px 0;
 			line-height: 1;
@@ -503,10 +514,14 @@ p {
 
 	.x-list-item.x-item-pressed .x-list-item-label{
 		background-color: rgba(255,255,255,.15); // layer fill content
-		background-image:url(../images/itinerary_list_ico.png);
+		background-repeat:no-repeat;
 		background-position: right center;
-		background-repeat:no-repeat !important;
 	}
+	.x-list-item.x-item-selected  .x-list-item-label {
+		background-color: rgba(135,128,118,.25); // layer fill content
+		background-repeat:no-repeat;
+		background-position: right center;
+	} 
 }
 
 .favouritesList {
@@ -613,7 +628,7 @@ p {
 .x-list-header {
 	color:$mediumGrey !important;
 }
-.x-list{
+.x-list {
 	//background:$page-bg-color;
 	.x-list-item-label {
 		border:none;
@@ -1116,6 +1131,13 @@ p {
 			background:url('../images/icon_drag.png') center center no-repeat !important;
 		}
 	}
+	.x-list .x-item-selected .x-list-disclosure {
+		background-color:transparent;;
+		-webkit-mask:none;
+		background-image:url('../images/itinerary_item_edit.png');
+		background-repeat:no-repeat;
+		background-position: right top;
+	}
 	.x-list-item.x-item-selected .x-list-item-label,
 	.x-list-item.x-item-pressing .x-list-item-label,
 	.x-list-item.x-item-pressed .x-list-item-label {
@@ -1123,6 +1145,7 @@ p {
 		background-position:  10px center;
 		background-color: #fff; // layer fill content
 		-webkit-background-size: 54px 54px;
+		color:#000;
 	}
 }
 
@@ -1687,6 +1710,9 @@ p {
 			color:$lightGray;
 			text-transform:italic;
 		}
+	}
+	.x-input-text {
+		min-height: 3em;
 	}
 	
 	.x-button {
@@ -2653,18 +2679,21 @@ p {
 	}	
 	.itinerariesList {
 		.x-list-item {
-			background-image:url(../images/itinerary_list_ico@2x.png);
-			-webkit-background-size: 43px 53px;
+			
 		}
 		.x-list-item-label {
 			background-image:url('../images/arrow_cell@2x.png') !important;
 			-webkit-background-size: 21px 13px;
+			div {
+				background-image:url(../images/itinerary_list_ico@2x.png);
+			    -webkit-background-size: 43px 53px;
+			}
 		}
 
 		.x-list-item.x-item-pressed .x-list-item-label{
-			background-image:url(../images/itinerary_list_ico@2x.png);
-			-webkit-background-size: 43px 53px;
+			-webkit-background-size: 21px 13px;
 		}
+
 	}
 	.itineraryList {
 		background: #cbbdab url('../images/pattern_sand@2x.png');

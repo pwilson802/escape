@@ -178,6 +178,7 @@ Ext.define('escape.controller.ItineraryViewer', {
         escape.model.Itineraries.updateItineraryDayNotes(itineraryId, dayNum, notes, {
             success: function() {
                 selfRef.showMessage('Saved');
+                escape.utils.AppVars.currentSection.getNavigationView().pop();
             },
             error: function(error) {},
             scope: this

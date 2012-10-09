@@ -3,7 +3,7 @@ Ext.define("escape.view.page.Directions", {
     xtype: 'directionsPage',
     requires: ['escape.view.ui.MapDisplay'],
     config: {
-        title: 'Directions',
+        pageTitle: 'Directions',
         rightBtn: '',
         listeners: {
             initialize: function() {

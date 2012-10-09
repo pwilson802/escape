@@ -42,12 +42,10 @@ Ext.define("escape.view.page.Weather", {
     build: function() {
          // get the weather model
         var wm = escape.model.Weather;
-        console.log(wm);
         var stationId = wm.getStationId();
         var initStationValue = -1;
         // build the weather locations
         var closesName = 'Closest';
-        console.log(wm.weatherData);
         if (stationId===0){
             closesName+=' ('+ wm.weatherData.SiteName+')';
         }
@@ -57,13 +55,11 @@ Ext.define("escape.view.page.Weather", {
         }];
         for (var i = 0; i < AppSettings.weatherStations.length; i++) {
             var station = AppSettings.weatherStations[i];
-            console.log(station);
             weatherOptions.push({
                 value: station.stationId,
                 text: station.name
             });
         }
-        console.log(weatherOptions);
         var forcastItems = [];
 
         for (var f = 1; f < 8; f++) {
