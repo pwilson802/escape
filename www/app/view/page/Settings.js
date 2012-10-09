@@ -6,7 +6,7 @@ Ext.define("escape.view.page.Settings", {
         pageTitle: 'Settings',
         cls: 'settings',
         rightBtn: 'hide',
-        pageTrackingId:0,
+        pageTrackingId: 0,
         scrollable: {
             direction: 'vertical',
             directionLock: true
@@ -16,20 +16,47 @@ Ext.define("escape.view.page.Settings", {
         }]
     },
     openView: function() {
-      
+
         var items = [];
-        
-        //items = items.concat(languageChoices);
+        //
+        var wm = escape.model.Weather;
+        var stationId = wm.getStationId();
+        var initStationValue = -1;
+        // build the weather locations
+        var closesName = 'Closest';
+        var weatherOptions = [{
+            value: 0,
+            text: closesName
+        }];
+        for (var i = 0; i < AppSettings.weatherStations.length; i++) {
+            var station = AppSettings.weatherStations[i];
+            weatherOptions.push({
+                value: station.stationId,
+                text: station.name
+            });
+        }
         // Tempuature
         var toggleValue = (escape.model.Weather.getIsDegrees()) ? 1 : 0;
         items.push({
             xtype: 'container',
             cls: 'options',
             items: [{
-                label: 'Weather Temperature',
-                labelWidth: '60%',
-                xtype: 'togglefield',
-                value: toggleValue
+                xtype: 'fieldset',
+                title: 'Weather',
+                instructions: 'Update your weather settings',
+                items: [{
+                    label: 'Temperature',
+                    labelWidth: '60%',
+                    xtype: 'togglefield',
+                    value: toggleValue
+                }, {
+                    xtype: 'selectField',
+                    labelWidth: '50%',
+                    label: 'Location',
+                    name: 'location',
+                    options: weatherOptions,
+                    value: stationId
+                }]
             }]
         });
         ///

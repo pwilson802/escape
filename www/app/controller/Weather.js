@@ -15,6 +15,9 @@ Ext.define('escape.controller.Weather', {
             },
             'settingsPage togglefield': {
                 change: 'tempChanges'
+            },
+            'settingsPage selectField': {
+                change: 'stationChanges'
             }
         }
     },

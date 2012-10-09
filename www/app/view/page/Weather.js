@@ -163,12 +163,17 @@ Ext.define("escape.view.page.Weather", {
         var today = wm.forcatsByDay[0];
         var todaysWeather = '<div class="info"><h1>' + wm.convertTempature(wm.currentTemp) + '&deg;</h1>';
         // check to see if the extremes are available
-        //if (today.high != 999 && today.low != 999) {
-        todaysWeather += '<div class="extremes"><h3 class="high">' + wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
-        // }
-        todaysWeather += '<h2>' + wm.getIconName(today.icon) + '</h2><p>' + today.forecast + '</p>';
+        if (today.high != 999 && today.low != 999) {
+            todaysWeather += '<div class="extremes"><h3 class="high">' + wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
+        }
+        var forcastDetails = today.forecast;
+        if (forcastDetails.toLowerCase()==wm.getIconName(today.icon).toLowerCase()){
+            forcastDetails = '';
+        }
+
+        todaysWeather += '<h2>' + wm.getIconName(today.icon) + '</h2><p>' + forcastDetails + '</p>';
         if (wm.weatherData.RainFall!=-9999){
-             todaysWeather += '<h4 class="rain">'+wm.weatherData.RainFall+'</h4>';
+             todaysWeather += '<h4 class="rain">'+wm.weatherData.RainFall+' mm</h4>';
         }
          if (wm.weatherData.WindSpeedmps!=-9999){
             var windKm = wm.weatherData.WindSpeedmps*(3.6);
