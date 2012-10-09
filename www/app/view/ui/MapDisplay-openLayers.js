@@ -76,6 +76,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             controls: []
         });
         this.setMap(map);
+        console.log(OpenLayers.Control);
         if (this.getInteraction()) {
             map.addControl(new OpenLayers.Control.TouchNavigation());
             try {

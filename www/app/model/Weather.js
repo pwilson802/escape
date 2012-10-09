@@ -5,7 +5,7 @@ Ext.define("escape.model.Weather", {
     lastBriefUpdatedDate: null,
     reloadIn: 1 * 60 * 15 * 1000,
     // time is in minliseconds set for 15 mins
-    weatherData : null,
+    weatherData: null,
     currentTemp: null,
     currentDate: null,
     forcatsByDay: [],
@@ -162,6 +162,7 @@ Ext.define("escape.model.Weather", {
     },
     // check to see if the weather needs to be loaded
     getFullWeather: function(callback, scope) {
+       
         var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
@@ -175,41 +176,47 @@ Ext.define("escape.model.Weather", {
                 scope: this
             });
         } else {
-            if (this.getStationId() === 0) {
-                Ext.device.Geolocation.getCurrentPosition({
-                    success: function(position) {
-                        console.log(position);
-                        selfRef.loadWeather(position.coords.latitude, position.coords.longitude, callback, scope);
-                    },
-                    failure: function() {
-                        selfRef.loadWeather(0, 0, callback, scope);
-                    }
-                });
-            } else {
-                this.loadWeather(0, 0, callback, scope);
-            }
 
-            // // load the full weather
-            // if (this.loadedDate === null) {
-            //     this.loadWeather(callback, scope);
-            // } else {
-            //     var dateNow = new Date();
-            //     var diff = dateNow - this.lastUpdatedDate;
-            //     if (diff > this.reloadIn || this.forcatsByDay.length <= 1) {
-            //         // reload the current data is old or the fullweather has not been loaded
-            //         this.loadWeather(callback, scope);
-            //     } else {
-            //         // do not reload use the current data
-            //         Ext.callback(callback.success, scope);
-            //     }
-            // }
+            // load the full weather
+            if (this.loadedDate === null) {
+                this.checkLocation(callback, scope);
+            } else {
+                var dateNow = new Date();
+                var diff = dateNow - this.lastUpdatedDate;
+                console.log('!!! diff: ' + diff);
+                if (diff > this.reloadIn || this.forcatsByDay.length <= 1) {
+                     console.log('!!! reload full weather !!!');
+                    // reload the current data is old or the fullweather has not been loaded
+                    this.checkLocation(callback, scope);
+
+                } else {
+                    // do not reload use the current data
+                    Ext.callback(callback.success, scope);
+                }
+            }
         }
 
     },
 
+
+    checkLocation: function(callback, scope) {
+        var selfRef = this;
+        if (this.getStationId() === 0) {
+            Ext.device.Geolocation.getCurrentPosition({
+                success: function(position) {
+                    selfRef.loadWeather(position.coords.latitude, position.coords.longitude, callback, scope);
+                },
+                failure: function() {
+                    selfRef.loadWeather(0, 0, callback, scope);
+                }
+            });
+        } else {
+            selfRef.loadWeather(0, 0, callback, scope);
+        }
+    },
+
     // Loads the full weather including the forcasts
     loadWeather: function(lat, lon, callback, scope) {
-        console.log('loadweather ' + this.getStationId());
         var selfRef = this;
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
@@ -217,7 +224,7 @@ Ext.define("escape.model.Weather", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/Weather',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppID',
             method: "POST",
             jsonData: {
                 "StationID": this.getStationId(),
@@ -239,8 +246,6 @@ Ext.define("escape.model.Weather", {
         });
     },
 
-
-
     fullWeatherLoaded: function(weatherData, callback, scope) {
         this.weatherData = weatherData;
         this.todaysDate = new Date(parseInt(weatherData.Date.substr(6)));
@@ -258,8 +263,11 @@ Ext.define("escape.model.Weather", {
         this.lastUpdatedDate = new Date();
         Ext.callback(callback.success, scope);
     },
+
+
     // check to see if the weather needs to be loaded
     getBriefWeather: function(callback, scope) {
+        var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
             var selfRef = this;
@@ -273,25 +281,41 @@ Ext.define("escape.model.Weather", {
                 scope: this
             });
         } else {
-            this.loadBriefWeather(callback, scope);
             // load the brief weather
-            //     if (this.loadedDate === null) {
-            //         this.loadBriefWeather(callback, scope);
-            //     } else {
-            //         var dateNow = new Date();
-            //         var diff = dateNow - this.lastBriefUpdatedDate;
-            //         if (diff > this.reloadIn) {
-            //             // reload the current data is old
-            //             this.loadBriefWeather(callback, scope);
-            //         } else {
-            //             // do not reload use the current data
-            //             Ext.callback(callback.success, scope);
-            //         }
-            //     }
+            if (this.loadedDate === null) {
+                this.checkLocation(true,callback, scope);
+            } else {
+                var dateNow = new Date();
+                var diff = dateNow - this.lastBriefUpdatedDate;
+                if (diff > this.reloadIn) {
+                    // reload the current data is old
+                    selfRef.checkBreifLocation(callback, scope);
+                } else {
+                    // do not reload use the current data
+                    Ext.callback(callback.success, scope);
+                }
+            }
         }
     },
+
+     checkBreifLocation: function(callback, scope) {
+        var selfRef = this;
+        if (this.getStationId() === 0) {
+            Ext.device.Geolocation.getCurrentPosition({
+                success: function(position) {
+                    selfRef.loadBriefWeather(position.coords.latitude, position.coords.longitude, callback, scope);
+                },
+                failure: function() {
+                    selfRef.loadBriefWeather(0, 0, callback, scope);
+                }
+            });
+        } else {
+            selfRef.loadBriefWeather(0, 0, callback, scope);
+        }
+    },
+
     // load a small weather packet for the home page
-    loadBriefWeather: function(callback, scope) {
+    loadBriefWeather: function(lat, lon, callback, scope) {
         //http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherBrief
         var selfRef = this;
         // load the waeather
@@ -300,13 +324,14 @@ Ext.define("escape.model.Weather", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherBrief',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppIDBrief',
             method: "POST",
             jsonData: {
-                "StationID": "517",
-                "Latitude": "0",
-                "Longitude": "0",
-                "RegID": "1"
+                "StationID": this.getStationId(),
+                "Latitude": lat,
+                "Longitude": lon,
+                "RegID": "1",
+                "AppID": AppSettings.AppID
             },
             success: function(response) {
                 var weatherData = JSON.parse(Ext.decode(response.responseText));

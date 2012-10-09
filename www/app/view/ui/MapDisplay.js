@@ -33,9 +33,11 @@ Ext.define("escape.view.ui.MapDisplay", {
         var selfRef = this;
         escape.model.MapFiles.loadRequiredFiles({
             success: function(results) {
+
                 EMS.Util.getDomain = function() {
                     return "destinationnsw.com.au";
                 };
+
                 selfRef.createMapElement();
             },
             error: function(error) {},
@@ -57,16 +59,16 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     createWhereIsMap: function() {
         var selfRef = this;
+
+        var controls = [];
         map = new EMS.Services.Map(this.getMapId(), {
-            controls: [],
+           // controls: controls,
             onInit: function() {
                 //selfRef.buildMap();
             }
         });
         this.setMap(map);
-        // if (this.getInteraction()) {
-        //     map.addControl(new OpenLayers.Control.TouchNavigation());
-        // }
+
         //  Center the map
         lonlat = new EMS.LonLat(this.getLon(), this.getLat());
         map.setCenter(lonlat, this.getZoomLevel());

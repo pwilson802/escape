@@ -18,7 +18,10 @@ Ext.define('escape.controller.Weather', {
             },
             'settingsPage selectField': {
                 change: 'stationChanges'
-            }
+            },
+            'section button[cls="refreshBtn iconBtn"]': {
+                tap: 'showSearch'
+            },
         }
     },
     // a language has been selected

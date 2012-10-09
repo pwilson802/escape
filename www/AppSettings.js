@@ -3,6 +3,17 @@ AppSettings = {};
 AppSettings.AppID = 2;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Sydney';
+// The Area of the app which is used for services and faclitices searches
+AppSettings.appAddress = {
+    state: 'nsw',
+    suburb: 'sydney'
+};
+AppSettings.bounds = {
+    "left": 150.55337081542,
+    "bottom": -36.119202120384,
+    "right": 151.80337081542,
+    "top": -35.494202120384
+};
 // The detinations to perform all funnel back serches within
 AppSettings.destinationWebpath = '/sydney/';
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
@@ -38,6 +49,20 @@ AppSettings.twitter = {
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };
+// Points of Interests
+AppSettings.pointsOfInterests = [{
+    label:'Hospitals',
+    keyword:'Hospitals'
+},{
+    label:'Police',
+    keyword:'Police'
+},{
+    label:'Beaches',
+    keyword:'Beaches'
+},{
+    label:'Lookouts',
+    keyword:'Lookouts'
+}];
 // Weather
 AppSettings.weatherStations = [{
     stationId: 517,

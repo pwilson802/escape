@@ -5,8 +5,8 @@ Ext.define("escape.view.page.Weather", {
     translations: null,
     config: {
         cls: 'weatherPanel',
+        rightBtn:'refreshBtn',
         pageTitle: AppSettings.appAreaName + ' Weather',
-        rightBtn: 'hide',
         pageTypeId: 3,
         pageTrackingId: 3,
         layout: 'vbox',
