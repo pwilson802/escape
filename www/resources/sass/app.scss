@@ -398,7 +398,7 @@ p {
 
 	background-color:$mediumGrey;
 	color:#fff; font-size:14px; background-color:$darkGrey; border-right:1px solid #82868c;
-	font-family: 'GeometricSlab';
+	font-family: "HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 	
 	.x-scroll-view {
 		background-color:$mediumGrey;
@@ -1256,7 +1256,7 @@ p {
 }
 
 .btnsContainer {
-	border-bottom:2px solid #9d9fa3;
+	
 	.x-button {
 		float:left;
 		@include border-radius(0);
@@ -1273,6 +1273,8 @@ p {
 		
 		// Shange
 		font-family: "HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+		//background:url(../images/experiences_pattern.png) repeat-x;
+		//background-position: bottom;
 		
 		width:50%;
 		text-align:center;
@@ -1606,7 +1608,7 @@ p {
 		&.x-button-pressed.mapBtn,
 		&.x-button-pressing.mapBtn {
 			background-position: center 5px;
-		}
+		} 
 	}
 
 
@@ -1625,6 +1627,54 @@ p {
 ///////////////////////
 // FORMS
 ///////////////////////
+
+.x-mask {
+	background: rgba(0, 0, 0, 0.5) center center no-repeat;
+}
+
+x-floating {
+	height: 240px !important;
+}
+
+.x-picker {
+	
+	//background-color:#323840;
+	@include background-image(linear-gradient(bottom, #1f2737 0%, #384766 100%));
+	@include border-radius(5px); // border radius
+	
+	.x-button {
+		margin:0;
+		margin-left:10px;
+		border: 1px solid #c7c8c9; // stroke
+		@include border-radius(5px); // border radius
+		@include background-clip(); // prevents bg colour from leaking outside the border
+		background-color: #f8f6f3; // layer fill content
+		@include box-shadow(inset 0 1px 0 #fff); // inner shadow
+		@include background-image(linear-gradient(bottom, #f0efed 0%, #f8f6f3 100%)); // gradient overlay
+	}
+	
+	.x-button-action {
+		margin:0;
+		margin-right:10px;
+		border: 1px solid #c7c8c9; // stroke
+		@include border-radius(5px); // border radius
+		@include background-clip(); // prevents bg colour from leaking outside the border
+		background-color: #f8f6f3; // layer fill content
+		@include box-shadow(inset 0 1px 0 rgba(255,255,255,.46)); // inner shadow
+		@include background-image(linear-gradient(bottom, #00a3bc 0%, #02c4e1 100%)); // gradient overlay
+	}
+	
+	.x-picker-bar {
+		@include opacity(.56); // layer alpha
+		border: 1px solid #000; // stroke
+		background-color: #fff; // layer fill content
+		@include box-shadow(0 3px 7px rgba(35,51,55,.8)); // drop shadow
+		@include background-image(linear-gradient(bottom, rgba(72,72,72,.65) 0%, rgba(86,86,86,.65) 49.51%, rgba(124,124,124,.65) 51.22%, rgba(121,121,121,.65) 100%)); // gradient overlay
+	}
+	
+	
+}
+
 .x-form-label {
 	background-color:none;
 	color:#000;
@@ -1653,6 +1703,7 @@ p {
 		height:100%;
 		@include border-radius(8px);
 		@include background-image(linear-gradient(#d7d7d7,#fbfbfb));
+		@include box-shadow(inset 0 1px 0 rgba(255,255,255,.8));
 		border:1px solid #919191;
 	 }
 }
@@ -1942,10 +1993,10 @@ p {
 
 
 	.todaysWeather {
-		background-color:$active-color;
+		//background-color:$active-color;
 		background-position: 10px 20px;
 		background-repeat: no-repeat;
-		background-color:#fff;
+		background-color:#f7f5f1;
 		border-bottom:2px solid #adafb2;
 		height:185px;
 
@@ -2005,15 +2056,18 @@ p {
 
 
 		.info {
-			margin: -15px 0 0 45%;
+			margin: -20px 0 0 45%;
 			width: 50%;
 			float: left;
+			
 			h1 {
 				font-size:65px;
+				font-weight:bold;
 				color:$active-color;
 				width:70%;
 				line-height:normal;
 				float:left;
+				margin:0;
 			}
 			.extremes {
 				width:30%;
@@ -2029,7 +2083,7 @@ p {
 			}
 			h2 {
 				clear:both;
-				margin:10px 0;
+				margin:0;
 				font-size:15px;
 				color:#323840;
 				padding:0;
@@ -2064,46 +2118,49 @@ p {
 	}
 	.options {
 		border-bottom:2px solid #adafb2;
-		background-color:#fff;
+		background-color:#f7f5f1;
 		.x-toggle-field {
 			float:left;
 			width:140px;
+			margin-left:5px;
+			background-color:#f7f5f1;
 		}
 		.x-field-select {
-			margin:0 0 0 140px;
+			margin:0 0 0 100px;
+			background-color:#f7f5f1;
 			.x-form-label {
+				font-size:14px;
 				background:none;
 				padding:0;
+				margin:0 0 0 10px;
 				font-weight: normal;
 			}
 			.x-component-outer {
-				margin:-15px 0 0 0;
+				margin:-15px 0 0 10px;
+				font-size:14px;
 			}
 			.x-input-text {
-				padding:0;
-				font-style:italic;
 				color:#414851;
+				font-size:14px;
+				margin:0;
+				padding:0;
+				line-height:normal;
 			}
 		}
 		
 	}
 	.weatherForcast {
-		background: url(../images/linen_bg.png);
-
-		//@include box-shadow(inset 0px 3px 8px 1px rgba(0, 0, 0, 0.3));
+		
 		.x-scroll-scroller {
 			background: url(../images/linen_bg.png);
-			//@include box-shadow(inset 0px 3px 8px 1px rgba(0, 0, 0, 0.3));
 		}
 		.weatherDay {
 			width:120px;
-			height:150px;
-			background:#fefefe;
-			
+			height:140px;
 			
 			background-repeat: no-repeat;
-			background-position: 5px 85px;
-
+			background-position: 12px 70px;
+			
 			&.icon_1 {
 			background-image:url(../images/we_ico_1_med.png)
 		}
@@ -2160,31 +2217,35 @@ p {
 			
 			overflow:hidden;
 			@include border-radius(8px);
-			@include box-shadow(2px 2px 10px 0px rgba(0, 0, 0, 0.5));
+			@include box-shadow(0px 2px 10px 0px rgba(0, 0, 0, 0.5));
+			background-color:#f7f5f1;
+			
+			
 			margin:0 10px 0 0;
 			float:left;
 			h2 {
 				color:#414851;
-				font-size:15px;
+				font-size:14px;
 				margin:0;
 				padding:0;
 				line-height:normal;
 			}
 			h2.day {
-				margin:5px 0 5px 0;
+				margin:0px 0 0px 0;
+				font-weight:bold;
 			}
 			.dayinfo {
-				height:40px;
+				height:30px;
 			}
 			.details {
 				margin: 15px 0 0 0;
 				border-top:1px solid #c8c9ca;
 				.extremes {
-					margin:10px 0 0 0;
-					width:45%;
+					margin:12px 0 0 0;
+					width:35%;
 					float: right;
 					h3 {
-						font-size:25px;
+						font-size:22px;
 						color:#323840;
 					}
 					h3.low {
@@ -2604,13 +2665,12 @@ p {
 
 		.weatherForcast {
 			background: url(../images/linen_bg@2x.png);
-		 -webkit-background-size: 333px 500px; 
+		 	-webkit-background-size: 333px 500px; 
 			.x-scroll-scroller {
 				background-image: url(../images/we_bg_rpt@2x.png);
 				-webkit-background-size: 40px 40px;
 			}
 			.weatherDay {
-				
 				-webkit-background-size: 48px 48px;
 				&.icon_1 {
 				background-image:url(../images/we_ico_1_med@2x.png)
