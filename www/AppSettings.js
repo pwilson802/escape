@@ -51,17 +51,20 @@ AppSettings.getSMPSectionURL = function() {
 };
 // Points of Interests
 AppSettings.pointsOfInterests = [{
-    label:'Hospitals',
-    keyword:'Hospitals'
-},{
-    label:'Police',
-    keyword:'Police'
-},{
-    label:'Beaches',
-    keyword:'Beaches'
-},{
-    label:'Lookouts',
-    keyword:'Lookouts'
+    label: 'Hospitals',
+    keyword: 'Hospitals'
+}, {
+    label: 'Police',
+    keyword: 'Police'
+}, {
+    label: 'Beaches',
+    keyword: 'Beaches'
+}, {
+    label: 'Lookouts',
+    keyword: 'Lookouts'
+}, {
+    label: 'Toilets',
+    keyword: 'toilet'
 }];
 // Weather
 AppSettings.weatherStations = [{
@@ -315,11 +318,11 @@ AppSettings.mainMenu = [{
         xtype: 'searchPage'
     }
 }, {
-    title: 'About Desination NSW',
+    title: 'About Destination NSW',
     group: 'Group 4',
     id: 'aboutDNSWSection',
     firstPage: {
-        title: 'About Desination NSW',
+        title: 'About Destination NSW',
         xtype: 'contentPage',
         contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
     }

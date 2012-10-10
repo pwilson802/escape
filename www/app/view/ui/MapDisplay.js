@@ -26,9 +26,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             painted: 'loadLibaries'
         }
     },
-    initialize: function() {
-        this.setIntialMarkers([]);
-    },
+    initialize: function() {},
     loadLibaries: function() {
         var selfRef = this;
         escape.model.MapFiles.loadRequiredFiles({
@@ -62,7 +60,7 @@ Ext.define("escape.view.ui.MapDisplay", {
 
         var controls = [];
         map = new EMS.Services.Map(this.getMapId(), {
-           // controls: controls,
+            // controls: controls,
             onInit: function() {
                 //selfRef.buildMap();
             }
@@ -76,6 +74,10 @@ Ext.define("escape.view.ui.MapDisplay", {
 
         // add any intial markers
         var intialMarkers = this.getIntialMarkers();
+        // make sure the makers are added in the right order
+        intialMarkers = intialMarkers.sort(function(obj1, obj2) {
+            return Number(obj2.lat) - Number(obj1.lat);
+        });
         for (var m = 0; m < intialMarkers.length; m++) {
             var marker = intialMarkers[m];
             this.addMarker(marker.lat, marker.lon, marker.data);
@@ -86,70 +88,35 @@ Ext.define("escape.view.ui.MapDisplay", {
         }
 
         if (intialMarkers.length > 1 && this.getZoomToBounds()) {
+            console.log('zoomToExtent');
             map.zoomToExtent(map.markersLayer.getDataExtent());
             this.setIntialMarkers([]);
         }
-
-
-
-
-
-        // var bingMapsAPIKey = 'Al4Lpuxeh5gEXn5qMCuA6thYde_HfPSh6LYjXKif__5rASQp07kfZjioy5d1Te_Y';
-        // map = new OpenLayers.Map(this.getMapId(), {
-        //     controls: []
-        // });
-        // if (this.getInteraction()) {
-        //     map.addControl(new OpenLayers.Control.TouchNavigation());
-        // }
-        // var options = {
-        //     key: bingMapsAPIKey
-        // };
-        // add map layer
-        //var mapLayer = new OpenLayers.Layer.Bing(options);
-        // var mapLayer = new OpenLayers.Layer.OSM();
-        //map.addLayer(mapLayer);
-        // create a point
-        // var lonLat = escape.utils.Maps.getLatLon(this.getLat(), this.getLon());
-        // // add the directions layer
-        // var directionsLayer = new OpenLayers.Layer.Vector("DirectionsLayer");
-        // map.addLayer(directionsLayer);
-        // // add a markers layer
-        // var markers = new OpenLayers.Layer.Markers("Markers");
-        // map.addLayer(markers);
-        // this.setBuilt(true);
-        // // add any intial markers
-        // var intialMarkers = this.getIntialMarkers();
-        // for (var m = 0; m < intialMarkers.length; m++) {
-        //     var marker = intialMarkers[m];
-        //     this.addMarker(marker.lat, marker.lon, marker.data);
-        // }
-        // if (this.getMarkerAtCenter()) {
-        //     this.addMarker(this.getLat(), this.getLon());
-        // }
-        // // position the map
-        // map.setCenter(lonLat, this.getZoomLevel());
-        // // show direction
-        // //this.getDirections('Sydney, Australia', 'Manly');
-        // //this.getOpenDirections();
-        // //this.getBingDirections();
-        // //this.addMarker(this.getLat(), this.getLon());
-        // if (intialMarkers.length > 1) {
-        //     map.zoomToExtent(markers.getDataExtent());
-        //     this.setIntialMarkers([]);
-        // }
     },
     addMarker: function(lat, lon, data) {
         if (this.getBuilt()) {
             var map = this.getMap();
-            var imgPath = 'resources/images/pin_red.png';
-            if (escape.utils.Img.useRetinaImg) {
-                imgPath = 'resources/images/pin_red@2x.png';
+            var icon;
+            if (data.iconText) {
+                icon= EMS.Services.StandardIcons.poi(map.tilePath, '323840', '323840', data.iconText);
+            } else {
+                // pin icon
+                var imgPath = 'resources/images/pin_red.png';
+                if (escape.utils.Img.useRetinaImg) {
+                    imgPath = 'resources/images/pin_red@2x.png';
+                }
+                var size = new OpenLayers.Size(45, 38);
+                var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+                icon = new OpenLayers.Icon(imgPath, size, offset);
+                
             }
-            var size = new OpenLayers.Size(45, 38);
-            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-            var icon = new OpenLayers.Icon(imgPath, size, offset);
             var lonlat = new EMS.LonLat(lon, lat);
             var marker = new OpenLayers.Marker(lonlat, icon);
+
+            // custom marker
+
+
+
             map.markersLayer.addMarker(marker);
             var selfRef = this;
             var markerClick = function(evt) {
@@ -166,33 +133,6 @@ Ext.define("escape.view.ui.MapDisplay", {
         }
 
     },
-
-    // addMarker: function(lat, lon, data) {
-    //     if (this.getBuilt()) {
-    //         var lonLat = escape.utils.Maps.getLatLon(lat, lon);
-    //         var size = new OpenLayers.Size(45, 38);
-    //         var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-    //         var imgPath = 'resources/images/pin_red.png';
-    //         if (escape.utils.Img.useRetinaImg) {
-    //             imgPath = 'resources/images/pin_red@2x.png';
-    //         }
-    //         var icon = new OpenLayers.Icon(imgPath, size, offset);
-    //         var marker = new OpenLayers.Marker(lonLat, icon);
-    //         this.getMap().getLayersByName("Markers")[0].addMarker(marker);
-    //         var selfRef = this;
-    //         var markerClick = function(evt) {
-    //                 selfRef.fireEvent('markerSelected', data);
-    //             };
-    //         marker.events.register('mousedown', marker, markerClick);
-    //         marker.events.register('touchend', marker, markerClick);
-    //     } else {
-    //         this.getIntialMarkers().push({
-    //             data: data,
-    //             lat: lat,
-    //             lon: lon
-    //         });
-    //     }
-    // },
     clearMarkers: function() {
         this.getMap().getLayersByName("Markers").destory();
         var markers = new OpenLayers.Layer.Markers("Markers");
