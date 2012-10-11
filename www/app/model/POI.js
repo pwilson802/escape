@@ -13,6 +13,8 @@ Ext.define("escape.model.POI", {
             name: 'phoneNumber'
         }, {
             name: 'type'
+        }, {
+            name: 'resultNum'
         }]
     }
 });

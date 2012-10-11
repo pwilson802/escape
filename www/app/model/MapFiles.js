@@ -19,10 +19,20 @@ Ext.define("escape.model.MapFiles", {
     },
 
     loadEMS: function(callback, scope) {
-        this.loaded = true;
         var selfRef = this;
         //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
         var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=8348923927920532480';
+        LazyLoad.js([url], function() {
+             selfRef.loadTouchControls(callback, scope);
+        });
+
+    },
+    loadTouchControls: function(callback, scope) {
+        console.log('loadTouchControls');
+        this.loaded = true;
+        var selfRef = this;
+        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+        var url = 'resources/js/IPhoneDefaults.js';
         LazyLoad.js([url], function() {
              Ext.callback(callback.success, scope, []);
         });

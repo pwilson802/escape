@@ -16,10 +16,14 @@ Ext.define("escape.view.page.CurrencyConverter", {
     },
     // load the currencys
     openView: function() {
+        this.setItems({
+            xtype: 'loadingDisplay'
+        });
         // check to see if the product is a favourite or not
         var selfRef = this;
         escape.model.Currency.loadDefaults({
             success: function() {
+                console.log('defaults set up');
                 selfRef.loadOrginal();
             },
             error: function(error) {
@@ -29,10 +33,8 @@ Ext.define("escape.view.page.CurrencyConverter", {
             },
             scope: this
         });
-          this.setItems({
-            xtype: 'loadingDisplay'
-        });
-        
+
+
 
 
     },

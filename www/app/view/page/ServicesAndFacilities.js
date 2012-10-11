@@ -12,6 +12,7 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
         var items = [{
             xtype: 'formpanel',
             layout: 'vbox',
+            scrollable: false,
             width: '100%',
             flex: 1,
             items: [{
@@ -25,6 +26,13 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
                     flex: 1
                 }]
             }, {
+                xtype: 'container',
+                flex: 1,
+                scrollable: {
+                    direction: 'vertical',
+                    directionLock: true
+                },
+                items: [{
                     xtype: 'selectField',
                     label: 'Distance',
                     name: 'distance',
@@ -60,16 +68,17 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
                         value: 200
                     }]
                 }, {
-                xtype: 'list',
-                itemId: 'keywordList',
-                action: 'selectKeyword',
-                margin: '10px',
-                cls: 'radioList',
-                activeItem: 1,
-                scrollable: false,
-                flex: 1,
-                itemTpl: '{label}',
-                data: AppSettings.pointsOfInterests
+                    xtype: 'list',
+                    itemId: 'keywordList',
+                    action: 'selectKeyword',
+                    margin: '10px',
+                    cls: 'radioList',
+                    activeItem: 1,
+                    scrollable: false,
+                    flex: 1,
+                    itemTpl: '{label}',
+                    data: AppSettings.pointsOfInterests
+                }]
             }, {
                 xtype: 'container',
                 docked: 'bottom',

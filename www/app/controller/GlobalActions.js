@@ -20,9 +20,10 @@ Ext.define('escape.controller.GlobalActions', {
             'section button[cls="searchBtn iconBtn"]': {
                 tap: 'showSearch'
             },
-            'section [action=getDirections]': {
+            'section button[action=getDirections]': {
                 tap: function(btn) {
-                    this.showDirections();
+                    console.log(btn);
+                    this.showDirections(btn.config.address,btn.config.latlon);
                 }
             },
             'section button[action=makePhoneCall]': {
@@ -50,7 +51,7 @@ Ext.define('escape.controller.GlobalActions', {
                     var data = record.getData();
                     switch (data.action) {
                     case 'getDirections':
-                        this.showDirections();
+                        this.showDirections(data.address,data.latlon);
                         break;
                     case 'sendEmail':
                         this.sendEmail(data.data);
@@ -68,7 +69,7 @@ Ext.define('escape.controller.GlobalActions', {
                     list.deselectAll();
                 }
             },
-           
+
             'weatherPage button[action=closeSearch]': {
                 tap: 'closeWeather'
             },
@@ -84,8 +85,8 @@ Ext.define('escape.controller.GlobalActions', {
             'page list[action="changeSection"]': {
                 select: 'listSectionChange'
             },
-            'selectfield label' : {
-                tap : 'showSelectFieldOptions'
+            'selectfield label': {
+                tap: 'showSelectFieldOptions'
             }
         }
     },
@@ -104,12 +105,14 @@ Ext.define('escape.controller.GlobalActions', {
         var collectionType = escape.utils.AppVars.currentSection.getCollectionType();
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'searchPage',
-            collectionType : collectionType
+            collectionType: collectionType
         });
     },
-    showDirections: function(btn) {
+    showDirections: function(address,latlon) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage'
+            xtype: 'directionsPage',
+            address: address,
+            latlon: latlon
         });
     },
     makePhoneCall: function(phoneNumber) {

@@ -16,11 +16,6 @@ Ext.define("escape.view.ui.MapDisplay", {
         markerAtCenter: false,
         interaction: true,
         zoomToBounds: true,
-        routeStyle: {
-            strokeColor: '#0000ff',
-            strokeOpacity: 0.5,
-            strokeWidth: 5
-        },
         listeners: {
             initialize: 'initialize',
             painted: 'loadLibaries'
@@ -31,11 +26,9 @@ Ext.define("escape.view.ui.MapDisplay", {
         var selfRef = this;
         escape.model.MapFiles.loadRequiredFiles({
             success: function(results) {
-
                 EMS.Util.getDomain = function() {
                     return "destinationnsw.com.au";
                 };
-
                 selfRef.createMapElement();
             },
             error: function(error) {},
@@ -52,19 +45,17 @@ Ext.define("escape.view.ui.MapDisplay", {
             });
             this.createWhereIsMap();
         }
-
-
     },
     createWhereIsMap: function() {
         var selfRef = this;
-
         var controls = [];
         map = new EMS.Services.Map(this.getMapId(), {
-            // controls: controls,
+            controls: [],
             onInit: function() {
-                //selfRef.buildMap();
+                selfRef.setupMap(map);
             }
         });
+        console.log("set");
         this.setMap(map);
 
         //  Center the map
@@ -87,18 +78,58 @@ Ext.define("escape.view.ui.MapDisplay", {
             this.addMarker(this.getLat(), this.getLon());
         }
 
-        if (intialMarkers.length > 1 && this.getZoomToBounds()) {
-            console.log('zoomToExtent');
+        if (intialMarkers.length >= 1 && this.getZoomToBounds()) {
             map.zoomToExtent(map.markersLayer.getDataExtent());
             this.setIntialMarkers([]);
         }
+    },
+    setupMap: function() {
+        console.log("map set up");
+        var map = this.getMap();
+        if (this.getInteraction()) {
+            console.log("add touch");
+            if (hasTouch) {
+                console.log("!!! HAS TOUCH...");
+                var iphoneControls = new EMS.Control.IPhoneDefaults({
+                    supportsScale3d: true
+                });
+                console.log('touch started');
+                map.iphoneControls = iphoneControls;
+                 console.log('iphoneControls');
+                map.addControl(iphoneControls);
+                console.log('controls added');
+
+            } else { //PC
+                console.log("!!! HAS NO NO TOUCH...");
+                map.addControl(new OpenLayers.Control.KeyboardDefaults());
+                map.addControl(new EMS.Control.MouseDefaults());
+            }
+        }
+
+    },
+    clearMarkers: function() {
+        this.getMap().getLayersByName("Markers").destory();
+        var markers = new OpenLayers.Layer.Markers("Markers");
+        this.getMap().addLayer(markers);
+    },
+    zoomToMarkers: function() {
+        var map = this.getMap();
+        map.zoomToExtent(map.markersLayer.getDataExtent());
+        this.setIntialMarkers([]);
     },
     addMarker: function(lat, lon, data) {
         if (this.getBuilt()) {
             var map = this.getMap();
             var icon;
-            if (data.iconText) {
-                icon= EMS.Services.StandardIcons.poi(map.tilePath, '323840', '323840', data.iconText);
+            var useIcon = true;
+            try {
+                var d = data.iconText;
+            } catch (e) {
+                useIcon = false;
+            }
+
+            if (useIcon) {
+                icon = EMS.Services.StandardIcons.poi(map.tilePath, '323840', '323840', data.iconText);
             } else {
                 // pin icon
                 var imgPath = 'resources/images/pin_red.png';
@@ -108,15 +139,12 @@ Ext.define("escape.view.ui.MapDisplay", {
                 var size = new OpenLayers.Size(45, 38);
                 var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
                 icon = new OpenLayers.Icon(imgPath, size, offset);
-                
+
             }
             var lonlat = new EMS.LonLat(lon, lat);
             var marker = new OpenLayers.Marker(lonlat, icon);
 
             // custom marker
-
-
-
             map.markersLayer.addMarker(marker);
             var selfRef = this;
             var markerClick = function(evt) {
@@ -132,11 +160,5 @@ Ext.define("escape.view.ui.MapDisplay", {
             });
         }
 
-    },
-    clearMarkers: function() {
-        this.getMap().getLayersByName("Markers").destory();
-        var markers = new OpenLayers.Layer.Markers("Markers");
-        this.getMap().addLayer(markers);
     }
-
 });

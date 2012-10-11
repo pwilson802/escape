@@ -112,7 +112,7 @@ Ext.define("escape.view.page.AddToItinerary", {
                     cls: 'search'
                 }, {
                     xtype: 'button',
-                    text: 'Canel',
+                    text: 'Cancel',
                     action: 'cancel',
                     cls: 'reset'
                 }]

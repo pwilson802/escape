@@ -6,22 +6,22 @@
     END_EV = hasTouch ? 'touchend' : 'mouseup';
     CANCEL_EV = hasTouch ? 'touchcancel' : 'mouseup';
     //WHEEL_EV = vendor == 'Moz' ? 'DOMMouseScroll' : 'mousewheel';
-    CLICK_TOUCH_ST = hasTouch ? 'touchstart' : "click";
+    CLICK_TOUCH_ST = hasTouch ? 'touchstart': "click";
+    
 
-
-    EMS.Control.IPhoneDefaults = OpenLayers.Class(OpenLayers.Control, {
-        /**
+EMS.Control.IPhoneDefaults = OpenLayers.Class( OpenLayers.Control, {
+     /**
          * Property: defaultOptions
          * Contains all the default values for everything. Can be overridden on initialization.
          */
         defaultOptions: {
             supportsScale3d: true,
             doubleTapZoomDelay: 200,
-            webkitTransitionSpeed: 5,
-            webkitScaleTransitionSpeed: 20,
+            webkitTransitionSpeed:5,
+            webkitScaleTransitionSpeed:20,
             distanceBeforeDoingOpenLayersPan: 200,
             timeRequiredBetweenZooms: 10,
-            animatedZoomTime: 250,
+            animatedZoomTime:250,
             enableInertia: false,
             minimumInertiaSpeed: 10,
             maxInertiaSpeed: 50,
@@ -29,32 +29,32 @@
             inertiaDamping: 0.3,
             allowFlick: false,
             flickThreshold: 40,
-            flickSpeed: 100
-        },
-        /**
-         * Constructor: initialize
-         *
-         * Constructs a new instance of the <EMS.Control.IPhoneEvents> control.
-         *
-         */
+            flickSpeed: 100,
+       },
+          /**
+           * Constructor: initialize
+           *
+           * Constructs a new instance of the <EMS.Control.IPhoneEvents> control.
+           *
+           */
         initialize: function(options) {
-            options = options ? options : {};
-            this.options = OpenLayers.Util.extend(this.defaultOptions, options);
+              options = options ? options : {};
+              this.options = OpenLayers.Util.extend(this.defaultOptions, options);
 
-            OpenLayers.Control.prototype.initialize.apply(this, arguments);
+              OpenLayers.Control.prototype.initialize.apply(this, arguments);
 
-            // setup any defaults
-            this.touchCenterX = this.touchCenterY = 0;
-            this.panTotalX = 0;
-            this.panTotalY = 0;
-            this.active = true;
-            this.dragging = false;
+              // setup any defaults
+              this.touchCenterX = this.touchCenterY = 0;
+              this.panTotalX = 0;
+              this.panTotalY = 0;
+              this.active = true;
+              this.dragging = false;
 
-            this.gestureCenterX = this.gestureCenterY = null;
+              this.gestureCenterX = this.gestureCenterY = null;
 
-            // inertia
-            this.xSpeed = this.ySpeed = 0;
-            this.inertiaTween = null;
+              // inertia
+              this.xSpeed = this.ySpeed = 0;
+              this.inertiaTween = null;
         },
         setupTouchCenter: function(e) {
             if (e.touches.length > 1) {
@@ -70,8 +70,8 @@
                 this.touchCenterY = t1.clientY + 0.5 * pY;
             }
         },
-        touchstart: function(e) {
-            e.preventDefault();
+        touchstart: function(e){
+            e.preventDefault(); 
             // cancel any active inertia
             if (this.inertiaTween) {
                 this.inertiaTween.stop();
@@ -79,30 +79,30 @@
             }
 
             if (!this.zooming) {
-                if (e.touches && e.touches.length >= 1) {
+                if(e.touches && e.touches.length >= 1) {
                     var e1 = e.targetTouches[0];
                     this.touchX = e1.clientX;
                     this.touchY = e1.clientY;
                 }
-                if (e.touches && e.touches.length >= 2) {
+                if(e.touches && e.touches.length >= 2) {
                     this.setupTouchCenter(e);
                 }
             }
         },
 
-        touchmove: function(e) {
-            e.preventDefault();
+        touchmove: function(e){
+            e.preventDefault(); 
             if (!this.zooming) {
                 //if(e.touches.length == 1) {
-                if (e.touches && e.touches.length == 1) {
+                if(e.touches && e.touches.length == 1) {
                     this.smoothPan(e);
                 }
-                if (e.touches && e.touches.length >= 2) {
+                if(e.touches && e.touches.length >= 2) {
                     this.setupTouchCenter(e);
                 }
             }
         },
-        animateSwipe: function(speedX, speedY) {
+        animateSwipe: function(speedX,speedY) {
             var tween = new OpenLayers.Tween(OpenLayers.Easing.Linear.easeOut);
             this.animationTween = tween;
 
@@ -118,14 +118,8 @@
                 if (speedY < -this.options.flickThreshold) speedY = -this.options.flickSpeed;
             }
 
-            var from = {
-                xDelta: this.options.inertiaDamping * speedX,
-                yDelta: this.options.inertiaDamping * speedY
-            };
-            var to = {
-                xDelta: 0,
-                yDelta: 0
-            };
+            var from = {xDelta: this.options.inertiaDamping * speedX, yDelta: this.options.inertiaDamping * speedY};
+            var to = {xDelta: 0, yDelta: 0};
 
             var duration = this.options.inertiaDuration;
 
@@ -134,8 +128,8 @@
             var callbacks = {
                 eachStep: function(value) {
                     var transform = iphoneControls.map.layerContainerDiv.style.webkitTransform;
-                    var dX = parseInt(transform.replace(/translate3d./, '').replace(/,.*/, ''));
-                    var dY = parseInt(transform.replace(/translate3d.*?,/, '').replace(/,0.*/, ''));
+                    var dX = parseInt(transform.replace(/translate3d./,'').replace(/,.*/,''));
+                    var dY = parseInt(transform.replace(/translate3d.*?,/,'').replace(/,0.*/,''));
 
                     if (isNaN(dX)) dX = 0;
                     if (isNaN(dY)) dY = 0;
@@ -148,8 +142,8 @@
 
                     iphoneControls.map.layerContainerDiv.style.webkitTransform = 'translate3d(' + dX + 'px,' + dY + 'px,0)';
 
-                    modX = dX % 20 - 20;
-                    modY = dY % 20 - 20;
+                    modX = dX% 20 - 20;
+                    modY = dY% 20 - 20;
                     if (iphoneControls.map.webkitBackground) {
                         iphoneControls.map.webkitBackground.style.webkitTransform = 'translate3d(' + modX + 'px,' + modY + 'px,0)';
                     }
@@ -159,44 +153,43 @@
                     iphoneControls.xSpeed = iphoneControls.ySpeed = 0;
                     iphoneControls.inertiaTween = null;
                 }
-            };
-            tween.start(from, to, duration, {
-                callbacks: callbacks
-            });
+            }
+            tween.start(from, to, duration, {callbacks: callbacks});
             this.inertiaTween = tween;
         },
-        touchend: function(e) {
-            e.preventDefault();
+        touchend: function(e){
+            e.preventDefault(); 
             if (!this.zooming) {
                 var handled = false;
 
-                if (this.options.enableInertia && (Math.abs(this.xSpeed) > this.options.minimumInertiaSpeed || Math.abs(this.ySpeed) > this.options.minimumInertiaSpeed)) {
-                    this.animateSwipe(-1.0 * this.xSpeed, -1.0 * this.ySpeed);
+                if ( this.options.enableInertia &&
+                    (Math.abs(this.xSpeed) > this.options.minimumInertiaSpeed || Math.abs(this.ySpeed) > this.options.minimumInertiaSpeed)) {
+                    this.animateSwipe(-1.0 * this.xSpeed,-1.0 * this.ySpeed);
                     handled = true;
                 }
 
                 if (!handled) {
-                    var now = new Date().getTime();
-                    var lastTouch = this.lastTouch || now + 1;
-                    var delta = now - lastTouch;
-                    if (delta < this.options.doubleTapZoomDelay && delta > 1) {
-                        var e1 = e.changedTouches[0];
-                        this.touchX = e1.clientX;
-                        this.touchY = e1.clientY;
-                        this.animateZoom(this.touchX, this.touchY);
-                    }
+                   var now = new Date().getTime();
+                   var lastTouch = this.lastTouch || now + 1;
+                   var delta = now - lastTouch;
+                   if(delta < this.options.doubleTapZoomDelay && delta > 1){
+                    var e1 = e.changedTouches[0];
+                    this.touchX = e1.clientX;
+                    this.touchY = e1.clientY;
+                        this.animateZoom(this.touchX,this.touchY);
+                   }
                 }
 
                 this.touchCenterX = this.touchCenterY = null;
 
-                this.lastTouch = now;
+               this.lastTouch = now;
             }
         },
-        zoomAndResetPan: function() {
-            this.map.zoomIn();
-            this.realPan();
+        zoomAndResetPan:function() {
+             this.map.zoomIn();
+             this.realPan();
         },
-        animateZoom: function(touchX, touchY) {
+        animateZoom: function(touchX,touchY) {
 
             var resolution = this.map.getResolution();
             var nextResolution = this.map.getResolutionForZoom(map.getZoom() + 1);
@@ -208,8 +201,8 @@
                 var yOffset = touchY;
 
                 if (!isNaN(this.panTotalX)) {
-                    xOffset += this.panTotalX;
-                    yOffset += this.panTotalY;
+                 xOffset += this.panTotalX;
+                 yOffset += this.panTotalY;
                 }
 
                 // adjust for the case where ios patch isn't being used to conver to full webkit style properties.
@@ -223,8 +216,9 @@
                 //this.options.animatedZoomTime = 3000;
                 // calculate how far away the gesture center is from the middle of the map (used to re-align after zoom)
                 var center = this.map.getCenter();
-                var mouse = this.map.getLonLatFromViewPortPx(new OpenLayers.Pixel(touchX, touchY));
-                var mouseToCenter = new OpenLayers.Pixel((mouse.lon - center.lon) / resolution, (mouse.lat - center.lat) / resolution);
+                var mouse = this.map.getLonLatFromViewPortPx(new OpenLayers.Pixel(touchX,touchY));
+                var mouseToCenter = new OpenLayers.Pixel((mouse.lon - center.lon) / resolution,
+                                                         (mouse.lat - center.lat) / resolution);
 
 
                 var zoomAmount = resolution / nextResolution;
@@ -233,44 +227,43 @@
                 this.map.layerContainerDiv.style['-webkit-transform-origin'] = '' + xOffset + 'px ' + yOffset + 'px 0';
 
                 if (this.options.supportsScale3d) {
-                    this.map.layerContainerDiv.style['-webkit-transform'] = 'scale3d(' + zoomAmount + ',' + zoomAmount + ',1)';
+                        this.map.layerContainerDiv.style['-webkit-transform'] = 'scale3d(' + zoomAmount + ',' + zoomAmount + ',1)';
                 } else {
                     this.map.layerContainerDiv.style['-webkit-transform'] = 'scale(' + zoomAmount + ')';
                 }
 
                 var iphoneControls = this;
-                setTimeout(function() {
+                setTimeout(function(){
                     // re-align the map based on the previously  calculated distance from center
-                    this.map.setCenter(new OpenLayers.LonLat(mouse.lon - (mouseToCenter.x * nextResolution), mouse.lat - (mouseToCenter.y * nextResolution)));
+                    this.map.setCenter(new OpenLayers.LonLat(mouse.lon - (mouseToCenter.x * nextResolution),
+                                          mouse.lat - (mouseToCenter.y * nextResolution)));
 
                     iphoneControls.zoomAndResetPan();
                     iphoneControls.dragging = false;
-                }, this.options.animatedZoomTime + 5);
+                },this.options.animatedZoomTime + 5);
 
             }
         },
 
-        realPan: function() {
-            var panDiv = this.map.layerContainerDiv;
+        realPan:function() {
+          var panDiv = this.map.layerContainerDiv;
 
-            this.map.layerContainerDiv.style['-webkit-transform-origin'] = '';
-            panDiv.style['-webkit-transition'] = '';
-            panDiv.style['-webkit-transform'] = '';
+          this.map.layerContainerDiv.style['-webkit-transform-origin'] = '';
+          panDiv.style['-webkit-transition'] = '';
+          panDiv.style['-webkit-transform'] = '';
 
-            this.map.pan(this.panTotalX, this.panTotalY, {
-                animate: false
-            });
-            this.panTotalX = this.panTotalY = 0;
+          this.map.pan(this.panTotalX,this.panTotalY, {animate:false});
+          this.panTotalX = this.panTotalY = 0;
         },
 
-        smoothPan: function(e) {
+        smoothPan:function(e) {
             if (this.dragging || this.zooming) {
-                return;
+             return;
             }
 
             var e1 = e.targetTouches[0];
             if (e1 == undefined) {
-                return;
+             return;
             }
 
             this.dragging = true;
@@ -296,9 +289,7 @@
             }
 
             var iphoneControls = this;
-            setTimeout(function() {
-                iphoneControls.dragging = false;
-            }, this.options.webkitTransitionSpeed + 5);
+            setTimeout(function(){iphoneControls.dragging = false;},this.options.webkitTransitionSpeed + 5);
         },
 
         gesturestart: function(e) {
@@ -309,7 +300,7 @@
 
             return false;
         },
-        gesturechange: function(e) {
+        gesturechange: function(e){
             e.preventDefault();
 
             // we lock the gesture center as early as possible then set to null once it's finished
@@ -319,7 +310,7 @@
                 this.gestureCenterX = this.touchCenterX;
                 this.gestureCenterY = this.touchCenterY;
 
-                var mouse = this.map.getLonLatFromViewPortPx(new OpenLayers.Pixel(this.gestureCenterX, this.gestureCenterY));
+                var mouse = this.map.getLonLatFromViewPortPx(new OpenLayers.Pixel(this.gestureCenterX,this.gestureCenterY));
 
                 this.zooming = true;
             }
@@ -346,7 +337,7 @@
 
             return false;
         },
-        gestureend: function(e) {
+        gestureend: function(e){
             e.preventDefault();
 
             // zoom (but don't do it twice quickly... we get multiple of these events in a row)
@@ -362,8 +353,9 @@
 
                 // calculate how far away the gesture center is from the middle of the map (used later to re-align after zoom)
                 var center = this.map.getCenter();
-                var mouse = this.map.getLonLatFromViewPortPx(new OpenLayers.Pixel(this.gestureCenterX, this.gestureCenterY));
-                var mouseToCenter = new OpenLayers.Pixel((mouse.lon - center.lon) / resolution, (mouse.lat - center.lat) / resolution);
+                var mouse = this.map.getLonLatFromViewPortPx(new OpenLayers.Pixel(this.gestureCenterX,this.gestureCenterY));
+                var mouseToCenter = new OpenLayers.Pixel((mouse.lon - center.lon) / resolution,
+                                                         (mouse.lat - center.lat) / resolution);
 
 
                 // zoom to the closest integer scale
@@ -371,15 +363,16 @@
 
                 // re-align the map based on the previously  calculated distance from center
                 var nextResolution = this.map.getResolution();
-                this.map.setCenter(new OpenLayers.LonLat(mouse.lon - (mouseToCenter.x * nextResolution), mouse.lat - (mouseToCenter.y * nextResolution)));
+                this.map.setCenter(new OpenLayers.LonLat(mouse.lon - (mouseToCenter.x * nextResolution),
+                                                      mouse.lat - (mouseToCenter.y * nextResolution)));
 
 
                 this.realPan();
 
                 var iphoneControls = this;
-                setTimeout(function() {
+                setTimeout(function(){
                     iphoneControls.zooming = false;
-                }, 20);
+                },20);
             }
 
             this.gestureCenterX = null;
@@ -387,72 +380,38 @@
             return false;
         },
 
-        /**
-         * APIMethod: draw
-         */
+       /**
+           * APIMethod: draw
+           */
         draw: function() {
-
             // note: we intentionally don't register these using openlayers as it does not have support for these events at this time.
             // note2: the with context pattern used here is important as it ensures the events are triggered with the correct context
             //           (the controls context rather than that of the mapdiv)
             var iphoneControls = this;
-
-            console.info("@@@@@:");
-            console.info(START_EV);
             // touch events
-            this.map.div.addEventListener(START_EV, function(e) {
-                with(iphoneControls) {
-                    return iphoneControls.touchstart(e);
-                }
-            }, false);
-            this.map.div.addEventListener(MOVE_EV, function(e) {
-                with(iphoneControls) {
-                    return iphoneControls.touchmove(e);
-                }
-            }, false);
-            this.map.div.addEventListener(END_EV, function(e) {
-                with(iphoneControls) {
-                    return iphoneControls.touchend(e);
-                }
-            }, false);
-
+            this.map.div.addEventListener(START_EV, function(e) { with(iphoneControls) { return iphoneControls.touchstart(e);} }, false);
+            this.map.div.addEventListener(MOVE_EV, function(e) { with(iphoneControls) { return iphoneControls.touchmove(e);} }, false);
+            this.map.div.addEventListener(END_EV, function(e) { with(iphoneControls) { return iphoneControls.touchend(e);} }, false);
             // multi touch events
-            this.map.div.addEventListener('gesturestart', function(e) {
-                with(iphoneControls) {
-                    return iphoneControls.gesturestart(e);
-                }
-            }, false);
-            this.map.div.addEventListener('gesturechange', function(e) {
-                with(iphoneControls) {
-                    return iphoneControls.gesturechange(e);
-                }
-            }, false);
-            this.map.div.addEventListener('gestureend', function(e) {
-                with(iphoneControls) {
-                    return iphoneControls.gestureend(e);
-                }
-            }, false);
-
-            this.map.resetPan = function() {
-                with(iphoneControls) {
-                    iphoneControls.realPan();
-                }
-            };
+            this.map.div.addEventListener('gesturestart', function(e) { with(iphoneControls) { return iphoneControls.gesturestart(e);} }, false);
+            this.map.div.addEventListener('gesturechange', function(e) { with(iphoneControls) { return iphoneControls.gesturechange(e);} }, false);
+            this.map.div.addEventListener('gestureend', function(e) { with(iphoneControls) { return iphoneControls.gestureend(e);} }, false);
+            this.map.resetPan = function(){with(iphoneControls){iphoneControls.realPan();}};
         },
 
         /**
-         * APIMethod: destroy
-         * Constructs contents of the control.
-         *
-         * Returns:
-         * A reference to a div that represents this control.
-         */
-        destroy: function() {
+           * APIMethod: destroy
+           * Constructs contents of the control.
+           *
+           * Returns:
+           * A reference to a div that represents this control.
+           */
+          destroy: function() {
 
-            if (this.handler) {
-                this.handler.destroy();
-            }
-            this.handler = null;
+              if (this.handler) {
+                  this.handler.destroy();
+              }
+              this.handler = null;
         },
         CLASS_NAME: "EMS.Control.IPhoneEvents"
-    });
+});

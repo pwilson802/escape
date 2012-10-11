@@ -15,7 +15,7 @@ Ext.define('escape.utils.AppFuncs', {
     },
     openProduct: function(productId, type) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            pageTitle: type,
+            pageTitle: type.toProperCase(),
             xtype: 'productPage',
             productId: productId,
             productType: type
@@ -31,6 +31,7 @@ Ext.define('escape.utils.AppFuncs', {
                 var linkParts = linksEndBreakdown[0].split('">');
                 var link = linkParts[0];
                 var linkText = linkParts[1];
+                var allowedLink = false;
                 if (link.indexOf('www.sydney.com') > 0 || link.indexOf('www.visitnsw.com') > 0) {
                     var pathBreakdown = link.split('/');
                     // the link is a product link
@@ -39,10 +40,21 @@ Ext.define('escape.utils.AppFuncs', {
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
-                    output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
-                } else {
+                     for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
+                        if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
+                            allowedLink = true;
+                            break;
+                        }
+                    }
+                    if (allowedLink){
+                         output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                    }
+                   
+                }
+                if (!allowedLink) {
                     // the link is an external link make sure it opens in a child browser
-                    output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openLink(' + link + ')">' + linkText + '</a>';
+                    //output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openLink(' + link + ')">' + linkText + '</a>';
+                    output += linkText;
                 }
                 // add the rest of the sentancetype
                 output += linksEndBreakdown[1];

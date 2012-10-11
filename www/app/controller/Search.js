@@ -189,21 +189,17 @@ Ext.define('escape.controller.Search', {
 
     },
     search: function() {
-        console.log('search');
         // add the results page
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'searchResultsPage'
         });
     },
     saveValues: function() {
-        console.log('saveValues');
         var values = this.getSearchForm().getValues();
         this.setSearchValues(values);
     },
     resultsOpened: function() {
-        console.log('resultsOpened');
         var values = this.getSearchValues();
-
         if (values.distance == -1) {
             this.defineSearch();
         } else {

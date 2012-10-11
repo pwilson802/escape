@@ -66,8 +66,8 @@ Ext.define('escape.controller.CurrencyConverter', {
         var currencyItems = [];
         for (var i = cm.currencys.length - 1; i >= 0; i--) {
             currencyItems.push({
-                cls: cm.currencys[i].toLowerCase(),
-                text: cm.currencys[i],
+                cls: cm.currencys[i].code.toLowerCase(),
+                text: cm.currencys[i].code+ ' ' +cm.currencys[i].name,
                 value: i
             });
         }
@@ -93,7 +93,7 @@ Ext.define('escape.controller.CurrencyConverter', {
     orgCurrencySelected: function(picker, value) {
         var cm = escape.model.Currency;
         selectedValue = picker.getValue()[null];
-        cm.setOrginalCurrency(cm.currencys[selectedValue]);
+        cm.setOrginalCurrency(cm.currencys[selectedValue].code);
         this.getCurrencyConverterPage().setItems({
             xtype: 'loadingDisplay'
         });
@@ -109,7 +109,7 @@ Ext.define('escape.controller.CurrencyConverter', {
     converstionCurrencySelected: function(picker, value, options) {
         var cm = escape.model.Currency;
         var selectedValue = picker.getValue()[null];
-        cm.setConvertedCurrency(cm.currencys[selectedValue]);
+        cm.setConvertedCurrency(cm.currencys[selectedValue].code);
         this.getCurrencyConverterPage().setItems({
             xtype: 'loadingDisplay'
         });

@@ -1,6 +1,6 @@
 Ext.define('escape.controller.ServicesAndFacilities', {
     extend: 'Ext.app.Controller',
-    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.model.POI'],
+    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.model.POI', 'escape.view.page.ServicesAndFacilitiesDetails'],
     config: {
         searchValues: null,
         resultsPage: 1,
@@ -17,6 +17,9 @@ Ext.define('escape.controller.ServicesAndFacilities', {
             'servicesAndFacilitiesPage': {
                 closeView: 'saveValues'
             },
+            'servicesAndFacilitiesPage list[action=selectKeyword]': {
+                select: 'selectKeyword'
+            },
             'servicesAndFacilitiesPage button[action=search]': {
                 tap: 'search'
             },
@@ -25,8 +28,32 @@ Ext.define('escape.controller.ServicesAndFacilities', {
             },
             'sevicesAndFacilitiesResultsPage segmentedbutton': {
                 toggle: 'toggleView'
+            },
+            'sevicesAndFacilitiesResultsPage button[action=loadMore]': {
+                tap: 'loadMore'
+            },
+            'sevicesAndFacilitiesResultsPage list': {
+                select: 'showDetails'
+            },
+            'sevicesAndFacilitiesResultsPage mapDisplay': {
+                markerSelected: 'markerSelected'
             }
         }
+    },
+    selectKeyword: function(list, record) {
+        this.getKeywordField().setValue(record.getData().keyword);
+    },
+    showDetails: function(list, record) {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'servicesAndFacilitiesDetails',
+            resultsData: record.getData()
+        });
+    },
+     markerSelected: function(data) {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'servicesAndFacilitiesDetails',
+            resultsData: data
+        });
     },
     saveValues: function() {
         // craete the results store
@@ -34,30 +61,30 @@ Ext.define('escape.controller.ServicesAndFacilities', {
             model: 'escape.model.POI'
         });
         this.setResultsStore(store);
+    },
+    // a language has been selected
+    search: function() {
         // save the for values
         var values = this.getSearchForm().getValues();
         this.setSearchValues(values);
-    },
-
-    // a language has been selected
-    search: function() {
         this.setListShowing(false);
         this.setResultsPage(1);
         // add the results page
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'sevicesAndFacilitiesResultsPage'
-        });
+        if (values.keyword !== '' && values.keyword !== null) {
+            escape.utils.AppVars.currentSection.getNavigationView().push({
+                xtype: 'sevicesAndFacilitiesResultsPage'
+            });
+        }
+
     },
     resultsOpened: function() {
         escape.model.ServicesAndFacilities.on('resultsLoaded', this.resultsLoaded, this);
-         console.log(this.getSearchValues());
-        console.log(this.getSearchValues().keyword);
-        if (this.getSearchValues().distance!=-1) {
-             this.getLocation();
+        if (this.getSearchValues().distance != -1) {
+            this.getLocation();
         } else {
-             this.performSearch(false);
+            this.performSearch(false);
         }
-        
+
     },
     getLocation: function() {
         var selfRef = this;
@@ -70,13 +97,24 @@ Ext.define('escape.controller.ServicesAndFacilities', {
             }
         });
     },
-    performSearch: function(geoLocation) {
-        escape.model.ServicesAndFacilities.search(this.getSearchValues().keyword,this.getSearchValues().distance,geoLocation);
+    loadMore: function() {
+        escape.model.ServicesAndFacilities.loadMore(this.getResultsPage());
+        // set the results to the next page
+        this.setResultsPage(this.getResultsPage() + 1);
     },
-    resultsLoaded: function(results) {
-        var moreResults = ((results.offset + results.results.length) < results.total) ? true : false;
+    performSearch: function(geoLocation) {
+        escape.model.ServicesAndFacilities.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+    },
+    resultsLoaded: function(data) {
+        var moreResults = ((data.offset + data.results.length) < data.total) ? true : false;
         this.getSevicesAndFacilitiesResultsPage().buildPage(moreResults);
-        this.getResultsStore().add(results.results);
+        var results = data.results;
+
+        var startIndex = this.getResultsStore().getData().items.length;
+        for (var i = 0; i < results.length; i++) {
+            results[i].resultNum = startIndex + (i + 1);
+        }
+        this.getResultsStore().add(results);
         if (this.getResultsPage() == 1) {
             // build the list page if the results have been return for the first time
             this.showListResults();
@@ -99,7 +137,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         if (!this.getListShowing()) {
             var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
             cardView.removeAll(true, true);
-            var itemTPL = '{name}';
+            var itemTPL = '<span>{resultNum}</span> {name}';
             var list = new Ext.List({
                 itemTpl: itemTPL,
                 store: this.getResultsStore(),
@@ -125,6 +163,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
                 data: marker
             });
         }
+
         var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
         cardView.removeAll(true, true);
 
@@ -138,7 +177,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
     },
 
     addResultsToTheMap: function() {
-        var resultsList = this.getResultsList();
+        var resultsList = this.getResultsStore().getData().items;
         for (var i = resultsList.length - 1; i >= 0; i--) {
             var marker = resultsList[i];
             this.getResultsMap().addMarker(marker.Latitude, marker.Longitude, marker);

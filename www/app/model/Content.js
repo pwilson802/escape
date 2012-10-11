@@ -10,7 +10,7 @@ Ext.define("escape.model.Content", {
             if (content.children.length > 0) {
                 for (var c = 0; c < content.children.length; c++) {
                     var childLink = content.children[c];
-                    if (childLink.Url.indexOf('must-do-links') != -1) {
+                    if (childLink.Url.indexOf('must-do-links') != -1 || childLink.Name.indexOf('Must Do Links') != -1) {
                         content.productLists.push({
                             name: 'Must Do',
                             url: childLink.Url,
@@ -55,7 +55,7 @@ Ext.define("escape.model.Content", {
         //
         var items = [];
         // create images
-        if (content.images.length > 1) {
+        if (content.images.length > 0) {
             var caroselImages = [];
             for (var i = 0; i < content.images.length; i++) {
                 caroselImages.push({
@@ -91,9 +91,17 @@ Ext.define("escape.model.Content", {
                 xtype: 'expandableInfo',
                 showBorder: false,
                 completeText: description,
-                showParagraphs: 3
+                showParagraphs: 3,
+                padding: '10px 0 0 0'
             });
         }
+        // add a place holder for must do
+        items.push({
+            itemId: 'mustDoPlaceHolder',
+            xtype: 'container',
+            padding: '0',
+            items: []
+        });
         // check to see if the page has child pages
         if (content.children.length > 0) {
             items.push({
