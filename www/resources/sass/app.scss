@@ -243,7 +243,7 @@ p {
 }
 
 .footer {
-	height:250px;
+	height:150px;
 	//background-color: $active-color;
 	background: url(../images/linen_bg.png);
 	.border {
@@ -253,7 +253,7 @@ p {
 	.logo {
 		background:url(../images/footer_logo.png) center center no-repeat;
 		width:100%;
-		height:219px;
+		height:120px;
 	}
 }
 
@@ -371,23 +371,29 @@ p {
 		background-position: 10px -46px;
 	}
 	.x-button.reset,
-	 {
-		color:#383837;
-		@include box-shadow(inset 0px 1px 1px 0px #908e8b,0px 1px 1px 0px #fff);
+	 {	
+	 	color: #474745; // text color
+	 	@include text-shadow(0 1px 0 rgba(255,255,255,.56)); // drop shadow
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background-color: #414851; // layer fill content
+		@include box-shadow(0 2px 0 rgba(255,255,255,.6), inset 0 1px 1px rgba(0,0,0,.32)); // drop shadow and inner shadow
+		@include background-image(linear-gradient(bottom, #afadaa 0%, #c7c5c3 100%)); // gradient overlay
 		border:none;
 	}
 	.x-button.x-button-pressed.reset,
 	.x-button.x-button-pressing.reset {
 	
-		background-color:$highlightLight;
-		@include text-shadow(1px 1px 0 #000);
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background-color: #414851; // layer fill content
+		@include box-shadow(0 2px 0 rgba(255,255,255,.6), inset 0 1px 1px rgba(0,0,0,.32)); // drop shadow and inner shadow
+		@include background-image(linear-gradient(bottom, #8c8a87 0%, #abaaa8 100%)); // gradient overlay
+		@include text-shadow(0 1px 0 rgba(255,255,255,.45)); // drop shadow
 		.x-button-label {
-			color:#fff;
+			color: #474745; // text color
 		}
 	}
 	.x-button.reset {
 		padding:10px;
-		background-color:#bcbbb7;
 	}
 	
 }
@@ -404,14 +410,12 @@ p {
 	color:#fff;
 	border:none;
 	height:42px;
-	/* HelveticaNeue-CondensedBold" */
+
 	.x-field-search {
 		background:$mediumGrey;
 		 @include border-radius(20px);
 		 
-		.x-field-input::before {
-			background: url('../images/icon_search_sml.png') no-repeat 8px 9px;
-		}
+		
 		
 		.x-component-outer {
 			-webkit-border-radius: 1em;
@@ -422,14 +426,20 @@ p {
 	.x-form-field {
 		//background:#fff;
 		//color:#fff;
-		
 	}
+	
 	.x-clear-icon {
 		background: url('../images/icon_clearfeild.png') no-repeat 8px 9px;
-	}
+	}	
 }
 
-
+.x-field-search .x-field-input::before {
+	background: url('../images/icon_search_sml.png') no-repeat 0px 0px;
+	width: 14px;
+	height: 15px;
+	-webkit-mask-image: none;
+}
+		
 
 // The slidemenu styles
 .x-slidenavigation-list {
@@ -1616,7 +1626,6 @@ p {
 	.x-button {
 		color:$lightGray;
 		background-color:#fff;
-		text-transform:uppercase;
 		font-size:12px;
 		padding:8px 0;
 		&.mapBtn {
@@ -1848,9 +1857,9 @@ x-floating {
 		}
 	}
 	.x-button.reset {
-		background:#fff;
+		//background:#fff;
 		.x-button-label {
-			color:$mediumGrey;
+			//color:$mediumGrey;
 		}
 	}
 }
@@ -2396,10 +2405,9 @@ x-floating {
 		.logo {
 			background-image:url(../images/footer_logo@2x.png);
 			-webkit-background-size: 158px 46px; 
-			
 		}
 	}
-
+	
 	.btnsHomeContainer {
 		.x-button {
 			&.weatherHome {
@@ -2866,7 +2874,15 @@ x-floating {
 		}
 	}
 	
+	.x-clear-icon {
+		background: url('../images/icon_clearfeild@2x.png') no-repeat 8px 9px;
+		-webkit-background-size: 19px 19px;
+	}
 	
+	.x-field-search .x-field-input::before {
+		background: url('../images/icon_search_sml@2x.png') no-repeat 0px 0px;
+		-webkit-background-size: 14px 15px;
+	}
 
 }
 
