@@ -1,4 +1,4 @@
-Ext.define("escape.model.ServicesAndFacilities", {
+Ext.define("escape.model.WhereIsPOI", {
     mixins: ['Ext.mixin.Observable'],
     singleton: true,
     query: null,

@@ -46,7 +46,7 @@ Ext.define('escape.controller.ProductSections', {
                 }
                 if (product.raw.Images) {
                     if (product.raw.Images.length > 0) {
-                        data.imagePath = product.raw.Images[0]['Full Size'];
+                        data.imagePath = escape.utils.Img.getResizeURL(product.raw.Images[0]['Full Size'],Ext.Viewport.getSize().width-20);
                     }
                 }
                 productListItem.setData(data);

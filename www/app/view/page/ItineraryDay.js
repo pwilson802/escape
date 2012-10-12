@@ -18,7 +18,7 @@ Ext.define("escape.view.page.ItineraryDay", {
     openView: function() {
         this.loadProducts();
     },
-    loadProducts: function(){
+    loadProducts: function() {
         var selfRef = this;
         // load items Itineraries from the database
         escape.model.Itineraries.getItineraryDay(this.getItineraryId(), this.getDayNum(), {
@@ -65,8 +65,8 @@ Ext.define("escape.view.page.ItineraryDay", {
                 sectionId: 'eventsSection'
             }]
         }];
-        this.removeAll(true,true);
-         this.removeCls('itineraryProducts');
+        this.removeAll(true, true);
+        this.removeCls('itineraryProducts');
         this.setItems(items);
         this.fireEvent('built');
     },
@@ -102,33 +102,8 @@ Ext.define("escape.view.page.ItineraryDay", {
             itemCls: 'draggableItem',
             scrollable: false,
             store: store
-        }, {
-            xtype: 'container',
-            docked: 'bottom',
-            cls: 'btnsArea',
-            padding: '10xp',
-            defaults: {
-                margin: '10px 0 0 0'
-            },
-            items: [{
-                xtype: 'button',
-                text: 'Map',
-                action: 'map',
-                cls: 'secondLevelBtn',
-                style: 'float:left'
-            },{
-                xtype: 'button',
-                text: 'Notes',
-                action: 'notes',
-                cls: 'secondLevelBtn',
-                style: 'float:right',
-                data: {
-                    itineraryId: this.getItineraryId(),
-                    dayNum: this.getDayNum()
-                }
-            }]
         }];
-        this.removeAll(true,true);
+        this.removeAll(true, true);
         this.setItems(items);
         this.fireEvent('built');
 
@@ -136,3 +111,29 @@ Ext.define("escape.view.page.ItineraryDay", {
     }
 });
 //action: 'changeSection',
+// , {
+//             xtype: 'container',
+//             docked: 'bottom',
+//             cls: 'btnsArea',
+//             padding: '10xp',
+//             defaults: {
+//                 margin: '10px 0 0 0'
+//             },
+//             items: [{
+//                 xtype: 'button',
+//                 text: 'Map',
+//                 action: 'map',
+//                 cls: 'secondLevelBtn',
+//                 style: 'float:left'
+//             },{
+//                 xtype: 'button',
+//                 text: 'Notes',
+//                 action: 'notes',
+//                 cls: 'secondLevelBtn',
+//                 style: 'float:right',
+//                 data: {
+//                     itineraryId: this.getItineraryId(),
+//                     dayNum: this.getDayNum()
+//                 }
+//             }]
+//         }

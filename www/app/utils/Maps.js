@@ -32,7 +32,6 @@ Ext.define('escape.utils.Maps', {
             var leg = route.legs[l];
             for (var i = leg.maneuvers.length - 1; i >= 0; i--) {
                 var step = leg.maneuvers[i];
-               
                 //var point = new OpenLayers.Geometry.Point(step.startPoint.lat, step.startPoint.lng);
                 var point = this.getPoint(step.startPoint.lat, step.startPoint.lng);
                 pointsList.push(point);
@@ -40,7 +39,6 @@ Ext.define('escape.utils.Maps', {
         }
         return pointsList;
     },
-
     // creates a route from the mapquest directions service
     createBingRoute: function(route) {
         var pointsList = [];
@@ -52,7 +50,6 @@ Ext.define('escape.utils.Maps', {
                 var point = this.getPoint(p[0], p[1]);
                 pointsList.push(point);
             }
-    
         return pointsList;
     }
 });

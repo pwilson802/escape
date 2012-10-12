@@ -45,5 +45,20 @@ Ext.define('escape.utils.Img', {
             imgScr = this.getImgPath(url, width, height);
         }
         return '<div class="imgContainer" style="background-image:url(' + imgScr + '); background-repeat:no-repeat; ' + this.getImgStyle(width, height) + ' width:' + width + 'px; height:' + height + 'px; "></div>';
+    },
+    // request an image at a particular width
+    getResizeURL: function(url, width) {
+        // make sure the image is from our server
+        if (url.indexOf(AppSettings.imageResizing.fromURL) != -1) {
+            var imagePath = url.split(AppSettings.imageResizing.fromURL)[1];
+            var ratio = 1;
+            if (window.devicePixelRatio) {
+                ratio = window.devicePixelRatio;
+            }
+            // scale the width to account for pixel density
+            var realWidth = width * ratio;
+            return AppSettings.imageResizing.resizeURL + imagePath+'?width='+realWidth;
+        }
+        return url;
     }
 });

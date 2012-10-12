@@ -23,6 +23,11 @@ AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;29
 // The smartphone cms section
 AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
+// Image resizing
+AppSettings.imageResizing =  {
+    resizeURL :'http://m.img.getconnected.dnsw.com.au/',
+    fromURL: "http://getconnected.dnsw.com.au/"
+};
 // FACEBOOK settings
 AppSettings.facebook = {
     clientId: "369207786488947",
@@ -36,6 +41,11 @@ AppSettings.facebook = {
     display: "touch",
     // LEAVE THIS
     token: "fbToken" // OUR TOKEN KEEPER
+};
+// SENSIS
+AppSettings.sensis = {
+    ApiKey: 'd396z769m8qgchnqk5ra44a8',
+    url: 'http://api.sensis.com.au/ob-20110511/prod/search'
 };
 // TWITTER settings
 AppSettings.twitter = {
@@ -52,19 +62,32 @@ AppSettings.getSMPSectionURL = function() {
 // Points of Interests
 AppSettings.pointsOfInterests = [{
     label: 'Hospitals',
-    keyword: 'Hospitals'
+    keyword: 'Hospitals',
+    sensis: false
 }, {
     label: 'Police',
-    keyword: 'Police'
+    keyword: 'Police',
+    sensis: false
+}, {
+    label: 'Service Stations',
+    keyword: 'toilet',
+    sensis: false
+}, {
+    label: 'Post Office',
+    keyword: 'toilet',
+    sensis: false
 }, {
     label: 'Beaches',
-    keyword: 'Beaches'
+    keyword: 'Beaches',
+    sensis: false
 }, {
     label: 'Lookouts',
-    keyword: 'Lookouts'
+    keyword: 'Lookouts',
+    sensis: false
 }, {
     label: 'Toilets',
-    keyword: 'toilet'
+    keyword: 'toilet',
+    sensis: false
 }];
 // Weather
 AppSettings.weatherStations = [{

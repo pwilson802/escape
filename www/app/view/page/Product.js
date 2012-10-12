@@ -252,7 +252,7 @@ Ext.define("escape.view.page.Product", {
             imageItems.push({
                 xtype: 'appImage',
                 height: 200,
-                imagePath: imageData['Full Size'],
+                imagePath: escape.utils.Img.getResizeURL(imageData['Full Size'],viewportSize.width),
                 altText: imageData['Alt']
             });
         }
@@ -270,6 +270,7 @@ Ext.define("escape.view.page.Product", {
             xtype: 'mapDisplay',
             lat: Number(product.Contact.Latitude),
             lon: Number(product.Contact.Longitude),
+            address: product.Contact.Address,
             interaction: false,
             markerAtCenter: true
         });

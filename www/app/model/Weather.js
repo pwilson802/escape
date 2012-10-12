@@ -161,8 +161,8 @@ Ext.define("escape.model.Weather", {
         return tempInDegrees;
     },
     // check to see if the weather needs to be loaded
-    getFullWeather: function(callback, scope) {
-       
+    getFullWeather: function(refresh, callback, scope) {
+
         var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
@@ -176,16 +176,15 @@ Ext.define("escape.model.Weather", {
                 scope: this
             });
         } else {
-
             // load the full weather
-            if (this.loadedDate === null) {
+            if (this.loadedDate === null || refresh) {
                 this.checkLocation(callback, scope);
             } else {
                 var dateNow = new Date();
                 var diff = dateNow - this.lastUpdatedDate;
                 console.log('!!! diff: ' + diff);
                 if (diff > this.reloadIn || this.forcatsByDay.length <= 1) {
-                     console.log('!!! reload full weather !!!');
+                    console.log('!!! reload full weather !!!');
                     // reload the current data is old or the fullweather has not been loaded
                     this.checkLocation(callback, scope);
 
@@ -197,9 +196,8 @@ Ext.define("escape.model.Weather", {
         }
 
     },
-
-
     checkLocation: function(callback, scope) {
+        console.log('checkLocation');
         var selfRef = this;
         if (this.getStationId() === 0) {
             Ext.device.Geolocation.getCurrentPosition({
@@ -217,6 +215,8 @@ Ext.define("escape.model.Weather", {
 
     // Loads the full weather including the forcasts
     loadWeather: function(lat, lon, callback, scope) {
+        console.log('loadWeather: ' + lat);
+        console.log('loadWeather: ' + lon);
         var selfRef = this;
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
@@ -283,7 +283,7 @@ Ext.define("escape.model.Weather", {
         } else {
             // load the brief weather
             if (this.loadedDate === null) {
-                this.checkLocation(true,callback, scope);
+                this.checkLocation(true, callback, scope);
             } else {
                 var dateNow = new Date();
                 var diff = dateNow - this.lastBriefUpdatedDate;
@@ -298,7 +298,7 @@ Ext.define("escape.model.Weather", {
         }
     },
 
-     checkBreifLocation: function(callback, scope) {
+    checkBreifLocation: function(callback, scope) {
         var selfRef = this;
         if (this.getStationId() === 0) {
             Ext.device.Geolocation.getCurrentPosition({

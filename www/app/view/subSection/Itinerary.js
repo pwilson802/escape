@@ -6,7 +6,7 @@ Ext.define("escape.view.subSection.Itinerary", {
         rightBtn: "editBtn",
         cardViewItemId: 1,
         itinerary: null,
-        layout:'vbox'
+        layout: 'vbox'
     },
     openView: function() {
         this.pageName = this.getItinerary().name;
@@ -16,27 +16,27 @@ Ext.define("escape.view.subSection.Itinerary", {
         var oneDay = 1000 * 60 * 60 * 24;
         var daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay));
 
-        var btns = [{
-            xtype: 'button',
-            action: 'back',
-            docked: 'left',
-            cls: 'backBtn'
-        }, {
-            xtype: 'button',
-            action: 'next',
-            docked: 'right',
-            cls: 'nextBtn'
-        }];
+        var btns = [];
 
-        if (daysDiff === 0) {
-            btns = [];
+        if (daysDiff !== 0) {
+            btns.push({
+                xtype: 'button',
+                action: 'back',
+                docked: 'left',
+                cls: 'backBtn'
+            }, {
+                xtype: 'button',
+                action: 'next',
+                docked: 'right',
+                cls: 'nextBtn'
+            });
         }
 
 
         items = [{
-            padding:'10px',
+            padding: '10px',
             xtype: 'toolbar',
-            tpl: '<h3>Day {dayNum} / {totalDays}  </h3><h4>{date}</h4>',
+            tpl: '<div class="info"><h3>Day {dayNum} / {totalDays}  </h3><h4>{date}</h4></div>',
             data: {
                 dayNum: 1,
                 totalDays: daysDiff + 1,
@@ -48,7 +48,7 @@ Ext.define("escape.view.subSection.Itinerary", {
         }, {
             xtype: 'container',
             layout: 'card',
-            flex:1,
+            flex: 1,
             cls: 'cardView',
 
 

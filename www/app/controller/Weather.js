@@ -21,7 +21,7 @@ Ext.define('escape.controller.Weather', {
             },
             'section button[cls="refreshBtn iconBtn"]': {
                 tap: 'showSearch'
-            },
+            }
         }
     },
     // a language has been selected
@@ -44,7 +44,7 @@ Ext.define('escape.controller.Weather', {
         console.log(newValue.getData().value);
         escape.model.Weather.setStationId(newValue.getData().value);
         try {
-            this.getWeatherPage().getTheWeather();
+            this.getWeatherPage().getTheWeather(true);
         } catch (e) {
 
         }

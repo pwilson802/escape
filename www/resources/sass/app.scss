@@ -1832,8 +1832,8 @@ x-floating {
 	.olMap {
 		border-bottom:2px solid #adafb2;
 	}
-	.bing-logo {
-		background:url(../images/bing_sm.png) no-repeat left bottom;
+	.map-provider-logo {
+		background:url(../images/whereis-footprint.png) no-repeat left bottom;
 		width:100px;
 		height:30px;
 		position:absolute;
@@ -1844,13 +1844,18 @@ x-floating {
 	}	
 
 }
-.directionsPage {
-	.bing-logo {
-		background:url(../images/bing_m1.png) no-repeat left bottom;
-	}
+
+.mapTerms {
+	background:url(../images/whereis-logo.gif) no-repeat center 20px;
 }
-.bingTerms {
-	background:url(../images/bing_m1.png) no-repeat 20px 20px;
+.mapAddress {
+	word-wrap: break-word;
+	overflow: visible;
+	white-space: normal !important;
+	background: url(../images/ico_map.png) no-repeat 10px 10px;
+	padding:10px 10px 10px 50px;
+	font-size:16px;
+	line-height:1.3em;
 }
 
 ///////////////////////

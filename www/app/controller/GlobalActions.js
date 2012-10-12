@@ -1,5 +1,5 @@
 Ext.define('escape.controller.GlobalActions', {
-    requires: ['escape.utils.AppVars', 'escape.view.page.Weather', 'escape.view.page.Search', 'escape.view.page.Directions'],
+    requires: ['escape.utils.AppVars', 'escape.view.page.Weather', 'escape.view.page.Search', 'escape.view.page.Directions','escape.view.page.MapTerms'],
     extend: 'Ext.app.Controller',
     config: {
         refs: {
@@ -23,7 +23,7 @@ Ext.define('escape.controller.GlobalActions', {
             'section button[action=getDirections]': {
                 tap: function(btn) {
                     console.log(btn);
-                    this.showDirections(btn.config.address,btn.config.latlon);
+                    this.showDirections(btn.config.address, btn.config.latlon);
                 }
             },
             'section button[action=makePhoneCall]': {
@@ -51,7 +51,7 @@ Ext.define('escape.controller.GlobalActions', {
                     var data = record.getData();
                     switch (data.action) {
                     case 'getDirections':
-                        this.showDirections(data.address,data.latlon);
+                        this.showDirections(data.address, data.latlon);
                         break;
                     case 'sendEmail':
                         this.sendEmail(data.data);
@@ -69,7 +69,6 @@ Ext.define('escape.controller.GlobalActions', {
                     list.deselectAll();
                 }
             },
-
             'weatherPage button[action=closeSearch]': {
                 tap: 'closeWeather'
             },
@@ -87,12 +86,34 @@ Ext.define('escape.controller.GlobalActions', {
             },
             'selectfield label': {
                 tap: 'showSelectFieldOptions'
+            },
+            'page button[action=openMapTerms]': {
+                tap: 'showMapTerms'
+            },
+            'servicesAndFacilitiesDetails mapDisplay': {
+                markerSelected: 'showLargeMap'
+            },
+            'productPage mapDisplay': {
+                markerSelected: 'showLargeMap'
             }
         }
+    },
+     showLargeMap: function(data) {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'mapPage',
+            latlon: data.latlon,
+            address: data.address
+        });
+        escape.utils.Tracking.trackEventOnCurrent(5);
     },
 
     showSelectFieldOptions: function() {
         console.log('showSelectFieldOptions');
+    },
+    showMapTerms: function() {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'mapTerms'
+        });
     },
     scrollTopTop: function() {
         var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
@@ -108,9 +129,10 @@ Ext.define('escape.controller.GlobalActions', {
             collectionType: collectionType
         });
     },
-    showDirections: function(address,latlon) {
+    showDirections: function(address, latlon) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage',
+            xtype: 'mapPage',
+            //xtype: 'directionsPage',
             address: address,
             latlon: latlon
         });

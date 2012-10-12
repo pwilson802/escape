@@ -5,7 +5,7 @@ Ext.define("escape.view.page.Weather", {
     translations: null,
     config: {
         cls: 'weatherPanel',
-        rightBtn:'refreshBtn',
+        rightBtn: 'refreshBtn',
         pageTitle: AppSettings.appAreaName + ' Weather',
         pageTypeId: 3,
         pageTrackingId: 3,
@@ -20,13 +20,13 @@ Ext.define("escape.view.page.Weather", {
         this.setNavTitle(this.getPageTitle());
 
     },
-    getTheWeather: function() {
+    getTheWeather: function(refresh) {
         this.setItems({
             xtype: 'loadingDisplay'
         });
         // check to see if the product is a favourite or not
         var selfRef = this;
-        escape.model.Weather.getFullWeather({
+        escape.model.Weather.getFullWeather(refresh,{
             success: function() {
                 selfRef.build();
             },
@@ -40,14 +40,14 @@ Ext.define("escape.view.page.Weather", {
     },
     // build the weather page
     build: function() {
-         // get the weather model
+        // get the weather model
         var wm = escape.model.Weather;
         var stationId = wm.getStationId();
         var initStationValue = -1;
         // build the weather locations
         var closesName = 'Closest';
-        if (stationId===0){
-            closesName+=' ('+ wm.weatherData.SiteName+')';
+        if (stationId === 0) {
+            closesName += ' (' + wm.weatherData.SiteName + ')';
         }
         var weatherOptions = [{
             value: 0,
@@ -63,10 +63,14 @@ Ext.define("escape.view.page.Weather", {
         var forcastItems = [];
 
         for (var f = 1; f < 8; f++) {
-            forcastItems.push({
-                itemId: 'forecast' + f,
-                html: this.buildDayWeather(f)
-            });
+            var dayData = this.buildDayWeather(f);
+            if (dayData) {
+                forcastItems.push({
+                    itemId: 'forecast' + f,
+                    html: dayData
+                });
+            }
+
         }
         var toggleValue = (wm.getIsDegrees()) ? 1 : 0;
         //
@@ -134,14 +138,17 @@ Ext.define("escape.view.page.Weather", {
         var weatherForcastContainer = weatherForcast.getComponent('weatherForcastContainer');
         for (var i = 1; i < 8; i++) {
             var day = weatherForcastContainer.getComponent('forecast' + i);
-            day.setHtml(this.buildDayWeather(i));
-            var dayData = wm.forcatsByDay[i];
-            imagaeName = 'we_ico_' + dayData.icon + '_med';
-            if (escape.utils.Img.retinaAvailable()) {
-                imagaeName = 'we_ico_' + dayData.icon + '_med@2x';
+            if (day) {
+                day.setHtml(this.buildDayWeather(i));
+                var dayData = wm.forcatsByDay[i];
+                imagaeName = 'we_ico_' + dayData.icon + '_med';
+                if (escape.utils.Img.retinaAvailable()) {
+                    imagaeName = 'we_ico_' + dayData.icon + '_med@2x';
+                }
+                // day.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+                day.addCls('icon_' + dayData.icon);
             }
-            // day.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
-            day.addCls('icon_' + dayData.icon);
+
         }
     },
     // build day weather
@@ -152,7 +159,9 @@ Ext.define("escape.view.page.Weather", {
         dayDate.setDate(wm.todaysDate.getDate() + dayId);
         var dayOfTheWeek = dayDate.getDay();
         var dayName = Ext.Date.dayNames[dayOfTheWeek];
-
+        if (day.high == 999 || day.low == 999) {
+            return false;
+        }
         //day.forecast
         var dayHTML = '<div class="dayinfo"><h2 class="day">' + dayName + '</h2><h2>' + wm.getIconName(day.icon) + '</h2></div><div class="details"><div class="extremes"><h3 class="high">' + wm.convertTempature(day.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(day.low) + '&deg;</h3></div>';
         return dayHTML;
@@ -167,20 +176,20 @@ Ext.define("escape.view.page.Weather", {
             todaysWeather += '<div class="extremes"><h3 class="high">' + wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
         }
         var forcastDetails = today.forecast;
-        if (forcastDetails.toLowerCase()==wm.getIconName(today.icon).toLowerCase()){
+        if (forcastDetails.toLowerCase() == wm.getIconName(today.icon).toLowerCase()) {
             forcastDetails = '';
         }
 
         todaysWeather += '<h2>' + wm.getIconName(today.icon) + '</h2><p>' + forcastDetails + '</p>';
-        if (wm.weatherData.RainFall!=-9999){
-             todaysWeather += '<h4 class="rain">'+wm.weatherData.RainFall+' mm</h4>';
+        if (wm.weatherData.RainFall != -9999) {
+            todaysWeather += '<h4 class="rain">' + wm.weatherData.RainFall + ' mm</h4>';
         }
-         if (wm.weatherData.WindSpeedmps!=-9999){
-            var windKm = wm.weatherData.WindSpeedmps*(3.6);
-              todaysWeather += '<h4 class="wind">'+windKm+ ' KM/H '+wm.weatherData.WindDirection+'</h4></div>';
+        if (wm.weatherData.WindSpeedmps != -9999) {
+            var windKm = wm.weatherData.WindSpeedmps * (3.6);
+            todaysWeather += '<h4 class="wind">' + windKm + ' KM/H ' + wm.weatherData.WindDirection + '</h4></div>';
         }
-       
-       
+
+
         return todaysWeather;
     }
 

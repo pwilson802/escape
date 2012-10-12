@@ -3,6 +3,17 @@ AppSettings = {};
 AppSettings.AppID = 2;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Sydney';
+// The Area of the app which is used for services and faclitices searches
+AppSettings.appAddress = {
+    state: 'nsw',
+    suburb: 'sydney'
+};
+AppSettings.bounds = {
+    "left": 150.55337081542,
+    "bottom": -36.119202120384,
+    "right": 151.80337081542,
+    "top": -35.494202120384
+};
 // The detinations to perform all funnel back serches within
 AppSettings.destinationWebpath = '/sydney/';
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
@@ -12,6 +23,11 @@ AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;29
 // The smartphone cms section
 AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
+// Image resizing
+AppSettings.imageResizing =  {
+    resizeURL :'http://m.img.getconnected.dnsw.com.au/',
+    fromURL: "http://getconnected.dnsw.com.au/"
+};
 // FACEBOOK settings
 AppSettings.facebook = {
     clientId: "369207786488947",
@@ -26,6 +42,11 @@ AppSettings.facebook = {
     // LEAVE THIS
     token: "fbToken" // OUR TOKEN KEEPER
 };
+// SENSIS
+AppSettings.sensis = {
+    ApiKey: 'd396z769m8qgchnqk5ra44a8',
+    url: 'http://api.sensis.com.au/ob-20110511/prod/search'
+};
 // TWITTER settings
 AppSettings.twitter = {
     consumerKey: 'z04Kkl1zVF3HilGKLre4w',
@@ -38,6 +59,36 @@ AppSettings.twitter = {
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };
+// Points of Interests
+AppSettings.pointsOfInterests = [{
+    label: 'Hospitals',
+    keyword: 'Hospitals',
+    sensis: false
+}, {
+    label: 'Police',
+    keyword: 'Police',
+    sensis: false
+}, {
+    label: 'Service Stations',
+    keyword: 'toilet',
+    sensis: false
+}, {
+    label: 'Post Office',
+    keyword: 'toilet',
+    sensis: false
+}, {
+    label: 'Beaches',
+    keyword: 'Beaches',
+    sensis: false
+}, {
+    label: 'Lookouts',
+    keyword: 'Lookouts',
+    sensis: false
+}, {
+    label: 'Toilets',
+    keyword: 'toilet',
+    sensis: false
+}];
 // Weather
 AppSettings.weatherStations = [{
     stationId: 517,
@@ -290,11 +341,11 @@ AppSettings.mainMenu = [{
         xtype: 'searchPage'
     }
 }, {
-    title: 'About Desination NSW',
+    title: 'About Destination NSW',
     group: 'Group 4',
     id: 'aboutDNSWSection',
     firstPage: {
-        title: 'About Desination NSW',
+        title: 'About Destination NSW',
         xtype: 'contentPage',
         contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
     }

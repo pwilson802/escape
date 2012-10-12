@@ -1,6 +1,6 @@
 Ext.define('escape.controller.ServicesAndFacilities', {
     extend: 'Ext.app.Controller',
-    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.model.POI', 'escape.view.page.ServicesAndFacilitiesDetails'],
+    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.model.POI', 'escape.model.WhereIsPOI', 'escape.view.page.ServicesAndFacilitiesDetails'],
     config: {
         searchValues: null,
         resultsPage: 1,
@@ -62,7 +62,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         });
         this.setResultsStore(store);
     },
-    // a language has been selected
+    // search selected
     search: function() {
         // save the for values
         var values = this.getSearchForm().getValues();
@@ -78,7 +78,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
 
     },
     resultsOpened: function() {
-        escape.model.ServicesAndFacilities.on('resultsLoaded', this.resultsLoaded, this);
+        escape.model.WhereIsPOI.on('resultsLoaded', this.resultsLoaded, this);
         if (this.getSearchValues().distance != -1) {
             this.getLocation();
         } else {
@@ -98,12 +98,12 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         });
     },
     loadMore: function() {
-        escape.model.ServicesAndFacilities.loadMore(this.getResultsPage());
+        escape.model.WhereIsPOI.loadMore(this.getResultsPage());
         // set the results to the next page
         this.setResultsPage(this.getResultsPage() + 1);
     },
     performSearch: function(geoLocation) {
-        escape.model.ServicesAndFacilities.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+        escape.model.WhereIsPOI.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
     },
     resultsLoaded: function(data) {
         var moreResults = ((data.offset + data.results.length) < data.total) ? true : false;

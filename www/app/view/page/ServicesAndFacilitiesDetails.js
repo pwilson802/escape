@@ -5,10 +5,10 @@ Ext.define("escape.view.page.ServicesAndFacilitiesDetails", {
     config: {
         resultsData: null,
         pageTitle: 'Services & Facilities',
-        title:'',
+        title: '',
         rightBtn: "hide",
-        pageTypeId:5,
-        pageTrackingId:3,
+        pageTypeId: 5,
+        pageTrackingId: 3,
         scrollable: {
             direction: 'vertical',
             directionLock: true
@@ -28,29 +28,29 @@ Ext.define("escape.view.page.ServicesAndFacilitiesDetails", {
         var data = this.getResultsData();
         contactList = [];
         var addressLines = [];
-        if (data.address.street.fullName){
-            addressLines.push(data.address.street.fullName+ '</br>');
+        if (data.address.street.fullName) {
+            addressLines.push(data.address.street.fullName + '</br>');
         }
-        if (data.address.suburb){
-            addressLines.push(data.address.suburb+ '</br>');
+        if (data.address.suburb) {
+            addressLines.push(data.address.suburb + '</br>');
         }
-        if (data.address.state){
-            addressLines.push(data.address.state+ ' ');
+        if (data.address.state) {
+            addressLines.push(data.address.state + ' ');
         }
-        if (data.address.postcode){
+        if (data.address.postcode) {
             addressLines.push(data.address.postcode);
         }
 
 
         contactList.push({
-                title: addressLines.join(''),
-                action: 'getDirections',
-                data: {
-                    latlon: [data.address.coordinates.latitude, data.address.coordinates.longitude],
-                    address: data.address.street.fullName + '</br>' +  data.address.suburb + '</br>' +  data.address.state + ' ' +  data.address.postcode
-                },
-                itemCls: 'directionsIcon'
-            });
+            title: addressLines.join(''),
+            action: 'getDirections',
+            data: {
+                latlon: [data.address.coordinates.latitude, data.address.coordinates.longitude],
+                address: data.address.street.fullName + '</br>' + data.address.suburb + '</br>' + data.address.state + ' ' + data.address.postcode
+            },
+            itemCls: 'directionsIcon'
+        });
 
 
         if (data.phoneNumber) {
@@ -84,9 +84,15 @@ Ext.define("escape.view.page.ServicesAndFacilitiesDetails", {
             xtype: 'mapDisplay',
             lat: Number(data.address.coordinates.latitude),
             lon: Number(data.address.coordinates.longitude),
+            address: {
+                Street: data.address.street.fullName,
+                Suburb: data.address.suburb,
+                State: data.address.state,
+                PostCode: data.address.postcode
+            },
             interaction: false,
             markerAtCenter: true
-        },{
+        }, {
             html: '<h2>' + data.name + '</h2>',
             margin: '10 10 10 10'
         }, {

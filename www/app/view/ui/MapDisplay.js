@@ -13,6 +13,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         zoomLevel: 12,
         lat: -33.873651,
         lon: 151.2068896,
+        address: null,
         markerAtCenter: false,
         interaction: true,
         zoomToBounds: true,
@@ -42,6 +43,16 @@ Ext.define("escape.view.ui.MapDisplay", {
             var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
             this.add({
                 html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"></div>'
+            });
+            // the map logo
+            this.add({
+                xtype: 'button',
+                cls: 'map-provider-logo',
+                action: 'openMapTerms',
+                bottom: 10,
+                left: 10,
+                width: 100,
+                zIndex: 1000
             });
             this.createWhereIsMap();
         }
@@ -75,7 +86,11 @@ Ext.define("escape.view.ui.MapDisplay", {
         }
 
         if (this.getMarkerAtCenter()) {
-            this.addMarker(this.getLat(), this.getLon());
+            var markerData = {
+                latlon: [this.getLat(), this.getLon()],
+                address: this.getAddress()
+            };
+            this.addMarker(this.getLat(), this.getLon(), markerData);
         }
 
         if (intialMarkers.length >= 1 && this.getZoomToBounds()) {
@@ -95,10 +110,9 @@ Ext.define("escape.view.ui.MapDisplay", {
                 });
                 console.log('touch started');
                 map.iphoneControls = iphoneControls;
-                 console.log('iphoneControls');
+                console.log('iphoneControls');
                 map.addControl(iphoneControls);
                 console.log('controls added');
-
             } else { //PC
                 console.log("!!! HAS NO NO TOUCH...");
                 map.addControl(new OpenLayers.Control.KeyboardDefaults());
@@ -124,6 +138,9 @@ Ext.define("escape.view.ui.MapDisplay", {
             var useIcon = true;
             try {
                 var d = data.iconText;
+                if (!d){
+                    useIcon = false;
+                }
             } catch (e) {
                 useIcon = false;
             }
