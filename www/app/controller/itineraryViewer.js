@@ -28,10 +28,16 @@ Ext.define('escape.controller.ItineraryViewer', {
             'itinerarySubSection itineraryDayPage sortableList': {
                 refresh: 'saveProductOrder'
             },
-            'itinerarySubSection itineraryDayPage button[action=notes]': {
+            'itinerarySubSection button[action=notes]': {
                 tap: 'showNotes'
             },
-            '#myItinerarySection ItineraryNotesPage button[action=save]': {
+            'itinerarySubSection button[action=list]': {
+                tap: 'showList'
+            },
+            'itinerarySubSection button[action=map]': {
+                tap: 'showMap'
+            },
+            '#myItinerarySection button[action=save]': {
                 tap: 'saveNotes'
             },
             'editItineraryProduct': {
@@ -157,28 +163,41 @@ Ext.define('escape.controller.ItineraryViewer', {
             });
         }
     },
-
+    showList : function(btn){
+        this.getItinerarySubSection().setViewType('list')
+        var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
+        dayPage.showList();
+    },
     showNotes: function(btn) {
-        var data = btn.getData();
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'ItineraryNotesPage',
-            itineraryId: data.itineraryId,
-            dayNum: data.dayNum
-        });
+        this.getItinerarySubSection().setViewType('notes')
+        var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
+        dayPage.loadNotes();
+        // escape.utils.AppVars.currentSection.getNavigationView().push({
+        //     xtype: 'ItineraryNotesPage',
+        //     itineraryId: dayPage.getItineraryId(),
+        //     dayNum: dayPage.getDayNum()
+        // });
+    
+    },
+    showMap : function(btn){
+        this.getItinerarySubSection().setViewType('map')
+        var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
+        dayPage.showMap();
     },
 
     saveNotes: function(btn) {
         var selfRef = this;
-        var notesPage = btn.parent.parent;
-        var itineraryId = notesPage.getItineraryId();
-        var dayNum = notesPage.getDayNum();
-        var notes = notesPage.getComponent('notesPage').getValue();
+        var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
+        //var notesPage = btn.parent.parent;
+        var itineraryId = dayPage.getItineraryId();
+        var dayNum = dayPage.getDayNum();
+        var notes = dayPage.getComponent('notesPage').getValue();
 
 
         escape.model.Itineraries.updateItineraryDayNotes(itineraryId, dayNum, notes, {
             success: function() {
                 selfRef.showMessage('Saved');
-                escape.utils.AppVars.currentSection.getNavigationView().pop();
+                //escape.utils.AppVars.currentSection.getNavigationView().pop();
             },
             error: function(error) {},
             scope: this
@@ -214,7 +233,7 @@ Ext.define('escape.controller.ItineraryViewer', {
     },
     nextDay: function(btn) {
         var itineraryToolbar = this.getItineraryToolbar();
-        var data = itineraryToolbar.getData();
+        var data = itineraryToolbar.getComponent('dayDisplay').getData();
         // set the day
         if (data.dayNum < data.totalDays) {
             data.dayNum++;
@@ -227,7 +246,7 @@ Ext.define('escape.controller.ItineraryViewer', {
     },
     previousDay: function(btn) {
         var itineraryToolbar = this.getItineraryToolbar();
-        var data = itineraryToolbar.getData();
+        var data = itineraryToolbar.getComponent('dayDisplay').getData();
         // set the day
         if (data.dayNum > 1) {
             data.dayNum--;
@@ -247,11 +266,12 @@ Ext.define('escape.controller.ItineraryViewer', {
         dayDate.setDate(dayDate.getDate() + (data.dayNum - 1));
         data.date = Ext.Date.format(dayDate, 'd/m/y');
         // set date data
-        itineraryToolbar.setData(data);
+        itineraryToolbar.getComponent('dayDisplay').setData(data);
         // add day
         var townPage = new escape.view.page.ItineraryDay({
             itineraryId: itinerayData.id,
-            dayNum: data.dayNum
+            dayNum: data.dayNum,
+            initViewType: sectionView.getViewType()
         });
         cardView.animateActiveItem(townPage, {
             duration: 350,

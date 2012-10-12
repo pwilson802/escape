@@ -6,7 +6,8 @@ Ext.define("escape.view.subSection.Itinerary", {
         rightBtn: "editBtn",
         cardViewItemId: 1,
         itinerary: null,
-        layout: 'vbox'
+        layout: 'vbox',
+        viewType:'list'
     },
     openView: function() {
         this.pageName = this.getItinerary().name;
@@ -19,32 +20,60 @@ Ext.define("escape.view.subSection.Itinerary", {
         var btns = [];
 
         if (daysDiff !== 0) {
-            btns.push({
-                xtype: 'button',
-                action: 'back',
-                docked: 'left',
-                cls: 'backBtn'
-            }, {
-                xtype: 'button',
-                action: 'next',
-                docked: 'right',
-                cls: 'nextBtn'
-            });
+            btns.push();
         }
 
 
         items = [{
-            padding: '10px',
+            padding: '10px 5px 10px 0px',
             xtype: 'toolbar',
-            tpl: '<div class="info"><h3>Day {dayNum} / {totalDays}  </h3><h4>{date}</h4></div>',
-            data: {
-                dayNum: 1,
-                totalDays: daysDiff + 1,
-                date: Ext.Date.format(startDate, 'd/m/y')
-            },
+            layout: 'hbox',
             docked: 'top',
             cls: 'pageNav itineraryDayToolbar',
-            items: btns
+            items: [{
+                width: 37,
+                xtype: 'button',
+                action: 'back',
+                cls: 'backBtn'
+            }, {
+                flex: 1,
+                xtype: 'container',
+                itemId: 'dayDisplay',
+                tpl: '<div class="info"><b>Day {dayNum} </b><br><span>{date}</span></div>',
+                data: {
+                    dayNum: 1,
+                    totalDays: daysDiff + 1,
+                    date: Ext.Date.format(startDate, 'd/m/y')
+                }
+            }, {
+                width: 37,
+                xtype: 'button',
+                action: 'next',
+                cls: 'nextBtn'
+            }, {
+                xtype: 'segmentedbutton',
+                layout: 'hbox',
+                width: 120,
+                allowMultiple: false,
+                allowDepress: false,
+                items: [{
+                    cls: 'listBtn',
+                    type: 'list',
+                    pressed: true,
+                    action: 'list',
+                    flex: 1
+                }, {
+                    cls: 'mapBtn',
+                    type: 'map',
+                    action: 'map',
+                    flex: 1
+                }, {
+                    cls: 'mapBtn',
+                    type: 'map',
+                    action: 'notes',
+                    flex: 1
+                }]
+            }]
         }, {
             xtype: 'container',
             layout: 'card',

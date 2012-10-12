@@ -299,18 +299,27 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     addProductToItineraries: function() {
+
+        console.log('addProductToItineraries');
         var selfRef = this;
         var productId = this.getAddToItineraryPage().getProductId();
         var productType = this.getAddToItineraryPage().getProductType();
         var productData = this.getAddToItineraryPage().getProductData();
         var productName = this.getAddToItineraryPage().getProductName();
+
+        console.log('productId: ' + productId);
+        console.log('productType: ' + productType);
+        console.log('productName: ' + productName);
+        console.log('productData: ' + productData);
         // get form data
         var values = this.getAddToItineraryForm().getValues();
+        console.log(values);
         var addToItineraries = {};
         for (var key in values) {
             var breakdown = key.split('-');
             var type = breakdown[0];
             var itineraryId = Number(breakdown[1]);
+            console.log('itineraryId: ' + itineraryId);
             if (!addToItineraries['add-' + itineraryId]) {
                 addToItineraries['add-' + itineraryId] = {
                     id: itineraryId,
@@ -325,8 +334,11 @@ Ext.define('escape.controller.Itinerarys', {
             xtype: 'loadingDisplay'
         });
         // add product into itineraries
+        console.log('addToItineraries');
+        console.log(addToItineraries);
         for (var row in addToItineraries) {
             var itineraryValues = addToItineraries[row];
+            console.log(itineraryValues);
             if (itineraryValues.add) {
                 escape.model.Itineraries.addProduct(itineraryValues.id, itineraryValues.day, productId, productType, productName, productData, {
                     success: function() {

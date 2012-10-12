@@ -6,7 +6,9 @@ Ext.define("escape.view.page.ItineraryDay", {
         title: '',
         itineraryId: null,
         dayNum: 1,
-        padding: '10px 0',
+        padding: '0',
+        products: [],
+        initViewType: 'list',
         items: [{
             xtype: 'loadingDisplay'
         }],
@@ -24,20 +26,52 @@ Ext.define("escape.view.page.ItineraryDay", {
         escape.model.Itineraries.getItineraryDay(this.getItineraryId(), this.getDayNum(), {
             success: function(products) {
                 if (products.length > 0) {
-                    selfRef.buildPage(products);
+                    selfRef.setProducts(products);
+                    selfRef.showInitView();
+
                     // you have itineraies build the list
                 } else {
                     // error you have no product
-                    selfRef.showEmptyDay();
+                    selfRef.setProducts([]);
+                    selfRef.showInitView();
                 }
             },
             error: function(error) {
+                selfRef.setProducts([]);
                 // error show the create button
-                selfRef.showEmptyDay();
+                selfRef.showInitView();
             },
             scope: this
         });
     },
+
+    showInitView: function() {
+        console.log('showInitView');
+        console.log(this.getInitViewType());
+        switch (this.getInitViewType()) {
+        case 'list':
+            this.showList();
+            break;
+        case 'map':
+            this.showMap();
+            break;
+        case 'notes':
+            this.loadNotes();
+            break;
+        }
+    },
+
+    showList: function() {
+        console.log('showList')
+        var products = this.getProducts();
+        if (products.length == 0) {
+            this.showEmptyDay();
+        } else {
+            this.buildPage(products);
+        }
+    },
+
+
 
     showEmptyDay: function() {
         items = [{
@@ -70,6 +104,31 @@ Ext.define("escape.view.page.ItineraryDay", {
         this.setItems(items);
         this.fireEvent('built');
     },
+
+    showMap: function() {
+        var products = this.getProducts();
+        console.log(products);
+        var intialMarkers = [];
+        for (var i = 0; i < products.length; i++) {
+            var product = products.item(i);
+            console.log(product);
+            var productData = JSON.parse(product.data);
+            productData.iconText = i + 1;
+            intialMarkers.push({
+                lat: productData.Contact.Latitude,
+                lon: productData.Contact.Longitude,
+                data: productData
+            });
+        }
+        console.log('showMap');
+        var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
+            height: Ext.Viewport.getSize().height - 103,
+            interaction: true,
+            intialMarkers: intialMarkers
+        });
+        this.setItems(mapDisplay);
+    },
+
     buildPage: function(products) {
         var data = [];
         for (var i = 0; i < products.length; i++) {
@@ -108,6 +167,46 @@ Ext.define("escape.view.page.ItineraryDay", {
         this.fireEvent('built');
 
         this.addCls('itineraryProducts');
+    },
+    loadNotes: function() {
+        var selfRef = this;
+        console.log('this.getItineraryId(): ' + this.getItineraryId());
+        console.log('this.getDayNum(): ' + this.getDayNum());
+        escape.model.Itineraries.getItineraryDayNotes(this.getItineraryId(), this.getDayNum(), {
+            success: function(itineraryDay) {
+                selfRef.buildNotes(itineraryDay.item(0).notes);
+            },
+            error: function(error) {},
+            scope: this
+        });
+
+    },
+    buildNotes: function(notes) {
+        this.setItems([{
+            html: '<h2>Notes</h2>',
+            padding:'0 10px'
+        }, {
+            xtype: 'textareafield',
+            maxRows: 10,
+            name: 'notes',
+            itemId: 'notesPage',
+            value: notes,
+            margin: '10px'
+        }, {
+            xtype: 'container',
+            docked: 'bottom',
+            cls: 'btnsArea',
+            padding: '10px',
+            defaults: {
+                margin: '10px 0 0 0'
+            },
+            items: [{
+                xtype: 'button',
+                text: 'Save',
+                action: 'save',
+                cls: 'search'
+            }]
+        }]);
     }
 });
 //action: 'changeSection',

@@ -60,13 +60,15 @@ Ext.define("escape.view.page.AddToItinerary", {
                     var oneDay = 1000 * 60 * 60 * 24;
                     var daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay));
 
-                    if (daysDiff > 1) {
+                    console.log('daysDiff: ' + daysDiff);
+
+                    if (daysDiff > 0) {
                         itineraryOptions.push({
                             label: 'Day',
                             xtype: 'spinnerfield',
                             increment: 1,
                             minValue: 1,
-                            maxValue: daysDiff,
+                            maxValue: daysDiff+1,
                             name: 'day-' + itinerary.id
                         });
                     }

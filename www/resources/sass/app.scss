@@ -571,45 +571,72 @@ p {
 }
 
 .x-toolbar.itineraryDayToolbar {
-	h3 {
-		font-size:25px;
-		color:#ffffff;
-	}
-	h4 {
-		font-size:15px;
-		color: #959799;
+	.info {
 		text-align:center;
-		font-style:normal;
+		@include border-radius(16px); // border radius
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background-color: #252931; // layer fill content
+		@include box-shadow(inset 0 8px 8px rgba(0,0,0,.43)); // inner shadow
+		padding:4px;
+		line-height:1;
+		b {
+			font-size:14px;
+			color:#ffffff;
+			display: inline-block;
+		}
+		span {
+			font-size:11px;
+			color: #959799;
+			text-align:center;
+			font-style:normal;
+			display: inline-block;
+		}
 	}
+	
 	
 }
 .x-toolbar.pageNav {
 	background-color:$mediumGrey;
 	color:#fff;
-	height:72px;
+	height:60px;
 	.x-title {
 		text-transform:none;
 		color:#fff;
 
 	}
-	.x-button {
-		width: 45px;
+	.x-button.nextBtn,
+	.x-button.backBtn {
+		width: 37px;
 		background-color:$mediumGrey;
 		border: none !important;
 		background-image:url(../images/btn_arrow_area_next.png);
 		background-repeat: no-repeat;
-		background-position:10px 30px;
+		background-position:10px 12px;
 	}
 	.x-button.backBtn {
 		background-image:url(../images/btn_arrow_area_prev.png);
 	}
-	.x-button.x-button-pressed,
-	.x-button.x-button-pressing {
+	.x-button.x-button-pressed.nextBtn,
+	.x-button.x-button-pressing.nextBtn {
 		background-image:url(../images/btn_arrow_area_next_o.png);
 	}
 	.x-button.x-button-pressed.backBtn,
 	.x-button.x-button-pressing.backBtn {
 		background-image:url(../images/btn_arrow_area_prev_o.png);
+	}
+	.x-segmentedbutton .x-segmentedbutton-inner {
+		background:transparent;
+		padding:0;
+	}
+	.x-segmentedbutton {
+		background:#323840 !important;
+	}
+	.x-segmentedbutton .x-button.listBtn,
+	.x-segmentedbutton .x-button {
+		height:38px !important;
+	}
+	.x-button .x-button-pressed {
+		background-color: #323840 !important;
 	}
 }
 
@@ -1617,13 +1644,15 @@ p {
 
 	.x-button-pressing {
 		@include box-shadow(inset 0px 4px 12px 1px #1c2023);
-		background-color:$mediumGrey;
+		background-color:$mediumGrey !important;
 		color:#fff;
+		border:none !important;
 	}
 	.x-button-pressed {
 		@include box-shadow(inset 0px 3px 8px 1px #1c2023);
-		background-color:$mediumGrey;
+		background-color:$mediumGrey !important;
 		color:#fff;
+		border:none !important;
 	}
 }
 
