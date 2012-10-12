@@ -562,7 +562,7 @@ p {
 	height:44px;
 	background-color: #fff;
 	.x-title {
-		font-family: "HelveticaNeue-CondensedBold";
+		font-family: "HelveticaNeue-Bold";
 		text-transform:uppercase;
 		color:$highlightDark;
 		font-size:17px;
@@ -573,7 +573,7 @@ p {
 	}
 	h3 {
 		text-align:center;
-		font-family: "HelveticaNeue-CondensedBold";
+		font-family: "HelveticaNeue-Bold";
 		font-size:18px;
 		margin: 0;
 	}
@@ -605,6 +605,7 @@ p {
 	
 	
 }
+
 .x-toolbar.pageNav {
 	background-color:$mediumGrey;
 	color:#fff;
@@ -612,7 +613,6 @@ p {
 	.x-title {
 		text-transform:none;
 		color:#fff;
-
 	}
 	.x-button.nextBtn,
 	.x-button.backBtn {
@@ -634,6 +634,7 @@ p {
 	.x-button.x-button-pressing.backBtn {
 		background-image:url(../images/btn_arrow_area_prev_o.png);
 	}
+	
 	.x-segmentedbutton .x-segmentedbutton-inner {
 		background:transparent;
 		padding:0;
@@ -1040,12 +1041,12 @@ p {
 		h3 {
 			margin : 25px 0 0 0px;
 			padding:8px 0 0 0;
-			font-size:18px;
+			font-size:16px;
 			color:#323840;
-			font-family:"HelveticaNeue-CondensedBold";
+			font-family:"HelveticaNeue-Bold";
 		}
 		h4 {
-			margin : -5px 0 5px 0;
+			margin : -9px 0 5px 0;
 			padding:0;
 			color:#466b77;
 			font-size:12px;
@@ -1355,7 +1356,7 @@ p {
 		&.weatherHome {
 			background-repeat: no-repeat;
 			background-position:15px 15px;
-			font-family: "HelveticaNeue-CondensedBold";
+			font-family: "HelveticaNeue-Bold";
 			h2 {
 				font-size:25px;
 				
@@ -1618,32 +1619,39 @@ p {
 }
 
 .x-segmentedbutton {
+	
 	background: url(../images/linen_bg.png);
+	
 	.x-segmentedbutton-inner {
 		padding:7px 14px; 
 		background: url(../images/linen_bg.png);
 	}
+	
 	.x-button {
 		color:$lightGray;
 		background-color:#fff;
 		font-size:12px;
 		padding:8px 0;
+		
 		&.mapBtn {
 			background-image:url(../images/segmentedControl_map.png);
 			background-repeat: no-repeat;
 			background-position: center -60px;
 			height:30px;
 		}
+		
 		&.listBtn {
 			background-image:url(../images/segmentedControl_list.png);
 			background-repeat: no-repeat;
 			background-position: center -62px;
 			height:30px;
 		}
+		
 		&.x-button-pressed.listBtn,
 		&.x-button-pressing.listBtn {
 			background-position: center 9px;
 		}
+		
 		&.x-button-pressed.mapBtn,
 		&.x-button-pressing.mapBtn {
 			background-position: center 5px;
@@ -1655,13 +1663,13 @@ p {
 		@include box-shadow(inset 0px 4px 12px 1px #1c2023);
 		background-color:$mediumGrey !important;
 		color:#fff;
-		border:none !important;
+		//border:none !important;
 	}
 	.x-button-pressed {
 		@include box-shadow(inset 0px 3px 8px 1px #1c2023);
 		background-color:$mediumGrey !important;
 		color:#fff;
-		border:none !important;
+		//border:none !important;
 	}
 }
 
