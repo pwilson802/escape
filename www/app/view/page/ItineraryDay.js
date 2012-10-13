@@ -149,7 +149,7 @@ Ext.define("escape.view.page.ItineraryDay", {
         items = [{
             xtype: 'sortableList',
             margin: '10 10 10 10',
-            itemTpl: '<div class="labels"><h3>{name}</h3><h4>{suburb}</h4><div>',
+            itemTpl: '<div class="icon {type}"></div><div class="labels"><h3>{name}</h3><h4>{suburb}</h4><div>',
             cls: 'itineraryList',
             action: 'product',
             onItemDisclosure: true,

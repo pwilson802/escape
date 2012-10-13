@@ -31,7 +31,7 @@ Ext.define('escape.utils.AppVars', {
         matrix: 'tour'
     }, {
         name: 'Visitor Centre',
-        funnelback: 'centres',
+        funnelback: 'vic',
         matrix: 'vic'
     }]
 });

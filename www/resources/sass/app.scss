@@ -1118,6 +1118,16 @@ p {
 // ITINERARY
 ///////////////////////
 
+#myFavouritesSection {
+	.x-layout-card-item {
+		background: #dfdfdf url('../images/pattern_favs.png');
+		
+	}
+	.x-scroll-scroller {
+		background: #dfdfdf url('../images/pattern_favs.png');
+	}
+}
+
 #myItinerarySection {
 	.x-layout-card-item {
 		background: #cbbdab url('../images/pattern_sand.png');
@@ -1167,10 +1177,10 @@ p {
 	font-size: 16px;
 	text-align:center;
 }
-	
+
 .favouritesList,
 .itineraryList {
-	background: #cbbdab url('../images/pattern_sand.png');
+	background-color:transparent;
 	.x-list-item {
 		margin: 0 0 10px 0;
 		
@@ -1188,18 +1198,46 @@ p {
 
 	}
 	.x-list-item-label {
-		padding: 10px 30px 10px 70px !important;
+		padding: 10px 30px 10px 0px !important;
 		height:80px;
-		background-image:url('../images/ico_accommodation@2x.png') !important;
-		-webkit-background-size: 54px 54px;
-		background-repeat:no-repeat;
-		background-position:  10px center;
+		
+		
 		@include border-radius(10px); // border radius
 		@include background-clip(); // prevents bg color from leaking outside the border
 		background-color: #fff; // layer fill content
 		@include box-shadow(0 2px 2px rgba(0,0,0,.4)); // drop shadow
 		//@include background-image(linear-gradient(bottom, #e7e4df 0%, #fff 100%)); // gradient overlay
-		
+		@include background-image(linear-gradient(bottom, #f7f5f1 0%, #fff 100%)); // gradient overlay
+		.icon {
+			width:70px;
+			height:60px;
+			float:left;
+			-webkit-background-size: 54px 54px;
+			background-repeat:no-repeat;
+			background-position:  5px center;
+			&.accommodation {
+				background-image:url('../images/ico_accommodation@2x.png') !important;
+			}
+			&.hire {
+					background-image:url('../images/ico_hire@2x.png') !important;
+			}
+			&.vic {
+					background-image:url('../images/ico_vic@2x.png') !important;
+			}
+			&.tour {
+					background-image:url('../images/ico_tour@2x.png') !important;
+			}
+			&.restaurant {
+					background-image:url('../images/ico_restaurant@2x.png') !important;
+			}	
+			&.attraction {
+					background-image:url('../images/ico_attraction@2x.png') !important;
+			}
+			&.event {
+					background-image:url('../images/ico_event@2x.png') !important;
+			}
+		}
+
 		.labels {
 			margin:15px 0 0 0;
 			h3 {
@@ -1218,6 +1256,7 @@ p {
 			background:url('../images/icon_drag.png') center center no-repeat !important;
 		}
 	}
+	
 	.x-list .x-item-selected .x-list-disclosure {
 		background-color:transparent;;
 		-webkit-mask:none;
@@ -3026,6 +3065,30 @@ x-floating {
 	.x-field-search .x-field-input::before {
 		background: url('../images/icon_search_sml@2x.png') no-repeat 0px 0px;
 		-webkit-background-size: 14px 15px;
+	}
+
+	#myFavouritesSection {
+		.x-layout-card-item {
+			background: #dfdfdf url('../images/pattern_favs@2x.png');
+			-webkit-background-size: 150px 150px;
+			
+		}
+		.x-scroll-scroller {
+			background: #dfdfdf url('../images/pattern_favs@2x.png');
+			-webkit-background-size: 150px 150px;
+		}
+	}
+
+	#myItinerarySection {
+		.x-layout-card-item {
+			background: #cbbdab url('../images/pattern_sand@2x.png');
+			-webkit-background-size: 150px 150px;
+			
+		}
+		.x-scroll-scroller {
+			background: #cbbdab url('../images/pattern_sand@2x.png');
+			-webkit-background-size: 150px 150px;
+		}
 	}
 
 }

@@ -226,7 +226,10 @@ Ext.define('escape.controller.Search', {
         };
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
-        if (collectionType === 'deals') {
+        if (collectionType === 'restaurants') {
+            params.collection = 'restaurants'; //'prototype-dnsw-' +
+            params.form = 'mobile-restaurant-json';
+        } else  if (collectionType === 'deals') {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
             params.meta_C_not = 'dest';
@@ -356,8 +359,8 @@ Ext.define('escape.controller.Search', {
             var cardView = this.getSearchResultsPage().getItems().items[1];
             cardView.removeAll(true, true);
             var collectionType = this.getSearchPage().getCollectionType();
-            var itemTPL = (collectionType == 'event' || collectionType == 'tour' || collectionType == 'deals' || collectionType === null) ? '{Title}' : '{Name}';
-            var list = new Ext.List({
+            var itemTPL = (collectionType == 'restaurants' ||collectionType == 'event' || collectionType == 'tour' || collectionType == 'deals' || collectionType === null) ? '{Title}' : '{Name}';
+           var list = new Ext.List({
                 itemTpl: itemTPL,
                 store: this.getResultsStore(),
                 flex: 1
@@ -410,6 +413,7 @@ Ext.define('escape.controller.Search', {
 
     showProduct: function(data) {
         var funnelbackCollection = this.getSearchPage().getCollectionType();
+        console.log('funnelbackCollection: ' + funnelbackCollection);
         if (!funnelbackCollection || funnelbackCollection == 'deals') {
             funnelbackCollection = data.Product_Type;
         }

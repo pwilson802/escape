@@ -36,11 +36,7 @@ Ext.define('escape.controller.ProductSections', {
         escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
-                var data = {
-                    name: productListItem.getData().name,
-                    suburb: '-',
-                    imagePath: ''
-                };
+                var data = productListItem.getData();
                 if (product.raw.Contact.Address.Suburb) {
                     data.suburb = product.raw.Contact.Address.Suburb;
                 }
@@ -128,7 +124,6 @@ Ext.define('escape.controller.ProductSections', {
 
         productSubSection.setItems(items);
         productSubSection.setCardView(productSubSection.getItems().items[productSubSection.getCardViewItemId()]);
-        console.log(productSubSection.getCardView());
     },
     switchType: function(container, btn, pressed) {
         this.setCurrentSection(btn.config.type);
@@ -180,6 +175,7 @@ Ext.define('escape.controller.ProductSections', {
                     var urlBreakdown = link.split('/');
                     var type = urlBreakdown[urlBreakdown.length - 2];
                     var productId = urlBreakdown[urlBreakdown.length - 1];
+                    console.log('productId: ' + productId);
 
                     if (type == 'attractions') {
                         type = 'attraction';
@@ -265,8 +261,9 @@ Ext.define('escape.controller.ProductSections', {
     },
     openProductListItem: function(openProductListItem) {
         var data = openProductListItem.getData();
+        
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            pageTitle: data.type,
+            pageTitle: String(data.type).toProperCase(),
             xtype: 'productPage',
             productId: data.productId,
             productType: data.type

@@ -68,14 +68,15 @@ Ext.define('escape.controller.MyFavourites', {
                     lat: productData.Contact.Latitude,
                     lon: productData.Contact.Longitude,
                     data: productData,
-                    suburb: productData.Contact.Address.Suburb
+                    suburb: productData.Contact.Address.Suburb,
+                    type: product.type
                 });
             }
 
             console.log(items);
 
             var list = new Ext.List({
-                itemTpl: '<div class="labels"><h3>{title}</h3><h4>{suburb}</h4><div>',
+                itemTpl: '<div class="icon {type}"></div><div class="labels"><h3>{title}</h3><h4>{suburb}</h4><div>',
                 cls: 'favouritesList',
                 data: items,
                 onItemDisclosure: true,
