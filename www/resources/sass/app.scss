@@ -101,10 +101,6 @@ p {
 	background-repeat: no-repeat;
 	width:118px;
 	height:118px;
-	top:40px;
-	left:15px;
-	position:absolute;
-	z-index:10;
 }
 .loadError,
 .loadingDisplay {
@@ -336,7 +332,7 @@ p {
 	
 	.favoritesBtnLarge {
 		float:left;
-		background-image: url(../images/ico_add_favs.png);
+		background-image: url(../images/ico_add_favs.png) !important;
 		background-position: 15px 10px;
 		background-repeat: no-repeat;
 		.x-button-label {
@@ -350,11 +346,11 @@ p {
 	}
 	.x-button.x-button-pressed.favoritesBtnLarge,
 	.x-button.x-button-pressing.favoritesBtnLarge {
-		background-position: 20px -46px;
+		//background-position: 20px -46px;
 	}
 	.itinerayBtnLarge {
 		float:right;
-		background-image: url(../images/ico_add_itinerary.png);
+		background-image: url(../images/ico_add_itinerary.png) !important;
 		background-position: 10px 10px;
 		background-repeat: no-repeat;	
 		.x-button-label {
@@ -368,7 +364,7 @@ p {
 	}
 	.x-button.x-button-pressed.itinerayBtnLarge,
 	.x-button.x-button-pressing.itinerayBtnLarge {
-		background-position: 10px -46px;
+		//background-position: 10px -46px;
 	}
 	.x-button.reset,
 	 {	
@@ -496,6 +492,20 @@ p {
 .itinerariesList {
 	.x-list-item {
 		margin:0 0 10px 0;
+	}
+
+
+	.x-list-disclosure {
+		top:0;
+		right:0;
+		width:50px;
+		height:50px;
+		background-color:transparent;;
+		-webkit-mask:none;
+		background-image:url('../images/itinerary_item_edit.png');
+		background-repeat:no-repeat;
+		background-position: right top;
+
 	}
 
 	.x-list-item-label {
@@ -641,6 +651,17 @@ p {
 	}
 	.x-segmentedbutton {
 		background:#323840 !important;
+		border:none !important;
+
+		.x-button {
+			border:none !important;
+			&.listBtn {
+				background-position: center -58px !important;
+			}
+			&.mapBtn {
+				background-position: center -56px !important;
+			}
+		}
 	}
 	.x-segmentedbutton .x-button.listBtn,
 	.x-segmentedbutton .x-button {
@@ -648,6 +669,13 @@ p {
 	}
 	.x-button .x-button-pressed {
 		background-color: #323840 !important;
+		border:none !important;
+		&.listBtn {
+				background-position: center 12px !important;
+			}
+			&.mapBtn {
+				background-position: center 7px !important;
+			}
 	}
 }
 
@@ -1079,6 +1107,20 @@ p {
 	}
 }
 
+.homeList {
+	margin:-10px 0 0 0;
+	padding:10px;
+	background-color:#f9f7f4;
+	background-image: url(../images/home_top_pattern.png);
+	background-repeat: repeat-x;
+	.x-list-item {
+		background-color:#f9f7f4;
+		.x-list-item-label {
+			background-color:#f9f7f4;
+		}
+	}
+}
+
 ///////////////////////
 // ITINERARY
 ///////////////////////
@@ -1216,14 +1258,15 @@ p {
 	padding:20px;
 	color:#fff;
 	.dateDisplay {
-		width:70px;
+		width:80px;
 		float:left;
 		line-height:100%;
 		padding:10px 0;
 		h3 {
 			margin: 0 0 5px 0;
 			padding: 0;
-			font-size:34px;
+			font-size:36px;
+			font-weight:bold;
 			line-height:100%;
 		}
 		h4 {
@@ -1231,11 +1274,15 @@ p {
 			padding:0;
 			font-style:italic;
 			line-height: 100%;
+			font-size:12px;
+		}
+		h4.dayName {
+			font-size:16px;
 		}
 		&.end {
-			padding-left:40px;
-			background: url(../images/arrow_event.png) left 6px no-repeat;
-			width:140px
+			padding-left:60px;
+			background: url(../images/arrow_event.png) 15px 35px no-repeat;
+			width:160px
 		}
 	}
 	.year {
@@ -1632,11 +1679,19 @@ p {
 		background-color:#fff;
 		font-size:12px;
 		padding:8px 0;
+		border-color:#fff !important;
 		
 		&.mapBtn {
 			background-image:url(../images/segmentedControl_map.png);
 			background-repeat: no-repeat;
 			background-position: center -60px;
+			height:30px;
+		}
+
+		&.notesBtn {
+			background-image:url(../images/segmentedControl_notes.png);
+			background-repeat: no-repeat;
+			background-position: center -57px;
 			height:30px;
 		}
 		
@@ -1645,6 +1700,12 @@ p {
 			background-repeat: no-repeat;
 			background-position: center -62px;
 			height:30px;
+		}
+
+
+		&.x-button-pressed.notesBtn,
+		&.x-button-pressing.notesBtn {
+			background-position: center 9px;
 		}
 		
 		&.x-button-pressed.listBtn,
@@ -1663,12 +1724,14 @@ p {
 		@include box-shadow(inset 0px 4px 12px 1px #1c2023);
 		background-color:$mediumGrey !important;
 		color:#fff;
+		border-color:#fff !important;
 		//border:none !important;
 	}
 	.x-button-pressed {
 		@include box-shadow(inset 0px 3px 8px 1px #1c2023);
 		background-color:$mediumGrey !important;
 		color:#fff;
+		border-color:#fff !important;
 		//border:none !important;
 	}
 }
@@ -1789,6 +1852,13 @@ x-floating {
 ///////////////////////
 .x-carousel {
 	background:url(../images/gallery_bg.png) repeat-x;
+	z-index:-1;
+	.x-carousel-inner {
+		z-index:-1;
+		.x-carousel-item {
+			z-index:-1;
+		}
+	}
 }
 
 .x-carousel-indicator-dark span.x-carousel-indicator-active {
@@ -2627,6 +2697,10 @@ x-floating {
 				background-image:url(../images/segmentedControl_list@2x.png);
 				-webkit-background-size: 20px 83px; 
 			}
+			&.notesBtn {
+				background-image:url(../images/segmentedControl_notes@2x.png);
+				-webkit-background-size: 20px 83px; 
+			}
 		}
 	}
 	.weatherBtn {
@@ -2635,11 +2709,11 @@ x-floating {
 	}
 	.btnsArea {
 		.favoritesBtnLarge {
-			background-image: url(../images/ico_add_favs@2x.png);
+			background-image: url(../images/ico_add_favs@2x.png) !important;
 			-webkit-background-size: 31px 83px;
 		}
 		.itinerayBtnLarge {
-			background-image: url(../images/ico_add_itinerary@2x.png);
+			background-image: url(../images/ico_add_itinerary@2x.png) !important;
 			-webkit-background-size: 49px 83px;
 		}
 	}

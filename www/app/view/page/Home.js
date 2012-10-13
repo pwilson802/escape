@@ -47,9 +47,6 @@ Ext.define("escape.view.page.Home", {
 
 
             this.setItems([{
-                cls: 'badge',
-                html: ''
-            }, {
                 xtype: 'carousel',
                 layout: 'fit',
 
@@ -60,39 +57,16 @@ Ext.define("escape.view.page.Home", {
                     height: 200
                 },
                 items: AppSettings.homeImgs
-            }, {
-                xtype: 'container',
-                cls: 'btnsHomeContainer',
-                itemId: 'btnsHomeContainer',
-                items: [{
-                    xtype: 'button',
-                    text: "",
-                    cls: 'weatherHome',
-                    itemId: 'weatherHome',
-                    action: 'showWeather'
-                }, {
-                    xtype: 'button',
-                    text: "Deals",
-                    cls: 'tipsHome',
-                    action: 'changeSection',
-                    sectionId: 'dealsSection'
-                }]
+            },{
+                cls: 'badge',
+                html: '',
+                top: 40,
+                left: 15,
+                zIndex:15
             }, {
                 xtype: 'container',
                 cls: 'btnsContainer',
                 items: [{
-                    xtype: 'button',
-                    text: "My Itinerary",
-                    cls: 'intinerayHome',
-                    action: 'changeSection',
-                    sectionId: 'myItinerarySection'
-                }, {
-                    xtype: 'button',
-                    text: "My Favourites",
-                    cls: 'favouritesHome',
-                    action: 'changeSection',
-                    sectionId: 'myFavouritesSection'
-                }, {
                     xtype: 'button',
                     text: "Accomodation",
                     action: 'changeSection',
@@ -102,13 +76,24 @@ Ext.define("escape.view.page.Home", {
                     text: "Events",
                     action: 'changeSection',
                     sectionId: 'eventsSection'
+                },{
+                    xtype: 'button',
+                    text: "My Itinerary",
+                    cls: 'intinerayHome',
+                    action: 'changeSection',
+                    sectionId: 'myItinerarySection'
+                }, {
+                    xtype: 'button',
+                    text: "Deals",
+                    cls: 'dealsHome',
+                    action: 'changeSection',
+                    sectionId: 'dealsSection'
                 }]
             }, {
                 xtype: 'list',
-                margin: '10 10 20 10',
                 itemId: 'thingsToDoList',
                 itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
-                cls: 'imgList numberedList',
+                cls: 'imgList numberedList homeList',
                 scrollable: false,
                 data: thingsToDoCats
             }, {
@@ -126,16 +111,35 @@ Ext.define("escape.view.page.Home", {
         }
     },
     showWeather: function() {
-        var wm = escape.model.Weather;
-        var btnsHomeContainer = this.getComponent('btnsHomeContainer');
-        var todaysWeather = btnsHomeContainer.getComponent('weatherHome');
-        var today = wm.forcatsByDay[0];
-        var imagaeName = 'we_ico_' + today.icon + '_sml';
-        if (escape.utils.Img.retinaAvailable()) {
-            imagaeName = 'we_ico_' + today.icon + '_sml@2x';
-        }
-        //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
-        todaysWeather.addCls('icon_' + today.icon);
-        todaysWeather.setText('<h2>' + wm.convertTempature(wm.currentTemp) + '&deg;</h2><h4>' + today.forecast + '</h4>');
+        // var wm = escape.model.Weather;
+        // var btnsHomeContainer = this.getComponent('btnsHomeContainer');
+        // var todaysWeather = btnsHomeContainer.getComponent('weatherHome');
+        // var today = wm.forcatsByDay[0];
+        // var imagaeName = 'we_ico_' + today.icon + '_sml';
+        // if (escape.utils.Img.retinaAvailable()) {
+        //     imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+        // }
+        // //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+        // todaysWeather.addCls('icon_' + today.icon);
+        // todaysWeather.setText('<h2>' + wm.convertTempature(wm.currentTemp) + '&deg;</h2><h4>' + today.forecast + '</h4>');
     }
 });
+
+// {
+//                 xtype: 'container',
+//                 cls: 'btnsHomeContainer',
+//                 itemId: 'btnsHomeContainer',
+//                 items: [{
+//                     xtype: 'button',
+//                     text: "",
+//                     cls: 'weatherHome',
+//                     itemId: 'weatherHome',
+//                     action: 'showWeather'
+//                 }, {
+//                     xtype: 'button',
+//                     text: "Deals",
+//                     cls: 'tipsHome',
+//                     action: 'changeSection',
+//                     sectionId: 'dealsSection'
+//                 }]
+//             }

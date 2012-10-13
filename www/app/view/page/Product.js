@@ -289,21 +289,26 @@ Ext.define("escape.view.page.Product", {
 
         // if the product has start and end dates show the dates
         if (product.Dates) {
+
             var startDate = null;
             if (product.Dates['Start Date']) {
                 var startDateBreakDown = product.Dates['Start Date'].split(' ')[0].split('-');
-                startDate = new Date(Number(startDateBreakDown[0]), Number(startDateBreakDown[1]), Number(startDateBreakDown[2]));
+                startDate = new Date(Number(startDateBreakDown[0]), Number(startDateBreakDown[1])-1, Number(startDateBreakDown[2]));
             }
             var endDate = null;
             if (product.Dates['End Date']) {
                 var endDateBreakDown = product.Dates['End Date'].split(' ')[0].split('-');
-                endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1]), Number(endDateBreakDown[2]));
+                endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1])-1, Number(endDateBreakDown[2]));
             }
-            console.log(endDate.getFullYear());
+            console.log('Event Dates!!!');
+            console.log(product.Dates['Start Date']);
+            console.log(startDate);
+            console.log(product.Dates['End Date']);
+            console.log(endDate);
             if (startDate !== null) {
-                var output = '<div class="dateDisplay start"><h4>' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + '</h4></div>';
+                var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] +' '+ startDate.getFullYear() + '</h4></div>';
                 if (endDate !== null) {
-                    output += '<div class="dateDisplay end"><h4>' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] + '</h4></div><div class="year">' + endDate.getFullYear() + '</div>';
+                    output += '<div class="dateDisplay end"><h4  class="dayName">' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] +' '+ endDate.getFullYear() +  '</h4></div></div>';
                 }
                 items.push({
                     xtype: 'container',

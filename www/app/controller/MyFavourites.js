@@ -92,7 +92,7 @@ Ext.define('escape.controller.MyFavourites', {
         var productData = record.getData();
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'productPage',
-            pageTitle: productData.type,
+            pageTitle: productData.type.toProperCase(),
             productId: productData.productId,
             productData: productData.data
         });

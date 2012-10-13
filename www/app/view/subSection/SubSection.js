@@ -17,6 +17,9 @@ Ext.define("escape.view.subSection.SubSection", {
         listeners: {
             activate: function() {
                 this.setCardView(this.getItems().items[this.getCardViewItemId()]);
+            },
+            show: function() {
+                this.refreshPage();
             }
         }
     },

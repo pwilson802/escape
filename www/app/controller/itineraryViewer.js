@@ -37,6 +37,9 @@ Ext.define('escape.controller.ItineraryViewer', {
             'itinerarySubSection button[action=map]': {
                 tap: 'showMap'
             },
+            'itinerarySubSection mapDisplay': {
+                markerSelected: 'productMarkerSelected'
+            },
             '#myItinerarySection button[action=save]': {
                 tap: 'saveNotes'
             },
@@ -285,11 +288,20 @@ Ext.define('escape.controller.ItineraryViewer', {
             sectionView.getScrollable().getScroller().scrollTo(0, 0, false);
         }
     },
+    productMarkerSelected: function(productData){
+        console.log(productData);
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'productPage',
+            pageTitle: String(productData.type).toProperCase(),
+            productId: productData.productId,
+            productData: JSON.parse(productData.data)
+        });
+    },
     productSelected: function(list, record) {
         var productData = record.getData();
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'productPage',
-            pageTitle: productData.type,
+            pageTitle: String(productData.type).toProperCase(),
             productId: productData.productId,
             productData: JSON.parse(productData.data)
         });

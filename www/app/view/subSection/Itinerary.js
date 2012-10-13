@@ -11,6 +11,7 @@ Ext.define("escape.view.subSection.Itinerary", {
     },
     openView: function() {
         this.pageName = this.getItinerary().name;
+        this.setPageTitle(this.pageName);
         this.setNavTitle(this.getItinerary().name);
         var startDate = new Date(this.getItinerary().startDate);
         var endDate = new Date(this.getItinerary().endDate);
@@ -68,7 +69,7 @@ Ext.define("escape.view.subSection.Itinerary", {
                     action: 'map',
                     flex: 1
                 }, {
-                    cls: 'mapBtn',
+                    cls: 'notesBtn',
                     type: 'map',
                     action: 'notes',
                     flex: 1

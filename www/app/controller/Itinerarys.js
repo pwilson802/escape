@@ -118,7 +118,7 @@ Ext.define('escape.controller.Itinerarys', {
             cls: 'itinerariesList',
             data: itinerariesList,
             padding: '10px',
-            //onItemDisclosure: true,
+            onItemDisclosure: true,
             flex: 1
         }, {
             xtype: 'container',

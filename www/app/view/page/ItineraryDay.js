@@ -28,7 +28,6 @@ Ext.define("escape.view.page.ItineraryDay", {
                 if (products.length > 0) {
                     selfRef.setProducts(products);
                     selfRef.showInitView();
-
                     // you have itineraies build the list
                 } else {
                     // error you have no product
@@ -60,7 +59,6 @@ Ext.define("escape.view.page.ItineraryDay", {
             break;
         }
     },
-
     showList: function() {
         console.log('showList')
         var products = this.getProducts();
@@ -70,9 +68,6 @@ Ext.define("escape.view.page.ItineraryDay", {
             this.buildPage(products);
         }
     },
-
-
-
     showEmptyDay: function() {
         items = [{
             cls: 'itineraryInstructions',
@@ -113,11 +108,11 @@ Ext.define("escape.view.page.ItineraryDay", {
             var product = products.item(i);
             console.log(product);
             var productData = JSON.parse(product.data);
-            productData.iconText = i + 1;
+            product.iconText = i + 1;
             intialMarkers.push({
                 lat: productData.Contact.Latitude,
                 lon: productData.Contact.Longitude,
-                data: productData
+                data: product
             });
         }
         console.log('showMap');
