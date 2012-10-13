@@ -554,17 +554,7 @@ p {
 	} 
 }
 
-.favouritesList {
-	.x-list-item-label {
-		padding: 10px 40px 10px 10px !important;
-	}
-	.x-list-disclosure {
-		height:35px;
-		width:35px;
-		background:url(../images/de_fav.png) no-repeat !important;
-		-webkit-mask:none;
-	}
-}
+
 ///////////////////////
 // TOOLBARS
 ///////////////////////
@@ -1174,7 +1164,8 @@ p {
 	font-size: 16px;
 	text-align:center;
 }
-
+	
+.favouritesList,
 .itineraryList {
 	background: #cbbdab url('../images/pattern_sand.png');
 	.x-list-item {
@@ -2496,16 +2487,6 @@ x-floating {
 	    -webkit-background-size: 130px 151px;
 	}
 
-	.favouritesList {
-		.x-list-disclosure {
-			background:url(../images/de_fav@2x.png) no-repeat !important;
-			-webkit-background-size: 35px 91px;
-		}
-		.x-list .x-item-selected .x-list-disclosure {
-			background:url(../images/de_fav@2x.png) no-repeat !important;
-			-webkit-background-size: 35px 91px;
-		}
-	}
 
 	.x-toolbar.pageNav {
 		.x-button {
@@ -3016,6 +2997,7 @@ x-floating {
 		}
 
 	}
+	.favouritesList,
 	.itineraryList {
 		background: #cbbdab url('../images/pattern_sand@2x.png');
 		-webkit-background-size: 150px 150px;

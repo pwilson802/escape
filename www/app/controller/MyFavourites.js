@@ -67,17 +67,19 @@ Ext.define('escape.controller.MyFavourites', {
                     title: product.name,
                     lat: productData.Contact.Latitude,
                     lon: productData.Contact.Longitude,
-                    data: productData
+                    data: productData,
+                    suburb: productData.Contact.Address.Suburb
                 });
             }
 
             console.log(items);
 
             var list = new Ext.List({
-                itemTpl: '{title}',
+                itemTpl: '<div class="labels"><h3>{title}</h3><h4>{suburb}</h4><div>',
                 cls: 'favouritesList',
                 data: items,
                 onItemDisclosure: true,
+                padding:'10px',
                 flex: 1
             });
             myFavouritesPage.setItems(list);
