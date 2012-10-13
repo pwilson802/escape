@@ -25,12 +25,14 @@ Ext.define("escape.view.page.Home", {
         this.setNavTitle(this.getPageTitle());
         this.openView();
     },
-    viewClosed: function() {
+    closeView: function() {
+        console.log('closeView')
         this.setItems([]);
+          this.removeWeatherBtn();
     },
-    viewReOpened: function(){
-         this.setHomeBuilt(false);
-         this.openView();
+    reOpenView: function() {
+        this.setHomeBuilt(false);
+        this.openView();
     },
 
     openView: function() {
@@ -41,7 +43,7 @@ Ext.define("escape.view.page.Home", {
             var thingsToDoCats = [];
             for (var i = 0; i < AppSettings.attractionCats.length; i++) {
                 var cat = AppSettings.attractionCats[i];
-                cat.number = i+1;
+                cat.number = i + 1;
                 thingsToDoCats.push(cat);
             }
 
@@ -57,34 +59,36 @@ Ext.define("escape.view.page.Home", {
                     height: 200
                 },
                 items: AppSettings.homeImgs
-            },{
+            }, {
                 cls: 'badge',
                 html: '',
                 top: 40,
                 left: 15,
-                zIndex:15
+                zIndex: 15
             }, {
                 xtype: 'container',
                 cls: 'btnsContainer',
                 items: [{
                     xtype: 'button',
-                    text: "Accomodation",
+                    html: "<span class='icon'></span><span>Accomodation</span>",
+                    cls: 'accomHome',
                     action: 'changeSection',
                     sectionId: 'accommodationSection'
                 }, {
                     xtype: 'button',
-                    text: "Events",
+                    html: "<span class='icon'></span><span>Events</span>",
+                      cls: 'eventsHome',
                     action: 'changeSection',
                     sectionId: 'eventsSection'
-                },{
+                }, {
                     xtype: 'button',
-                    text: "My Itinerary",
-                    cls: 'intinerayHome',
+                    html: "<span class='icon'></span><span>My Itinerary</span>",
+                    cls: 'itineraryHome',
                     action: 'changeSection',
                     sectionId: 'myItinerarySection'
                 }, {
                     xtype: 'button',
-                    text: "Deals",
+                    html: "<span class='icon'></span><span>Deals</span>",
                     cls: 'dealsHome',
                     action: 'changeSection',
                     sectionId: 'dealsSection'
@@ -111,6 +115,35 @@ Ext.define("escape.view.page.Home", {
         }
     },
     showWeather: function() {
+        var currenctSection = escape.utils.AppVars.currentSection;
+        console.log(currenctSection.getId());
+        // make sure we are in the home section
+        if (currenctSection.getId() == 'homeSection') {
+            // get the weather btn
+            var weatherBtn = currenctSection.getComponent('weatherBtn');
+            console.log(weatherBtn);
+            // if does not exist so create it
+            if (!weatherBtn) {
+                weatherBtn = currenctSection.add({
+                    xtype: 'button',
+                    cls: 'weatherBtn iconBtn',
+                    action: 'showWeather',
+                    itemId: 'weatherBtn',
+                    top: 0,
+                    right: 44,
+                    width: 40,
+                    zIndex: 10
+                });
+            }
+            // set the icon
+            var wm = escape.model.Weather;
+            var today = wm.forcatsByDay[0];
+            var imagaeName = 'we_ico_' + today.icon + '_sml';
+            if (escape.utils.Img.retinaAvailable()) {
+                imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+            }
+            weatherBtn.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+        }
         // var wm = escape.model.Weather;
         // var btnsHomeContainer = this.getComponent('btnsHomeContainer');
         // var todaysWeather = btnsHomeContainer.getComponent('weatherHome');
@@ -122,6 +155,19 @@ Ext.define("escape.view.page.Home", {
         // //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
         // todaysWeather.addCls('icon_' + today.icon);
         // todaysWeather.setText('<h2>' + wm.convertTempature(wm.currentTemp) + '&deg;</h2><h4>' + today.forecast + '</h4>');
+    },
+    removeWeatherBtn: function() {
+        console.log('removeWeatherBtn');
+        var currenctSection = escape.utils.AppVars.currentSection;
+        console.log(currenctSection);
+        if (currenctSection) {
+            var weatherBtn = currenctSection.getComponent('weatherBtn');
+            console.log(weatherBtn)
+            if (weatherBtn) {
+                currenctSection.remove(weatherBtn, true);
+            }
+        }
+
     }
 });
 

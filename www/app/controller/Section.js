@@ -29,6 +29,7 @@ Ext.define('escape.controller.Section', {
         }
     },
     sectionActivated: function(section) {
+        escape.utils.AppVars.currentSection = section;
         // add the scroll to top button
         var navView = section.getItems().items[section.getNavViewItemId()];
         section.setNavigationView(navView);

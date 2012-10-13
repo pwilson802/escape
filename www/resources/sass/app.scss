@@ -1362,7 +1362,7 @@ p {
 		color:$mediumGrey;
 		font-weight:normal;
 		font-size:14px;
-		
+		padding:0;
 		// Shange
 		font-family: "HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		//background:url(../images/experiences_pattern.png) repeat-x;
@@ -1372,12 +1372,54 @@ p {
 		text-align:center;
 		.x-button-label {
 			font-weight:normal;
-			padding: 25px 0;
+			padding: 28px 0;
+			span.icon {
+				background-repeat: no-repeat;
+				background-position: left bottom;
+				width:25px;
+				height:20px;
+				display: inline-block;
+			}
+			span {
+				padding: 0 5px 0 0;
+			}
+			
+		}
+
+		&.accomHome {
+			.x-button-label {
+				span.icon  {
+					background-image:url(../images/ico_home_btn_accom.png);
+				}
+			}
+		}
+		&.eventsHome {
+			.x-button-label {
+				span.icon  {
+					background-image:url(../images/ico_home_btn_events.png);
+				}
+			}
+		}
+		&.itineraryHome {
+			.x-button-label {
+				span.icon  {
+					width:35px;
+					background-image:url(../images/ico_home_btn_itinerary.png);
+				}
+			}
+		}
+		&.dealsHome {
+			.x-button-label {
+				span.icon  {
+					background-image:url(../images/ico_home_btn_deal.png);
+				}
+			}
 		}
 		
 		&.x-button-pressed .x-button-label,
 		&.x-button-pressing .x-button-label {
 			color:$highlightLight;
+			@include background-image(linear-gradient(#dddcda,#f7f5f1));
 		}
 		
 	}
@@ -1516,6 +1558,10 @@ p {
 	width: 56;
     height: 43;
 }
+.weatherBtn {
+    height: 43;
+    background:#ff0000;
+}
 .closeBtn {
 	background-image: url('../images/icon-close.png');
 }
@@ -1602,29 +1648,6 @@ p {
 
 
 
-
-
-.weatherBtn {
-	width:65px !important;
-	height:90px !important;
-	background-color: rgba(31,39,55,0.8) !important;
-	@include border-radius(8px);
-	margin: 10px 10px 0 0;
-	background-image: url(../images/ico_home_weather.png);
-	background-repeat:no-repeat;
-	background-position:14px 7px;
-	color:#fff;
-	font-size:25px;
-	border:none;
-	text-align:center;
-	.x-button-label {
-		color:#fff;
-		overflow:visible;
-		padding:45px 0 0 0;
-
-	}
-
-}
 .textBtn{
 	background:none;
 	border:none;
@@ -2423,6 +2446,51 @@ x-floating {
 		-webkit-background-size: 320px 480px; 
 	}
 
+	.btnsContainer {
+	
+	.x-button {
+	
+
+		&.accomHome {
+			.x-button-label {
+				span.icon  {
+					background-image:url(../images/ico_home_btn_accom@2x.png);
+					-webkit-background-size: 14px 11px;
+				}
+			}
+		}
+		&.eventsHome {
+			.x-button-label {
+				span.icon  {
+					background-image:url(../images/ico_home_btn_events@2x.png);
+					-webkit-background-size: 12px 13px;
+				}
+			}
+		}
+		&.itineraryHome {
+			.x-button-label {
+				span.icon  {
+					width:35px;
+					background-image:url(../images/ico_home_btn_itinerary@2x.png);
+					-webkit-background-size: 28px 14px;
+				}
+			}
+		}
+		&.dealsHome {
+			.x-button-label {
+				span.icon  {
+					background-image:url(../images/ico_home_btn_deal@2x.png);
+					-webkit-background-size: 22px 18px;
+				}
+			}
+		}
+		
+		
+	}
+	
+	border-bottom:2px solid $lightGray;
+}
+
 	.createItineraryBtnLarge {
 		background-image:url('../images/itinerary_badge_add@2x.png');
 	    -webkit-background-size: 130px 151px;
@@ -2676,11 +2744,14 @@ x-floating {
 		}
 
 	}
-	.btnsContainer {
-		.x-button {
-			
-		}
+
+	.homeList {
+		background-image: url(../images/home_top_pattern@2x.png);
+		-webkit-background-size: 7px 31px; 
+	
 	}
+
+	
 	.x-segmentedbutton {
 		background: url(../images/linen_bg@2x.png);
 		-webkit-background-size: 333px 500px; 
@@ -2703,10 +2774,10 @@ x-floating {
 			}
 		}
 	}
-	.weatherBtn {
-		background-image: url(../images/ico_home_weather@2x.png);
-		-webkit-background-size: 44px 47px;
-	}
+	// .weatherBtn {
+	// 	background-image: url(../images/ico_home_weather@2x.png);
+	// 	-webkit-background-size: 44px 47px;
+	// }
 	.btnsArea {
 		.favoritesBtnLarge {
 			background-image: url(../images/ico_add_favs@2x.png) !important;
