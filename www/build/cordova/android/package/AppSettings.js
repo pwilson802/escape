@@ -143,20 +143,20 @@ AppSettings.weatherStations = [{
 }];
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: 'resources/images/content/tnsw1086897-c.jpg',
-    altText: 'Sydney Harbour by Hamilton Lund'
+    imagePath: 'resources/images/content/dnsw1375318-399-c.jpg',
+    altText: 'North Sydney Olympic Pool by Kajo Merket'
 }, {
-    imagePath: 'resources/images/content/tnsw1038472-c.jpg',
-    altText: 'Bondi Baths by Sally Mayman'
+    imagePath: 'resources/images/content/dnsw1087014-399-c.jpg',
+    altText: 'Guillame at Bennelong with Opera sails by Steve Back'
 }, {
-    imagePath: 'resources/images/content/dnsw1147828-c.jpg',
-    altText: 'Picnic at Mrs Macquarie\'s Chair by Pierre Toussaint'
+    imagePath: 'resources/images/content/dnsw1375320-399-c.jpg',
+    altText: 'Sydney Harbour at twilight by Kajo Merket'
 }, {
-    imagePath: 'resources/images/content/dnsw1116000-c1.jpg',
-    altText: 'Sydney Harbour by Hamilton Lund'
+    imagePath: 'resources/images/content/dnsw1184096-399-c.jpg',
+    altText: 'Fireworks celebrating the new year in Sydney Harbour by Hamilton Lund'
 }, {
-    imagePath: 'resources/images/content/dnsw1377836-c.jpg',
-    altText: 'Walsh Bay Piers by James Horan'
+    imagePath: 'resources/images/content/dnsw1369455-399-c.jpg',
+    altText: 'View of Sydney Harbour from Bradley\'s Head, Mosman by Hamilton Lund'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [{
