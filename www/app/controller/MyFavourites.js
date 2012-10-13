@@ -90,9 +90,11 @@ Ext.define('escape.controller.MyFavourites', {
     },
     productSelected: function(list, record) {
         var productData = record.getData();
+        console.log(productData);
         escape.utils.AppVars.currentSection.getNavigationView().push({
+           
             xtype: 'productPage',
-            pageTitle: productData.type.toProperCase(),
+            pageTitle: String(productData.data.Type).toProperCase(),
             productId: productData.productId,
             productData: productData.data
         });
@@ -114,11 +116,10 @@ Ext.define('escape.controller.MyFavourites', {
         //         if (buttonId == 'yes') {
         //             selfRef.removeFromFavourites(productId);
         //         }
-
         //     }
         // });
         var removeActionSheet = Ext.create('escape.view.ui.QuestionAction', {
-            itemId:'removeActionSheet',
+            itemId: 'removeActionSheet',
             data: {
                 productId: productId
             },
@@ -137,7 +138,7 @@ Ext.define('escape.controller.MyFavourites', {
         removeActionSheet.show();
 
     },
-     hideRemoveQs: function() {
+    hideRemoveQs: function() {
         console.log('hideRemoveQs');
         var removeActionSheet = this.getRemoveActionSheet();
         removeActionSheet.hide();
@@ -160,7 +161,7 @@ Ext.define('escape.controller.MyFavourites', {
             },
             scope: this
         });
-        
+
         this.hideRemoveQs();
 
         var removedMsg = Ext.create('Ext.Panel', {
