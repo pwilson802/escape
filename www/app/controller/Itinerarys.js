@@ -145,12 +145,12 @@ Ext.define('escape.controller.Itinerarys', {
             action: 'createItinerary',
             cls: 'createItineraryBtnLarge',
             text: '',
-            flex: 3
+            flex: 1
         }, {
             cls: 'createItineraryInstructions',
-            padding: '20px',
+            padding: '25px',
             html: '<p>Create a new itinerary and start planning your trip, add notes and organise your day</p>',
-            flex: 1
+            height: 140
         }, {
             xtype: 'container',
             docked: 'bottom',

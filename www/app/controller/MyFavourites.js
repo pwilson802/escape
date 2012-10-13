@@ -83,7 +83,7 @@ Ext.define('escape.controller.MyFavourites', {
             myFavouritesPage.setItems(list);
         } else {
             myFavouritesPage.setItems({
-                html: 'YOU HAVE NO FAVOURITES',
+                html: '',
                 cls: 'noFavourites'
             });
         }
