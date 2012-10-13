@@ -646,10 +646,10 @@ p {
 		.x-button {
 			border:none !important;
 			&.listBtn {
-				background-position: center -58px !important;
+				background-position: center -58px;
 			}
 			&.mapBtn {
-				background-position: center -56px !important;
+				background-position: center -56px;
 			}
 		}
 	}
@@ -657,15 +657,16 @@ p {
 	.x-segmentedbutton .x-button {
 		height:38px !important;
 	}
-	.x-button .x-button-pressed {
+	.x-button.x-button-pressing,
+	.x-button.x-button-pressed {
 		background-color: #323840 !important;
 		border:none !important;
 		&.listBtn {
-				background-position: center 12px !important;
-			}
-			&.mapBtn {
-				background-position: center 7px !important;
-			}
+			background-position: center 12px !important;
+		}
+		&.mapBtn {
+			background-position: center 7px !important;
+		}
 	}
 }
 
@@ -1206,7 +1207,6 @@ p {
 		@include background-clip(); // prevents bg color from leaking outside the border
 		background-color: #fff; // layer fill content
 		@include box-shadow(0 2px 2px rgba(0,0,0,.4)); // drop shadow
-		//@include background-image(linear-gradient(bottom, #e7e4df 0%, #fff 100%)); // gradient overlay
 		@include background-image(linear-gradient(bottom, #f7f5f1 0%, #fff 100%)); // gradient overlay
 		.icon {
 			width:70px;
@@ -2484,7 +2484,9 @@ x-floating {
 		background-image: url(../images/Splash_Portrait@2x.png);
 		-webkit-background-size: 320px 480px; 
 	}
-
+	.weatherBtn {
+		-webkit-background-size: 32px 32px !important;
+	}
 	.btnsContainer {
 	
 	.x-button {
@@ -2666,6 +2668,7 @@ x-floating {
 	}
 	.editBtn {
 		background-image: url('../images/btn_edit@2x.png');
+		-webkit-background-size: 24px 25px !important; 
 	}
 	.favoriteBtn {
 		background-image: url('../images/btn_favourite@2x.png');
@@ -2803,10 +2806,7 @@ x-floating {
 			}
 		}
 	}
-	// .weatherBtn {
-	// 	background-image: url(../images/ico_home_weather@2x.png);
-	// 	-webkit-background-size: 44px 47px;
-	// }
+	
 	.btnsArea {
 		.favoritesBtnLarge {
 			background-image: url(../images/ico_add_favs@2x.png) !important;

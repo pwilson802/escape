@@ -95,7 +95,7 @@ Ext.define('escape.controller.ItineraryViewer', {
         var sectionView = this.getItinerarySubSection();
         var itineraryData = sectionView.getItinerary();
         var itineraryToolbar = this.getItineraryToolbar();
-        var data = itineraryToolbar.getData();
+        var data = itineraryToolbar.getComponent('dayDisplay').getData();
         var actionSheet = Ext.create('escape.view.ui.EditItineraryProduct', {
             itineraryId: itineraryData.id,
             productId: productData.id,
