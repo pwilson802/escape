@@ -1111,6 +1111,9 @@ p {
 	}
 }
 
+
+
+
 ///////////////////////
 // ITINERARY
 ///////////////////////
@@ -1194,7 +1197,9 @@ p {
 		@include border-radius(10px); // border radius
 		@include background-clip(); // prevents bg color from leaking outside the border
 		background-color: #fff; // layer fill content
-		@include background-image(linear-gradient(bottom, #f7f5f1 0%, #fff 100%)); // gradient overlay
+		@include box-shadow(0 2px 2px rgba(0,0,0,.4)); // drop shadow
+		//@include background-image(linear-gradient(bottom, #e7e4df 0%, #fff 100%)); // gradient overlay
+		
 		.labels {
 			margin:15px 0 0 0;
 			h3 {
@@ -1241,6 +1246,10 @@ p {
 		background: #F6F5F1 !important;
 	}
 }
+
+
+
+
 ///////////////////////
 // PRODUCT PAGE
 ///////////////////////
@@ -1343,7 +1352,7 @@ p {
 	.x-button {
 		float:left;
 		@include border-radius(0);
-		@include background-image(linear-gradient(#f7f5f1,#dddcda));
+		@include background-image(linear-gradient(#f7f5f1,#dddcda)) ;
 		@include text-shadow(0 2px 0 rgba(255,255,255,.75));
 		
 		border-top:1px solid #fff;
@@ -1783,7 +1792,7 @@ x-floating {
 		@include background-clip(); // prevents bg colour from leaking outside the border
 		background-color: #f8f6f3; // layer fill content
 		@include box-shadow(inset 0 1px 0 rgba(255,255,255,.46)); // inner shadow
-		@include background-image(linear-gradient(bottom, #00a3bc 0%, #02c4e1 100%)); // gradient overlay
+		@include background-image(linear-gradient(bottom, #00a3bc 0%, #02c4e1 100%)) ; // gradient overlay
 	}
 	.x-picker-bar {
 		@include opacity(.56); // layer alpha
