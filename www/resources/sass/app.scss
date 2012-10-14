@@ -1,6 +1,6 @@
 //
 //font--family: "SimSunFF", arial
-//font--family: "HelveticaNeue-CondensedBold";
+//font--family: "HelveticaNeue-Regular";
 
 
 $active-color: #00B5D0;
@@ -41,7 +41,7 @@ $include-default-icons : false;
 	// font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans
 	/* Times New Roman-based stack */
 	//font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif;
-	/* HelveticaNeue-CondensedBold" */
+	/* HelveticaNeue-Regular" */
 	//
 
 
@@ -1554,7 +1554,7 @@ p {
 			background-repeat: no-repeat;
 			background-position:15px 13px;
 			font-size:20px;
-			font-family: "HelveticaNeue-CondensedBold";
+			font-family: "HelveticaNeue-Bold";
 				
 		}
 		&.tipsHome {
@@ -1562,7 +1562,7 @@ p {
 			background-image:url(../images/ico_home_tips.png);
 			background-repeat: no-repeat;
 			background-position:15px 22px;
-			font-family: "HelveticaNeue-CondensedBold";
+			font-family: "HelveticaNeue-Bold";
 		}
 	}
 }
