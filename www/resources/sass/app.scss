@@ -1099,11 +1099,11 @@ p {
 }
 
 .homeList {
-	margin:-10px 0 0 0;
+	background-image: url('../images/home_top_pattern.png');
+	background-repeat: repeat-x;
+	margin:0px 0 0 0;
 	padding:10px;
 	background-color:#f9f7f4;
-	background-image: url(../images/home_top_pattern.png);
-	background-repeat: repeat-x;
 	.x-list-item {
 		background-color:#f9f7f4;
 		.x-list-item-label {
@@ -1402,16 +1402,14 @@ p {
 		font-weight:normal;
 		font-size:14px;
 		padding:0;
-		// Shange
 		font-family: "HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
-		//background:url(../images/experiences_pattern.png) repeat-x;
-		//background-position: bottom;
 		
 		width:50%;
 		text-align:center;
+		
 		.x-button-label {
 			font-weight:normal;
-			padding: 28px 0;
+			padding: 24px 0 24px 0;
 			span.icon {
 				background-repeat: no-repeat;
 				background-position: left bottom;
@@ -1429,6 +1427,7 @@ p {
 			.x-button-label {
 				span.icon  {
 					background-image:url(../images/ico_home_btn_accom.png);
+					
 				}
 			}
 		}
@@ -1442,7 +1441,6 @@ p {
 		&.itineraryHome {
 			.x-button-label {
 				span.icon  {
-					width:35px;
 					background-image:url(../images/ico_home_btn_itinerary.png);
 				}
 			}
@@ -1458,12 +1456,14 @@ p {
 		&.x-button-pressed .x-button-label,
 		&.x-button-pressing .x-button-label {
 			color:$highlightLight;
-			@include background-image(linear-gradient(#dddcda,#f7f5f1));
+			//@include background-image(linear-gradient(#dddcda,#f7f5f1));
 		}
 		
 	}
 	
+	
 	border-bottom:2px solid $lightGray;
+	
 }
 
 .btnsHomeContainer {
