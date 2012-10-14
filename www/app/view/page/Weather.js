@@ -182,10 +182,10 @@ Ext.define("escape.view.page.Weather", {
 
         todaysWeather += '<h2>' + wm.getIconName(today.icon) + '</h2><p>' + forcastDetails + '</p>';
         if (wm.weatherData.RainFall != -9999) {
-            todaysWeather += '<h4 class="rain">' + wm.weatherData.RainFall + ' mm</h4>';
+            todaysWeather += '<h4 class="rain">' + Math.round(wm.weatherData.RainFall)+ ' mm</h4>';
         }
         if (wm.weatherData.WindSpeedmps != -9999) {
-            var windKm = wm.weatherData.WindSpeedmps * (3.6);
+            var windKm = MathExt.prototype.roundNumber(wm.weatherData.WindSpeedmps * (3.6),2);
             todaysWeather += '<h4 class="wind">' + windKm + ' KM/H ' + wm.weatherData.WindDirection + '</h4></div>';
         }
 

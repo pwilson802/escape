@@ -219,10 +219,18 @@ Ext.define('escape.controller.ProductSections', {
         var productList = '';
         var values = url.split('/product-list-generator/')[1].split('&');
         var params = {};
+        var producType ='attraction';
         for (var i = 0; i < values.length; i++) {
             var param = values[i].split('=');
-            params[param[0]] = param[1].split(',').join(';');
+            if (param[0]=='product_types'){
+                producType= param[1].split(',')[0];
+                 params[param[0]] =producType;
+            } else {
+                 params[param[0]] = param[1].split(',').join(';');
+            }
+           
         }
+        console.log('producType: ' + producType);
         // if no destination are sent use the default ones
         if (!params.destination_id) {
             params.destination_id = AppSettings.destinationIds;
@@ -238,14 +246,19 @@ Ext.define('escape.controller.ProductSections', {
             params: params,
             success: function(response) {
                 productList = (JSON.parse(response.responseText));
-                selfRef.productListLoaded(productList, productSubSection);
+                selfRef.productListLoaded(productList, productSubSection, producType);
 
             },
             failure: function(response, opts) {}
         });
     },
-    productListLoaded: function(productList, productSubSection) {
+    productListLoaded: function(productList, productSubSection, producType) {
         if (this.getCurrentSection() == 'productList') {
+            // loop over the data and add a producType.
+            for (var i = productList.length - 1; i >= 0; i--) {
+                productList[i].producType = producType;
+            }
+            console.log(productList);
             var items = {
                 xtype: 'list',
                 margin: '10 10 10 10',
@@ -271,11 +284,12 @@ Ext.define('escape.controller.ProductSections', {
     },
     productSelected: function(list, record) {
         var data = record.getData();
+        console.log('producType: ' + data.producType);
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            pageTitle: 'attraction',//collection.name,
+            pageTitle: String(data.producType).toProperCase().removePuralS(),
             xtype: 'productPage',
             productId: data['Web Path'],
-            productType: 'attraction'
+            productType: data.producType.removePuralS().toLowerCase()
         });
     }
 });

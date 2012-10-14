@@ -99,22 +99,15 @@ Ext.define("escape.view.ui.MapDisplay", {
         }
     },
     setupMap: function() {
-        console.log("map set up");
         var map = this.getMap();
         if (this.getInteraction()) {
-            console.log("add touch");
             if (hasTouch) {
-                console.log("!!! HAS TOUCH...");
                 var iphoneControls = new EMS.Control.IPhoneDefaults({
                     supportsScale3d: true
                 });
-                console.log('touch started');
                 map.iphoneControls = iphoneControls;
-                console.log('iphoneControls');
                 map.addControl(iphoneControls);
-                console.log('controls added');
             } else { //PC
-                console.log("!!! HAS NO NO TOUCH...");
                 map.addControl(new OpenLayers.Control.KeyboardDefaults());
                 map.addControl(new EMS.Control.MouseDefaults());
             }
@@ -138,7 +131,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             var useIcon = true;
             try {
                 var d = data.iconText;
-                if (!d){
+                if (!d) {
                     useIcon = false;
                 }
             } catch (e) {
@@ -169,6 +162,10 @@ Ext.define("escape.view.ui.MapDisplay", {
                 };
             marker.events.register('mousedown', marker, markerClick);
             marker.events.register('touchend', marker, markerClick);
+
+            marker.events.register("touchstart", marker, function(e) {
+                console.warn("touch start");
+            });
         } else {
             this.getIntialMarkers().push({
                 data: data,

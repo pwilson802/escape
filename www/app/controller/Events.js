@@ -2,13 +2,13 @@ Ext.define('escape.controller.Events', {
     extend: 'Ext.app.Controller',
     requires: ['Ext.Anim', 'escape.model.ProductResult'],
     config: {
-        currentSection: 'featured',
+        currentSection: 'eventsCalender',
         refs: {
             eventsPage: 'eventsPage'
         },
         control: {
             'eventsPage': {
-                built: 'loadFeatured'
+                built: 'loadEventsCalender'
             },
             'eventsPage segmentedbutton': {
                 toggle: 'switchType'
@@ -46,8 +46,8 @@ Ext.define('escape.controller.Events', {
         params.form = 'mobile-event-json';
         var todaysDate = new Date();
         var weekFromNow = new Date();
-        weekFromNow.setDate(todaysDate.getDate()+7);
-        params.meta_d3 = Ext.Date.format(todaysDate, 'dMY');//'2Oct2012';
+        weekFromNow.setDate(todaysDate.getDate() + 7);
+        params.meta_d3 = Ext.Date.format(todaysDate, 'dMY'); //'2Oct2012';
         params.meta_d4 = Ext.Date.format(weekFromNow, 'dMY');
         //
         // perform the seach
@@ -78,9 +78,9 @@ Ext.define('escape.controller.Events', {
             grouper: {
                 groupFn: function(record) {
                     var dateStr = record.get('Start Date').split('-');
-                    var date = new Date(dateStr[0],Number(dateStr[1])-1,dateStr[2]);
+                    var date = new Date(dateStr[0], Number(dateStr[1]) - 1, dateStr[2]);
 
-                    return Ext.Date.format(date, 'l jS F');//record.get('Start Date');
+                    return Ext.Date.format(date, 'l jS F'); //record.get('Start Date');
                 },
                 sortProperty: 'Start Date'
             }
@@ -98,85 +98,53 @@ Ext.define('escape.controller.Events', {
         contents.setPadding(0);
         contents.setItems(list);
     },
-    loadFeatured: function() {
-        var url = '';
-        for (var i = 0; i < content.productLists.length; i++) {
-            var productList = content.productLists[i];
-            if (productList.type == 'mustDo') {
-                url = productList.url;
-            }
-
-        }
+    loadEventsCalender: function() {
+        console.log('loadEventsCalender');
+        var params = {};
+       // params.meta_D_phrase_sand = AppSettings.destinationWebpath;
+        // set the serach to use the right collection
+        params.collection = 'tourism-nsw-meta';
+        params.form = 'mobile-all-json';
+        params.meta_C_not = 'dest';
+        params.meta_h_phrase_sand = AppSettings.EventCalName;
+        var dateNow = new Date();
+        params.gt_q = parseInt(dateNow.getTime()/86400000);
+        //perform the seach
+        var productSearch = Ext.create('escape.store.ProductSearch');
+        // add the extra paramaters to the search
+        productSearch.getProxy().setExtraParams(params);
+        // laod the first page
         var selfRef = this;
-        escape.model.ContentPage.getProxy().setUrl(url);
-        escape.model.ContentPage.load(0, {
-            success: function(content) {
-                selfRef.featuredLoaded(content.getData());
+        productSearch.loadPage(1, {
+            callback: function(records, operation, success) {
+                // the operation object contains all of the details of the load operation
+                if (success) {
+                    selfRef.eventsCalenderLoaded(records[0]);
+                } else {
+                    // selfRef.setItems({
+                    //     xtype: 'loadError'
+                    // });
+                }
             },
-            error: function(error) {},
             scope: this
         });
 
     },
-    featuredLoaded: function(content) {
-        if (this.getCurrentSection() == 'featured') {
-            var linksStartBreakdown = content.description.split('<a href="');
-            var output = '';
-            var featuredItems = [];
-            for (var i = 0; i < linksStartBreakdown.length; i++) {
-                var linksEndBreakdown = linksStartBreakdown[i].split('</a>');
-                if (linksEndBreakdown.length > 1) {
-                    // process the link
-                    var linkParts = linksEndBreakdown[0].split('">');
-                    var link = linkParts[0];
-                    var linkText = linkParts[1];
-
-                    var urlBreakdown = link.split('/');
-                    var type = urlBreakdown[urlBreakdown.length - 2];
-                    var productId = urlBreakdown[urlBreakdown.length - 1];
-                    if (type == 'attractions') {
-                        type = 'attraction';
-                    }
-                    if (type !== null && productId !== null) {
-
-                        var typeAllowed = false;
-                        for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
-                            if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
-                                typeAllowed = true;
-                                break;
-                            }
-                        }
-                        if (typeAllowed) {
-                            featuredItems.push({
-                                xtype: 'productListItem',
-                                data: {
-                                    name: linkText,
-                                    type: type,
-                                    productId: productId,
-                                    suburb: '-'
-                                }
-
-                            });
-                        }
-                    }
-                }
-            }
-             featuredItems.push({
-                margin: '20px 0 0 0',
-             xtype: 'footer'
-             });
+    eventsCalenderLoaded: function(data) {
+        console.log('eventsCalenderLoaded');
+        console.log(data);
+        if (this.getCurrentSection() == 'eventsCalender') {
             var viewportSize = Ext.Viewport.getSize();
+            var list = new Ext.List({
+                itemTpl: '{Title}',
+                data: data.data.results,
+                height: viewportSize.height - 89,
+                scrollable: true
+            });
+
             var contents = this.getEventsPage().getComponent('contents');
             contents.setPadding(0);
-            contents.setItems({
-                xtype: 'container',
-                height: viewportSize.height - 89,
-                scrollable: {
-                    direction: 'vertical',
-                    directionLock: true
-                },
-                items: featuredItems
-            });
+            contents.setItems(list);
         }
     },
     productSelected: function(list, record) {

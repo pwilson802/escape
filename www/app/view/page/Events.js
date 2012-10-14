@@ -1,5 +1,5 @@
 Ext.define("escape.view.page.Events", {
-    extend: 'escape.view.page.ContentPage',
+    extend: 'escape.view.page.Page',
     xtype: 'eventsPage',
     config: {
         pageTitle: 'Events',
@@ -10,16 +10,8 @@ Ext.define("escape.view.page.Events", {
         padding: 0,
         layout: 'hbox'
     },
-    contentLoaded: function(content) {
-        this.setContent(content);
-        // Parse externalLinks
-        content = escape.model.Content.process(content);
-        this.buildPage();
-    },
     //
-    buildPage: function() {
-        content = this.getContent();
-        console.log(content);
+    openView: function() {
 
         this.setItems([{
             xtype: 'segmentedbutton',
@@ -28,12 +20,12 @@ Ext.define("escape.view.page.Events", {
             allowDepress: false,
             docked: 'top',
             items: [{
-                text: 'Featured',
-                type: 'featured',
+                text: 'Events Calender',
+                type: 'eventsCalender',
                 pressed: true,
                 flex: 1
             }, {
-                text: 'this week',
+                text: 'This week',
                 type: 'weekly',
                 flex: 1
             }]
