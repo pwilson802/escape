@@ -239,8 +239,7 @@ p {
 }
 
 .footer {
-	height:150px;
-	//background-color: $active-color;
+	height:160px;
 	background: url(../images/linen_bg.png);
 	.border {
 		background:url(../images/footer_pattern.png) repeat-x;
@@ -1409,7 +1408,7 @@ p {
 		
 		.x-button-label {
 			font-weight:normal;
-			padding: 24px 0 24px 0;
+			padding: 20px 0 26px 0;
 			span.icon {
 				background-repeat: no-repeat;
 				background-position: left bottom;
@@ -1424,6 +1423,7 @@ p {
 		}
 
 		&.accomHome {
+			border-left: none !important;
 			.x-button-label {
 				span.icon  {
 					background-image:url(../images/ico_home_btn_accom.png);
@@ -1432,6 +1432,7 @@ p {
 			}
 		}
 		&.eventsHome {
+			border-right: none !important;
 			.x-button-label {
 				span.icon  {
 					background-image:url(../images/ico_home_btn_events.png);
@@ -1439,6 +1440,8 @@ p {
 			}
 		}
 		&.itineraryHome {
+			border-bottom: none !important;
+			border-left: none !important;
 			.x-button-label {
 				span.icon  {
 					background-image:url(../images/ico_home_btn_itinerary.png);
@@ -1446,6 +1449,8 @@ p {
 			}
 		}
 		&.dealsHome {
+			border-bottom: none !important;
+			border-right: none !important;
 			.x-button-label {
 				span.icon  {
 					background-image:url(../images/ico_home_btn_deal.png);
@@ -1461,8 +1466,7 @@ p {
 		
 	}
 	
-	
-	border-bottom:2px solid $lightGray;
+	//border-bottom:2px solid $lightGray;
 	
 }
 
@@ -1576,7 +1580,7 @@ p {
 .x-button.iconBtn { 
 	background-color:#fff; 
 	height:43px;
-	width:56px;
+	width:46px;
 	border:none;
 	background-position: 0 6px;
 	background-repeat: no-repeat;
@@ -1598,8 +1602,7 @@ p {
     height: 43;
 }
 .weatherBtn {
-    height: 43;
-    background:#ff0000;
+    height: 43px;
 }
 .closeBtn {
 	background-image: url('../images/icon-close.png');

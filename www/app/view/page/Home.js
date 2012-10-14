@@ -129,8 +129,8 @@ Ext.define("escape.view.page.Home", {
                     cls: 'weatherBtn iconBtn',
                     action: 'showWeather',
                     itemId: 'weatherBtn',
-                    top: 0,
-                    right: 44,
+                    top: -2,
+                    right: 36,
                     width: 40,
                     zIndex: 10
                 });
