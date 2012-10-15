@@ -88,7 +88,12 @@ p {
 	margin: 0 0 10px 0;
 	line-height:150%;
 }
-
+.x-button {
+	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+}
+.x-form-label {
+	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+}
 
 .x-scroll-container {
 	background: url(../images/linen_bg.png);
@@ -280,7 +285,7 @@ p {
 	border-top:1px solid $lightGray;
 	background:$xLightGray;
 	.x-button-label {
-			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande";
+			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		}
 	.x-button {
 		
@@ -290,7 +295,7 @@ p {
 	.x-button.search,
 	.bookingBtnLarge {
 		.x-button-label {
-			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande";
+			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		}
 		padding:13px;
 		margin: 0 0 10px 0;
@@ -1651,6 +1656,8 @@ p {
 	font-size:16px;
 	color:#181d2a;
 	border:none !important;
+	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+
 }
 .x-button.x-button-pressed.scrollTopTopBtn,
 .x-button.x-button-pressing.scrollTopTopBtn {

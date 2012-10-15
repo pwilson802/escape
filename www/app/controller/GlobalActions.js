@@ -103,10 +103,11 @@ Ext.define('escape.controller.GlobalActions', {
     },
     removePanel: function(panel) {
         console.log('removePanel');
+        console.log(panel);
         try {
-            Ext.Viewport.remove(panel, true);
+           // Ext.Viewport.remove(panel, true);
         } catch (e) {
-
+            console.log(e);
         }
     },
     showLargeMap: function(data) {

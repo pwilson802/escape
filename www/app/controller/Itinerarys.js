@@ -200,12 +200,18 @@ Ext.define('escape.controller.Itinerarys', {
         });
     },
     checkItineraryErrors: function(data) {
+
+        console.log(data);
+
         var errors = [];
         if (data.name === null || data.name === '') {
             errors.push('Please enter a Name');
         }
         var oneDay = 1000 * 60 * 60 * 24;
         var daysDiff = Math.ceil((data.endDate.getTime() - data.startDate.getTime()) / (oneDay));
+        console.log(data.startDate);
+        console.log(data.endDate);
+        console.log(daysDiff);
 
         if (daysDiff < 0) {
             errors.push('Please enter a end date after your start date');
