@@ -33,7 +33,7 @@ Ext.define('escape.controller.Weather', {
         }
         try {
             this.getWeatherPage().tempMeasureChange();
-            this.getHomePage().showWeather();
+           // this.getHomePage().showWeather();
         } catch (e) {
 
         }
