@@ -34,7 +34,7 @@ Ext.define("escape.view.subSection.Itinerary", {
             docked: 'top',
             cls: 'pageNav itineraryDayToolbar',
             items: [{
-                width: 37,
+                width: 30,
                 xtype: 'button',
                 action: 'back',
                 cls: 'backBtn'
@@ -49,7 +49,7 @@ Ext.define("escape.view.subSection.Itinerary", {
                     date: Ext.Date.format(startDate, 'd/m/y')
                 }
             }, {
-                width: 37,
+                width: 40,
                 xtype: 'button',
                 action: 'next',
                 cls: 'nextBtn'

@@ -126,7 +126,7 @@ Ext.define('escape.controller.Itinerarys', {
             cls: 'btnsArea',
             padding: '10px',
             defaults: {
-                margin: '10px 0 0 0'
+                margin: '0 0 10px 0'
             },
             items: [{
                 xtype: 'button',
@@ -148,16 +148,16 @@ Ext.define('escape.controller.Itinerarys', {
             flex: 1
         }, {
             cls: 'createItineraryInstructions',
-            padding: '25px',
+            padding: '15px',
             html: '<p>Create a new itinerary and start planning your trip, add notes and organise your day</p>',
-            height: 140
+            height: 115
         }, {
             xtype: 'container',
             docked: 'bottom',
             cls: 'btnsArea',
-            padding: '10xp',
+            padding: '10px',
             defaults: {
-                margin: '10px 0 0 0'
+                margin: '0 0 0 0'
             },
             items: [{
                 xtype: 'button',

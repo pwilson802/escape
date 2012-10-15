@@ -90,9 +90,9 @@ Ext.define("escape.view.page.ItineraryEditor", {
             xtype: 'container',
             docked: 'bottom',
             cls: 'btnsArea',
-            padding: '10xp',
+            padding: '10px',
             defaults: {
-                margin: '10px 0 0 0'
+                margin: '0 0 10px 0'
             },
             items: btns
         }];
