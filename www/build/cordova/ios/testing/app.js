@@ -27903,31 +27903,64 @@ Ext.define('escape.utils.Img', {
             imgScr = this.getImgPath(url, width, height);
         }
         return '<div class="imgContainer" style="background-image:url(' + imgScr + '); background-repeat:no-repeat; ' + this.getImgStyle(width, height) + ' width:' + width + 'px; height:' + height + 'px; "></div>';
+    },
+    // request an image at a particular width
+    getResizeURL: function(url, width) {
+        // make sure the image is from our server
+        var allowedDomain = false;
+        var imagePath ='';
+        for (var i = AppSettings.imageResizing.fromURLs.length - 1; i >= 0; i--) {
+            fromURL = AppSettings.imageResizing.fromURLs[i];
+            if (url.indexOf(fromURL.url) != -1) {
+                if (fromURL.remote){
+                imagePath = '/remote/'+fromURL.url+url.split(fromURL.url)[1];
+                } else {
+                    imagePath = url.split(fromURL.url)[1];
+                }
+                allowedDomain = true;
+                break;
+            }
+
+        }
+        if (allowedDomain) {
+            var ratio = 1;
+            var connectionType = Ext.device.Connection.getType();
+            if (window.devicePixelRatio) {
+                ratio = window.devicePixelRatio;
+            }
+            // don't request high def images if on a low connection
+            if (connectionType=='CELL_2G'){
+                ratio = 1;
+            }
+            //ratio = 0.5;
+
+            // scale the width to account for pixel density
+            var realWidth = Math.round(width * ratio);
+            var returnURL = AppSettings.imageResizing.resizeURL + imagePath + '?width=' + realWidth;
+            return returnURL;
+        }
+        return url;
     }
 });
 Ext.define('escape.utils.AppFuncs', {
     singleton: true,
     openLink: function(url) {
+        console.log('openLink');
         cb = window.plugins.childBrowser;
         cb.showWebPage(url);
         escape.utils.Tracking.trackEventOnCurrent(7);
     },
     trackPhoneCall: function() {
+        console.log('trackPhoneCall');
         escape.utils.Tracking.trackEventOnCurrent(2);
-    },
-    showBingTerms: function() {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'bingTerms'
-        });
     },
     openProduct: function(productId, type) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            pageTitle: type,
+            pageTitle: type.toProperCase(),
             xtype: 'productPage',
             productId: productId,
             productType: type
         });
-
     },
     parseCMSText: function(description) {
         var linksStartBreakdown = description.split('<a href="');
@@ -27939,29 +27972,33 @@ Ext.define('escape.utils.AppFuncs', {
                 var linkParts = linksEndBreakdown[0].split('">');
                 var link = linkParts[0];
                 var linkText = linkParts[1];
-                console.log('link: ' + link);
+                var allowedLink = false;
                 if (link.indexOf('www.sydney.com') > 0 || link.indexOf('www.visitnsw.com') > 0) {
                     var pathBreakdown = link.split('/');
                     // the link is a product link
-                    console.log(pathBreakdown);
                     var productId = Ext.String.trim(pathBreakdown[pathBreakdown.length - 1]);
                     var type = Ext.String.trim(pathBreakdown[pathBreakdown.length - 2]);
-
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
-
-
-                    output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
-                } else {
-                    // the link is an external link make sure it opens in a child browser
-                    output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openLink(' + link + ')">' + linkText + '</a>';
+                     for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
+                        if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
+                            allowedLink = true;
+                            break;
+                        }
+                    }
+                    if (allowedLink){
+                         output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                    }
+                   
                 }
-
-
+                if (!allowedLink) {
+                    // the link is an external link make sure it opens in a child browser
+                    //output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openLink(' + link + ')">' + linkText + '</a>';
+                    output += linkText;
+                }
                 // add the rest of the sentancetype
                 output += linksEndBreakdown[1];
-
             } else {
                 output += linksStartBreakdown[i];
             }
@@ -27971,44 +28008,11 @@ Ext.define('escape.utils.AppFuncs', {
     }
 });
 Ext.define('escape.utils.AppVars', {
-
     singleton: true,
-
     appName: 'DNSW Sydney Guide',
     currentSection: null,
     currentPage: null,
     childbrowser: null,
-    // funnel back
-    destinationWebpath: '/sydney/',
-    searchURL: 'http://tnsw-search.squiz.net/s/search.html', //http://tnsw-search03.squiz.net/s/search.html', //http://search-demo-au.funnelback.com/s/search.html
-    // destination ids
-    destinationIds: '282;283;284;285;286;287;288;289;290;291;292;294;295;296;297;298;299;300;301;302;303;304;305;306;308;309;310;311;312;313;314;315;316;317;318;319;320;321;332;406;407;408;409;410;411;4177;4178;4179;4180;4181;4182;4188;4190',
-    //All searches will only return results from inside this destinationnsw
-    smartphoneCMSSection: 'sydney',
-    smartphoneURL: 'http://www.destinationnsw.com.au/smartphoneapps/',
-    // FACEBOOK settings
-    facebook: {
-        clientId: "369207786488947",
-        // FACEBOOK APP ID
-        secret: "553933b85e84c3650f9b3a06ad5e023c",
-        // FACEBOOK APP SECRET
-        redirectUrl: "https://apps.facebook.com/dnswtesting/",
-        // CHANGE THIS THE USER WILL SEE IT AFTER THEY LOGIN
-        type: "user_agent",
-        // LEAVE THIS
-        display: "touch",
-        // LEAVE THIS
-        token: "fbToken" // OUR TOKEN KEEPER
-    },
-    // TWITTER settings
-    twitter: {
-        consumerKey: 'z04Kkl1zVF3HilGKLre4w',
-        // REPLACE WITH YOUR CONSUMER_KEY
-        consumerSecret: 'Cu5Qs3Kg2PUIAYqFfVg8VNHEZmzweEdFjphVo82HGA',
-        // REPLACE WITH YOUR CONSUMER_SECRET
-        callbackUrl: "http://www.visitnsw.com/"
-        // YOUR URL
-    },
     // The funnel back destination webpath. Used to match funnelback collections names to the matrix ones
     collectionMapping: [{
         name: 'Accommodation',
@@ -28036,13 +28040,9 @@ Ext.define('escape.utils.AppVars', {
         matrix: 'tour'
     }, {
         name: 'Visitor Centre',
-        funnelback: 'centres',
+        funnelback: 'vic',
         matrix: 'vic'
-    }],
-
-    getSMPSectionURL: function() {
-        return this.smartphoneURL + this.smartphoneCMSSection;
-    }
+    }]
 });
 Ext.define('escape.utils.Database', {
     mixins: ['Ext.mixin.Observable'],
@@ -28217,7 +28217,6 @@ Ext.define("escape.model.UserSettings", {
                 Ext.callback(callback.success, scope, []);
             }
         }, function(t, e) {
-            console.log(e);
             // error return null for the user value
             Ext.callback(callback.success, scope, []);
         }, [key]);
@@ -28327,21 +28326,23 @@ Ext.define('escape.utils.Tracking', {
     uploadSize: 10,
     RegID: 0,
     trackEvent: function(pageCode, pageId, eventId) {
-        // console.log('pageCode: ' + pageCode);
-        // console.log('pageId: ' + pageId);
-        // console.log('eventId: ' + eventId);
         this.insertTracking(pageCode, pageId, eventId);
+        console.log('pageCode: ' + pageCode);
+        console.log('pageId: ' + pageId); // String events/
+        console.log('eventId: ' + eventId);
+
     },
      trackEventOnCurrent: function(eventId) {
+        console.log('trackEventOnCurrent');
         var trackBy = escape.utils.AppVars.currentPage;
          if (!trackBy){
               trackBy= escape.utils.AppVars.currentSection;
          }
         var  pageCode = trackBy.getPageTypeId();
         var pageId =  trackBy.getPageTrackingId();
-        // console.log('pageCode: ' + pageCode);
-        // console.log('pageId: ' + pageId);
-        // console.log('eventId: ' + eventId);
+        console.log('pageCode: ' + pageCode);
+        console.log('pageId: ' + pageId);
+        console.log('eventId: ' + eventId);
         this.insertTracking(pageCode, pageId, eventId);
     },
 
@@ -28391,7 +28392,7 @@ Ext.define('escape.utils.Tracking', {
 
         var trackingObj = {
             RegID: this.RegID,
-            AppID: 1,
+            AppID: AppSettings.AppID,
             events: []
         };
         //pageCode,,eventId
@@ -28492,6 +28493,7 @@ Ext.define("escape.model.Favourites", {
         }, function(t, e) {}, []);
     },
     add: function(productId, productType, productName, productData, callback, scope) {
+        escape.utils.Tracking.trackEvent(8,productId,13);
         var db = escape.utils.DatabaseManager.getBDConn('user');
         var selfRef = this;
         db.queryDB('SELECT * FROM Favourites WHERE product_id = (?)', function(t, rs) {
@@ -28518,6 +28520,7 @@ Ext.define("escape.model.Favourites", {
     },
 
     remove: function(productId, callback, scope) {
+         escape.utils.Tracking.trackEvent(8,productId,13);
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('user');
         db.queryDB('DELETE FROM Favourites WHERE product_id = (?)', function(t, rs) {
@@ -28545,157 +28548,213 @@ Ext.define("escape.model.Favourites", {
         }, [productId]);
     }
 });
-   Ext.define("escape.model.Currency", {
-       requires: ['Ext.DateExtras', 'escape.model.UserSettings'],
-       singleton: true,
-       reloadIn: 3 * 60 * 60 * 1000,
-       currencys: ['AUD', 'CNY', 'TWD', 'HKD', 'USD'],
-       converstions: {},
-       lastUpdated: null,
+Ext.define("escape.model.Currency", {
+    requires: ['Ext.DateExtras', 'escape.model.UserSettings'],
+    singleton: true,
+    reloadIn: 3 * 60 * 60 * 1000,
+    currencys: [],
+    converstions: {},
+    lastUpdated: null,
 
-       config: {
-           orginalCurrency: null,
-           convertedCurrency: null
+    config: {
+        orginalCurrency: null,
+        convertedCurrency: null
 
-       },
-       constructor: function(config) {
-           this.initConfig(config);
-           return this;
-       },
-       // call the setup if need the perform the required callback
-       loadDefaults: function(callback, scope) {
-           this.checkOrginalCurrency(callback, scope);
-       },
-       // Check to see if the user has picked a orginalCurrency
-       checkOrginalCurrency: function(callback, scope) {
-           var selfRef = this;
-           escape.model.UserSettings.getSetting('orginalCurrency', {
-               success: function(orginalCurrency) {
-                   if (orginalCurrency === null || orginalCurrency === undefined) {
-                       // no user language has been selected
-                       selfRef.setOrginalCurrency(selfRef.currencys[0]);
-                   } else {
-                       selfRef.setOrginalCurrency(orginalCurrency);
-                   }
-                   selfRef.checkConvertedCurrency(callback, scope);
-               },
-               error: function(error) {
-                   // no user temp has been selected
-                   selfRef.setOrginalCurrency(selfRef.currencys[0]);
-                   selfRef.checkConvertedCurrency(callback, scope);
+    },
+    constructor: function(config) {
+        this.initConfig(config);
+        return this;
+    },
+    // call the setup if need the perform the required callback
+    loadDefaults: function(callback, scope) {
+        var dateNow = new Date();
+        var diff = dateNow - this.lastUpdatedDate;
+        if (diff > this.reloadIn || this.currencys.length === 0) {
+            // reload the current data is old or does not exist
+            this.loadCurrencyList(callback, scope);
+        } else {
+            // do not reload use the current data
+            if (this.getOrginalCurrency() === null) {
+                this.checkOrginalCurrency(callback, scope);
+            } else {
+                Ext.callback(callback.success, scope);
+            }
 
-               },
-               scope: this
-           });
-       },
-       // Check to see if the user has picked a convertedCurrency
-       checkConvertedCurrency: function(callback, scope) {
-           var selfRef = this;
-           escape.model.UserSettings.getSetting('convertedCurrency', {
-               success: function(convertedCurrency) {
-                   if (convertedCurrency === null || convertedCurrency === undefined) {
-                       // no user language has been selected
-                       selfRef.setConvertedCurrency(selfRef.currencys[1]);
-                   } else {
-                       selfRef.setConvertedCurrency(convertedCurrency);
-                   }
-                   Ext.callback(callback.success, scope);
-               },
-               error: function(error) {
-                   // no user temp has been selected
-                   selfRef.setConvertedCurrency(selfRef.currencys[1]);
-                   Ext.callback(callback.success, scope);
-               },
-               scope: this
-           });
-       },
-       // Called when orginalCurrency is updated
-       updateOrginalCurrency: function(newValue, oldValue) {
-           // Save the users to orginalCurrency to their settings
-           escape.model.UserSettings.setSetting('orginalCurrency', newValue, {
-               success: function(orginalCurrency) {},
-               error: function(error) {},
-               scope: this
-           });
-       },
-       // Called when degrees is updated
-       updateConvertedCurrency: function(newValue, oldValue) {
-           // Save the users to orginalCurrency to their settings
-           escape.model.UserSettings.setSetting('convertedCurrency', newValue, {
-               success: function(convertedCurrency) {},
-               error: function(error) {},
-               scope: this
-           });
-       },
-       // get converstion rate
-       getConverstionRate: function(codeFrom, codeTo) {
-           var fromCurrency = this.converstions[codeFrom];
-           var toCurrency = this.converstions[codeTo];
-           var rate = (1 * fromCurrency.valueToUSD) / (1 * toCurrency.valueToUSD);
-           return rate;
-       },
+        }
+    },
+    // Load the list of currencys
+    loadCurrencyList: function(callback, scope) {
+        var selfRef = this;
+        // load the waeather
+        Ext.Ajax.useDefaultXhrHeader = false;
+        Ext.Ajax.request({
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRates?nocache='+new Date().getTime(),
+            method: "POST",
+            jsonData: {
+                "RateID": "0",
+                "RateCode": "",
+                "RegID": "1"
+            },
+            success: function(response) {
+                selfRef.lastUpdated = new Date();
+                var currencysDataList = JSON.parse(Ext.decode(response.responseText));
+                // loop over and format the orginal currencys
+                var currencyCodeList = [];
+                for (var i = 0; i < currencysDataList.length; i++) {
+                    var currencyData = currencysDataList[i];
+                    var code = currencyData.CurrencyCode;
+                    currencyCodeList.push({
+                        code: code,
+                        name: currencyData.CurrencyName
+                    });
+                    selfRef.converstions[code] = {
+                        lastUpdatedDate: new Date(),
+                        currencyName: currencyData.CurrencyName,
+                        valueToAUD: currencyData.ValueToAUD,
+                        valueToUSD: currencyData.ValueToAUD
+                    };
+                }
+                selfRef.currencys = currencyCodeList.reverse();
+                //
+                selfRef.checkOrginalCurrency(callback, scope);
+            },
+            failure: function(response, opts) {
+                Ext.callback(callback.error, scope);
+            }
+        });
+    },
+    // Check to see if the user has picked a orginalCurrency
+    checkOrginalCurrency: function(callback, scope) {
+        var selfRef = this;
+        escape.model.UserSettings.getSetting('orginalCurrency', {
+            success: function(orginalCurrency) {
+                if (orginalCurrency === null || orginalCurrency === undefined) {
+                    // no user language has been selected
+                    selfRef.setOrginalCurrency(selfRef.currencys[0]);
+                } else {
+                    selfRef.setOrginalCurrency(orginalCurrency);
+                }
+                selfRef.checkConvertedCurrency(callback, scope);
+            },
+            error: function(error) {
+                // no user temp has been selected
+                selfRef.setOrginalCurrency(selfRef.currencys[0]);
+                selfRef.checkConvertedCurrency(callback, scope);
+            },
+            scope: this
+        });
+    },
+    // Check to see if the user has picked a convertedCurrency
+    checkConvertedCurrency: function(callback, scope) {
+        var selfRef = this;
+        escape.model.UserSettings.getSetting('convertedCurrency', {
+            success: function(convertedCurrency) {
+                if (convertedCurrency === null || convertedCurrency === undefined) {
+                    // no user language has been selected
+                    selfRef.setConvertedCurrency(selfRef.currencys[1]);
+                } else {
+                    selfRef.setConvertedCurrency(convertedCurrency);
+                }
+                Ext.callback(callback.success, scope);
+            },
+            error: function(error) {
+                // no user temp has been selected
+                selfRef.setConvertedCurrency(selfRef.currencys[1]);
+                Ext.callback(callback.success, scope);
+            },
+            scope: this
+        });
+    },
+    // Called when orginalCurrency is updated
+    updateOrginalCurrency: function(newValue, oldValue) {
+        // Save the users to orginalCurrency to their settings
+        escape.model.UserSettings.setSetting('orginalCurrency', newValue, {
+            success: function(orginalCurrency) {},
+            error: function(error) {},
+            scope: this
+        });
+    },
+    // Called when degrees is updated
+    updateConvertedCurrency: function(newValue, oldValue) {
+        // Save the users to orginalCurrency to their settings
+        escape.model.UserSettings.setSetting('convertedCurrency', newValue, {
+            success: function(convertedCurrency) {},
+            error: function(error) {},
+            scope: this
+        });
+    },
+    // get converstion rate
+    getConverstionRate: function(codeFrom, codeTo) {
+        var fromCurrency = this.converstions[codeFrom];
+        var toCurrency = this.converstions[codeTo];
+        var rate = (1 * fromCurrency.valueToUSD) / (1 * toCurrency.valueToUSD);
+        return rate;
+    },
 
-       // check to see if the weather needs to be loaded
-       getConverstion: function(currencyCode, callback, scope) {
-           var loadCode = Ext.String.trim(currencyCode).toUpperCase();
-           // load the conversion
-           if (this.converstions[loadCode] === null || this.converstions[loadCode] === undefined) {
-               // the converstion has never be loaded before
-               this.loadConverstion(loadCode, callback, scope);
-           } else {
-               var dateNow = new Date();
-               var diff = dateNow - this.converstions[loadCode].lastUpdatedDate;
-               if (diff > this.reloadIn) {
-                   // reload the current data is old
-                   this.loadConverstion(currencyCode, callback, scope);
-               } else {
-                   // do not reload use the current data
-                   Ext.callback(callback.success, scope);
-               }
-           }
-       },
-       // Loads the floadConverstion
-       loadConverstion: function(currencyCode, callback, scope) {
-           var selfRef = this;
-           // load the waeather
-           Ext.Ajax.useDefaultXhrHeader = false;
-           Ext.Ajax.request({
-               headers: {
-                   'Content-Type': 'application/json'
-               },
-               url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRate',
-               method: "POST",
-               jsonData: {
-                   "RateID": "0",
-                   "RateCode": currencyCode.toUpperCase(),
-                   "RegID": "1"
-               },
-               success: function(response) {
-                   if (response.responseText === '"Not Found"') {
-                       Ext.callback(callback.error, scope);
-                   } else {
-                       var converstionData = JSON.parse(Ext.decode(response.responseText));
-                       selfRef.lastUpdated = new Date(parseInt(converstionData.LastUpdated.substr(6)));
-                       // process server response here
-                       //selfRef.fullWeatherLoaded(weatherData, callback, scope);
-                       var loadedCode = Ext.String.trim(converstionData.CurrencyCode).toUpperCase();
-                       selfRef.converstions[loadedCode] = {
-                           lastUpdatedDate: new Date(),
-                           currencyName: converstionData.CurrencyName,
-                           valueToAUD: converstionData.ValueToAUD,
-                           valueToUSD: converstionData.ValueToAUD
-                       };
-                       Ext.callback(callback.success, scope);
-                   }
+    // check to see if the weather needs to be loaded
+    getConverstion: function(currencyCode, callback, scope) {
+        var loadCode = Ext.String.trim(currencyCode).toUpperCase();
+        // load the conversion
+        if (this.converstions[loadCode] === null || this.converstions[loadCode] === undefined) {
+            // the converstion has never be loaded before
+            this.loadConverstion(loadCode, callback, scope);
+        } else {
+            var dateNow = new Date();
+            var diff = dateNow - this.converstions[loadCode].lastUpdatedDate;
+            if (diff > this.reloadIn) {
+                // reload the current data is old
+                this.loadConverstion(currencyCode, callback, scope);
+            } else {
+                // do not reload use the current data
+                Ext.callback(callback.success, scope);
+            }
+        }
+    },
+    // Loads the floadConverstion
+    loadConverstion: function(currencyCode, callback, scope) {
+        var selfRef = this;
+        // load the waeather
+        Ext.Ajax.useDefaultXhrHeader = false;
+        Ext.Ajax.request({
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRate?nocache='+new Date().getTime(),
+            method: "POST",
+            jsonData: {
+                "RateID": "0",
+                "RateCode": currencyCode.toUpperCase(),
+                "RegID": "1"
+            },
+            success: function(response) {
+                if (response.responseText === '"Not Found"') {
+                    Ext.callback(callback.error, scope);
+                } else {
+                    var converstionData = JSON.parse(Ext.decode(response.responseText));
+                    selfRef.lastUpdated = new Date(parseInt(converstionData.LastUpdated.substr(6)));
+                    // process server response here
+                    //selfRef.fullWeatherLoaded(weatherData, callback, scope);
+                    var loadedCode = Ext.String.trim(converstionData.CurrencyCode).toUpperCase();
+                    selfRef.converstions[loadedCode] = {
+                        lastUpdatedDate: new Date(),
+                        currencyName: converstionData.CurrencyName,
+                        valueToAUD: converstionData.ValueToAUD,
+                        valueToUSD: converstionData.ValueToAUD
+                    };
+                    Ext.callback(callback.success, scope);
+                }
 
-               },
-               failure: function(response, opts) {
-                   Ext.callback(callback.error, scope);
+            },
+            failure: function(response, opts) {
+                Ext.callback(callback.error, scope);
 
-               }
-           });
-       }
-   });
+            }
+        });
+    }
+});
 Ext.define("escape.model.Register", {
     singleton: true,
 
@@ -29000,6 +29059,7 @@ Ext.define("escape.view.ui.RightBtnFloating", {
     config: {
         cls: 'iconBtn',
         action: 'rightBtn',
+        itemId: 'rightBtn',
         top: 0,
         right: 0
     }
@@ -29241,26 +29301,6 @@ Ext.define("escape.view.ui.WeatherBtn", {
         html:'26'
     }
 });
-Ext.define("escape.view.ui.FavoriteBtn", {
-    extend: 'Ext.Button',
-    xtype: 'favoriteBtn',
-    config: {
-        action: 'addToFavorites',
-        cls: 'favoriteBtn',
-        top: 116,
-        right: 13,
-        width: 50,
-        height: 50
-    }
-});
-Ext.define("escape.view.ui.LoadingDisplay", {
-    extend: 'Ext.Component',
-    xtype: 'loadingDisplay',
-    config: {
-        cls: 'loadingDisplay',
-        html: '<div class="x-loading-spinner"></div>'
-    }
-});
 Ext.define("escape.view.ui.ExpandableInfo", {
     extend: 'Ext.Container',
     xtype: 'expandableInfo',
@@ -29404,15 +29444,10 @@ Ext.define("escape.view.subSection.SubSection", {
         listeners: {
             activate: function() {
                 this.setCardView(this.getItems().items[this.getCardViewItemId()]);
-                //this.calulateCardHeight();
+            },
+            show: function() {
+                this.refreshPage();
             }
-            //,
-            // painted: function() {
-            //     this.calulateCardHeight();
-            // },
-            // show: function() {
-            //     this.refreshPage();
-            // }
         }
     },
     setNavTitle: function(title) {
@@ -29420,8 +29455,7 @@ Ext.define("escape.view.subSection.SubSection", {
             try {
                 this.setPageTitle(title);
                 escape.utils.AppVars.currentSection.getTopText().setHtml(title);
-            } catch (e) {
-            }
+            } catch (e) {}
         }
 
     },
@@ -29449,26 +29483,13 @@ Ext.define("escape.view.subSection.SubSection", {
         }
     },
 
-    openView: function() {
-
+    openView: function() {},
+    viewClose: function() {
+        this.fireEvent('closeView', this);
+        this.closeView();
     },
-
-    calulateCardHeight: function() {
-        var cardHeight = 0; //this.getCardView().getActiveItem().getHeight();
-        if (!this.getCardView()) {
-            this.setCardView(this.getItems().items[this.getCardViewItemId()]);
-        }
-        try {
-            var items = this.getCardView().getActiveItem().getItems().items;
-            for (var i = 0; i < items.length; i++) {
-                cardHeight += items[i].element.getHeight();
-            }
-
-            //this.getCardView().setHeight(cardHeight);
-        } catch (e) {
-
-        }
-    }
+    closeView: function() {},
+    calulateCardHeight: function() {}
 });
 /**
  * SegmentedButton is a container for a group of {@link Ext.Button}s. Generally a SegmentedButton would be
@@ -29768,6 +29789,7 @@ Ext.define("escape.model.Weather", {
     lastBriefUpdatedDate: null,
     reloadIn: 1 * 60 * 15 * 1000,
     // time is in minliseconds set for 15 mins
+    weatherData: null,
     currentTemp: null,
     currentDate: null,
     forcatsByDay: [],
@@ -29775,71 +29797,69 @@ Ext.define("escape.model.Weather", {
     translations: null,
     weatherTerms: [{
         icon: 1,
-        term: 'Sunny',
-        transId: 245
+        term: 'Sunny'
     }, {
         icon: 2,
-        term: 'Clear',
-        transId: 246
+        term: 'Clear'
     }, {
         icon: 3,
-        term: 'Partly cloudy',
-        transId: 247
+        term: 'Partly cloudy'
     }, {
         icon: 4,
-        term: 'Cloudy',
-        transId: 262
+        term: 'Cloudy'
     }, {
         icon: 6,
-        term: 'Hazy',
-        transId: 248
+        term: 'Hazy'
     }, {
         icon: 8,
-        term: 'Light rain',
-        transId: 249
+        term: 'Light rain'
     }, {
         icon: 9,
-        term: 'Windy',
-        transId: 250
+        term: 'Windy'
     }, {
         icon: 10,
-        term: 'Fog',
-        transId: 260
+        term: 'Fog'
     }, {
         icon: 11,
-        term: 'Shower',
-        transId: 251
+        term: 'Shower'
     }, {
         icon: 12,
-        term: 'Rain',
-        transId: 252
+        term: 'Rain'
     }, {
         icon: 13,
-        term: 'Dusty',
-        transId: 253
+        term: 'Dusty'
     }, {
         icon: 14,
-        term: 'Frost',
-        transId: 254
+        term: 'Frost'
     }, {
         icon: 15,
-        term: 'Snow',
-        transId: 255
+        term: 'Snow'
     }, {
         icon: 16,
-        term: 'Storm',
-        transId: 256
+        term: 'Storm'
     }, {
         icon: 17,
-        term: 'Light shower',
-        transId: 258
+        term: 'Light shower'
     }],
 
     config: {
-        isDegrees: null
+        isDegrees: null,
+        stationId: -1
+    },
+    getIconName: function(icon) {
+        for (var i = this.weatherTerms.length - 1; i >= 0; i--) {
+            var item = this.weatherTerms[i];
+            if (item.icon === icon) {
+                return item.term;
+            }
+        }
+        return '';
     },
     //
     setUp: function(callback, scope) {
+        this.checkDegrees(callback, scope);
+    },
+    checkDegrees: function(callback, scope) {
         // Check to see if the user has picked a temp measurement
         var selfRef = this;
         escape.model.UserSettings.getSetting('isDegrees', {
@@ -29857,23 +29877,35 @@ Ext.define("escape.model.Weather", {
                     }
                     selfRef.setIsDegrees(setting);
                 }
-                Ext.callback(callback.success, scope);
+                selfRef.checkStation(callback, scope);
             },
             error: function(error) {
                 // no user temp has been selected
                 selfRef.setIsDegrees(true);
-                Ext.callback(callback.success, scope);
+                selfRef.checkStation(callback, scope);
             },
             scope: this
         });
     },
-    // Save the users tempature setting degrees OR fahrenheit
-    saveTempSettings: function(isDegrees) {
-        escape.model.UserSettings.setSetting('isDegrees', String(isDegrees), {
+    checkStation: function(callback, scope) {
+        // Check to see if the user has picked a temp measurement
+        var selfRef = this;
+        escape.model.UserSettings.getSetting('weatherStationId', {
+            success: function(stationId) {
+                if (stationId) {
+                    selfRef.setStationId(stationId);
 
-            success: function(isDegrees) {
+                } else {
+                    // no user isDegrees has been selected
+                    selfRef.setStationId(0);
+                }
+                selfRef.setStationId(0);
+                Ext.callback(callback.success, scope);
             },
             error: function(error) {
+                // no user temp has been selected
+                selfRef.setStationId(0);
+                Ext.callback(callback.success, scope);
             },
             scope: this
         });
@@ -29882,6 +29914,28 @@ Ext.define("escape.model.Weather", {
     updateIsDegrees: function(newValue, oldValue) {
         this.saveTempSettings(newValue);
     },
+    // Save the users tempature setting degrees OR fahrenheit
+    saveTempSettings: function(isDegrees) {
+        escape.model.UserSettings.setSetting('isDegrees', String(isDegrees), {
+
+            success: function(isDegrees) {},
+            error: function(error) {},
+            scope: this
+        });
+    },
+    // called when degrees is updated
+    updateStationId: function(newValue, oldValue) {
+        this.saveStationId(newValue);
+    },
+    // Save the users stationId
+    saveStationId: function(stationId) {
+        escape.model.UserSettings.setSetting('weatherStationId', stationId, {
+            success: function(stationId) {},
+            error: function(error) {},
+            scope: this
+        });
+    },
+
 
     // convert weather
     convertTempature: function(tempInDegrees) {
@@ -29891,10 +29945,11 @@ Ext.define("escape.model.Weather", {
         return tempInDegrees;
     },
     // check to see if the weather needs to be loaded
-    getFullWeather: function(callback, scope) {
+    getFullWeather: function(refresh, callback, scope) {
+
+        var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
-            var selfRef = this;
             this.setUp({
                 success: function() {
                     selfRef.getFullWeather(callback, scope);
@@ -29906,18 +29961,17 @@ Ext.define("escape.model.Weather", {
             });
         } else {
             // load the full weather
-            if (this.loadedDate === null) {
-                this.loadWeather(callback, scope);
+            if (this.loadedDate === null || refresh) {
+                this.checkLocation(callback, scope);
             } else {
                 var dateNow = new Date();
                 var diff = dateNow - this.lastUpdatedDate;
-                console.log(this.reloadIn);
-                console.log(diff);
-                console.log(this.lastUpdatedDate);
-                console.log(this.forcatsByDay.length);
+                console.log('!!! diff: ' + diff);
                 if (diff > this.reloadIn || this.forcatsByDay.length <= 1) {
+                    console.log('!!! reload full weather !!!');
                     // reload the current data is old or the fullweather has not been loaded
-                    this.loadWeather(callback, scope);
+                    this.checkLocation(callback, scope);
+
                 } else {
                     // do not reload use the current data
                     Ext.callback(callback.success, scope);
@@ -29926,9 +29980,27 @@ Ext.define("escape.model.Weather", {
         }
 
     },
+    checkLocation: function(callback, scope) {
+        console.log('checkLocation');
+        var selfRef = this;
+        if (this.getStationId() === 0) {
+            Ext.device.Geolocation.getCurrentPosition({
+                success: function(position) {
+                    selfRef.loadWeather(position.coords.latitude, position.coords.longitude, callback, scope);
+                },
+                failure: function() {
+                    selfRef.loadWeather(0, 0, callback, scope);
+                }
+            });
+        } else {
+            selfRef.loadWeather(0, 0, callback, scope);
+        }
+    },
+
     // Loads the full weather including the forcasts
-    loadWeather: function(callback, scope) {
-        console.log('loadWeather');
+    loadWeather: function(lat, lon, callback, scope) {
+        console.log('loadWeather: ' + lat);
+        console.log('loadWeather: ' + lon);
         var selfRef = this;
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
@@ -29936,16 +30008,19 @@ Ext.define("escape.model.Weather", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/Weather',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppID?nocache='+new Date().getTime(),
             method: "POST",
             jsonData: {
-                "StationID": "517",
-                "Latitude": "0",
-                "Longitude": "0",
-                "RegID": "1"
+                "StationID": this.getStationId(),
+                "Latitude": lat,
+                "Longitude": lon,
+                "RegID": "1",
+                "AppID": AppSettings.AppID
             },
             success: function(response) {
+                console.log(response);
                 var weatherData = JSON.parse(Ext.decode(response.responseText));
+
                 // process server response here
                 selfRef.fullWeatherLoaded(weatherData, callback, scope);
             },
@@ -29954,7 +30029,9 @@ Ext.define("escape.model.Weather", {
             }
         });
     },
+
     fullWeatherLoaded: function(weatherData, callback, scope) {
+        this.weatherData = weatherData;
         this.todaysDate = new Date(parseInt(weatherData.Date.substr(6)));
         this.currentTemp = weatherData.TempCurrent;
         var forcasts = [];
@@ -29970,8 +30047,11 @@ Ext.define("escape.model.Weather", {
         this.lastUpdatedDate = new Date();
         Ext.callback(callback.success, scope);
     },
+
+
     // check to see if the weather needs to be loaded
     getBriefWeather: function(callback, scope) {
+        var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
             var selfRef = this;
@@ -29987,23 +30067,39 @@ Ext.define("escape.model.Weather", {
         } else {
             // load the brief weather
             if (this.loadedDate === null) {
-                this.loadBriefWeather(callback, scope);
+                this.checkLocation(true, callback, scope);
             } else {
                 var dateNow = new Date();
                 var diff = dateNow - this.lastBriefUpdatedDate;
                 if (diff > this.reloadIn) {
                     // reload the current data is old
-                    this.loadBriefWeather(callback, scope);
+                    selfRef.checkBreifLocation(callback, scope);
                 } else {
                     // do not reload use the current data
                     Ext.callback(callback.success, scope);
                 }
             }
         }
-
     },
+
+    checkBreifLocation: function(callback, scope) {
+        var selfRef = this;
+        if (this.getStationId() === 0) {
+            Ext.device.Geolocation.getCurrentPosition({
+                success: function(position) {
+                    selfRef.loadBriefWeather(position.coords.latitude, position.coords.longitude, callback, scope);
+                },
+                failure: function() {
+                    selfRef.loadBriefWeather(0, 0, callback, scope);
+                }
+            });
+        } else {
+            selfRef.loadBriefWeather(0, 0, callback, scope);
+        }
+    },
+
     // load a small weather packet for the home page
-    loadBriefWeather: function(callback, scope) {
+    loadBriefWeather: function(lat, lon, callback, scope) {
         //http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherBrief
         var selfRef = this;
         // load the waeather
@@ -30012,13 +30108,14 @@ Ext.define("escape.model.Weather", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherBrief',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppIDBrief?nocache='+new Date().getTime(),
             method: "POST",
             jsonData: {
-                "StationID": "517",
-                "Latitude": "0",
-                "Longitude": "0",
-                "RegID": "1"
+                "StationID": this.getStationId(),
+                "Latitude": lat,
+                "Longitude": lon,
+                "RegID": "1",
+                "AppID": AppSettings.AppID
             },
             success: function(response) {
                 var weatherData = JSON.parse(Ext.decode(response.responseText));
@@ -30081,7 +30178,8 @@ Ext.define("escape.view.ui.MenuBtn", {
     xtype: 'menuBtn',
     config: {
         action: 'showMenu',
-        cls: 'menuBtn iconBtn'
+        cls: 'menuBtn iconBtn',
+        itemId: 'menuBtn'
     }
 });
 /**
@@ -30790,9 +30888,9 @@ Ext.define('Ext.util.Geolocation', {
          var childbrowser = escape.utils.AppVars.childbrowser;
          // Buid Authorization URL
          var authorizeUrl = "https://graph.facebook.com/oauth/authorize?";
-         authorizeUrl += "client_id=" + escape.utils.AppVars.facebook.clientId;
-         authorizeUrl += "&redirect_uri=" + escape.utils.AppVars.facebook.redirectUrl;
-         authorizeUrl += "&display=" + escape.utils.AppVars.facebook.display;
+         authorizeUrl += "client_id=" + AppSettings.facebook.clientId;
+         authorizeUrl += "&redirect_uri=" + AppSettings.facebook.redirectUrl;
+         authorizeUrl += "&display=" + AppSettings.facebook.display;
          authorizeUrl += "&scope=publish_stream,offline_access";
          // Listen for child browser window changes
          var selfRef = this;
@@ -30806,15 +30904,14 @@ Ext.define('Ext.util.Geolocation', {
      },
      broswerLocChange: function(loc, callback, scope) {
          // When the childBrowser window changes locations we check to see if that page is our success page.
-         if (loc.indexOf(escape.utils.AppVars.facebook.redirectUrl) >= 0) {
+         if (loc.indexOf(AppSettings.facebook.redirectUrl) >= 0) {
              var fbCode = loc.match(/code=(.*)$/)[1];
              this.getAccessToken(fbCode, callback, scope);
          }
      },
      getAccessToken: function(fbCode, callback, scope) {
          var selfRef = this;
-         var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + escape.utils.AppVars.facebook.clientId + '&client_secret=' + escape.utils.AppVars.facebook.secret + '&code=' + fbCode + '&redirect_uri=' + escape.utils.AppVars.facebook.redirectUrl;
-
+         var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + AppSettings.facebook.clientId + '&client_secret=' +AppSettings.facebook.secret + '&code=' + fbCode + '&redirect_uri=' + AppSettings.facebook.redirectUrl;
          Ext.Ajax.request({
              url: url,
              method: "POST",
@@ -30848,7 +30945,7 @@ Ext.define('Ext.util.Geolocation', {
      /////////////////////////////////////////////////////
      postMessage: function(fbType, extraParams,callback, scope) {
          console.log('!!!!! postMessage');
-         var url = 'https://graph.facebook.com/me/' + fbType + '?access_token=' + this.accessToken;
+         var url = '`/me/' + fbType + '?access_token=' + this.accessToken;
          for (var key in extraParams) {
              if (key == "message") {
                  // We will want to escape any special characters here vs encodeURI
@@ -30907,7 +31004,7 @@ Ext.define('Ext.util.Geolocation', {
      startAccessProcess: function(callback, scope) {
          var selfRef = this;
          //
-         this.oauth = OAuth(escape.utils.AppVars.twitter);
+         this.oauth = OAuth(AppSettings.twitter);
          this.oauth.get('https://api.twitter.com/oauth/request_token', function(data) {
              requestParams = data.text;
              var childbrowser = escape.utils.AppVars.childbrowser;
@@ -30920,7 +31017,7 @@ Ext.define('Ext.util.Geolocation', {
          });
      },
      broswerLocChnage: function(loc, callback, scope) {
-         if (loc.indexOf(escape.utils.AppVars.twitter.callbackUrl) >= 0) {
+         if (loc.indexOf(AppSettings.twitter.callbackUrl) >= 0) {
              var selfRef = this;
              // Parse the returned URL
              var index, verifier = '';
@@ -30977,11 +31074,11 @@ Ext.define('Ext.util.Geolocation', {
      /////////////////////////////////////////////////////
      tweet: function(tweet,callback,scope) {
          console.log('!!! tweet');
-         escape.utils.AppVars.twitter.accessTokenKey = this.twitterKey.accessTokenKey; // This is saved when they first sign in
-         escape.utils.AppVars.twitter.accessTokenSecret = this.twitterKey.accessTokenSecret; // this is saved when they first sign in
-         console.log(escape.utils.AppVars.twitter);
+         AppSettings.twitter.accessTokenKey = this.twitterKey.accessTokenKey; // This is saved when they first sign in
+         AppSettings.twitter.accessTokenSecret = this.twitterKey.accessTokenSecret; // this is saved when they first sign in
+         console.log(AppSettings.twitter);
          // jsOAuth takes care of everything for us we just need to provide the options
-         this.oauth = OAuth(escape.utils.AppVars.twitter);
+         this.oauth = OAuth(AppSettings.twitter);
          var selfRef = this;
          this.oauth.get('https://api.twitter.com/1/account/verify_credentials.json?skip_status=true', function(data) {
              console.log('!!! verified!');
@@ -30992,9 +31089,9 @@ Ext.define('Ext.util.Geolocation', {
     /*
     Now that we have the information we can Tweet!
     */
-     post: function(tweet,callback,scope) {
+     post: function(tweet,url,callback,scope) {
          this.oauth.post('https://api.twitter.com/1/statuses/update.json', {
-             'status': tweet+' http://www.visitnsw.com/destinations/snowy-mountains/kosciuszko-national-park/thredbo',
+             'status': tweet+' '+url,
              // jsOAuth encodes for us
              'trim_user': 'true'
          }, function(data) {
@@ -31036,7 +31133,7 @@ Ext.define("escape.model.Content", {
             if (content.children.length > 0) {
                 for (var c = 0; c < content.children.length; c++) {
                     var childLink = content.children[c];
-                    if (childLink.Url.indexOf('must-do-links') != -1) {
+                    if (childLink.Url.indexOf('must-do-links') != -1 || childLink.Name.indexOf('Must Do Links') != -1) {
                         content.productLists.push({
                             name: 'Must Do',
                             url: childLink.Url,
@@ -31081,14 +31178,14 @@ Ext.define("escape.model.Content", {
         //
         var items = [];
         // create images
-        if (content.images.length > 1) {
+        if (content.images.length > 0) {
             var caroselImages = [];
             for (var i = 0; i < content.images.length; i++) {
                 caroselImages.push({
                     xtype: 'contentImg',
                     width: screenWidth,
                     height: 200,
-                    imagePath: content.images[i]['Full Size'],
+                    imagePath: escape.utils.Img.getResizeURL(content.images[i]['Full Size'],screenWidth),
                     altText: content.images[i]['Alt']
                 });
             }
@@ -31117,9 +31214,17 @@ Ext.define("escape.model.Content", {
                 xtype: 'expandableInfo',
                 showBorder: false,
                 completeText: description,
-                showParagraphs: 3
+                showParagraphs: 3,
+                padding: '10px 0 0 0'
             });
         }
+        // add a place holder for must do
+        items.push({
+            itemId: 'mustDoPlaceHolder',
+            xtype: 'container',
+            padding: '0',
+            items: []
+        });
         // check to see if the page has child pages
         if (content.children.length > 0) {
             items.push({
@@ -31133,6 +31238,9 @@ Ext.define("escape.model.Content", {
                 data: this.buildChildren(content.children)
             });
         }
+        items.push({
+            xtype: 'footer'
+        });
         return items;
     },
 
@@ -31153,6 +31261,90 @@ Ext.define("escape.view.ui.ProductListItem", {
     config: {
         cls: 'productListItem',
         tpl: '<h3>{name}</h3><h4>{suburb}</h4><div class="productImg" style="background-image:url({imagePath});"></div>'
+    }
+});
+Ext.define("escape.model.WhereIsPOI", {
+    mixins: ['Ext.mixin.Observable'],
+    singleton: true,
+    query: null,
+    distance: -1,
+    geoLocation: false,
+    pageSize: 25,
+    search: function($query, $distance, $geoLocation) {
+        this.query = $query;
+        this.distance = $distance;
+        this.geoLocation = $geoLocation;
+        this.loadLibaries();
+    },
+    loadLibaries: function() {
+        var selfRef = this;
+        escape.model.MapFiles.loadRequiredFiles({
+            success: function(results) {
+                EMS.Util.getDomain = function() {
+                    return "destinationnsw.com.au";
+                };
+                selfRef.defineQurey();
+                selfRef.runQuery();
+            },
+            error: function(error) {},
+            scope: this
+        });
+    },
+    defineQurey: function() {
+        var query = {};
+        // the keyword to search by
+        query.keyword = this.query;
+        if (this.distance != -1) {
+            // convert your lat lon into a EMS lat lon
+            var latlon = new EMS.LonLat(this.geoLocation.longitude, this.geoLocation.latitude);
+            // one approx km in degress
+            var dist = this.distance / 6371;
+            // search by lat long to radians
+            var lon1 = latlon.lon * Math.PI / 180;
+            var lat1 = latlon.lat * Math.PI / 180;
+            // get the lat lon in the north west
+            var brng = 315 * (Math.PI / 180);
+            var lat2 = Math.asin(Math.sin(lat1) * Math.cos(dist) + Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
+            var lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) * Math.cos(lat1), Math.cos(dist) - Math.sin(lat1) * Math.sin(lat2));
+            // get the lat lon in the south east
+            brng = 135 * (Math.PI / 180);
+            var lat3 = Math.asin(Math.sin(lat1) * Math.cos(dist) + Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
+            var lon3 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) * Math.cos(lat1), Math.cos(dist) - Math.sin(lat1) * Math.sin(lat3));
+            // convert lat back to deimails
+            lon1 = (lon1 * 180 / Math.PI);
+            lon2 = (lon2 * 180 / Math.PI);
+            lon3 = (lon3 * 180 / Math.PI);
+            lat1 = (lat1 * 180 / Math.PI);
+            lat2 = (lat2 * 180 / Math.PI);
+            lat3 = (lat3 * 180 / Math.PI);
+            // create the bounds object
+            bounds = new OpenLayers.Bounds(lon2, lat3, lon3, lat2);
+            query.bounds = bounds.asWGS84();
+        } else {
+            // search within the app bounds
+            bounds = new OpenLayers.Bounds(AppSettings.bounds.left, AppSettings.bounds.bottom, AppSettings.bounds.right, AppSettings.bounds.top);
+            query.bounds = bounds.asWGS84();
+        }
+        // the amount of results to be returned
+        query.size = this.pageSize;
+        this.query = query;
+    },
+    runQuery: function() {
+        var selfRef = this;
+        var geocoder = new EMS.Services.Geocoder();
+        // request the search
+        geocoder.poiSearch(this.query, function(poiResults) {
+            selfRef.resultsLoaded(poiResults);
+        });
+
+    },
+    loadMore: function(page) {
+        this.query.offset = this.pageSize * page;
+        this.query.id = new Date().getTime();
+        this.runQuery();
+    },
+    resultsLoaded: function(poiResults) {
+        this.fireEvent('resultsLoaded', poiResults);
     }
 });
 /**
@@ -31362,7 +31554,6 @@ Ext.define('escape.utils.Maps', {
             var leg = route.legs[l];
             for (var i = leg.maneuvers.length - 1; i >= 0; i--) {
                 var step = leg.maneuvers[i];
-               
                 //var point = new OpenLayers.Geometry.Point(step.startPoint.lat, step.startPoint.lng);
                 var point = this.getPoint(step.startPoint.lat, step.startPoint.lng);
                 pointsList.push(point);
@@ -31370,7 +31561,6 @@ Ext.define('escape.utils.Maps', {
         }
         return pointsList;
     },
-
     // creates a route from the mapquest directions service
     createBingRoute: function(route) {
         var pointsList = [];
@@ -31382,7 +31572,6 @@ Ext.define('escape.utils.Maps', {
                 var point = this.getPoint(p[0], p[1]);
                 pointsList.push(point);
             }
-    
         return pointsList;
     }
 });
@@ -31400,22 +31589,56 @@ Ext.define("escape.model.MapFiles", {
 
     loadOpenLayers: function(callback, scope) {
         var selfRef = this;
+        //'resources/js/OpenLayers.js' 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'
         LazyLoad.js(['http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'], function() {
             selfRef.loadEMS(callback, scope);
         });
     },
 
     loadEMS: function(callback, scope) {
-        this.loaded = true;
         var selfRef = this;
         //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
         var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=8348923927920532480';
         LazyLoad.js([url], function() {
-            EMS.Services.communicationMode = "CrossDomain";
-            Ext.callback(callback.success, scope, []);
+             selfRef.loadTouchControls(callback, scope);
+        });
+
+    },
+    loadTouchControls: function(callback, scope) {
+        console.log('loadTouchControls');
+        this.loaded = true;
+        var selfRef = this;
+        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+        var url = 'resources/js/IPhoneDefaults.js';
+        LazyLoad.js([url], function() {
+             Ext.callback(callback.success, scope, []);
         });
 
     }
+
+    // loadMootTools: function(callback, scope) {
+    //     console.log('MootTools');
+    //     this.loaded = true;
+    //     var selfRef = this;
+    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+    //     var url = 'resources/js/MootTools.js';
+    //     LazyLoad.js([url], function() {
+    //         selfRef.loadTablet(callback, scope);
+    //     });
+
+    // },
+
+    // loadTablet: function(callback, scope) {
+    //     console.log('loadTablet');
+    //     this.loaded = true;
+    //     var selfRef = this;
+    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+    //     var url = 'resources/js/WhereIsMobileUI.js';
+    //     LazyLoad.js([url], function() {
+    //         Ext.callback(callback.success, scope, []);
+    //     });
+
+    // }
 });
 /**
  * @aside guide forms
@@ -31761,6 +31984,354 @@ Ext.define("escape.view.ui.LoadError", {
         html:'Error loading'
     }
 });
+/**
+ * Wraps a Google Map in an Ext.Component using the [Google Maps API](http://code.google.com/apis/maps/documentation/v3/introduction.html).
+ *
+ * To use this component you must include an additional JavaScript file from Google:
+ *
+ *     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+ *
+ * ## Example
+ *
+ *     Ext.Viewport.add({
+ *         xtype: 'map',
+ *         useCurrentLocation: true
+ *     });
+ *
+ */
+Ext.define('Ext.Map', {
+    extend: 'Ext.Component',
+    xtype : 'map',
+    requires: ['Ext.util.Geolocation'],
+
+    isMap: true,
+
+    config: {
+        /**
+         * @event maprender
+         * Fired when Map initially rendered.
+         * @param {Ext.Map} this
+         * @param {google.maps.Map} map The rendered google.map.Map instance
+         */
+
+        /**
+         * @event centerchange
+         * Fired when map is panned around.
+         * @param {Ext.Map} this
+         * @param {google.maps.Map} map The rendered google.map.Map instance
+         * @param {google.maps.LatLng} center The current LatLng center of the map
+         */
+
+        /**
+         * @event typechange
+         * Fired when display type of the map changes.
+         * @param {Ext.Map} this
+         * @param {google.maps.Map} map The rendered google.map.Map instance
+         * @param {Number} mapType The current display type of the map
+         */
+
+        /**
+         * @event zoomchange
+         * Fired when map is zoomed.
+         * @param {Ext.Map} this
+         * @param {google.maps.Map} map The rendered google.map.Map instance
+         * @param {Number} zoomLevel The current zoom level of the map
+         */
+
+        /**
+         * @cfg {String} baseCls
+         * The base CSS class to apply to the Maps's element
+         * @accessor
+         */
+        baseCls: Ext.baseCSSPrefix + 'map',
+
+        /**
+         * @cfg {Boolean/Ext.util.Geolocation} useCurrentLocation
+         * Pass in true to center the map based on the geolocation coordinates or pass a
+         * {@link Ext.util.Geolocation GeoLocation} config to have more control over your GeoLocation options
+         * @accessor
+         */
+        useCurrentLocation: false,
+
+        /**
+         * @cfg {google.maps.Map} map
+         * The wrapped map.
+         * @accessor
+         */
+        map: null,
+
+        /**
+         * @cfg {Ext.util.Geolocation} geo
+         * Geolocation provider for the map.
+         * @accessor
+         */
+        geo: null,
+
+        /**
+         * @cfg {Object} mapOptions
+         * MapOptions as specified by the Google Documentation:
+         * http://code.google.com/apis/maps/documentation/v3/reference.html
+         * @accessor
+         */
+        mapOptions: {}
+    },
+
+    constructor: function() {
+        this.callParent(arguments);
+        this.element.setVisibilityMode(Ext.Element.OFFSETS);
+
+        if (!(window.google || {}).maps) {
+            this.setHtml('Google Maps API is required');
+        }
+    },
+
+    initialize: function() {
+        this.callParent();
+        this.on({
+            painted: 'doResize',
+            scope: this
+        });
+        this.element.on('touchstart', 'onTouchStart', this);
+    },
+
+    onTouchStart: function(e) {
+        e.makeUnpreventable();
+    },
+
+    applyMapOptions: function(options) {
+        return Ext.merge({}, this.options, options);
+    },
+
+    updateMapOptions: function(newOptions) {
+        var me = this,
+            gm = (window.google || {}).maps,
+            map = this.getMap();
+
+        if (gm && map) {
+            map.setOptions(newOptions);
+        }
+        if (newOptions.center && !me.isPainted()) {
+            me.un('painted', 'setMapCenter', this);
+            me.on('painted', 'setMapCenter', this, { delay: 50, single: true, args: [newOptions.center] });
+        }
+    },
+
+    getMapOptions: function() {
+        return Ext.merge({}, this.options || this.getInitialConfig('mapOptions'));
+    },
+
+    updateUseCurrentLocation: function(useCurrentLocation) {
+        this.setGeo(useCurrentLocation);
+        if (!useCurrentLocation) {
+            this.renderMap();
+        }
+    },
+
+    applyGeo: function(config) {
+        return Ext.factory(config, Ext.util.Geolocation, this.getGeo());
+    },
+
+    updateGeo: function(newGeo, oldGeo) {
+        var events = {
+            locationupdate : 'onGeoUpdate',
+            locationerror : 'onGeoError',
+            scope : this
+        };
+
+        if (oldGeo) {
+            oldGeo.un(events);
+        }
+
+        if (newGeo) {
+            newGeo.on(events);
+            newGeo.updateLocation();
+        }
+    },
+
+    doResize: function() {
+        var gm = (window.google || {}).maps,
+            map = this.getMap();
+
+        if (gm && map) {
+            gm.event.trigger(map, "resize");
+        }
+    },
+
+    // @private
+    renderMap: function() {
+        var me = this,
+            gm = (window.google || {}).maps,
+            element = me.element,
+            mapOptions = me.getMapOptions(),
+            map = me.getMap(),
+            event;
+
+        if (gm) {
+            if (Ext.os.is.iPad) {
+                Ext.merge({
+                    navigationControlOptions: {
+                        style: gm.NavigationControlStyle.ZOOM_PAN
+                    }
+                }, mapOptions);
+            }
+
+            mapOptions = Ext.merge({
+                zoom: 12,
+                mapTypeId: gm.MapTypeId.ROADMAP
+            }, mapOptions);
+
+            // This is done separately from the above merge so we don't have to instantiate
+            // a new LatLng if we don't need to
+            if (!mapOptions.hasOwnProperty('center')) {
+                mapOptions.center = new gm.LatLng(37.381592, -122.135672); // Palo Alto
+            }
+
+            if (element.dom.firstChild) {
+                Ext.fly(element.dom.firstChild).destroy();
+            }
+
+            if (map) {
+                gm.event.clearInstanceListeners(map);
+            }
+
+            me.setMap(new gm.Map(element.dom, mapOptions));
+            map = me.getMap();
+
+            //Track zoomLevel and mapType changes
+            event = gm.event;
+            event.addListener(map, 'zoom_changed', Ext.bind(me.onZoomChange, me));
+            event.addListener(map, 'maptypeid_changed', Ext.bind(me.onTypeChange, me));
+            event.addListener(map, 'center_changed', Ext.bind(me.onCenterChange, me));
+
+            me.fireEvent('maprender', me, map);
+        }
+    },
+
+    // @private
+    onGeoUpdate: function(geo) {
+        if (geo) {
+            this.setMapCenter(new google.maps.LatLng(geo.getLatitude(), geo.getLongitude()));
+        }
+    },
+
+    // @private
+    onGeoError: Ext.emptyFn,
+
+    /**
+     * Moves the map center to the designated coordinates hash of the form:
+     *
+     *     { latitude: 37.381592, longitude: -122.135672 }
+     *
+     * or a google.maps.LatLng object representing to the target location.
+     *
+     * @param {Object/google.maps.LatLng} coordinates Object representing the desired Latitude and
+     * longitude upon which to center the map.
+     */
+    setMapCenter: function(coordinates) {
+        var me = this,
+            map = me.getMap(),
+            gm = (window.google || {}).maps;
+
+        if (gm) {
+            if (!me.isPainted()) {
+                me.un('painted', 'setMapCenter', this);
+                me.on('painted', 'setMapCenter', this, { delay: 50, single: true, args: [coordinates] });
+                return;
+            }
+            coordinates = coordinates || new gm.LatLng(37.381592, -122.135672);
+
+            if (coordinates && !(coordinates instanceof gm.LatLng) && 'longitude' in coordinates) {
+                coordinates = new gm.LatLng(coordinates.latitude, coordinates.longitude);
+            }
+
+            if (!map) {
+                me.renderMap();
+                map = me.getMap();
+            }
+
+            if (map && coordinates instanceof gm.LatLng) {
+                map.panTo(coordinates);
+            }
+            else {
+                this.options = Ext.apply(this.getMapOptions(), {
+                    center: coordinates
+                });
+            }
+        }
+    },
+
+    // @private
+    onZoomChange : function() {
+        var mapOptions = this.getMapOptions(),
+            map = this.getMap(),
+            zoom;
+
+        zoom = (map && map.getZoom) ? map.getZoom() : mapOptions.zoom || 10;
+
+        this.options = Ext.apply(mapOptions, {
+            zoom: zoom
+        });
+
+        this.fireEvent('zoomchange', this, map, zoom);
+    },
+
+    // @private
+    onTypeChange : function() {
+        var mapOptions = this.getMapOptions(),
+            map = this.getMap(),
+            mapTypeId;
+
+        mapTypeId = (map && map.getMapTypeId) ? map.getMapTypeId() : mapOptions.mapTypeId;
+
+        this.options = Ext.apply(mapOptions, {
+            mapTypeId: mapTypeId
+        });
+
+        this.fireEvent('typechange', this, map, mapTypeId);
+    },
+
+    // @private
+    onCenterChange: function() {
+        var mapOptions = this.getMapOptions(),
+            map = this.getMap(),
+            center;
+
+        center = (map && map.getCenter) ? map.getCenter() : mapOptions.center;
+
+        this.options = Ext.apply(mapOptions, {
+            center: center
+        });
+
+        this.fireEvent('centerchange', this, map, center);
+
+    },
+
+    // @private
+    destroy: function() {
+        Ext.destroy(this.getGeo());
+        var map = this.getMap();
+
+        if (map && (window.google || {}).maps) {
+            google.maps.event.clearInstanceListeners(map);
+        }
+
+        this.callParent();
+    }
+}, function() {
+});
+
+Ext.define("escape.view.ui.FavoriteBtn", {
+    extend: 'Ext.Button',
+    xtype: 'favoriteBtn',
+    config: {
+        action: 'addToFavorites',
+        cls: 'favoriteBtn',
+        top: 116,
+        right: 13,
+        width: 50,
+        height: 50
+    }
+});
 Ext.define("escape.view.ui.ItinerayBtn", {
     extend: 'Ext.Button',
     xtype: 'itinerayBtn',
@@ -31772,6 +32343,14 @@ Ext.define("escape.view.ui.ItinerayBtn", {
         width: 50,
         height: 50,
         zIndex:751
+    }
+});
+Ext.define("escape.view.ui.LoadingDisplay", {
+    extend: 'Ext.Component',
+    xtype: 'loadingDisplay',
+    config: {
+        cls: 'loadingDisplay',
+        html: '<div class="x-loading-spinner"></div>'
     }
 });
 /**
@@ -37666,50 +38245,14 @@ Ext.define('Ext.data.ResultSet', {
         this.setCount(records.length);
     }
 });
-Ext.define("escape.view.page.ServicesAndFacilities", {
-    extend: 'Ext.Container',
-    xtype: 'servicesAndFacilitiesPage',
-    requires: ['escape.view.ui.MenuBtn'],
-    config: {
-        title: "Services & Facilities",
-        cls: 'searchPage',
-        rightBtn: "hide",
-        layout: 'vbox',
-        items: [{
-            xtype: 'toolbar',
-            docked: 'top',
-            cls: 'searchBar',
-            layout: 'hbox',
-            items: [{
-                xtype: 'searchfield',
-                flex: 1
-            }]
-        }, {
-            xtype: 'container',
-            docked: 'bottom',
-            cls: 'btnsArea',
-            padding: '10xp',
-            defaults: {
-                margin: '10px 0 0 0'
-            },
-            items: [{
-                xtype: 'button',
-                text: 'Search',
-                action: 'search',
-                cls: 'search'
-            }, {
-                xtype: 'button',
-                text: 'Reset',
-                action: 'cancelSearch',
-                cls: 'reset'
-            }]
-        }]
-    }
-});
 Ext.define('escape.controller.Section', {
     extend: 'Ext.app.Controller',
     requires: ['Ext.util.DelayedTask'],
     config: {
+        menuBtn: null,
+        rightBtn: null,
+        oldPage: null,
+        newPage: null,
         control: {
             'slidenavigationview': {
                 menuClosed: 'menuClosed'
@@ -37718,6 +38261,9 @@ Ext.define('escape.controller.Section', {
                 activeitemchange: 'activeItemChange'
             },
             'section > navigationview > page': {
+                hide: 'itemHidden'
+            },
+            'section > navigationview > subSection': {
                 hide: 'itemHidden'
             },
             'section > navigationview toolbar': {
@@ -37730,16 +38276,21 @@ Ext.define('escape.controller.Section', {
         }
     },
     sectionActivated: function(section) {
+        escape.utils.AppVars.currentSection = section;
         // add the scroll to top button
-        section.setNavigationView(section.getItems().items[section.getNavViewItemId()]);
+        var navView = section.getItems().items[section.getNavViewItemId()];
+        section.setNavigationView(navView);
         var scrollTopTopBtn = section.add({
             xtype: 'scrollTopTopBtn',
             width: Ext.Viewport.getSize().width - 120
         });
         section.setTopText(scrollTopTopBtn.getComponent('topBtn'));
+        // define menu btns
+        var menuBtn = section.getComponent('menuBtn'); //Ext.ComponentQuery.query('#' + section.id + ' menuBtn')[0]; // get a referance to the menu button
+        var rightBtn = section.getComponent('rightBtn'); //Ext.ComponentQuery.query('#' + section.id + ' button[action="rightBtn"]')[0]; // get a referance to the menu button
+        this.setMenuBtn(menuBtn);
+        this.setRightBtn(rightBtn);
         // a new section has be activate, add the first view
-        var sec = Ext.ComponentQuery.query('#' + section.id);
-        var navView = Ext.ComponentQuery.query('#' + section.id + ' navigationview')[0];
         var firstPage = section.getFirstPage();
         if (firstPage.pageTitle !== null && firstPage.pageTitle !== '' && firstPage.pageTitle !== undefined) {
             section.getTopText().setHtml(firstPage.pageTitle);
@@ -37756,31 +38307,33 @@ Ext.define('escape.controller.Section', {
         page.viewOpened();
     },
     activeItemChange: function(navView, page, oldPage) {
+        // close the old page
+        if (oldPage){
+            oldPage.viewClose();
+        }
+        this.setOldPage(oldPage);
+        this.setNewPage(page);
+        // get references to the view
         escape.utils.AppVars.currentPage = page;
-        var view = navView.parent; // reference to the parent of the Naviagtion view
-        var menuBtn = Ext.ComponentQuery.query('#' + view.id + ' menuBtn')[0]; // get a referance to the menu button
-        var rightBtn = Ext.ComponentQuery.query('#' + view.id + ' button[action="rightBtn"]')[0]; // get a referance to the menu button
-        //rightBtn.replaceCls(rightBtn.getCls(),); // change the class of the right button of the navigation view as it is required
+        // control which buttons are shown and hiiden
+        var menuBtn = this.getMenuBtn();
+        var rightBtn = this.getRightBtn();
         rightBtn.setCls(page.getRightBtn() + ' iconBtn');
         var itemIndex = navView.items.indexOf(page); // The index of the page
         if (itemIndex > 1) {
             // hide the menu button
             menuBtn.hide();
-            var task1 = Ext.create('Ext.util.DelayedTask', function() {
-                page.viewOpened();
-            });
-            task1.delay(500);
-
         } else {
-            // show the main menu button after a delay
-            var task2 = Ext.create('Ext.util.DelayedTask', function() {
-                menuBtn.show();
-            });
-            task2.delay(500);
+            // show the menu btn we are on the first page
+            menuBtn.show();
         }
-        // set the current page
     },
-    itemHidden: function(page) {
+    itemHidden: function(hiddenPage) {
+        if (this.getOldPage()) {
+            if (hiddenPage.getId() == this.getOldPage().getId()) {
+                this.getNewPage().viewOpened();
+            }
+        }
 
     }
 });
@@ -38419,6 +38972,9 @@ Ext.define('escape.controller.ProductSections', {
             thingsToDoSection: '#thingsToDoSection'
         },
         control: {
+             'homePage #thingsToDoList': {
+                select: 'catigoriesSelected'
+            },
             '#thingsToDoSection thingsToDoCatigoriesPage list': {
                 select: 'catigoriesSelected'
             },
@@ -38440,21 +38996,16 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadProduct: function(productListItem) {
         var data = productListItem.getData();
-        escape.model.Product.getProxy().setUrl(escape.utils.AppVars.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details/_nocache');
+        escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
-                console.log(product.raw);
-                var data = {
-                    name: productListItem.getData().name,
-                    suburb: '-',
-                    imagePath: ''
-                };
+                var data = productListItem.getData();
                 if (product.raw.Contact.Address.Suburb) {
                     data.suburb = product.raw.Contact.Address.Suburb;
                 }
                 if (product.raw.Images) {
                     if (product.raw.Images.length > 0) {
-                        data.imagePath = product.raw.Images[0]['Full Size'];
+                        data.imagePath = escape.utils.Img.getResizeURL(product.raw.Images[0]['Full Size'],Ext.Viewport.getSize().width-20);
                     }
                 }
                 productListItem.setData(data);
@@ -38468,7 +39019,7 @@ Ext.define('escape.controller.ProductSections', {
         });
     },
     catigoriesSelected: function(list, record) {
-        this.getNavView().push({
+        escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: record.data.title,
             contentPath: record.data.contentPath,
             xtype: 'productSubSection'
@@ -38536,7 +39087,6 @@ Ext.define('escape.controller.ProductSections', {
 
         productSubSection.setItems(items);
         productSubSection.setCardView(productSubSection.getItems().items[productSubSection.getCardViewItemId()]);
-        console.log(productSubSection.getCardView());
     },
     switchType: function(container, btn, pressed) {
         this.setCurrentSection(btn.config.type);
@@ -38588,6 +39138,7 @@ Ext.define('escape.controller.ProductSections', {
                     var urlBreakdown = link.split('/');
                     var type = urlBreakdown[urlBreakdown.length - 2];
                     var productId = urlBreakdown[urlBreakdown.length - 1];
+                    console.log('productId: ' + productId);
 
                     if (type == 'attractions') {
                         type = 'attraction';
@@ -38617,6 +39168,10 @@ Ext.define('escape.controller.ProductSections', {
                     }
                 }
             }
+             mustDoItems.push({
+                margin: '20px 0 0 0',
+             xtype: 'footer'
+             });
             productSubSection.getCardView().getComponent('contents').setPadding(0);
             productSubSection.getCardView().getComponent('contents').setItems(mustDoItems);
         }
@@ -38627,13 +39182,21 @@ Ext.define('escape.controller.ProductSections', {
         var productList = '';
         var values = url.split('/product-list-generator/')[1].split('&');
         var params = {};
+        var producType ='attraction';
         for (var i = 0; i < values.length; i++) {
             var param = values[i].split('=');
-            params[param[0]] = param[1].split(',').join(';');
+            if (param[0]=='product_types'){
+                producType= param[1].split(',')[0];
+                 params[param[0]] =producType;
+            } else {
+                 params[param[0]] = param[1].split(',').join(';');
+            }
+           
         }
+        console.log('producType: ' + producType);
         // if no destination are sent use the default ones
         if (!params.destination_id) {
-            params.destination_id = escape.utils.AppVars.destinationIds;
+            params.destination_id = AppSettings.destinationIds;
         }
         // if no limit is sent add one
         if (!params.limit_by) {
@@ -38642,18 +39205,23 @@ Ext.define('escape.controller.ProductSections', {
 
         Ext.Ajax.request({
             method: 'GET',
-            url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator/_nocache',
+            url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator',
             params: params,
             success: function(response) {
                 productList = (JSON.parse(response.responseText));
-                selfRef.productListLoaded(productList, productSubSection);
+                selfRef.productListLoaded(productList, productSubSection, producType);
 
             },
             failure: function(response, opts) {}
         });
     },
-    productListLoaded: function(productList, productSubSection) {
+    productListLoaded: function(productList, productSubSection, producType) {
         if (this.getCurrentSection() == 'productList') {
+            // loop over the data and add a producType.
+            for (var i = productList.length - 1; i >= 0; i--) {
+                productList[i].producType = producType;
+            }
+            console.log(productList);
             var items = {
                 xtype: 'list',
                 margin: '10 10 10 10',
@@ -38669,93 +39237,22 @@ Ext.define('escape.controller.ProductSections', {
     },
     openProductListItem: function(openProductListItem) {
         var data = openProductListItem.getData();
-        this.getNavView().push({
-            pageTitle: data.type,
+        
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            pageTitle: String(data.type).toProperCase(),
             xtype: 'productPage',
             productId: data.productId,
             productType: data.type
         });
     },
     productSelected: function(list, record) {
-        console.log(record);
         var data = record.getData();
-        console.log(data);
-        //
-        this.getNavView().push({
-            pageTitle: 'attraction',//collection.name,
+        console.log('producType: ' + data.producType);
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            pageTitle: String(data.producType).toProperCase().removePuralS(),
             xtype: 'productPage',
             productId: data['Web Path'],
-            productType: 'attraction'
-        });
-    }
-});
-Ext.define('escape.controller.Accommodation', {
-    extend: 'Ext.app.Controller',
-    requires: ['Ext.Anim'],
-    config: {
-        refs: {
-            navView: '#accommodationSection > navigationview',
-            listView: '#accommodationSection listTypesSubSection'
-        },
-        control: {
-            '#accommodationSection listTypesSubSection': {
-                activate: 'setUpListPage'
-            },
-            '#accommodationSection listTypesSubSection segmentedbutton': {
-                toggle: 'listViewByChange'
-            },
-            '#accommodationSection listTypesSubSection list': {
-                select: 'productSelected'
-            }
-        }
-    },
-    setUpListPage: function() {
-        this.getListView().setListOptions([{
-            text: escape.utils.Translator.translate('By Destination'),
-            pressed: true,
-            flex: 1
-        }, {
-            text: escape.utils.Translator.translate('By Kind'),
-            flex: 1
-        }]);
-        this.getListView().setFirstView(new Ext.List({
-            padding: '10 10 10 10',
-            itemTpl: '<div>{title}<span>{note}</span></div>{imgHTML}',
-            cls: 'imgList',
-            scrollable: false,
-            data: [{
-                title: escape.utils.Translator.translate('Inner Sydney'),
-                note:'5 local towns',
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', 300, 88)
-            }, {
-                title: escape.utils.Translator.translate('Sydney City'),
-                note:'5 local towns',
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', 300, 88)
-            }, {
-                title: escape.utils.Translator.translate('Sydney East'),
-                note:'5 local towns',
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', 300, 88)
-            }, {
-                title: escape.utils.Translator.translate('Sydney North'),
-                note:'5 local towns',
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', 300, 88)
-            }, {
-                title: escape.utils.Translator.translate('Sydney South'),
-                note:'5 local towns',
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', 300, 88)
-            }, {
-                title: escape.utils.Translator.translate('Sydney West'),
-                note:'5 local towns',
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', 300, 88)
-            }]
-        }));
-    },
-    listViewByChange: function() {
-    },
-    productSelected: function() {
-        this.getNavView().push({
-            title: 'Accomodation',
-            xtype: 'productPage'
+            productType: data.producType.removePuralS().toLowerCase()
         });
     }
 });
@@ -38771,8 +39268,17 @@ Ext.define('escape.controller.Weather', {
             'weatherPage togglefield': {
                 change: 'tempChanges'
             },
+            'weatherPage selectField': {
+                change: 'stationChanges'
+            },
             'settingsPage togglefield': {
                 change: 'tempChanges'
+            },
+            'settingsPage selectField': {
+                change: 'stationChanges'
+            },
+            'section button[cls="refreshBtn iconBtn"]': {
+                tap: 'showSearch'
             }
         }
     },
@@ -38789,8 +39295,20 @@ Ext.define('escape.controller.Weather', {
         } catch (e) {
 
         }
+    },
+    // a language has been selected
+    stationChanges: function(field,newValue) {
+        //console.log(field.value.getValue());
+        console.log(newValue.getData().value);
+        escape.model.Weather.setStationId(newValue.getData().value);
+        try {
+            this.getWeatherPage().getTheWeather(true);
+        } catch (e) {
+
+        }
     }
 });
+
 Ext.define("escape.view.ui.MenuBtnFloating", {
     extend: 'escape.view.ui.MenuBtn',
     xtype: 'menuBtnFloating',
@@ -38800,7 +39318,6 @@ Ext.define("escape.view.ui.MenuBtnFloating", {
     }
 });
 /**
- *  {@link escape.view.AppSetUp} is a subclass of {@link Ext.Container}
  *  Provides extended functionality to Containers that are pages within the application
  *  @author Ryan O'Connell
  */
@@ -38859,26 +39376,21 @@ Ext.define("escape.view.page.Page", {
             // get the item to add to
             this.openView();
             this.fireEvent('openView', this);
+        } else {
+            this.reOpenView();
         }
         // after the view has opened and set up track the open event
         escape.utils.Tracking.trackEvent(this.getPageTypeId(), this.getPageTrackingId(), 1);
     },
-    openView: function() {}
-    // if (!this.isBuilt) {
-    //         this.isBuilt = true;
-    //         // get the item to add to
-    //         var addToItemTo = this;
-    //         if (this.getAddToItemId() != -1) {
-    //             // an add to id has been set find the item
-    //             var itemsList = this.getItems().items;
-    //             addToItemTo = itemsList[this.getAddToItemId()];
-    //         }
-    //         for (var i = 0; i < this.getItemsToAdd().length; i++) {
-    //             if (addToItemTo) {
-    //                 addToItemTo.add(this.getItemsToAdd()[i]);
-    //             }
-    //         }
-    //     }
+    openView: function() {},
+    viewClose: function() {
+        this.fireEvent('closeView', this);
+        this.closeView();
+    },
+    reOpenView: function() {
+    },
+    closeView: function() {}
+   
 });
 Ext.define("escape.view.page.FeaturedList", {
     extend: 'escape.view.page.Page',
@@ -38918,39 +39430,49 @@ Ext.define("escape.view.page.FeaturedList", {
         itemsToAdd: []
     }
 });
-Ext.define("escape.view.page.FoodAndWine", {
+Ext.define("escape.view.page.Events", {
     extend: 'escape.view.page.Page',
-    xtype: 'foodAndWinePage',
-    requires: ['escape.view.ui.ExpandableInfo', 'escape.view.ui.MoreInfo'],
+    xtype: 'eventsPage',
     config: {
-        scrollable: {
-            direction: 'vertical',
-            directionLock: true
-        },
-        addToItemId: 1,
-        title: 'Food & Wine',
-        //TODO get the dynamic name of the city
-        items: [{
-            xtype: 'expandableInfo',
-            heading : escape.utils.Translator.translate1('Get to know {1}', ['Sydney']),
-            completeText: '<p>Creative chefs, fresh produce and stunning outdoor locations are the essential ingredients that make eating out in Sydney so enjoyable.</p><p>Creative chefs, fresh produce and stunning outdoor locations are the essential ingredients that make eating out in Sydney so enjoyable.</p>'
-        }, {
-            xtype: 'list',
-            margin: '10 10 10 10',
-            itemTpl: '{title}',
-            cls: 'selectionList',
-            scrollable: false,
-            data: [{
-                title: escape.utils.Translator.translate('Gourmet Dining')
+        pageTitle: 'Events',
+        cls: 'eventsPage',
+        rightBtn: 'searchBtn',
+        pageTrackingId: 0,
+        scrollable: false,
+        padding: 0,
+        layout: 'hbox',
+        pageTypeId: 16,
+        pageTrackingId: 16
+    },
+    //
+    openView: function() {
+
+        this.setItems([{
+            xtype: 'segmentedbutton',
+            layout: 'hbox',
+            allowMultiple: false,
+            allowDepress: false,
+            docked: 'top',
+            items: [{
+                text: 'Events Calender',
+                type: 'eventsCalender',
+                pressed: true,
+                flex: 1
             }, {
-                title: escape.utils.Translator.translate('Casual Dining')
-            }, {
-                title: escape.utils.Translator.translate('Fresh Produce')
-            }, {
-                title: escape.utils.Translator.translate('Cooking schools & food tours')
+                text: 'This week',
+                type: 'weekly',
+                flex: 1
             }]
-        }],
-        itemsToAdd: []
+        }, {
+            xtype: 'container',
+            itemId: 'contents',
+            flex: 1,
+            padding:'10',
+            items: [{
+                xtype: 'loadingDisplay'
+            }]
+        }]);
+        this.fireEvent('built', this);
     }
 });
 Ext.define("escape.view.page.LikeALocal", {
@@ -38999,10 +39521,9 @@ Ext.define("escape.view.page.MyItinerary", {
     config: {
         pageTitle: 'My Itinerary',
         rightBtn: '',
-         items: [{
-            xtype: 'loadingDisplay'
-        }],
-        layout:'vbox'
+        layout:'vbox',
+        pageTypeId: 14,
+        pageTrackingId: 1
     }
 });
 
@@ -39017,6 +39538,144 @@ Ext.define("escape.view.page.MyFavourites", {
         pageTypeId:8,
         pageTrackingId:8,
         layout: 'vbox'
+    }
+});
+Ext.define("escape.view.page.ThingsToDoCatigories", {
+    extend: 'escape.view.page.Page',
+    xtype: 'thingsToDoCatigoriesPage',
+    requires: [],
+    config: {
+        title: 'Things To Do',
+        rightBtn: 'searchBtn',
+        scrollable: {
+            direction: 'vertical',
+            directionLock: true
+        }
+    },
+    openView: function() {
+        var listData = [];
+        for (var i = 0; i < AppSettings.attractionCats.length; i++) {
+            var cat = AppSettings.attractionCats[i];
+            if (!cat.hideInSubSections) {
+                cat.number = listData.length + 1;
+                listData.push(cat);
+            }
+
+        }
+        var items = [{
+            xtype: 'list',
+            margin: '10 10 20 10',
+           itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
+            cls: 'imgList numberedList',
+            action: 'changeListPage',
+            scrollable: false,
+            data: listData
+        }, {
+            xtype: 'footer'
+        }];
+        this.setItems(items);
+    }
+});
+Ext.define("escape.view.page.ServicesAndFacilities", {
+    extend: 'escape.view.page.Page',
+    xtype: 'servicesAndFacilitiesPage',
+    requires: ['escape.view.ui.MenuBtn'],
+    config: {
+        title: "Services & Facilities",
+        cls: 'searchPage formPage',
+        rightBtn: "hide",
+        layout: 'vbox',
+        pageTypeId: 5,
+        pageTrackingId: 1
+    },
+    openView: function() {
+        var items = [{
+            xtype: 'formpanel',
+            layout: 'vbox',
+            scrollable: false,
+            width: '100%',
+            flex: 1,
+            items: [{
+                xtype: 'toolbar',
+                docked: 'top',
+                cls: 'searchBar',
+                layout: 'hbox',
+                items: [{
+                    xtype: 'searchfield',
+                    name: 'keyword',
+                    flex: 1
+                }]
+            }, {
+                xtype: 'container',
+                flex: 1,
+                scrollable: {
+                    direction: 'vertical',
+                    directionLock: true
+                },
+                items: [{
+                    xtype: 'selectField',
+                    label: 'Distance',
+                    name: 'distance',
+                    options: [{
+                        text: 'Any',
+                        value: -1
+                    }, {
+                        text: '5Km',
+                        value: 5
+                    }, {
+                        text: '10Km',
+                        value: 10
+                    }, {
+                        text: '15Km',
+                        value: 15
+                    }, {
+                        text: '25Km',
+                        value: 25
+                    }, {
+                        text: '50Km',
+                        value: 50
+                    }, {
+                        text: '75Km',
+                        value: 75
+                    }, {
+                        text: '100Km',
+                        value: 100
+                    }, {
+                        text: '150Km',
+                        value: 150
+                    }, {
+                        text: '200Km',
+                        value: 200
+                    }]
+                }, {
+                    xtype: 'list',
+                    itemId: 'keywordList',
+                    action: 'selectKeyword',
+                    margin: '10px',
+                    cls: 'radioList',
+                    activeItem: 1,
+                    scrollable: false,
+                    flex: 1,
+                    itemTpl: '{label}',
+                    data: AppSettings.pointsOfInterests
+                }]
+            }, {
+                xtype: 'container',
+                docked: 'bottom',
+                cls: 'btnsArea',
+                padding: '10xp',
+                defaults: {
+                    margin: '10px 0 0 0'
+                },
+                items: [{
+                    xtype: 'button',
+                    text: 'Search',
+                    action: 'search',
+                    cls: 'search'
+                }]
+            }]
+        }];
+        this.setItems(items);
     }
 });
 /**
@@ -39871,345 +40530,9 @@ Ext.define('Ext.carousel.Carousel', {
 }, function() {
 });
 
-/**
- * Wraps a Google Map in an Ext.Component using the [Google Maps API](http://code.google.com/apis/maps/documentation/v3/introduction.html).
- *
- * To use this component you must include an additional JavaScript file from Google:
- *
- *     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
- *
- * ## Example
- *
- *     Ext.Viewport.add({
- *         xtype: 'map',
- *         useCurrentLocation: true
- *     });
- *
- */
-Ext.define('Ext.Map', {
-    extend: 'Ext.Component',
-    xtype : 'map',
-    requires: ['Ext.util.Geolocation'],
-
-    isMap: true,
-
-    config: {
-        /**
-         * @event maprender
-         * Fired when Map initially rendered.
-         * @param {Ext.Map} this
-         * @param {google.maps.Map} map The rendered google.map.Map instance
-         */
-
-        /**
-         * @event centerchange
-         * Fired when map is panned around.
-         * @param {Ext.Map} this
-         * @param {google.maps.Map} map The rendered google.map.Map instance
-         * @param {google.maps.LatLng} center The current LatLng center of the map
-         */
-
-        /**
-         * @event typechange
-         * Fired when display type of the map changes.
-         * @param {Ext.Map} this
-         * @param {google.maps.Map} map The rendered google.map.Map instance
-         * @param {Number} mapType The current display type of the map
-         */
-
-        /**
-         * @event zoomchange
-         * Fired when map is zoomed.
-         * @param {Ext.Map} this
-         * @param {google.maps.Map} map The rendered google.map.Map instance
-         * @param {Number} zoomLevel The current zoom level of the map
-         */
-
-        /**
-         * @cfg {String} baseCls
-         * The base CSS class to apply to the Maps's element
-         * @accessor
-         */
-        baseCls: Ext.baseCSSPrefix + 'map',
-
-        /**
-         * @cfg {Boolean/Ext.util.Geolocation} useCurrentLocation
-         * Pass in true to center the map based on the geolocation coordinates or pass a
-         * {@link Ext.util.Geolocation GeoLocation} config to have more control over your GeoLocation options
-         * @accessor
-         */
-        useCurrentLocation: false,
-
-        /**
-         * @cfg {google.maps.Map} map
-         * The wrapped map.
-         * @accessor
-         */
-        map: null,
-
-        /**
-         * @cfg {Ext.util.Geolocation} geo
-         * Geolocation provider for the map.
-         * @accessor
-         */
-        geo: null,
-
-        /**
-         * @cfg {Object} mapOptions
-         * MapOptions as specified by the Google Documentation:
-         * http://code.google.com/apis/maps/documentation/v3/reference.html
-         * @accessor
-         */
-        mapOptions: {}
-    },
-
-    constructor: function() {
-        this.callParent(arguments);
-        this.element.setVisibilityMode(Ext.Element.OFFSETS);
-
-        if (!(window.google || {}).maps) {
-            this.setHtml('Google Maps API is required');
-        }
-    },
-
-    initialize: function() {
-        this.callParent();
-        this.on({
-            painted: 'doResize',
-            scope: this
-        });
-        this.element.on('touchstart', 'onTouchStart', this);
-    },
-
-    onTouchStart: function(e) {
-        e.makeUnpreventable();
-    },
-
-    applyMapOptions: function(options) {
-        return Ext.merge({}, this.options, options);
-    },
-
-    updateMapOptions: function(newOptions) {
-        var me = this,
-            gm = (window.google || {}).maps,
-            map = this.getMap();
-
-        if (gm && map) {
-            map.setOptions(newOptions);
-        }
-        if (newOptions.center && !me.isPainted()) {
-            me.un('painted', 'setMapCenter', this);
-            me.on('painted', 'setMapCenter', this, { delay: 50, single: true, args: [newOptions.center] });
-        }
-    },
-
-    getMapOptions: function() {
-        return Ext.merge({}, this.options || this.getInitialConfig('mapOptions'));
-    },
-
-    updateUseCurrentLocation: function(useCurrentLocation) {
-        this.setGeo(useCurrentLocation);
-        if (!useCurrentLocation) {
-            this.renderMap();
-        }
-    },
-
-    applyGeo: function(config) {
-        return Ext.factory(config, Ext.util.Geolocation, this.getGeo());
-    },
-
-    updateGeo: function(newGeo, oldGeo) {
-        var events = {
-            locationupdate : 'onGeoUpdate',
-            locationerror : 'onGeoError',
-            scope : this
-        };
-
-        if (oldGeo) {
-            oldGeo.un(events);
-        }
-
-        if (newGeo) {
-            newGeo.on(events);
-            newGeo.updateLocation();
-        }
-    },
-
-    doResize: function() {
-        var gm = (window.google || {}).maps,
-            map = this.getMap();
-
-        if (gm && map) {
-            gm.event.trigger(map, "resize");
-        }
-    },
-
-    // @private
-    renderMap: function() {
-        var me = this,
-            gm = (window.google || {}).maps,
-            element = me.element,
-            mapOptions = me.getMapOptions(),
-            map = me.getMap(),
-            event;
-
-        if (gm) {
-            if (Ext.os.is.iPad) {
-                Ext.merge({
-                    navigationControlOptions: {
-                        style: gm.NavigationControlStyle.ZOOM_PAN
-                    }
-                }, mapOptions);
-            }
-
-            mapOptions = Ext.merge({
-                zoom: 12,
-                mapTypeId: gm.MapTypeId.ROADMAP
-            }, mapOptions);
-
-            // This is done separately from the above merge so we don't have to instantiate
-            // a new LatLng if we don't need to
-            if (!mapOptions.hasOwnProperty('center')) {
-                mapOptions.center = new gm.LatLng(37.381592, -122.135672); // Palo Alto
-            }
-
-            if (element.dom.firstChild) {
-                Ext.fly(element.dom.firstChild).destroy();
-            }
-
-            if (map) {
-                gm.event.clearInstanceListeners(map);
-            }
-
-            me.setMap(new gm.Map(element.dom, mapOptions));
-            map = me.getMap();
-
-            //Track zoomLevel and mapType changes
-            event = gm.event;
-            event.addListener(map, 'zoom_changed', Ext.bind(me.onZoomChange, me));
-            event.addListener(map, 'maptypeid_changed', Ext.bind(me.onTypeChange, me));
-            event.addListener(map, 'center_changed', Ext.bind(me.onCenterChange, me));
-
-            me.fireEvent('maprender', me, map);
-        }
-    },
-
-    // @private
-    onGeoUpdate: function(geo) {
-        if (geo) {
-            this.setMapCenter(new google.maps.LatLng(geo.getLatitude(), geo.getLongitude()));
-        }
-    },
-
-    // @private
-    onGeoError: Ext.emptyFn,
-
-    /**
-     * Moves the map center to the designated coordinates hash of the form:
-     *
-     *     { latitude: 37.381592, longitude: -122.135672 }
-     *
-     * or a google.maps.LatLng object representing to the target location.
-     *
-     * @param {Object/google.maps.LatLng} coordinates Object representing the desired Latitude and
-     * longitude upon which to center the map.
-     */
-    setMapCenter: function(coordinates) {
-        var me = this,
-            map = me.getMap(),
-            gm = (window.google || {}).maps;
-
-        if (gm) {
-            if (!me.isPainted()) {
-                me.un('painted', 'setMapCenter', this);
-                me.on('painted', 'setMapCenter', this, { delay: 50, single: true, args: [coordinates] });
-                return;
-            }
-            coordinates = coordinates || new gm.LatLng(37.381592, -122.135672);
-
-            if (coordinates && !(coordinates instanceof gm.LatLng) && 'longitude' in coordinates) {
-                coordinates = new gm.LatLng(coordinates.latitude, coordinates.longitude);
-            }
-
-            if (!map) {
-                me.renderMap();
-                map = me.getMap();
-            }
-
-            if (map && coordinates instanceof gm.LatLng) {
-                map.panTo(coordinates);
-            }
-            else {
-                this.options = Ext.apply(this.getMapOptions(), {
-                    center: coordinates
-                });
-            }
-        }
-    },
-
-    // @private
-    onZoomChange : function() {
-        var mapOptions = this.getMapOptions(),
-            map = this.getMap(),
-            zoom;
-
-        zoom = (map && map.getZoom) ? map.getZoom() : mapOptions.zoom || 10;
-
-        this.options = Ext.apply(mapOptions, {
-            zoom: zoom
-        });
-
-        this.fireEvent('zoomchange', this, map, zoom);
-    },
-
-    // @private
-    onTypeChange : function() {
-        var mapOptions = this.getMapOptions(),
-            map = this.getMap(),
-            mapTypeId;
-
-        mapTypeId = (map && map.getMapTypeId) ? map.getMapTypeId() : mapOptions.mapTypeId;
-
-        this.options = Ext.apply(mapOptions, {
-            mapTypeId: mapTypeId
-        });
-
-        this.fireEvent('typechange', this, map, mapTypeId);
-    },
-
-    // @private
-    onCenterChange: function() {
-        var mapOptions = this.getMapOptions(),
-            map = this.getMap(),
-            center;
-
-        center = (map && map.getCenter) ? map.getCenter() : mapOptions.center;
-
-        this.options = Ext.apply(mapOptions, {
-            center: center
-        });
-
-        this.fireEvent('centerchange', this, map, center);
-
-    },
-
-    // @private
-    destroy: function() {
-        Ext.destroy(this.getGeo());
-        var map = this.getMap();
-
-        if (map && (window.google || {}).maps) {
-            google.maps.event.clearInstanceListeners(map);
-        }
-
-        this.callParent();
-    }
-}, function() {
-});
-
 Ext.define("escape.view.ui.MapDisplay", {
     extend: 'Ext.Container',
-    requires: ['escape.utils.Maps','escape.model.MapFiles'],
+    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
     xtype: 'mapDisplay',
     config: {
         cls: 'mapDisplay',
@@ -40222,30 +40545,26 @@ Ext.define("escape.view.ui.MapDisplay", {
         zoomLevel: 12,
         lat: -33.873651,
         lon: 151.2068896,
+        address: null,
         markerAtCenter: false,
         interaction: true,
         zoomToBounds: true,
-        routeStyle: {
-            strokeColor: '#0000ff',
-            strokeOpacity: 0.5,
-            strokeWidth: 5
-        },
         listeners: {
             initialize: 'initialize',
             painted: 'loadLibaries'
         }
     },
-    initialize: function() {
-        this.setIntialMarkers([]);
-    },
+    initialize: function() {},
     loadLibaries: function() {
         var selfRef = this;
-       escape.model.MapFiles.loadRequiredFiles({
+        escape.model.MapFiles.loadRequiredFiles({
             success: function(results) {
+                EMS.Util.getDomain = function() {
+                    return "destinationnsw.com.au";
+                };
                 selfRef.createMapElement();
             },
-            error: function(error) {
-            },
+            error: function(error) {},
             scope: this
         });
     },
@@ -40257,26 +40576,31 @@ Ext.define("escape.view.ui.MapDisplay", {
             this.add({
                 html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"></div>'
             });
+            // the map logo
             this.add({
-                html: '<div id="bing-map" style="width:0; height:0;"></div>'
+                xtype: 'button',
+                cls: 'map-provider-logo',
+                action: 'openMapTerms',
+                bottom: 10,
+                left: 10,
+                width: 100,
+                zIndex: 1000
             });
             this.createWhereIsMap();
         }
-
-
     },
     createWhereIsMap: function() {
         var selfRef = this;
+        var controls = [];
         map = new EMS.Services.Map(this.getMapId(), {
             controls: [],
             onInit: function() {
-                //selfRef.buildMap();
+                selfRef.setupMap(map);
             }
         });
+        console.log("set");
         this.setMap(map);
-        // if (this.getInteraction()) {
-        //     map.addControl(new OpenLayers.Control.TouchNavigation());
-        // }
+
         //  Center the map
         lonlat = new EMS.LonLat(this.getLon(), this.getLat());
         map.setCenter(lonlat, this.getZoomLevel());
@@ -40284,80 +40608,85 @@ Ext.define("escape.view.ui.MapDisplay", {
 
         // add any intial markers
         var intialMarkers = this.getIntialMarkers();
+        // make sure the makers are added in the right order
+        intialMarkers = intialMarkers.sort(function(obj1, obj2) {
+            return Number(obj2.lat) - Number(obj1.lat);
+        });
         for (var m = 0; m < intialMarkers.length; m++) {
             var marker = intialMarkers[m];
             this.addMarker(marker.lat, marker.lon, marker.data);
         }
 
         if (this.getMarkerAtCenter()) {
-            this.addMarker(this.getLat(), this.getLon());
+            var markerData = {
+                latlon: [this.getLat(), this.getLon()],
+                address: this.getAddress()
+            };
+            this.addMarker(this.getLat(), this.getLon(), markerData);
         }
 
-        if (intialMarkers.length > 1 && this.getZoomToBounds()) {
+        if (intialMarkers.length >= 1 && this.getZoomToBounds()) {
             map.zoomToExtent(map.markersLayer.getDataExtent());
             this.setIntialMarkers([]);
         }
+    },
+    setupMap: function() {
+        var map = this.getMap();
+        if (this.getInteraction()) {
+            if (hasTouch) {
+                var iphoneControls = new EMS.Control.IPhoneDefaults({
+                    supportsScale3d: true
+                });
+                map.iphoneControls = iphoneControls;
+                map.addControl(iphoneControls);
+            } else { //PC
+                map.addControl(new OpenLayers.Control.KeyboardDefaults());
+                map.addControl(new EMS.Control.MouseDefaults());
+            }
+        }
 
-
-
-
-
-        // var bingMapsAPIKey = 'Al4Lpuxeh5gEXn5qMCuA6thYde_HfPSh6LYjXKif__5rASQp07kfZjioy5d1Te_Y';
-        // map = new OpenLayers.Map(this.getMapId(), {
-        //     controls: []
-        // });
-        // if (this.getInteraction()) {
-        //     map.addControl(new OpenLayers.Control.TouchNavigation());
-        // }
-        // var options = {
-        //     key: bingMapsAPIKey
-        // };
-        // add map layer
-        //var mapLayer = new OpenLayers.Layer.Bing(options);
-        // var mapLayer = new OpenLayers.Layer.OSM();
-        //map.addLayer(mapLayer);
-        // create a point
-        // var lonLat = escape.utils.Maps.getLatLon(this.getLat(), this.getLon());
-        // // add the directions layer
-        // var directionsLayer = new OpenLayers.Layer.Vector("DirectionsLayer");
-        // map.addLayer(directionsLayer);
-        // // add a markers layer
-        // var markers = new OpenLayers.Layer.Markers("Markers");
-        // map.addLayer(markers);
-        // this.setBuilt(true);
-        // // add any intial markers
-        // var intialMarkers = this.getIntialMarkers();
-        // for (var m = 0; m < intialMarkers.length; m++) {
-        //     var marker = intialMarkers[m];
-        //     this.addMarker(marker.lat, marker.lon, marker.data);
-        // }
-        // if (this.getMarkerAtCenter()) {
-        //     this.addMarker(this.getLat(), this.getLon());
-        // }
-        // // position the map
-        // map.setCenter(lonLat, this.getZoomLevel());
-        // // show direction
-        // //this.getDirections('Sydney, Australia', 'Manly');
-        // //this.getOpenDirections();
-        // //this.getBingDirections();
-        // //this.addMarker(this.getLat(), this.getLon());
-        // if (intialMarkers.length > 1) {
-        //     map.zoomToExtent(markers.getDataExtent());
-        //     this.setIntialMarkers([]);
-        // }
+    },
+    clearMarkers: function() {
+        this.getMap().getLayersByName("Markers").destory();
+        var markers = new OpenLayers.Layer.Markers("Markers");
+        this.getMap().addLayer(markers);
+    },
+    zoomToMarkers: function() {
+        var map = this.getMap();
+        map.zoomToExtent(map.markersLayer.getDataExtent());
+        this.setIntialMarkers([]);
     },
     addMarker: function(lat, lon, data) {
         if (this.getBuilt()) {
             var map = this.getMap();
-            var imgPath = 'resources/images/pin_red.png';
-            if (escape.utils.Img.useRetinaImg) {
-                imgPath = 'resources/images/pin_red@2x.png';
+            var icon;
+            var useIcon = true;
+            try {
+                var d = data.iconText;
+                if (!d) {
+                    useIcon = false;
+                }
+            } catch (e) {
+                useIcon = false;
             }
-            var size = new OpenLayers.Size(45, 38);
-            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-            var icon = new OpenLayers.Icon(imgPath, size, offset);
+
+            if (useIcon) {
+                icon = EMS.Services.StandardIcons.poi(map.tilePath, '323840', '323840', data.iconText);
+            } else {
+                // pin icon
+                var imgPath = 'resources/images/pin_red.png';
+                if (escape.utils.Img.useRetinaImg) {
+                    imgPath = 'resources/images/pin_red@2x.png';
+                }
+                var size = new OpenLayers.Size(45, 38);
+                var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+                icon = new OpenLayers.Icon(imgPath, size, offset);
+
+            }
             var lonlat = new EMS.LonLat(lon, lat);
             var marker = new OpenLayers.Marker(lonlat, icon);
+
+            // custom marker
             map.markersLayer.addMarker(marker);
             var selfRef = this;
             var markerClick = function(evt) {
@@ -40365,6 +40694,10 @@ Ext.define("escape.view.ui.MapDisplay", {
                 };
             marker.events.register('mousedown', marker, markerClick);
             marker.events.register('touchend', marker, markerClick);
+
+            marker.events.register("touchstart", marker, function(e) {
+                console.warn("touch start");
+            });
         } else {
             this.getIntialMarkers().push({
                 data: data,
@@ -40373,92 +40706,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             });
         }
 
-    },
-
-    // addMarker: function(lat, lon, data) {
-    //     if (this.getBuilt()) {
-    //         var lonLat = escape.utils.Maps.getLatLon(lat, lon);
-    //         var size = new OpenLayers.Size(45, 38);
-    //         var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-    //         var imgPath = 'resources/images/pin_red.png';
-    //         if (escape.utils.Img.useRetinaImg) {
-    //             imgPath = 'resources/images/pin_red@2x.png';
-    //         }
-    //         var icon = new OpenLayers.Icon(imgPath, size, offset);
-    //         var marker = new OpenLayers.Marker(lonLat, icon);
-    //         this.getMap().getLayersByName("Markers")[0].addMarker(marker);
-    //         var selfRef = this;
-    //         var markerClick = function(evt) {
-    //                 selfRef.fireEvent('markerSelected', data);
-    //             };
-    //         marker.events.register('mousedown', marker, markerClick);
-    //         marker.events.register('touchend', marker, markerClick);
-    //     } else {
-    //         this.getIntialMarkers().push({
-    //             data: data,
-    //             lat: lat,
-    //             lon: lon
-    //         });
-    //     }
-    // },
-    clearMarkers: function() {
-        this.getMap().getLayersByName("Markers").destory();
-        var markers = new OpenLayers.Layer.Markers("Markers");
-        this.getMap().addLayer(markers);
     }
-
-});
-Ext.define("escape.view.page.Area", {
-    extend: 'escape.view.page.Page',
-    requires: ['Ext.Map', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.MapDisplay', 'escape.view.ui.LoadingDisplay'],
-    xtype: 'areaPage',
-    config: {
-        title: 'Inner Sydney',
-        scrollable: {
-            direction: 'vertical',
-            directionLock: true
-        },
-        items: [{
-            xtype: 'loadingDisplay'
-        }],
-        listeners: {
-            painted: 'buildPage'
-        }
-    },
-    loadData: function() {
-
-    },
-    buildPage: function(data) {
-        items = [{
-            xtype: 'expandableInfo',
-            heading: 'About Inner Sydney',
-            introText: '<p>Vestibulum vel nibh tellus, a accumsan enim. Ut ultrices lorem eu nibh consequat id suscipit tortor vestibulum. Sed blandit erat scelerisque augue congue id tincidunt velit molestie. Donec ac erat nisl. Nam eu ante felis, in rutrum diam. Curabitur et orci lacus. Nunc id sem purus, in porta eros. Morbi dictum nisl eu nisi sodales eleifend.</p>'
-        }, {
-            xtype: 'list',
-            margin: '10 10 10 10',
-            itemTpl: '{title}',
-            cls: 'pageList',
-            scrollable: false,
-            data: [{
-                title: escape.utils.Translator.translate('Things to do'),
-                type: 'season',
-                season: 'winter'
-            }, {
-                title: escape.utils.Translator.translate('Food & Wine'),
-                type: 'season',
-                season: 'summer'
-            }, {
-                title: escape.utils.Translator.translate('Accommodation'),
-                type: 'local'
-            }, {
-                title: escape.utils.Translator.translate('Events'),
-                type: 'areas'
-            }]
-        }];
-         this.setItems(items);
-    }
-
-
 });
 Ext.define("escape.view.subSection.MapList", {
     extend: 'escape.view.subSection.SubSection',
@@ -40528,6 +40776,40 @@ Ext.define("escape.view.subSection.MapList", {
         });
         cardView.add(list);
         cardView.setActiveItem(list);
+    }
+});
+Ext.define("escape.view.page.Map", {
+    extend: 'escape.view.page.Page',
+    xtype: 'mapPage',
+    requires: ['escape.view.ui.MapDisplay'],
+    config: {
+        pageTitle: 'Map',
+        rightBtn: '',
+        address: null,
+        latlon: null,
+        mapDisplay: null,
+        pageTypeId: 6,
+        pageTrackingId: 6
+    },
+    openView: function() {
+        var address = this.getAddress();
+        var addressString = address.Street + '</br>' + address.Suburb + '</br>' + address.State + '</br>' + address.Postcode;
+
+        var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
+            height: Ext.Viewport.getSize().height - 143,
+            lat: Number(this.getLatlon()[0]),
+            lon: Number(this.getLatlon()[1]),
+            interaction: true,
+            markerAtCenter: true
+        });
+        this.setMapDisplay(mapDisplay);
+        this.setItems(mapDisplay);
+        this.add({
+            xtype: 'container',
+            height:100,
+            cls: 'mapAddress',
+            html: addressString
+        });
     }
 });
 /**
@@ -40672,19 +40954,93 @@ Ext.define("escape.view.page.Directions", {
     xtype: 'directionsPage',
     requires: ['escape.view.ui.MapDisplay'],
     config: {
-        title: 'Directions',
+        pageTitle: 'Directions',
         rightBtn: '',
-        listeners: {
-            initialize: function() {
-                this.buildMap();
-            }
-        }
+        address: null,
+        latlon: null,
+        mapDisplay: null,
+         pageTypeId: 15,
+        pageTrackingId: 15
     },
-    buildMap: function() {
+    openView: function() {
+        var address = this.getAddress();
+        var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
+
+        var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
+            height: Ext.Viewport.getSize().height - 143,
+            lat: Number(this.getLatlon()[0]),
+            lon: Number(this.getLatlon()[1]),
+            interaction: true,
+            markerAtCenter: true
+        });
+        this.setMapDisplay(mapDisplay);
+
         this.setItems([{
-            xtype: 'mapDisplay',
-            height: Ext.Viewport.getSize().height - 43
+            xtype: 'formpanel',
+            layout: 'hbox',
+            height: 100,
+            padding: 0,
+            items: [{
+                xtype: 'container',
+                layout: 'vbox',
+                flex: 1,
+                items: [{
+                    xtype: 'button',
+                    action: 'switchDirection',
+                    flex: 1
+                }]
+            }, {
+                xtype: 'container',
+                layout: 'vbox',
+                flex: 6,
+                items: [{
+                    xtype: 'textfield',
+                    name: 'startLocation',
+                    value: 'Current Location',
+                    flex: 1
+                }, {
+                    xtype: 'textfield',
+                    name: 'endLocation',
+                    value: addressString,
+                    flex: 1
+                }]
+            }, {
+                xtype: 'container',
+                layout: 'vbox',
+                flex: 2,
+                items: [{
+                    xtype: 'button',
+                    action: 'switchTranport',
+                    flex: 1
+                }, {
+                    xtype: 'button',
+                    action: 'route',
+                    flex: 1
+                }]
+            }]
         }]);
+
+        this.add(mapDisplay);
+    }
+});
+Ext.define("escape.view.page.MapTerms", {
+    extend: 'escape.view.page.Page',
+    xtype: 'mapTerms',
+    requires: [''],
+    config: {
+        rightBtn: '',
+        pageTitle: 'Map Terms',
+        pageTypeId: 6,
+        pageTrackingId: 20,
+        latlon: null,
+        address: null,
+        cls:'mapTerms',
+        items: [{
+            padding:'60px 10px 10px 10px',
+            html: '<p>Map Terms</p>'
+        }]
+    },
+    openView: function() {
     }
 });
 Ext.define("escape.view.page.SearchResults", {
@@ -40700,10 +41056,11 @@ Ext.define("escape.view.page.SearchResults", {
         margin: '10px',
         items: [{
             xtype: 'loadingDisplay'
-        }]
+        }],
+        pageTypeId: 11,
+        pageTrackingId: 2
     },
     buildPage: function(moreResullts) {
-
         if (!this.getResultsBuilt()) {
             this.setMargin(0);
             this.setResultsBuilt(true);
@@ -40728,25 +41085,7 @@ Ext.define("escape.view.page.SearchResults", {
                 itemId: 'cardView',
                 layout: 'card',
                 flex: 1
-            }, {
-                xtype: 'container',
-                itemId: 'optionsArea',
-                docked: 'bottom',
-                cls: 'btnsArea',
-                padding: '10xp',
-                defaults: {
-                    margin: '0'
-                },
-                items: [{
-                    xtype: 'button',
-                    text: 'Load More Results',
-                    action: 'loadMore',
-                    cls: 'loadMore'
-                }]
             }];
-
-
-
             this.setItems(items);
         }
 
@@ -40758,6 +41097,50 @@ Ext.define("escape.view.page.SearchResults", {
 
     }
 });
+
+// {
+//                 xtype: 'container',
+//                 itemId: 'optionsArea',
+//                 docked: 'bottom',
+//                 cls: 'btnsArea',
+//                 padding: '10xp',
+//                 defaults: {
+//                     margin: '0'
+//                 },
+//                 items: [{
+//                     xtype: 'button',
+//                     text: 'Load More Results',
+//                     action: 'loadMore',
+//                     cls: 'loadMore'
+//                 }]
+//             }
+Ext.define("escape.view.ui.QuestionAction", {
+    extend: 'Ext.ActionSheet',
+    xtype: 'questionAction',
+    config: {
+        cls: 'btnsArea questionAction',
+        hideOnMaskTap: true,
+        question: null,
+        btns: null,
+        padding: '10px',
+        defaults: {
+            margin: '10px 0 0 0'
+        }
+    },
+    initialize: function() {
+        var items = [];
+        items.push({
+            xtype:'container',
+            cls:'question',
+            html: this.getQuestion()
+        });
+        console.log(this.getBtns());
+        items=  items.concat(this.getBtns());
+        console.log(items);
+        this.setItems(items);
+    }
+
+});
 Ext.define("escape.view.page.ItineraryNotes", {
     extend: 'escape.view.page.Page',
     xtype: 'ItineraryNotesPage',
@@ -40767,10 +41150,14 @@ Ext.define("escape.view.page.ItineraryNotes", {
         rightBtn: '',
         padding: '10px',
         itineraryId: null,
-        dayNum: 1
+        dayNum: 1,
+        pageTypeId: 14,
+        pageTrackingId: 5
     },
     openView: function() {
         var selfRef = this;
+        console.log('this.getItineraryId(): ' + this.getItineraryId());
+        console.log('this.getDayNum(): ' + this.getDayNum());
         escape.model.Itineraries.getItineraryDayNotes(this.getItineraryId(), this.getDayNum(), {
             success: function(itineraryDay) {
                 selfRef.buildPage(itineraryDay.item(0).notes);
@@ -40817,7 +41204,6 @@ Ext.define("escape.view.ui.EditItineraryProduct", {
         maxDays: null
     },
     initialize: function() {
-        console.log('initialize: ' + this.getDayNum());
         var items = [];
         // make sure there are other days we can move the product to
         if (this.getMaxDays() > 1) {
@@ -40851,374 +41237,63 @@ Ext.define("escape.view.ui.EditItineraryProduct", {
     }
 
 });
-Ext.define("escape.view.page.Town", {
+Ext.define("escape.view.page.SevicesAndFacilitiesResults", {
     extend: 'escape.view.page.Page',
-    requires: ['Ext.Map', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.MapDisplay', 'escape.view.ui.LoadingDisplay'],
-    xtype: 'townPage',
+    xtype: 'sevicesAndFacilitiesResultsPage',
+    requires: [''],
     config: {
-        title: 'Paddington',
+        resultsBuilt: false,
+        cls: 'sevicesAndFacilitiesResultsPage',
+        pageTitle: 'Search Results',
+        rightBtn: 'hide',
+        layout: 'vbox',
+        margin: '10px',
         items: [{
             xtype: 'loadingDisplay'
         }],
-        listeners: {
-            painted: 'buildPage'
-        }
+        pageTypeId: 5,
+        pageTrackingId: 2
     },
-    loadData: function() {
+    buildPage: function(moreResullts) {
 
-    },
-    buildPage: function(data) {
-        items = [{
-            xtype: 'favoriteBtn'
-        }, {
-            xtype: 'itinerayBtn'
-        }, {
-            xtype: 'carousel',
-            height: 200,
-            items: [{
-                xtype: 'appImage',
-                height: 200,
-                imagePath: 'resources/images/example-image2.jpg'
+        if (!this.getResultsBuilt()) {
+            this.setMargin(0);
+            this.setResultsBuilt(true);
+            var items = [{
+                xtype: 'segmentedbutton',
+                layout: 'hbox',
+                allowMultiple: false,
+                allowDepress: false,
+                docked: 'top',
+                items: [{
+                    cls: 'listBtn',
+                    type: 'list',
+                    pressed: true,
+                    flex: 1
+                }, {
+                    cls: 'mapBtn',
+                    type: 'map',
+                    flex: 1
+                }]
             }, {
-                xtype: 'appImage',
-                height: 200,
-                imagePath: 'resources/images/example-image2.jpg'
-            }, {
-                xtype: 'appImage',
-                height: 200,
-                imagePath: 'resources/images/example-image2.jpg'
-            }]
-        }, {
-            xtype: 'mapDisplay',
-            // lat: Number(data.Contact.Latitude),
-            // lon: Number(data.Contact.Longitude),
-            markerAtCenter: true
-        }, {
-            xtype: 'expandableInfo',
-            completeText: '<p>Vestibulum vel nibh tellus, a accumsan enim. Ut ultrices lorem eu nibh consequat id suscipit tortor vestibulum. Sed blandit erat scelerisque augue congue id tincidunt velit molestie. Donec ac erat nisl. Nam eu ante felis, in rutrum diam. Curabitur et orci lacus. Nunc id sem purus, in porta eros. Morbi dictum nisl eu nisi sodales eleifend.</p>'
-        }, {
-            html: '<h2>Explore</h2>',
-            margin: '10 10 10 10'
-        }, {
-            xtype: 'list',
-            margin: '10 10 10 10',
-            itemTpl: '{title}',
-            cls: 'pageList',
-            scrollable: false,
-            data: [{
-                title: escape.utils.Translator.translate('Things to do'),
-                type: 'season',
-                season: 'winter'
-            }, {
-                title: escape.utils.Translator.translate('Food & Wine'),
-                type: 'season',
-                season: 'summer'
-            }, {
-                title: escape.utils.Translator.translate('Accommodation'),
-                type: 'local'
-            }, {
-                title: escape.utils.Translator.translate('Events'),
-                type: 'areas'
-            }]
-        }];
-
-        this.setItems(items);
-        this.fireEvent('built');
-    }
+                xtype: 'container',
+                itemId: 'cardView',
+                layout: 'card',
+                flex: 1
+            }];
 
 
-});
-Ext.define("escape.view.subSection.Towns", {
-    extend: 'escape.view.subSection.SubSection',
-    requires: ['Ext.Toolbar', 'Ext.Button', 'escape.view.page.Town'],
-    xtype: 'townsSubSection',
-    config: {
-        pageTitle: 'Like a Local',
-        contentPath: null,
-        rightBtn: "",
-        cardViewItemId: 1,
-        items: [{
-            xtype: 'loadingDisplay'
-        }],
-        layout: 'vbox'
-    },
-    buildSection: function(content) {
-        console.log(content);
-        var firstTown = content.children[0];
 
-        var items = [{
-            xtype: 'toolbar',
-            itemId: 'townNav',
-            tpl: '<h3>{townName}</h3><h3>{currentTown}/{totalTowns}</h3>',
-            data: {
-                townName: firstTown.Name,
-                currentTown: 1,
-                totalTowns: content.children.length
-            },
-            docked: 'top',
-            cls: 'pageNav',
-            items: [{
-                xtype: 'button',
-                action: 'back',
-                docked: 'left',
-                cls: 'backBtn'
-            }, {
-                xtype: 'button',
-                action: 'next',
-                docked: 'right',
-                cls: 'nextBtn'
-            }]
-        }, {
-            xtype: 'container',
-            layout: 'card',
-            flex: 1,
-            cls: 'cardView'
-        }];
-        this.setItems(items);
-        this.fireEvent('built');
-    }
-
-});
-Ext.define('escape.controller.Towns', {
-    extend: 'Ext.app.Controller',
-    requires: ['escape.view.page.Town', 'escape.view.subSection.Towns'],
-    config: {
-        currentTownId: 0,
-        totalTowns: 0,
-        towns: null,
-        refs: {
-            townSubSection: 'townsSubSection'
-        },
-        control: {
-            'townsSubSection': {
-                openView: 'loadContent',
-                built: 'showTown'
-            },
-            'townsSubSection > toolbar > button[action=next]': {
-                tap: 'nextTown'
-            },
-            'townsSubSection > toolbar > button[action=back]': {
-                tap: 'backTown'
-            },
-            'townsSubSection > container[cls=cardView]': {
-                activeitemchange: 'activeitemchange'
-            },
-            'townPage': {
-                built: 'townPageBuilt'
-            }
-        }
-    },
-    loadContent: function(sectionPage) {
-        var selfRef = this;
-        console.log(sectionPage.getContentPath());
-        // load the product data
-        escape.model.ContentPage.getProxy().setUrl(sectionPage.getContentPath());
-        escape.model.ContentPage.load(0, {
-            success: function(content) {
-                selfRef.setUpSection(content, sectionPage);
-            },
-            error: function(error) {
-                console.log(error);
-            },
-            scope: this
-        });
-    },
-    setUpSection: function(content, sectionPage) {
-        var data = content.getData();
-        this.setCurrentTownId(0);
-        this.setTotalTowns(data.children.length);
-        this.setTowns(data.children);
-        sectionPage.buildSection(content.getData());
-    },
-    townPageBuilt: function() {
-        this.getTownSubSection().calulateCardHeight();
-    },
-    activeitemchange: function(cardView, newItem, oldItem) {
-        // remove the old card after a delay, to account for the animation
-        console.log(oldItem);
-        var task = new Ext.util.DelayedTask(function() {
-            newItem.viewOpened();
-            console.log(oldItem);
-            try {
-                oldItem.destroy();
-            } catch (e) {
-
-            }
-
-        }, this);
-        task.delay(750);
-    },
-    showTown: function() {
-        var sectionView = this.getTownSubSection();
-        sectionView.setCardView(sectionView.getItems().items[sectionView.getCardViewItemId()]);
-        var cardView = sectionView.getCardView();
-        console.log(cardView);
-        var town = this.getTowns()[this.getCurrentTownId()];
-
-        var townPage = Ext.create('escape.view.page.ContentPage', {
-            xtype: 'contentPage',
-            contentPath: town.Url,
-            title: town.Name
-        });
-
-        cardView.add(townPage);
-        townPage.viewOpened();
-    },
-    nextTown: function(btn) {
-        var sectionView = this.getTownSubSection();
-        var cardView = sectionView.getCardView();
-
-
-        if (this.getCurrentTownId() < this.getTotalTowns() - 1) {
-            this.setCurrentTownId(this.getCurrentTownId() + 1);
-        } else {
-            this.setCurrentTownId(0);
-        }
-        var town = this.getTowns()[this.getCurrentTownId()];
-
-        var townPage = Ext.create('escape.view.page.ContentPage', {
-            xtype: 'contentPage',
-            contentPath: town.Url,
-            title: town.Name
-        });
-        cardView.animateActiveItem(townPage, {
-            duration: 350,
-            easing: 'ease-out',
-            type: 'slide',
-            direction: 'left'
-        });
-        sectionView.calulateCardHeight();
-        if (sectionView.getScrollable()) {
-            sectionView.getScrollable().getScroller().scrollTo(0, 0, false);
-        }
-        this.updateNav();
-    },
-    backTown: function(btn) {
-        var sectionView = this.getTownSubSection();
-        var cardView = sectionView.getCardView();
-
-        if (this.getCurrentTownId() > 0) {
-            this.setCurrentTownId(this.getCurrentTownId() - 1);
-        } else {
-            this.setCurrentTownId(this.getTotalTowns() - 1);
+            this.setItems(items);
         }
 
-        var town = this.getTowns()[this.getCurrentTownId()];
-
-        var townPage = Ext.create('escape.view.page.ContentPage', {
-            xtype: 'contentPage',
-            contentPath: town.Url,
-            title: town.Name
-        });
-        cardView.animateActiveItem(townPage, {
-            duration: 350,
-            easing: 'ease-out',
-            type: 'slide',
-            direction: 'right'
-        });
-        sectionView.calulateCardHeight();
-        if (sectionView.getScrollable()) {
-            sectionView.getScrollable().getScroller().scrollTo(0, 0, false);
+        if (!moreResullts) {
+            // there are no more results to load
+            var optionsArea = this.getComponent('optionsArea');
+            this.remove(optionsArea,true);
         }
-        this.updateNav();
-    },
-    updateNav: function() {
-        console.log('updateNav');
-        var sectionView = this.getTownSubSection();
-        var town = this.getTowns()[this.getCurrentTownId()];
-        var navBar = sectionView.getComponent('townNav').setData({
-            townName: town.Name,
-            currentTown: this.getCurrentTownId() + 1,
-            totalTowns: this.getTotalTowns()
-        });
 
     }
-});
-Ext.define("escape.view.page.Season", {
-    extend: 'escape.view.page.Page',
-    xtype: 'seasonPage',
-    config: {
-        title: 'default title',
-        scrollable: {
-            direction: 'vertical',
-            directionLock: true
-        },
-        rightBtn: 'searchBtn',
-        items: [{
-            xtype: 'carousel',
-            layout: 'fit',
-            height: 200,
-            items: [{
-                xtype: 'image',
-                src: 'resources/images/example-image.jpg'
-            }, {
-                xtype: 'image',
-                src: 'resources/images/example-image.jpg'
-            }, {
-                xtype: 'image',
-                src: 'resources/images/example-image.jpg'
-            }]
-        }, {
-            xtype: 'expandableInfo',
-            heading: 'Sydney in  Winter',
-            completeText: '<p>During Winter, it’s perfect weather for getting out and enjoying Sydney’s stunning natural attractions. Go for a scenic coastal walk from Bondi to Coogee, climb the famous Sydney Harbour Bridge or go sailing on Sydney Harbour.</p>'
-        }, {
-            xtype: 'expandableInfo',
-            heading: 'What\'s on in Winter',
-            completeText: '<p>Sydney’s laid-back outdoor lifestyle and physical allure make it one of the world’s easiest and most pleasant cities to visit.</p><p>Sydney’s laid-back outdoor lifestyle and physical allure make it one of the world’s easiest and most pleasant cities to visit.</p>'
-        }, {
-            html:'<h2>Winter Events</h2>',
-              margin: '10 10 10 10'
-        }, {
-            xtype: 'list',
-            margin: '10 10 10 10',
-            itemTpl: '{title}',
-            cls: 'pageList',
-            scrollable: false,
-            data: [{
-                title: escape.utils.Translator.translate('Vivid Sydney')
-            }, {
-                title: escape.utils.Translator.translate('Sydney Opera House')
-            }, {
-                title: escape.utils.Translator.translate('Sydney Writers Festival')
-            }]
-        }]
-    }
-});
-Ext.define("escape.view.subSection.ListTypes", {
-    extend: 'escape.view.subSection.SubSection',
-    xtype: 'listTypesSubSection',
-    requires: ['Ext.SegmentedButton', 'escape.view.page.FeaturedList'],
-    config: {
-        rightBtn: "searchBtn",
-        cardViewItemId: 1,
-        menuDocked: 'top',
-        listOptions: [],
-        isBuilt: false,
-        firstView: '',
-        addToItemId: 1,
-        title: '',
-        layout:'vbox'
-    }
-    // openView: function() {
-    //     if (!this.getIsBuilt()) {
-    //         this.setItems([{
-    //             xtype: 'segmentedbutton',
-    //             layout: 'hbox',
-    //             allowMultiple: false,
-    //             allowDepress: false,
-    //             docked: this.getMenuDocked(),
-    //             items: this.getListOptions()
-    //         }, {
-    //             xtype: 'container',
-    //             layout: 'card',
-    //             items: [this.getFirstView()]
-    //         }]);
-    //         this.calulateCardHeight();
-    //         this.setIsBuilt(true);
-    //     }
-
-    // }
 });
 /**
  * @private
@@ -44645,7 +44720,8 @@ Ext.define("escape.view.page.Settings", {
         pageTitle: 'Settings',
         cls: 'settings',
         rightBtn: 'hide',
-        pageTrackingId:0,
+        pageTypeId: 12,
+        pageTrackingId: 0,
         scrollable: {
             direction: 'vertical',
             directionLock: true
@@ -44655,20 +44731,47 @@ Ext.define("escape.view.page.Settings", {
         }]
     },
     openView: function() {
-      
+
         var items = [];
-        
-        //items = items.concat(languageChoices);
+        //
+        var wm = escape.model.Weather;
+        var stationId = wm.getStationId();
+        var initStationValue = -1;
+        // build the weather locations
+        var closesName = 'Closest';
+        var weatherOptions = [{
+            value: 0,
+            text: closesName
+        }];
+        for (var i = 0; i < AppSettings.weatherStations.length; i++) {
+            var station = AppSettings.weatherStations[i];
+            weatherOptions.push({
+                value: station.stationId,
+                text: station.name
+            });
+        }
         // Tempuature
         var toggleValue = (escape.model.Weather.getIsDegrees()) ? 1 : 0;
         items.push({
             xtype: 'container',
             cls: 'options',
             items: [{
-                label: 'Weather Temperature',
-                labelWidth: '60%',
-                xtype: 'togglefield',
-                value: toggleValue
+                xtype: 'fieldset',
+                title: 'Weather',
+                instructions: 'Update your weather settings',
+                items: [{
+                    label: 'Temperature',
+                    labelWidth: '60%',
+                    xtype: 'togglefield',
+                    value: toggleValue
+                }, {
+                    xtype: 'selectField',
+                    labelWidth: '50%',
+                    label: 'Location',
+                    name: 'location',
+                    options: weatherOptions,
+                    value: stationId
+                }]
             }]
         });
         ///
@@ -44693,20 +44796,24 @@ Ext.define("escape.view.ui.SharingOptions", {
             xtype: 'button',
             margin: '10px 0',
             action: 'email',
+            cls:'email',
             text: 'Email'
         }, {
             xtype: 'button',
             margin: '10px 0',
             action: 'facebook',
+            cls:'facebook',
             text: 'Facebook'
         }, {
             xtype: 'button',
             margin: '10px 0',
+             cls:'twitter',
             action: 'twitter',
             text: 'Twitter'
         }, {
             xtype: 'button',
             margin: '10px 0',
+            cls:'cancel',
             action: 'cancel',
             text: 'Close'
         }],
@@ -44761,6 +44868,7 @@ Ext.define('escape.controller.Sharing', {
     requires: ['escape.view.ui.SharingOptions', 'escape.utils.Facebook', 'escape.utils.Twitter'],
     extend: 'Ext.app.Controller',
     config: {
+        sharingData: null,
         refs: {
             sharingOptions: 'sharingOptions'
         },
@@ -44791,21 +44899,34 @@ Ext.define('escape.controller.Sharing', {
             }
         }
     },
-    showSharingOptions: function() {
+    showSharingOptions: function(btn) {
         var sharingOptions = Ext.create('escape.view.ui.SharingOptions');
+
+        var sharingData = escape.utils.AppVars.currentPage.getSharingData();
+        console.log(sharingData);
+        if (!sharingData){
+            sharingData = AppSettings.defualtShareData;
+        }
+        console.log(sharingData);
+        
+        this.setSharingData(sharingData);
         Ext.Viewport.add(sharingOptions);
         sharingOptions.show();
+        //this.getSharingOptions().showMessageForm('postToFacebook');
     },
     removeSharingOptions: function() {
-        console.log('!!!! removeSharingOptions');
         Ext.Viewport.remove(this.getSharingOptions());
     },
     sendEmail: function() {
-        console.log('!!!! sendEmail');
+        var sharingData = this.getSharingData();
+        var subject = sharingData.name;
+        var body = sharingData.defaultMessage+ ' '+sharingData.link;
+
+        
         try {
-            window.plugins.emailComposer.showEmailComposer("Check this out", "sharing msgs");
+            window.plugins.emailComposer.showEmailComposer(subject, body);
         } catch (e) {
-            window.open('mailto:' + emailAddress, '_blank');
+            window.open('mailto:?subject='+subject+'&body='+body, '_blank');
         }
         escape.utils.Tracking.trackEventOnCurrent(10);
     },
@@ -44818,7 +44939,6 @@ Ext.define('escape.controller.Sharing', {
     ///////////////////////////////////////////////////////////////////
     shareFacebook: function() {
         console.log('!!!! shareFacebook');
-
         // this device does not support native twitter use the OAuth method
         this.getSharingOptions().showLoading();
         var selfRef = this;
@@ -44847,11 +44967,13 @@ Ext.define('escape.controller.Sharing', {
         this.getSharingOptions().showLoading();
         var selfRef = this;
         console.log(message);
+        var sharingData = this.getSharingData();
         escape.utils.Facebook.postMessage('feed', {
             message: message,
-            name: 'Kosciuszko National Park',
-            description: 'Check out Kosciuszko National Park at Visit NSW.',
-            link: 'http://www.visitnsw.com/destinations/snowy-mountains/kosciuszko-national-park/kosciuszko/attractions/kosciuszko-national-park'
+            name: sharingData.name,
+            description: sharingData.description,
+            link: sharingData.link,
+            picture : sharingData.picture
         }, {
             success: function(accessToken) {
                 console.log('!!!! post success');
@@ -44870,6 +44992,8 @@ Ext.define('escape.controller.Sharing', {
         console.log('!!!! shareTwitter');
         escape.utils.Tracking.trackEventOnCurrent(12);
         var selfRef = this;
+        var sharingData = this.getSharingData();
+        
         window.plugins.twitter.isTwitterSetup(function(r) {
             console.log('isTwitterSetup: ' + r);
             if (r === 1) {
@@ -44879,8 +45003,9 @@ Ext.define('escape.controller.Sharing', {
                     console.log("tweet success");
                 }, function(error) {
                     console.log("tweet failure: " + error);
-                }, "Check out Kosciuszko National Park at Visit NSW.", {
-                    urlAttach: "http://www.visitnsw.com/destinations/snowy-mountains/kosciuszko-national-park/kosciuszko/attractions/kosciuszko-national-park"
+                }, sharingData.defaultMessage, {
+                    urlAttach: sharingData.link,
+                    imageAttach: sharingData.picture
                 });
             } else {
                 selfRef.useOAuthTwitter();
@@ -44914,8 +45039,9 @@ Ext.define('escape.controller.Sharing', {
         var message = messageArea.getValue();
         console.log('!!! message');
         console.log(message);
+        var sharingData = this.getSharingData();
         this.getSharingOptions().showLoading();
-        escape.utils.Twitter.tweet(message, {
+        escape.utils.Twitter.tweet(message, sharingData.link, {
             success: function(accessToken) {
                 console.log('!!!! post success');
                 selfRef.getSharingOptions().showSuccess();
@@ -48332,7 +48458,7 @@ Ext.define("escape.view.page.Home", {
     config: {
         addToItemId: 1,
         rightBtn: 'searchBtn',
-        title: 'Sydney',
+        title: AppSettings.appAreaName,
         pageTypeId: 7,
         pageTrackingId: 7,
         //<h4>Destination Guide</h4>,
@@ -48350,24 +48476,32 @@ Ext.define("escape.view.page.Home", {
     },
     checkOpened: function() {
         this.setNavTitle(this.getPageTitle());
-        // var task = new Ext.util.DelayedTask(function() {
-        //     this.openView();
-        // }, this);
-        // task.delay(1000);
         this.openView();
     },
-
-
-
+    closeView: function() {
+        console.log('closeView')
+        this.setItems([]);
+          this.removeWeatherBtn();
+    },
+    reOpenView: function() {
+        this.setHomeBuilt(false);
+        this.openView();
+    },
 
     openView: function() {
         if (!this.getHomeBuilt()) {
             this.setHomeBuilt(true);
             var screenWidth = Ext.Viewport.getSize().width;
+
+            var thingsToDoCats = [];
+            for (var i = 0; i < AppSettings.attractionCats.length; i++) {
+                var cat = AppSettings.attractionCats[i];
+                cat.number = i + 1;
+                thingsToDoCats.push(cat);
+            }
+
+
             this.setItems([{
-                cls: 'badge',
-                html: ''
-            }, {
                 xtype: 'carousel',
                 layout: 'fit',
 
@@ -48377,102 +48511,48 @@ Ext.define("escape.view.page.Home", {
                     width: screenWidth,
                     height: 200
                 },
-                items: [{
-                    imagePath: 'resources/images/content/tnsw1086897-c.jpg',
-                    altText: 'Sydney Harbour by Hamilton Lund'
-                }, {
-                    imagePath: 'resources/images/content/tnsw1038472-c.jpg',
-                    altText: 'Bondi Baths by Sally Mayman'
-                }, {
-                    imagePath: 'resources/images/content/dnsw1147828-c.jpg',
-                    altText: 'Picnic at Mrs Macquarie\'s Chair by Pierre Toussaint'
-                }, {
-                    imagePath: 'resources/images/content/dnsw1116000-c1.jpg',
-                    altText: 'Sydney Harbour by Hamilton Lund'
-                }, {
-                    imagePath: 'resources/images/content/dnsw1377836-c.jpg',
-                    altText: 'Walsh Bay Piers by James Horan'
-                }]
+                items: AppSettings.homeImgs
             }, {
-                xtype: 'container',
-                cls: 'btnsHomeContainer',
-                itemId: 'btnsHomeContainer',
-                items: [{
-                    xtype: 'button',
-                    text: "",
-                    cls: 'weatherHome',
-                    itemId: 'weatherHome',
-                    action: 'showWeather'
-                }, {
-                    xtype: 'button',
-                    text: "Deals",
-                    cls: 'tipsHome',
-                    action: 'changeSection',
-                    sectionId: 'dealsSection'
-                }]
+                cls: 'badge',
+                html: '',
+                top: 40,
+                left: 15,
+                zIndex: 15
             }, {
                 xtype: 'container',
                 cls: 'btnsContainer',
                 items: [{
                     xtype: 'button',
-                    text: "My Itinerary",
-                    cls: 'intinerayHome',
-                    action: 'changeSection',
-                    sectionId: 'myItinerarySection'
-                }, {
-                    xtype: 'button',
-                    text: "My Favourites",
-                    cls: 'favouritesHome',
-                    action: 'changeSection',
-                    sectionId: 'myFavouritesSection'
-                }, {
-                    xtype: 'button',
-                    text: "Accomodation",
+                    html: "<span class='icon'></span><span>Accomodation</span>",
+                    cls: 'accomHome',
                     action: 'changeSection',
                     sectionId: 'accommodationSection'
                 }, {
                     xtype: 'button',
-                    text: "Events",
+                    html: "<span class='icon'></span><span>Events</span>",
+                      cls: 'eventsHome',
                     action: 'changeSection',
                     sectionId: 'eventsSection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>My Itinerary</span>",
+                    cls: 'itineraryHome',
+                    action: 'changeSection',
+                    sectionId: 'myItinerarySection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Deals</span>",
+                    cls: 'dealsHome',
+                    action: 'changeSection',
+                    sectionId: 'dealsSection'
                 }]
             }, {
                 xtype: 'list',
-                margin: '10 10 20 10',
+                itemId: 'thingsToDoList',
                 itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
-                cls: 'imgList numberedList',
+                cls: 'imgList numberedList homeList',
                 scrollable: false,
-                data: [{
-                    number: 1,
-                    title: 'Arts & Culture',
-                    subheading: 'Best of arts and culture in Sydney',
-                    imgPath: 'resources/images/home_experience_a.png'
-                }, {
-                    number: 2,
-                    title: 'Food & Wine',
-                    subheading: 'Food and wine in Sydney',
-                    imgPath: 'resources/images/home_experience_b.png'
-                }, {
-                    number: 3,
-                    title: 'Nature & Parks',
-                    subheading: 'Explore Sydney’s great outdoors',
-                    imgPath: 'resources/images/home_experience_c.png'
-                }, {
-                    number: 4,
-                    title: 'Fashion & Shopping',
-                    subheading: 'Shopping in Sydney',
-                    imgPath: 'resources/images/home_experience_d.png'
-                }, {
-                    number: 5,
-                    title: 'Beach Lifestyle',
-                    subheading: 'Beach lifestyle in Sydney',
-                    imgPath: 'resources/images/home_experience_e.png'
-                }, {
-                    number: 6,
-                    title: 'Family Holidays',
-                    subheading: 'Family travel in sydney',
-                    imgPath: 'resources/images/home_experience_f.png'
-                }]
+                data: thingsToDoCats
             }, {
                 xtype: 'footer'
             }]);
@@ -48488,19 +48568,80 @@ Ext.define("escape.view.page.Home", {
         }
     },
     showWeather: function() {
-        var wm = escape.model.Weather;
-        var btnsHomeContainer = this.getComponent('btnsHomeContainer');
-        var todaysWeather = btnsHomeContainer.getComponent('weatherHome');
-        var today = wm.forcatsByDay[0];
-        var imagaeName = 'we_ico_' + today.icon + '_sml';
-        if (escape.utils.Img.retinaAvailable()) {
-            imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+        var currenctSection = escape.utils.AppVars.currentSection;
+        console.log(currenctSection.getId());
+        // make sure we are in the home section
+        if (currenctSection.getId() == 'homeSection') {
+            // get the weather btn
+            var weatherBtn = currenctSection.getComponent('weatherBtn');
+            console.log(weatherBtn);
+            // if does not exist so create it
+            if (!weatherBtn) {
+                weatherBtn = currenctSection.add({
+                    xtype: 'button',
+                    cls: 'weatherBtn iconBtn',
+                    action: 'showWeather',
+                    itemId: 'weatherBtn',
+                    top: -2,
+                    right: 36,
+                    width: 40,
+                    zIndex: 10
+                });
+            }
+            // set the icon
+            var wm = escape.model.Weather;
+            var today = wm.forcatsByDay[0];
+            var imagaeName = 'we_ico_' + today.icon + '_sml';
+            if (escape.utils.Img.retinaAvailable()) {
+                imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+            }
+            weatherBtn.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
         }
-        //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
-        todaysWeather.addCls('icon_' + today.icon);
-        todaysWeather.setText('<h2>' + wm.convertTempature(wm.currentTemp) + '&deg;</h2><h4>' + today.forecast + '</h4>');
+        // var wm = escape.model.Weather;
+        // var btnsHomeContainer = this.getComponent('btnsHomeContainer');
+        // var todaysWeather = btnsHomeContainer.getComponent('weatherHome');
+        // var today = wm.forcatsByDay[0];
+        // var imagaeName = 'we_ico_' + today.icon + '_sml';
+        // if (escape.utils.Img.retinaAvailable()) {
+        //     imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+        // }
+        // //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+        // todaysWeather.addCls('icon_' + today.icon);
+        // todaysWeather.setText('<h2>' + wm.convertTempature(wm.currentTemp) + '&deg;</h2><h4>' + today.forecast + '</h4>');
+    },
+    removeWeatherBtn: function() {
+        console.log('removeWeatherBtn');
+        var currenctSection = escape.utils.AppVars.currentSection;
+        console.log(currenctSection);
+        if (currenctSection) {
+            var weatherBtn = currenctSection.getComponent('weatherBtn');
+            console.log(weatherBtn)
+            if (weatherBtn) {
+                currenctSection.remove(weatherBtn, true);
+            }
+        }
+
     }
 });
+
+// {
+//                 xtype: 'container',
+//                 cls: 'btnsHomeContainer',
+//                 itemId: 'btnsHomeContainer',
+//                 items: [{
+//                     xtype: 'button',
+//                     text: "",
+//                     cls: 'weatherHome',
+//                     itemId: 'weatherHome',
+//                     action: 'showWeather'
+//                 }, {
+//                     xtype: 'button',
+//                     text: "Deals",
+//                     cls: 'tipsHome',
+//                     action: 'changeSection',
+//                     sectionId: 'dealsSection'
+//                 }]
+//             }
 Ext.define("escape.view.ui.ContentImg", {
     requires: ['Ext.device.Connection', 'Ext.device.Device', 'Ext.env.OS', 'escape.utils.Img'],
     extend: 'Ext.Img',
@@ -48530,7 +48671,6 @@ Ext.define("escape.view.ui.ContentImg", {
                 });
             }
         }
-
     },
     dispalyInfo: function(translation) {
         if (!this.getInfoOpen()) {
@@ -51457,7 +51597,11 @@ Ext.define("escape.view.page.ItineraryDay", {
         title: '',
         itineraryId: null,
         dayNum: 1,
-        padding: '10px 0',
+        pageTypeId: 14,
+        pageTrackingId: 2,
+        padding: '0',
+        products: [],
+        initViewType: 'list',
         items: [{
             xtype: 'loadingDisplay'
         }],
@@ -51469,32 +51613,59 @@ Ext.define("escape.view.page.ItineraryDay", {
     openView: function() {
         this.loadProducts();
     },
-    loadProducts: function(){
+    loadProducts: function() {
         var selfRef = this;
         // load items Itineraries from the database
         escape.model.Itineraries.getItineraryDay(this.getItineraryId(), this.getDayNum(), {
             success: function(products) {
                 if (products.length > 0) {
-                    selfRef.buildPage(products);
+                    selfRef.setProducts(products);
+                    selfRef.showInitView();
                     // you have itineraies build the list
                 } else {
                     // error you have no product
-                    selfRef.showEmptyDay();
+                    selfRef.setProducts([]);
+                    selfRef.showInitView();
                 }
             },
             error: function(error) {
+                selfRef.setProducts([]);
                 // error show the create button
-                selfRef.showEmptyDay();
+                selfRef.showInitView();
             },
             scope: this
         });
     },
 
+    showInitView: function() {
+        console.log('showInitView');
+        console.log(this.getInitViewType());
+        switch (this.getInitViewType()) {
+        case 'list':
+            this.showList();
+            break;
+        case 'map':
+            this.showMap();
+            break;
+        case 'notes':
+            this.loadNotes();
+            break;
+        }
+    },
+    showList: function() {
+        console.log('showList')
+        var products = this.getProducts();
+        if (products.length == 0) {
+            this.showEmptyDay();
+        } else {
+            this.buildPage(products);
+        }
+    },
     showEmptyDay: function() {
         items = [{
-            cls: 'itinerayInstructions',
+            cls: 'itineraryInstructions',
             margin: '10 10 10 10',
-            html: '<h2>You have no items on this day.</h2><p>Start adding items to your itinerary when you see this icon.</p>'
+            html: '<p>Start adding items to your itinerary when you see this icon.</p>'
         }, {
             xtype: 'list',
             margin: '10 10 10 10',
@@ -51516,16 +51687,41 @@ Ext.define("escape.view.page.ItineraryDay", {
                 sectionId: 'eventsSection'
             }]
         }];
-        this.removeAll(true,true);
-         this.removeCls('itineraryProducts');
+        this.removeAll(true, true);
+        this.removeCls('itineraryProducts');
         this.setItems(items);
         this.fireEvent('built');
     },
+
+    showMap: function() {
+        var products = this.getProducts();
+        console.log(products);
+        var intialMarkers = [];
+        for (var i = 0; i < products.length; i++) {
+            var product = products.item(i);
+            console.log(product);
+            var productData = JSON.parse(product.data);
+            product.iconText = i + 1;
+            intialMarkers.push({
+                lat: productData.Contact.Latitude,
+                lon: productData.Contact.Longitude,
+                data: product
+            });
+        }
+        console.log('showMap');
+        var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
+            height: Ext.Viewport.getSize().height - 103,
+            interaction: true,
+            intialMarkers: intialMarkers
+        });
+        this.setItems(mapDisplay);
+    },
+
     buildPage: function(products) {
         var data = [];
         for (var i = 0; i < products.length; i++) {
             product = products.item(i);
-            console.log(JSON.parse(product.data));
+            console.log(product.type);
             data.push({
                 id: product.id,
                 productId: product.product_id,
@@ -51546,40 +51742,88 @@ Ext.define("escape.view.page.ItineraryDay", {
         items = [{
             xtype: 'sortableList',
             margin: '10 10 10 10',
-            itemTpl: '<div class="dragIcon"></div><div class="labels"><h3>{name}</h3><h4>{suburb}</h4><div>',
+            itemTpl: '<div class="icon {type}"></div><div class="labels"><h3>{name}</h3><h4>{suburb}</h4><div>',
             cls: 'itineraryList',
             action: 'product',
             onItemDisclosure: true,
             itemCls: 'draggableItem',
             scrollable: false,
             store: store
+        }];
+        this.removeAll(true, true);
+        this.setItems(items);
+        this.fireEvent('built');
+
+        this.addCls('itineraryProducts');
+    },
+    loadNotes: function() {
+        var selfRef = this;
+        console.log('this.getItineraryId(): ' + this.getItineraryId());
+        console.log('this.getDayNum(): ' + this.getDayNum());
+        escape.model.Itineraries.getItineraryDayNotes(this.getItineraryId(), this.getDayNum(), {
+            success: function(itineraryDay) {
+                selfRef.buildNotes(itineraryDay.item(0).notes);
+            },
+            error: function(error) {},
+            scope: this
+        });
+
+    },
+    buildNotes: function(notes) {
+        this.setItems([{
+            html: '<h2>Notes</h2>',
+            padding:'0 10px'
+        }, {
+            xtype: 'textareafield',
+            maxRows: 10,
+            name: 'notes',
+            itemId: 'notesPage',
+            value: notes,
+            margin: '10px'
         }, {
             xtype: 'container',
             docked: 'bottom',
             cls: 'btnsArea',
-            padding: '10xp',
+            padding: '10px',
             defaults: {
                 margin: '10px 0 0 0'
             },
             items: [{
                 xtype: 'button',
-                text: 'Notes',
-                action: 'notes',
-                cls: 'search',
-                data: {
-                    itineraryId: this.getItineraryId(),
-                    dayNum: this.getDayNum()
-                }
+                text: 'Save',
+                action: 'save',
+                cls: 'search'
             }]
-        }];
-        this.removeAll(true,true);
-        this.setItems(items);
-        this.fireEvent('built');
-
-        this.addCls('itineraryProducts');
+        }]);
     }
 });
 //action: 'changeSection',
+// , {
+//             xtype: 'container',
+//             docked: 'bottom',
+//             cls: 'btnsArea',
+//             padding: '10xp',
+//             defaults: {
+//                 margin: '10px 0 0 0'
+//             },
+//             items: [{
+//                 xtype: 'button',
+//                 text: 'Map',
+//                 action: 'map',
+//                 cls: 'secondLevelBtn',
+//                 style: 'float:left'
+//             },{
+//                 xtype: 'button',
+//                 text: 'Notes',
+//                 action: 'notes',
+//                 cls: 'secondLevelBtn',
+//                 style: 'float:right',
+//                 data: {
+//                     itineraryId: this.getItineraryId(),
+//                     dayNum: this.getDayNum()
+//                 }
+//             }]
+//         }
 Ext.define("escape.view.subSection.Itinerary", {
     extend: 'escape.view.subSection.SubSection',
     requires: ['Ext.Toolbar', 'Ext.Button', 'escape.view.page.ItineraryDay'],
@@ -51588,49 +51832,81 @@ Ext.define("escape.view.subSection.Itinerary", {
         rightBtn: "editBtn",
         cardViewItemId: 1,
         itinerary: null,
-        layout:'vbox'
+        layout: 'vbox',
+        viewType:'list',
+        pageTypeId: 14,
+        pageTrackingId: 2
     },
     openView: function() {
         this.pageName = this.getItinerary().name;
+        this.setPageTitle(this.pageName);
         this.setNavTitle(this.getItinerary().name);
         var startDate = new Date(this.getItinerary().startDate);
         var endDate = new Date(this.getItinerary().endDate);
         var oneDay = 1000 * 60 * 60 * 24;
         var daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay));
 
-        var btns = [{
-            xtype: 'button',
-            action: 'back',
-            docked: 'left',
-            cls: 'backBtn'
-        }, {
-            xtype: 'button',
-            action: 'next',
-            docked: 'right',
-            cls: 'nextBtn'
-        }];
+        var btns = [];
 
-        if (daysDiff === 0) {
-            btns = [];
+        if (daysDiff !== 0) {
+            btns.push();
         }
 
 
         items = [{
-            padding:'10px',
+            padding: '10px 5px 10px 0px',
             xtype: 'toolbar',
-            tpl: '<h3>Day {dayNum} / {totalDays}  </h3><h4>{date}</h4>',
-            data: {
-                dayNum: 1,
-                totalDays: daysDiff + 1,
-                date: Ext.Date.format(startDate, 'd/m/y')
-            },
+            layout: 'hbox',
             docked: 'top',
             cls: 'pageNav itineraryDayToolbar',
-            items: btns
+            items: [{
+                width: 37,
+                xtype: 'button',
+                action: 'back',
+                cls: 'backBtn'
+            }, {
+                flex: 1,
+                xtype: 'container',
+                itemId: 'dayDisplay',
+                tpl: '<div class="info"><b>Day {dayNum} </b><br><span>{date}</span></div>',
+                data: {
+                    dayNum: 1,
+                    totalDays: daysDiff + 1,
+                    date: Ext.Date.format(startDate, 'd/m/y')
+                }
+            }, {
+                width: 37,
+                xtype: 'button',
+                action: 'next',
+                cls: 'nextBtn'
+            }, {
+                xtype: 'segmentedbutton',
+                layout: 'hbox',
+                width: 120,
+                allowMultiple: false,
+                allowDepress: false,
+                items: [{
+                    cls: 'listBtn',
+                    type: 'list',
+                    pressed: true,
+                    action: 'list',
+                    flex: 1
+                }, {
+                    cls: 'mapBtn',
+                    type: 'map',
+                    action: 'map',
+                    flex: 1
+                }, {
+                    cls: 'notesBtn',
+                    type: 'map',
+                    action: 'notes',
+                    flex: 1
+                }]
+            }]
         }, {
             xtype: 'container',
             layout: 'card',
-            flex:1,
+            flex: 1,
             cls: 'cardView',
 
 
@@ -51672,10 +51948,19 @@ Ext.define('escape.controller.ItineraryViewer', {
             'itinerarySubSection itineraryDayPage sortableList': {
                 refresh: 'saveProductOrder'
             },
-            'itinerarySubSection itineraryDayPage button[action=notes]': {
+            'itinerarySubSection button[action=notes]': {
                 tap: 'showNotes'
             },
-            '#myItinerarySection ItineraryNotesPage button[action=save]': {
+            'itinerarySubSection button[action=list]': {
+                tap: 'showList'
+            },
+            'itinerarySubSection button[action=map]': {
+                tap: 'showMap'
+            },
+            'itinerarySubSection mapDisplay': {
+                markerSelected: 'productMarkerSelected'
+            },
+            '#myItinerarySection button[action=save]': {
                 tap: 'saveNotes'
             },
             'editItineraryProduct': {
@@ -51730,7 +52015,7 @@ Ext.define('escape.controller.ItineraryViewer', {
         var sectionView = this.getItinerarySubSection();
         var itineraryData = sectionView.getItinerary();
         var itineraryToolbar = this.getItineraryToolbar();
-        var data = itineraryToolbar.getData();
+        var data = itineraryToolbar.getComponent('dayDisplay').getData();
         var actionSheet = Ext.create('escape.view.ui.EditItineraryProduct', {
             itineraryId: itineraryData.id,
             productId: productData.id,
@@ -51751,7 +52036,6 @@ Ext.define('escape.controller.ItineraryViewer', {
         var selfRef = this;
         var editSheet = this.getEditItineraryProduct();
         var dayField = editSheet.getComponent('dayField');
-        console.log('move to day: ' + dayField.getValue());
         escape.model.Itineraries.changeProductDay(editSheet.getProductId(),dayField.getValue(), {
             success: function() {
                 console.log('product moved');
@@ -51769,7 +52053,6 @@ Ext.define('escape.controller.ItineraryViewer', {
     removeProduct: function() {
         var selfRef = this;
         var editSheet = this.getEditItineraryProduct();
-        console.log('removeProduct: ' + editSheet.getProductId());
         escape.model.Itineraries.deleteProduct(editSheet.getProductId(), {
             success: function() {
                 console.log('product deleted');
@@ -51803,27 +52086,41 @@ Ext.define('escape.controller.ItineraryViewer', {
             });
         }
     },
-
+    showList : function(btn){
+        this.getItinerarySubSection().setViewType('list')
+        var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
+        dayPage.showList();
+    },
     showNotes: function(btn) {
-        var data = btn.getData();
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'ItineraryNotesPage',
-            itineraryId: data.itineraryId,
-            dayNum: data.dayNum
-        });
+        this.getItinerarySubSection().setViewType('notes')
+        var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
+        dayPage.loadNotes();
+        // escape.utils.AppVars.currentSection.getNavigationView().push({
+        //     xtype: 'ItineraryNotesPage',
+        //     itineraryId: dayPage.getItineraryId(),
+        //     dayNum: dayPage.getDayNum()
+        // });
+    
+    },
+    showMap : function(btn){
+        this.getItinerarySubSection().setViewType('map')
+        var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
+        dayPage.showMap();
     },
 
     saveNotes: function(btn) {
         var selfRef = this;
-        var notesPage = btn.parent.parent;
-        var itineraryId = notesPage.getItineraryId();
-        var dayNum = notesPage.getDayNum();
-        var notes = notesPage.getComponent('notesPage').getValue();
+        var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
+        //var notesPage = btn.parent.parent;
+        var itineraryId = dayPage.getItineraryId();
+        var dayNum = dayPage.getDayNum();
+        var notes = dayPage.getComponent('notesPage').getValue();
 
 
         escape.model.Itineraries.updateItineraryDayNotes(itineraryId, dayNum, notes, {
             success: function() {
                 selfRef.showMessage('Saved');
+                //escape.utils.AppVars.currentSection.getNavigationView().pop();
             },
             error: function(error) {},
             scope: this
@@ -51859,7 +52156,7 @@ Ext.define('escape.controller.ItineraryViewer', {
     },
     nextDay: function(btn) {
         var itineraryToolbar = this.getItineraryToolbar();
-        var data = itineraryToolbar.getData();
+        var data = itineraryToolbar.getComponent('dayDisplay').getData();
         // set the day
         if (data.dayNum < data.totalDays) {
             data.dayNum++;
@@ -51872,7 +52169,7 @@ Ext.define('escape.controller.ItineraryViewer', {
     },
     previousDay: function(btn) {
         var itineraryToolbar = this.getItineraryToolbar();
-        var data = itineraryToolbar.getData();
+        var data = itineraryToolbar.getComponent('dayDisplay').getData();
         // set the day
         if (data.dayNum > 1) {
             data.dayNum--;
@@ -51892,11 +52189,12 @@ Ext.define('escape.controller.ItineraryViewer', {
         dayDate.setDate(dayDate.getDate() + (data.dayNum - 1));
         data.date = Ext.Date.format(dayDate, 'd/m/y');
         // set date data
-        itineraryToolbar.setData(data);
+        itineraryToolbar.getComponent('dayDisplay').setData(data);
         // add day
         var townPage = new escape.view.page.ItineraryDay({
             itineraryId: itinerayData.id,
-            dayNum: data.dayNum
+            dayNum: data.dayNum,
+            initViewType: sectionView.getViewType()
         });
         cardView.animateActiveItem(townPage, {
             duration: 350,
@@ -51910,11 +52208,20 @@ Ext.define('escape.controller.ItineraryViewer', {
             sectionView.getScrollable().getScroller().scrollTo(0, 0, false);
         }
     },
+    productMarkerSelected: function(productData){
+        console.log(productData);
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'productPage',
+            pageTitle: String(productData.type).toProperCase(),
+            productId: productData.productId,
+            productData: JSON.parse(productData.data)
+        });
+    },
     productSelected: function(list, record) {
         var productData = record.getData();
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'productPage',
-            pageTitle: productData.type,
+            pageTitle: String(productData.type).toProperCase(),
             productId: productData.productId,
             productData: JSON.parse(productData.data)
         });
@@ -55998,13 +56305,13 @@ Ext.define('escape.controller.Events', {
     extend: 'Ext.app.Controller',
     requires: ['Ext.Anim', 'escape.model.ProductResult'],
     config: {
-        currentSection: 'featured',
+        currentSection: 'eventsCalender',
         refs: {
             eventsPage: 'eventsPage'
         },
         control: {
             'eventsPage': {
-                built: 'loadFeatured'
+                built: 'loadEventsCalender'
             },
             'eventsPage segmentedbutton': {
                 toggle: 'switchType'
@@ -56023,8 +56330,8 @@ Ext.define('escape.controller.Events', {
         contents.setPadding(10);
         contents.setItems(loadingDislay);
 
-        if (btn.config.type == 'featured') {
-            this.loadFeatured();
+        if (btn.config.type == 'eventsCalender') {
+            this.loadEventsCalender();
         }
 
         if (btn.config.type == 'weekly') {
@@ -56035,15 +56342,15 @@ Ext.define('escape.controller.Events', {
     loadWeekly: function() {
         var params = {
             // linit the search to the apps destination webpath
-            meta_D_phrase_sand: escape.utils.AppVars.destinationWebpath
+            meta_D_phrase_sand: AppSettings.destinationWebpath
         };
         // set the serach to use the right collection
         params.collection = 'event'; //'prototype-dnsw-' +
         params.form = 'mobile-event-json';
         var todaysDate = new Date();
         var weekFromNow = new Date();
-        weekFromNow.setDate(todaysDate.getDate()+7);
-        params.meta_d3 = Ext.Date.format(todaysDate, 'dMY');//'2Oct2012';
+        weekFromNow.setDate(todaysDate.getDate() + 7);
+        params.meta_d3 = Ext.Date.format(todaysDate, 'dMY'); //'2Oct2012';
         params.meta_d4 = Ext.Date.format(weekFromNow, 'dMY');
         //
         // perform the seach
@@ -56073,11 +56380,10 @@ Ext.define('escape.controller.Events', {
             data: records.results,
             grouper: {
                 groupFn: function(record) {
-                    console.log(record.get('Start Date'));
                     var dateStr = record.get('Start Date').split('-');
-                    var date = new Date(dateStr[0],Number(dateStr[1])-1,dateStr[2]);
+                    var date = new Date(dateStr[0], Number(dateStr[1]) - 1, dateStr[2]);
 
-                    return Ext.Date.format(date, 'l jS F');//record.get('Start Date');
+                    return Ext.Date.format(date, 'l jS F'); //record.get('Start Date');
                 },
                 sortProperty: 'Start Date'
             }
@@ -56095,81 +56401,60 @@ Ext.define('escape.controller.Events', {
         contents.setPadding(0);
         contents.setItems(list);
     },
-    loadFeatured: function() {
-        var url = '';
-        for (var i = 0; i < content.productLists.length; i++) {
-            var productList = content.productLists[i];
-            if (productList.type == 'mustDo') {
-                url = productList.url;
-            }
-
-        }
+    loadEventsCalender: function() {
+        console.log('loadEventsCalender');
+        var params = {};
+       // params.meta_D_phrase_sand = AppSettings.destinationWebpath;
+        // set the serach to use the right collection
+         var todaysDate = new Date();
+        var weekFromNow = new Date();
+        weekFromNow.setDate(todaysDate.getDate() + 7);
+        params.collection = 'tourism-nsw-meta';
+        params.form = 'mobile-all-json';
+        params.meta_C_not = 'dest';
+        params.meta_h_phrase_sand = AppSettings.EventCalName;
+        var dateNow = new Date();
+        params.sort = 'metap';
+        params.gt_q= parseInt(todaysDate/86400000);
+        params.lt_p= parseInt(weekFromNow/86400000);
+        //perform the seach
+        var productSearch = Ext.create('escape.store.ProductSearch');
+        // add the extra paramaters to the search
+        productSearch.getProxy().setExtraParams(params);
+        // laod the first page
         var selfRef = this;
-        escape.model.ContentPage.getProxy().setUrl(url);
-        escape.model.ContentPage.load(0, {
-            success: function(content) {
-                selfRef.featuredLoaded(content.getData());
+        productSearch.loadPage(1, {
+            callback: function(records, operation, success) {
+                // the operation object contains all of the details of the load operation
+                if (success) {
+                    selfRef.eventsCalenderLoaded(records[0]);
+                } else {
+                    // selfRef.setItems({
+                    //     xtype: 'loadError'
+                    // });
+                }
             },
-            error: function(error) {},
             scope: this
         });
 
     },
-    featuredLoaded: function(content) {
-        if (this.getCurrentSection() == 'featured') {
-            var linksStartBreakdown = content.description.split('<a href="');
-            var output = '';
-            var featuredItems = [];
-            for (var i = 0; i < linksStartBreakdown.length; i++) {
-                var linksEndBreakdown = linksStartBreakdown[i].split('</a>');
-                if (linksEndBreakdown.length > 1) {
-                    // process the link
-                    var linkParts = linksEndBreakdown[0].split('">');
-                    var link = linkParts[0];
-                    var linkText = linkParts[1];
-
-                    var urlBreakdown = link.split('/');
-                    var type = urlBreakdown[urlBreakdown.length - 2];
-                    var productId = urlBreakdown[urlBreakdown.length - 1];
-                    if (type == 'attractions') {
-                        type = 'attraction';
-                    }
-                    if (type !== null && productId !== null) {
-
-                        var typeAllowed = false;
-                        for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
-                            if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
-                                typeAllowed = true;
-                                break;
-                            }
-                        }
-                        if (typeAllowed) {
-                            featuredItems.push({
-                                xtype: 'productListItem',
-                                data: {
-                                    name: linkText,
-                                    type: type,
-                                    productId: productId,
-                                    suburb: '-'
-                                }
-
-                            });
-                        }
-                    }
-                }
-            }
+    eventsCalenderLoaded: function(data) {
+        console.log('eventsCalenderLoaded');
+        console.log(data);
+        if (this.getCurrentSection() == 'eventsCalender') {
+             console.log('1 built');
+            console.log(data.data.results);
             var viewportSize = Ext.Viewport.getSize();
+            var list = new Ext.List({
+                itemTpl: '{Title}',
+                data: data.data.results,
+                height: viewportSize.height - 89,
+                scrollable: true
+            });
+
             var contents = this.getEventsPage().getComponent('contents');
             contents.setPadding(0);
-            contents.setItems({
-                xtype: 'container',
-                height: viewportSize.height - 89,
-                scrollable: {
-                    direction: 'vertical',
-                    directionLock: true
-                },
-                items: featuredItems
-            });
+            contents.setItems(list);
         }
     },
     productSelected: function(list, record) {
@@ -56187,6 +56472,26 @@ Ext.define('escape.controller.Events', {
         });
     }
 
+});
+Ext.define("escape.model.POI", {
+    extend: 'Ext.data.Model',
+    config: {
+        fields: [{
+            name: 'ID'
+        }, {
+            name: 'address'
+        }, {
+            name: 'description'
+        }, {
+            name: 'name'
+        }, {
+            name: 'phoneNumber'
+        }, {
+            name: 'type'
+        }, {
+            name: 'resultNum'
+        }]
+    }
 });
 /**
  * @class Ext.ux.proxy.AjaxCache
@@ -56232,25 +56537,18 @@ Ext.define("escape.view.page.ContentPage", {
         contentPath: '',
         productLists: [],
         rightBtn: 'hide',
-        padding: '10px 0 0 0',
+        padding: '0 0 0 0',
         subPageXtype : null,
-        items: [{
-            xtype: 'loadingDisplay'
-        }],
         scrollable: {
             direction: 'vertical',
             directionLock: true
-        }
-    },
-    contentLoaded: function(content) {
-        this.setContent(content);
-        // Parse externalLinks
-        content = escape.model.Content.process(content);
-        this.buildPage();
+        },
+        pageTypeId: 1,
+        pageTrackingId: 0
     },
     //
-    buildPage: function() {
-        content = this.getContent();
+    buildPage: function(content) {
+        this.setContent(content);
         var items =  escape.model.Content.buildItems(content);
         this.setItems(items);
         this.fireEvent('built');
@@ -56258,103 +56556,6 @@ Ext.define("escape.view.page.ContentPage", {
 });
 
 
-Ext.define("escape.view.page.Events", {
-    extend: 'escape.view.page.ContentPage',
-    xtype: 'eventsPage',
-    config: {
-        pageTitle: 'Events',
-        cls: 'eventsPage',
-        rightBtn: 'searchBtn',
-        pageTrackingId: 0,
-        scrollable: false,
-        padding: 0,
-        layout: 'hbox',
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
-    },
-    contentLoaded: function(content) {
-        this.setContent(content);
-        // Parse externalLinks
-        content = escape.model.Content.process(content);
-        this.buildPage();
-    },
-    //
-    buildPage: function() {
-        content = this.getContent();
-        console.log(content);
-
-        this.setItems([{
-            xtype: 'segmentedbutton',
-            layout: 'hbox',
-            allowMultiple: false,
-            allowDepress: false,
-            docked: 'top',
-            items: [{
-                text: 'Featured',
-                type: 'featured',
-                pressed: true,
-                flex: 1
-            }, {
-                text: 'this week',
-                type: 'weekly',
-                flex: 1
-            }]
-        }, {
-            xtype: 'container',
-            itemId: 'contents',
-            flex: 1,
-            padding:'10',
-            items: [{
-                xtype: 'loadingDisplay'
-            }]
-        }]);
-        this.fireEvent('built', this);
-    }
-});
-Ext.define("escape.view.page.ThingsToDoCatigories", {
-    extend: 'escape.view.page.ContentPage',
-    xtype: 'thingsToDoCatigoriesPage',
-    requires: [],
-    config: {
-        title: 'Things To Do',
-        rightBtn: 'searchBtn',
-        scrollable: {
-            direction: 'vertical',
-            directionLock: true
-        },
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
-
-    },
-    buildPage: function() {
-
-        var content = this.getContent();
-        var listData = [];
-        if (content.children) {
-            for (var i = 0; i < content.children.length; i++) {
-                var child = content.children[i];
-                listData.push({
-                    number: i + 1,
-                    title: child.Name,
-                    imgPath: 'resources/images/home_hero_carousel_a.png',
-                    contentPath: child.Url
-                });
-            }
-        }
-        var items = [{
-            xtype: 'list',
-            margin: '10 10 20 10',
-            itemTpl: '<div><span>{number}</span><h3>{title}</h3></div><div class="img" style="background-image:url({imgPath})"></div>',
-            cls: 'imgList numberedList',
-            action: 'changeListPage',
-            scrollable: false,
-            data: listData
-        }];
-        this.setItems(items);
-    }
-});
 Ext.define("escape.view.page.ThingsToDoType", {
     extend: 'escape.view.page.ContentPage',
     xtype: 'thingsToDoTypePage',
@@ -56366,9 +56567,8 @@ Ext.define("escape.view.page.ThingsToDoType", {
         },
         subPageXtype: 'listTypesSubSection',
         rightBtn: 'searchBtn',
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
+        pageTypeId: 17,
+        pageTrackingId: 17
     }
 });
 Ext.define("escape.model.ContentPage", {
@@ -56426,29 +56626,123 @@ Ext.define('escape.controller.ContentPage', {
     requires: ['escape.model.ContentPage'],
     config: {
         refs: {},
+        selectedRecord: null,
         control: {
             'contentPage': {
                 openView: 'loadContent'
             },
             'list[action=contentPageChange]': {
                 select: 'openPage'
+            },
+            'contentPage list[action=productList]': {
+                select: 'productSelected'
             }
         }
     },
+    productSelected: function(list, record) {
+        var data = record.getData();
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            pageTitle: data.type.toProperCase(),
+            xtype: 'productPage',
+            productId: data.productId,
+            productType: data.type
+        });
+    },
     loadContent: function(contentPage) {
+        contentPage.setPageTrackingId(contentPage.getContentPath());
+        contentPage.setItems({
+            xtype: 'loadingDisplay'
+        });
+        var selfRef = this;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(contentPage.getContentPath());
         escape.model.ContentPage.load(0, {
             success: function(content) {
-                contentPage.contentLoaded(content.getData());
+                var processedContent = escape.model.Content.process(content.getData());
+
+                contentPage.buildPage(processedContent);
+                //
+                for (var i = 0; i < processedContent.productLists.length; i++) {
+                    var productList = processedContent.productLists[i];
+                    if (productList.type == 'mustDo') {
+                        selfRef.loadMustDos(productList.url, contentPage);
+                        break;
+                    }
+                }
             },
             error: function(error) {},
             scope: this
         });
     },
+    loadMustDos: function(url, contentPage) {
+        var selfRef = this;
+        escape.model.ContentPage.getProxy().setUrl(url);
+        escape.model.ContentPage.load(0, {
+            success: function(content) {
+                selfRef.mustDosLoaded(content.getData(), contentPage);
+            },
+            error: function(error) {},
+            scope: this
+        });
+    },
+
+    mustDosLoaded: function(content, contentPage) {
+        var linksStartBreakdown = content.description.split('<a href="');
+        var output = '';
+        var mustDoItems = [];
+        for (var i = 0; i < linksStartBreakdown.length; i++) {
+            var linksEndBreakdown = linksStartBreakdown[i].split('</a>');
+            if (linksEndBreakdown.length > 1) {
+                // process the link
+                var linkParts = linksEndBreakdown[0].split('">');
+                var link = linkParts[0];
+                var linkText = linkParts[1];
+                var urlBreakdown = link.split('/');
+                var type = urlBreakdown[urlBreakdown.length - 2];
+                var productId = urlBreakdown[urlBreakdown.length - 1];
+                if (type == 'attractions') {
+                    type = 'attraction';
+                }
+                if (type !== null && productId !== null) {
+                    var typeAllowed = false;
+                    for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
+                        if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
+                            typeAllowed = true;
+                            break;
+                        }
+                    }
+                    if (typeAllowed) {
+                        mustDoItems.push({
+                            name: linkText,
+                            type: type,
+                            productId: productId
+                        });
+                    }
+                }
+            }
+        }
+        if (mustDoItems.length > 0) {
+            var container = contentPage.getComponent('mustDoPlaceHolder');
+            console.log(container);
+            container.add({
+                html: '<h2>Must Do</h2>',
+                padding: '0 10px'
+            });
+            container.add({
+                xtype: 'list',
+                action: 'productList',
+                margin: '0 10 10 10',
+                itemTpl: '{name}',
+                cls: 'pageList',
+                scrollable: false,
+                data: mustDoItems
+            });
+        }
+    },
     openPage: function(list, record) {
-        console.log(list);
-        
+        var changeAllowed = true;
+        this.setSelectedRecord(record);
+        console.log(record);
         // Content Page
         var data = record.getData();
         console.log(data);
@@ -56456,7 +56750,6 @@ Ext.define('escape.controller.ContentPage', {
         if (data.typeId == 'like-a-local') {
             xtype = 'townsSubSection';
         }
-
         console.log('list.subPageXtype: ' + list.subPageXtype);
         if (list.subPageXtype) {
             // let the list overwrite the page type
@@ -56495,18 +56788,22 @@ Ext.define("escape.view.page.Product", {
         productType: "event",
         productId: "the-life-of-patrick-white",
         productData: null,
+        pageTypeId: 2,
+        pageTrackingId: 0,
         scrollable: {
             direction: 'vertical',
             directionLock: true
         },
         items: [{
             xtype: 'loadingDisplay'
-        }]
+        }],
+        sharingData: null
     },
     openView: function() {
+        this.setPageTrackingId(this.getProductType().toLowerCase() + '/' + this.getProductId());
         if (this.getProductData() === null) {
             // load the product data
-            escape.model.Product.getProxy().setUrl(escape.utils.AppVars.smartphoneURL+'product-details/' +  this.getProductType().toLowerCase() + '-details/_nocache');
+            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
                     this.setProductData(product.raw);
@@ -56575,13 +56872,27 @@ Ext.define("escape.view.page.Product", {
         }
     },
     buildPage: function() {
-
-        var viewportSize = Ext.Viewport.getSize();
-        var screenWidth = viewportSize.width;
-
         var product = this.getProductData();
         this.setTitle(product.Type);
 
+
+        var imageURL = product.Images[0]['Full Size'];
+        if (!imageURL){
+            imageURL='';
+        }
+        // set sharing data
+        sharingData = {
+            name: product.Name,
+            defaultMessage: 'Check the ' + product.Name + ' information I found via DNSW',
+            description: product.Name,
+            link: AppSettings.websiteURL+product['Full Path'],
+            picture: imageURL
+        };
+        this.setSharingData(sharingData);
+        // view portsize
+        var viewportSize = Ext.Viewport.getSize();
+        var screenWidth = viewportSize.width;
+        //
         var contactBtns = [];
         var contactList = [];
         var mainBtns = [];
@@ -56598,7 +56909,7 @@ Ext.define("escape.view.page.Product", {
                 section: this
             });
             contactList.push({
-                title: escape.utils.Translator.translate('Get Directions'),
+                title: product.Contact.Address.Street + '</br>' + product.Contact.Address.Suburb + '</br>' + product.Contact.Address.State + ' ' + product.Contact.Address.Postcode,
                 action: 'getDirections',
                 data: {
                     latlog: [product.Contact.Latitude, product.Contact.Longitude],
@@ -56608,19 +56919,52 @@ Ext.define("escape.view.page.Product", {
             });
         }
         // check phone number
+        var contactBtnAdded = false;
         if (product.Contact.Phone && product.Contact.Phone !== "") {
             contactBtns.push({
 
                 html: '<a href="tel:' + product.Contact.Phone + '" onclick="escape.utils.AppFuncs.trackPhoneCall()"></a>',
                 cls: 'callBtn contactSheetBtn'
             });
+            contactBtnAdded = true;
             contactList.push({
                 title: '<a href="tel:' + product.Contact.Phone + '" onclick="escape.utils.AppFuncs.trackPhoneCall()">' + product.Contact.Phone + '</a>',
                 action: 'makePhoneCall',
                 data: '02994961000',
                 itemCls: 'callIcon'
             });
-
+        }
+        // check mobile number
+        if (product.Contact.Mobile && product.Contact.Mobile !== "") {
+            if (!contactBtnAdded) {
+                contactBtns.push({
+                    html: '<a href="tel:' + product.Contact.Mobile + '"  onclick="escape.utils.AppFuncs.trackPhoneCall()"></a>',
+                    cls: 'callBtn contactSheetBtn'
+                });
+            }
+            contactBtnAdded = true;
+            contactList.push({
+                title: '<a href="tel:' + product.Contact.Mobile + '" onclick="escape.utils.AppFuncs.trackPhoneCall()">' + product.Contact.Mobile + '</a>',
+                action: 'makePhoneCall',
+                data: product.Contact.Mobile,
+                itemCls: 'callIcon'
+            });
+        }
+        // check toll free number
+        if (product.Contact["Toll Free"] && product.Contact["Toll Free"] !== "") {
+            if (!contactBtnAdded) {
+                contactBtns.push({
+                    html: '<a href="tel:' + product.Contact["Toll Free"] + '" onclick="escape.utils.AppFuncs.trackPhoneCall()"></a>',
+                    cls: 'callBtn contactSheetBtn'
+                });
+            }
+            contactBtnAdded = true;
+            contactList.push({
+                title: '<a href="tel:' + product.Contact["Toll Free"] + '" onclick="escape.utils.AppFuncs.trackPhoneCall()">' + product.Contact["Toll Free"] + '</a>',
+                action: 'makePhoneCall',
+                data: product.Contact["Toll Free"],
+                itemCls: 'callIcon'
+            });
         }
         // check email
         if (product.Contact.Email && product.Contact.Email !== "") {
@@ -56685,6 +57029,7 @@ Ext.define("escape.view.page.Product", {
             xtype: 'button',
             text: escape.utils.Translator.translate('Add to Itinerary'),
             action: 'addToItineray',
+            productPage: this,
             cls: 'itinerayBtnLarge secondLevelBtn'
         });
 
@@ -56704,14 +57049,17 @@ Ext.define("escape.view.page.Product", {
             imageItems.push({
                 xtype: 'appImage',
                 height: 200,
-                imagePath: imageData['Full Size'],
+                imagePath: escape.utils.Img.getResizeURL(imageData['Full Size'], viewportSize.width),
                 altText: imageData['Alt']
             });
         }
+
+        var indicator = (imageItems.length > 1) ? true : false;
         items.push({
             xtype: 'carousel',
             height: 200,
-            items: imageItems
+            items: imageItems,
+            indicator: indicator
         });
 
 
@@ -56719,6 +57067,7 @@ Ext.define("escape.view.page.Product", {
             xtype: 'mapDisplay',
             lat: Number(product.Contact.Latitude),
             lon: Number(product.Contact.Longitude),
+            address: product.Contact.Address,
             interaction: false,
             markerAtCenter: true
         });
@@ -56737,21 +57086,26 @@ Ext.define("escape.view.page.Product", {
 
         // if the product has start and end dates show the dates
         if (product.Dates) {
+
             var startDate = null;
             if (product.Dates['Start Date']) {
                 var startDateBreakDown = product.Dates['Start Date'].split(' ')[0].split('-');
-                startDate = new Date(Number(startDateBreakDown[0]), Number(startDateBreakDown[1]), Number(startDateBreakDown[2]));
+                startDate = new Date(Number(startDateBreakDown[0]), Number(startDateBreakDown[1]) - 1, Number(startDateBreakDown[2]));
             }
             var endDate = null;
             if (product.Dates['End Date']) {
                 var endDateBreakDown = product.Dates['End Date'].split(' ')[0].split('-');
-                endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1]), Number(endDateBreakDown[2]));
+                endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1]) - 1, Number(endDateBreakDown[2]));
             }
-            console.log(endDate.getFullYear());
+            console.log('Event Dates!!!');
+            console.log(product.Dates['Start Date']);
+            console.log(startDate);
+            console.log(product.Dates['End Date']);
+            console.log(endDate);
             if (startDate !== null) {
-                var output = '<div class="dateDisplay start"><h4>' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + '</h4></div>';
+                var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear() + '</h4></div>';
                 if (endDate !== null) {
-                    output += '<div class="dateDisplay end"><h4>' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] + '</h4></div><div class="year">' + endDate.getFullYear() + '</div>';
+                    output += '<div class="dateDisplay end"><h4  class="dayName">' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] + ' ' + endDate.getFullYear() + '</h4></div></div>';
                 }
                 items.push({
                     xtype: 'container',
@@ -56771,22 +57125,22 @@ Ext.define("escape.view.page.Product", {
         if (product.Deal) {
             var deal = '<h2>Deal</h2>';
             if (product.Deal['Start Date']) {
-               deal+='<h3>Start Date: '+product.Deal['Start Date']+'</h3>';
+                deal += '<h3>Start Date: ' + product.Deal['Start Date'] + '</h3>';
             }
-              if (product.Deal['End Date']) {
-               deal+='<h3>End Date: '+product.Deal['End Date']+'</h3>';
+            if (product.Deal['End Date']) {
+                deal += '<h3>End Date: ' + product.Deal['End Date'] + '</h3>';
             }
             if (product.Deal.Description) {
-                deal+='<p>'+escape.utils.AppFuncs.parseCMSText(product.Deal.Description)+'</p>';
+                deal += '<p>' + escape.utils.AppFuncs.parseCMSText(product.Deal.Description) + '</p>';
             }
             if (product.Deal['How to get deal']) {
-               deal+='<p>'+escape.utils.AppFuncs.parseCMSText(product.Deal['How to get deal'])+'</p>';
+                deal += '<p>' + escape.utils.AppFuncs.parseCMSText(product.Deal['How to get deal']) + '</p>';
             }
             if (product.Deal['Term and Conditions']) {
-               deal+='<p>'+escape.utils.AppFuncs.parseCMSText(product.Deal['Term and Conditions'])+'</p>';
+                deal += '<p>' + escape.utils.AppFuncs.parseCMSText(product.Deal['Term and Conditions']) + '</p>';
             }
             items.push({
-                padding:'10px',
+                padding: '10px',
                 cls: 'deal',
                 html: deal
             });
@@ -56800,7 +57154,7 @@ Ext.define("escape.view.page.Product", {
             }
             facilities += '</ul>';
             items.push({
-                padding:'10px',
+                padding: '10px',
                 cls: 'facilities',
                 html: facilities
             });
@@ -56809,14 +57163,14 @@ Ext.define("escape.view.page.Product", {
         if (product.Products) {
             var productOutput = '<h2>Products</h2><ul>';
             for (var p = 0; p < product.Products.length; p++) {
-                var productDetails= product.Products[p];
+                var productDetails = product.Products[p];
                 productOutput += '<li><h3>' + productDetails.Name + '</h3>';
                 productOutput += '<p>' + productDetails.Features + '</p>';
 
             }
             productOutput += '</ul>';
             items.push({
-                padding:'10px',
+                padding: '10px',
                 cls: 'rooms',
                 html: productOutput
             });
@@ -56833,7 +57187,7 @@ Ext.define("escape.view.page.Product", {
             }
             rooms += '</ul>';
             items.push({
-                padding:'10px',
+                padding: '10px',
                 cls: 'rooms',
                 html: rooms
             });
@@ -56853,7 +57207,7 @@ Ext.define("escape.view.page.Product", {
         }, {
             xtype: 'container',
             cls: 'btnsArea',
-            padding:'10px',
+            padding: '10px',
             items: mainBtns
         });
 
@@ -56874,6 +57228,7 @@ Ext.define('escape.controller.Search', {
         searchStore: null,
         resultsStore: null,
         listShowing: false,
+        searchValues: null,
         refs: {
             searchPage: 'searchPage',
             searchForm: 'searchPage formpanel',
@@ -56882,8 +57237,10 @@ Ext.define('escape.controller.Search', {
         },
         control: {
             'searchPage': {
-                openView: 'loadOptions'
+                openView: 'loadOptions',
+                closeView: 'saveValues'
             },
+
             'searchResultsPage': {
                 openView: 'resultsOpened'
             },
@@ -56907,6 +57264,7 @@ Ext.define('escape.controller.Search', {
             }
         }
     },
+
     loadOptions: function() {
         // check to see if dates need to be added
         var collectionType = this.getSearchPage().getCollectionType();
@@ -56923,6 +57281,12 @@ Ext.define('escape.controller.Search', {
                 picker: {
                     yearFrom: todaysDate.getFullYear(),
                     yearTo: maxDate.getFullYear()
+                },
+                listeners: {
+                    element: 'label',
+                    tap: function() {
+                        this.getPicker().show();
+                    }
                 }
             }, {
                 xtype: 'datepickerfield',
@@ -56933,6 +57297,12 @@ Ext.define('escape.controller.Search', {
                 picker: {
                     yearFrom: todaysDate.getFullYear(),
                     yearTo: maxDate.getFullYear()
+                },
+                listeners: {
+                    element: 'label',
+                    tap: function() {
+                        this.getPicker().show();
+                    }
                 }
             }];
             this.getSearchForm().getComponent('searchOptions').add(items);
@@ -57028,7 +57398,7 @@ Ext.define('escape.controller.Search', {
         if (choices.length > 2) {
             // add a destinations
             var selectfield = {
-                xtype: 'selectfield',
+                xtype: 'selectField',
                 label: name,
                 labelWidth: '50%',
                 name: name.toLowerCase(),
@@ -57044,9 +57414,12 @@ Ext.define('escape.controller.Search', {
             xtype: 'searchResultsPage'
         });
     },
-    resultsOpened: function() {
+    saveValues: function() {
         var values = this.getSearchForm().getValues();
-
+        this.setSearchValues(values);
+    },
+    resultsOpened: function() {
+        var values = this.getSearchValues();
         if (values.distance == -1) {
             this.defineSearch();
         } else {
@@ -57056,7 +57429,6 @@ Ext.define('escape.controller.Search', {
 
     getLocation: function() {
         var selfRef = this;
-        // the app is running on a phone
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
                 selfRef.defineSearch(position.coords);
@@ -57070,13 +57442,17 @@ Ext.define('escape.controller.Search', {
     getSearchParams: function() {
         var params = {
             // linit the search to the apps destination webpath
-            meta_D_phrase_sand: escape.utils.AppVars.destinationWebpath
+            meta_D_phrase_sand: AppSettings.destinationWebpath
         };
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
-        if (collectionType === 'deals') {
+        if (collectionType === 'restaurants') {
+            params.collection = 'restaurants'; //'prototype-dnsw-' +
+            params.form = 'mobile-restaurant-json';
+        } else if (collectionType === 'deals') {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
+            params.meta_C_not = 'dest';
             params.meta_o_phrase = 1; // search only were items have a deal
         } else if (collectionType == 'vic') {
             params.collection = 'visitor-information-centres'; //'prototype-dnsw-' +
@@ -57087,6 +57463,7 @@ Ext.define('escape.controller.Search', {
         } else {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
+            params.meta_C_not = 'dest';
         }
         return params;
     },
@@ -57101,7 +57478,7 @@ Ext.define('escape.controller.Search', {
         this.setListShowing(false);
         this.setResultsPage(1);
         // get the form valuse
-        var values = this.getSearchForm().getValues();
+        var values = this.getSearchValues();
         // build the search paramaters
         var params = this.getSearchParams();
         // add the users query search
@@ -57202,15 +57579,44 @@ Ext.define('escape.controller.Search', {
             var cardView = this.getSearchResultsPage().getItems().items[1];
             cardView.removeAll(true, true);
             var collectionType = this.getSearchPage().getCollectionType();
-            var itemTPL = (collectionType == 'event' || collectionType == 'tour' || collectionType == 'deals' || collectionType === null) ? '{Title}' : '{Name}';
-            var list = new Ext.List({
-                itemTpl: itemTPL,
-                store: this.getResultsStore(),
-                flex: 1
-            });
+            var itemTPL = (collectionType == 'restaurants' || collectionType == 'event' || collectionType == 'tour' || collectionType == 'deals' || collectionType === null) ? '{Title}' : '{Name}';
+            var list = new Ext.List();
             // add this list
-            cardView.add(list);
-            cardView.setActiveItem(list);
+            //cardView.add(list);
+            //
+            var container = new Ext.Container({
+                scrollable: {
+                    direction: 'vertical',
+                    directionLock: true
+                },
+                flex: 1,
+                //height: Ext.Viewport.getSize().height - 43,
+                items: [{
+                    xtype: 'list',
+                    itemTpl: itemTPL,
+                    store: this.getResultsStore(),
+                    scrollable: false
+                }, {
+                    xtype: 'container',
+                    itemId: 'optionsArea',
+                    cls: 'btnsArea',
+                    padding: '10xp',
+                    defaults: {
+                        margin: '0'
+                    },
+                    items: [{
+                        xtype: 'button',
+                        text: 'Load More Results',
+                        action: 'loadMore',
+                        cls: 'loadMore search'
+                    }]
+                }]
+
+            });
+            // add load more button
+            cardView.add(container);
+            //
+            cardView.setActiveItem(container);
         }
         this.setListShowing(true);
 
@@ -57256,9 +57662,15 @@ Ext.define('escape.controller.Search', {
 
     showProduct: function(data) {
         var funnelbackCollection = this.getSearchPage().getCollectionType();
+
         if (!funnelbackCollection || funnelbackCollection == 'deals') {
             funnelbackCollection = data.Product_Type;
         }
+
+        if (funnelbackCollection === 'centres') {
+            funnelbackCollection = 'vic';
+        }
+        console.log('funnelbackCollection: ' + funnelbackCollection);
         var collection;
         // map funnel back collection to matrix collection
         for (var i = escape.utils.AppVars.collectionMapping.length - 1; i >= 0; i--) {
@@ -57283,79 +57695,13 @@ Ext.define('escape.controller.Search', {
 
     }
 });
-Ext.define('escape.controller.FoodAndWine', {
-    extend: 'Ext.app.Controller',
-    requires: ['escape.view.page.FoodAndWine', 'escape.view.subSection.ListTypes', 'escape.view.page.Product'],
-    config: {
-        refs: {
-            navView: '#foodAndWineSection > navigationview',
-            listView: '#foodAndWineSection listTypesSubSection'
-        },
-        control: {
-            '#foodAndWineSection foodAndWinePage list': {
-                select: 'dinningTypeSelected'
-            },
-            '#foodAndWineSection listTypesSubSection segmentedbutton': {
-                toggle: 'resultsTyleSelected'
-            },
-            '#foodAndWineSection listTypesSubSection list': {
-                select: 'productSelected'
-            },
-            '#foodAndWineSection listTypesSubSection': {
-                activate: 'buildDinningList'
-            }
-        }
-    },
-    dinningTypeSelected: function(list, record) {
-        this.getNavView().push({xtype:'listTypesSubSection',title:record.data.title});
-        list.deselectAll();
-    },
-    buildDinningList: function() {
-        this.getListView().setListOptions([{
-            text: 'Featured',
-            pressed: true,
-            flex: 1
-        }, {
-            text: 'All',
-            flex: 1
-        }]);
-        this.getListView().setFirstView(new Ext.List({
-            xtype: 'list',
-            padding: '10 10 10 10',
-           
-            itemTpl: '<div>{title}</div>{imgHTML}',
-            cls: 'imgList thumbList',
-            scrollable: false,
-            data: [{
-                title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
-            }, {
-                title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
-            }, {
-                title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
-            }, {
-                title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
-            }]
-        }));
-    },
-    resultsTyleSelected: function() {
-
-    },
-    productSelected: function() {
-        this.getNavView().push({
-            xtype: 'productPage',
-            title:'Resturant'
-        });
-    }
-});
 Ext.define('escape.controller.MyFavourites', {
     extend: 'Ext.app.Controller',
     requires: ['Ext.Anim', 'escape.view.page.Product'],
     config: {
         refs: {
+            myFavouritesSection: '#myFavouritesSection',
+            removeActionSheet: '#myFavouritesSection #removeActionSheet',
             myFavouritesPage: 'myFavouritesPage'
         },
         control: {
@@ -57366,9 +57712,16 @@ Ext.define('escape.controller.MyFavourites', {
             'myFavouritesPage list': {
                 select: 'productSelected',
                 disclose: 'showRemoveQuestion'
+            },
+            '#myFavouritesSection #removeActionSheet': {
+                hide: 'removeRemoveQs'
+            },
+            '#myFavouritesSection #removeActionSheet button[action=cancel]': {
+                tap: 'hideRemoveQs'
+            },
+            '#myFavouritesSection #removeActionSheet button[action=remove]': {
+                tap: 'removeFromFavourites'
             }
-
-
         }
     },
     reLoadList: function() {
@@ -57411,32 +57764,37 @@ Ext.define('escape.controller.MyFavourites', {
                     title: product.name,
                     lat: productData.Contact.Latitude,
                     lon: productData.Contact.Longitude,
-                    data: productData
+                    data: productData,
+                    suburb: productData.Contact.Address.Suburb,
+                    type: product.type
                 });
             }
 
             console.log(items);
 
             var list = new Ext.List({
-                itemTpl: '{title}',
+                itemTpl: '<div class="icon {type}"></div><div class="labels"><h3>{title}</h3><h4>{suburb}</h4><div>',
                 cls: 'favouritesList',
                 data: items,
                 onItemDisclosure: true,
+                padding:'10px',
                 flex: 1
             });
             myFavouritesPage.setItems(list);
         } else {
             myFavouritesPage.setItems({
-                html: 'YOU HAVE NO FAVOURITES',
+                html: '',
                 cls: 'noFavourites'
             });
         }
     },
     productSelected: function(list, record) {
         var productData = record.getData();
+        console.log(productData);
         escape.utils.AppVars.currentSection.getNavigationView().push({
+           
             xtype: 'productPage',
-            pageTitle: productData.type,
+            pageTitle: String(productData.data.Type).toProperCase(),
             productId: productData.productId,
             productData: productData.data
         });
@@ -57445,26 +57803,55 @@ Ext.define('escape.controller.MyFavourites', {
         var selfRef = this;
         var productId = record.getData().productId;
         // var msgBox = Ext.create('Ext.Msg');
-        Ext.Msg.show({
-            message: 'Remove from favourites?',
-            buttons: [{
-                text: 'NO',
-                itemId: 'no'
+        // Ext.Msg.show({
+        //     message: 'Remove from favourites?',
+        //     buttons: [{
+        //         text: 'NO',
+        //         itemId: 'no'
+        //     }, {
+        //         text: 'YES',
+        //         itemId: 'yes'
+        //     }],
+        //     fn: function(buttonId) {
+        //         if (buttonId == 'yes') {
+        //             selfRef.removeFromFavourites(productId);
+        //         }
+        //     }
+        // });
+        var removeActionSheet = Ext.create('escape.view.ui.QuestionAction', {
+            itemId: 'removeActionSheet',
+            data: {
+                productId: productId
+            },
+            question: 'Remove from favourites?',
+            btns: [{
+                cls: 'reset',
+                action: 'remove',
+                text: 'Remove'
             }, {
-                text: 'YES',
-                itemId: 'yes'
-            }],
-            fn: function(buttonId) {
-                if (buttonId == 'yes') {
-                    selfRef.removeFromFavourites(productId);
-                }
-
-            }
+                cls: 'reset',
+                action: 'cancel',
+                text: 'Cancel'
+            }]
         });
+        this.getMyFavouritesSection().add(removeActionSheet);
+        removeActionSheet.show();
 
     },
-    removeFromFavourites: function(productId) {
+    hideRemoveQs: function() {
+        console.log('hideRemoveQs');
+        var removeActionSheet = this.getRemoveActionSheet();
+        removeActionSheet.hide();
+    },
+    removeRemoveQs: function() {
+        console.log('removeRemoveQs');
+        var removeActionSheet = this.getRemoveActionSheet();
+        this.getMyFavouritesSection().remove(removeActionSheet);
+    },
+    removeFromFavourites: function() {
         var selfRef = this;
+        var productId = this.getRemoveActionSheet().getData().productId;
+        console.log('productId');
         escape.model.Favourites.remove(productId, {
             success: function(result) {
                 selfRef.reLoadList();
@@ -57474,6 +57861,9 @@ Ext.define('escape.controller.MyFavourites', {
             },
             scope: this
         });
+
+        this.hideRemoveQs();
+
         var removedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt removedAddedMsg',
             modal: true,
@@ -57497,6 +57887,336 @@ Ext.define('escape.controller.MyFavourites', {
 
         Ext.Viewport.add(removedMsg);
         removedMsg.show();
+    }
+
+});
+Ext.define("escape.view.page.ServicesAndFacilitiesDetails", {
+    extend: 'escape.view.page.Page',
+    requires: ['Ext.Map', 'escape.view.ui.MapDisplay', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
+    xtype: 'servicesAndFacilitiesDetails',
+    config: {
+        resultsData: null,
+        pageTitle: 'Services & Facilities',
+        title: '',
+        rightBtn: "hide",
+        pageTypeId: 5,
+        pageTrackingId: 3,
+        scrollable: {
+            direction: 'vertical',
+            directionLock: true
+        },
+        items: [{
+            xtype: 'loadingDisplay'
+        }]
+    },
+    openView: function() {
+        var selfRef = this;
+        this.build();
+    },
+    build: function() {
+        var viewportSize = Ext.Viewport.getSize();
+        var screenWidth = viewportSize.width;
+
+        var data = this.getResultsData();
+        contactList = [];
+        var addressLines = [];
+        if (data.address.street.fullName) {
+            addressLines.push(data.address.street.fullName + '</br>');
+        }
+        if (data.address.suburb) {
+            addressLines.push(data.address.suburb + '</br>');
+        }
+        if (data.address.state) {
+            addressLines.push(data.address.state + ' ');
+        }
+        if (data.address.postcode) {
+            addressLines.push(data.address.postcode);
+        }
+
+
+        contactList.push({
+            title: addressLines.join(''),
+            action: 'getDirections',
+            data: {
+                latlon: [data.address.coordinates.latitude, data.address.coordinates.longitude],
+                address: data.address.street.fullName + '</br>' + data.address.suburb + '</br>' + data.address.state + ' ' + data.address.postcode
+            },
+            itemCls: 'directionsIcon'
+        });
+
+
+        if (data.phoneNumber) {
+            contactList.push({
+                title: '<a href="tel:' + data.phoneNumber + '">' + data.phoneNumber + '</a>',
+                action: 'makePhoneCall',
+                data: data.phone,
+                itemCls: 'callIcon'
+            });
+        }
+
+        if (data.url) {
+            contactList.push({
+                title: data.url,
+                action: 'goToLink',
+                data: data.url,
+                itemCls: 'linkIcon'
+            });
+        }
+
+        if (data.email) {
+
+            contactList.push({
+                title: data.email,
+                action: 'sendEmail',
+                data: data.email,
+                itemCls: 'emailIcon'
+            });
+        }
+        this.setItems([{
+            xtype: 'mapDisplay',
+            lat: Number(data.address.coordinates.latitude),
+            lon: Number(data.address.coordinates.longitude),
+            address: {
+                Street: data.address.street.fullName,
+                Suburb: data.address.suburb,
+                State: data.address.state,
+                PostCode: data.address.postcode
+            },
+            interaction: false,
+            markerAtCenter: true
+        }, {
+            html: '<h2>' + data.name + '</h2>',
+            margin: '10 10 10 10'
+        }, {
+            xtype: 'list',
+            margin: '10 10 10 10',
+            width: viewportSize.width - 20,
+            itemTpl: '<div class="{itemCls}">{title}</div>',
+            cls: 'contactList',
+            itemCls: 'iconItem',
+            action: 'contactSheet',
+            scrollable: false,
+            disableSelection: true,
+            data: contactList
+        }]);
+    }
+});
+Ext.define('escape.controller.ServicesAndFacilities', {
+    extend: 'Ext.app.Controller',
+    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.model.POI', 'escape.model.WhereIsPOI', 'escape.view.page.ServicesAndFacilitiesDetails'],
+    config: {
+        searchValues: null,
+        resultsPage: 1,
+        resultsStore: null,
+        listShowing: false,
+        refs: {
+            searchForm: 'servicesAndFacilitiesPage formpanel',
+            servicesAndFacilitiesPage: 'servicesAndFacilitiesPage',
+            sevicesAndFacilitiesResultsPage: 'sevicesAndFacilitiesResultsPage',
+            keywordField: 'servicesAndFacilitiesPage searchfield',
+            resultsMap: 'sevicesAndFacilitiesResultsPage mapDisplay'
+        },
+        control: {
+            'servicesAndFacilitiesPage': {
+                closeView: 'saveValues'
+            },
+            'servicesAndFacilitiesPage list[action=selectKeyword]': {
+                select: 'selectKeyword'
+            },
+            'servicesAndFacilitiesPage button[action=search]': {
+                tap: 'search'
+            },
+            'sevicesAndFacilitiesResultsPage': {
+                openView: 'resultsOpened'
+            },
+            'sevicesAndFacilitiesResultsPage segmentedbutton': {
+                toggle: 'toggleView'
+            },
+            'sevicesAndFacilitiesResultsPage button[action=loadMore]': {
+                tap: 'loadMore'
+            },
+            'sevicesAndFacilitiesResultsPage list': {
+                select: 'showDetails'
+            },
+            'sevicesAndFacilitiesResultsPage mapDisplay': {
+                markerSelected: 'markerSelected'
+            }
+        }
+    },
+    selectKeyword: function(list, record) {
+        this.getKeywordField().setValue(record.getData().keyword);
+    },
+    showDetails: function(list, record) {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'servicesAndFacilitiesDetails',
+            resultsData: record.getData()
+        });
+    },
+     markerSelected: function(data) {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'servicesAndFacilitiesDetails',
+            resultsData: data
+        });
+    },
+    saveValues: function() {
+        // craete the results store
+        var store = Ext.create('Ext.data.Store', {
+            model: 'escape.model.POI'
+        });
+        this.setResultsStore(store);
+    },
+    // search selected
+    search: function() {
+        // save the for values
+        var values = this.getSearchForm().getValues();
+        this.setSearchValues(values);
+        this.setListShowing(false);
+        this.setResultsPage(1);
+        // add the results page
+        if (values.keyword !== '' && values.keyword !== null) {
+            escape.utils.AppVars.currentSection.getNavigationView().push({
+                xtype: 'sevicesAndFacilitiesResultsPage'
+            });
+        }
+
+    },
+    resultsOpened: function() {
+        escape.model.WhereIsPOI.on('resultsLoaded', this.resultsLoaded, this);
+        if (this.getSearchValues().distance != -1) {
+            this.getLocation();
+        } else {
+            this.performSearch(false);
+        }
+
+    },
+    getLocation: function() {
+        var selfRef = this;
+        Ext.device.Geolocation.getCurrentPosition({
+            success: function(position) {
+                selfRef.performSearch(position.coords);
+            },
+            failure: function() {
+                selfRef.performSearch(false);
+            }
+        });
+    },
+    loadMore: function() {
+        escape.model.WhereIsPOI.loadMore(this.getResultsPage());
+        // set the results to the next page
+        this.setResultsPage(this.getResultsPage() + 1);
+    },
+    performSearch: function(geoLocation) {
+        escape.model.WhereIsPOI.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+    },
+    resultsLoaded: function(data) {
+        var moreResults = ((data.offset + data.results.length) < data.total) ? true : false;
+        this.getSevicesAndFacilitiesResultsPage().buildPage(moreResults);
+        var results = data.results;
+
+        var startIndex = this.getResultsStore().getData().items.length;
+        for (var i = 0; i < results.length; i++) {
+            results[i].resultNum = startIndex + (i + 1);
+        }
+        this.getResultsStore().add(results);
+        if (this.getResultsPage() == 1) {
+            // build the list page if the results have been return for the first time
+            this.showListResults();
+        } else if (!this.getListShowing()) {
+            // the map is showing add the extra results markers
+            this.addResultsToTheMap();
+        }
+        // set the results to the next page
+        this.setResultsPage(this.getResultsPage() + 1);
+
+    },
+    toggleView: function(container, btn, pressed) {
+        if (btn.config.type == 'map') {
+            this.showMapResults();
+        } else {
+            this.showListResults();
+        }
+    },
+    showListResults: function() {
+        if (!this.getListShowing()) {
+            var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
+            cardView.removeAll(true, true);
+            var itemTPL = '<span>{resultNum}</span> {name}';
+            
+
+            
+            
+             var container = new Ext.Container({
+                scrollable: {
+                    direction: 'vertical',
+                    directionLock: true
+                },
+                flex: 1,
+                //height: Ext.Viewport.getSize().height - 43,
+                items: [{
+                    xtype: 'list',
+                    itemTpl: itemTPL,
+                    store: this.getResultsStore(),
+                    scrollable: false
+                }, {
+                    xtype: 'container',
+                    itemId: 'optionsArea',
+                    cls: 'btnsArea',
+                    padding: '10xp',
+                    defaults: {
+                        margin: '0'
+                    },
+                    items: [{
+                        xtype: 'button',
+                        text: 'Load More Results',
+                        action: 'loadMore',
+                        cls: 'loadMore search'
+                    }]
+                }]
+
+            });
+
+
+
+            // add this list
+            cardView.add(container);
+            cardView.setActiveItem(container);
+        }
+        this.setListShowing(true);
+
+    },
+
+    showMapResults: function() {
+        var intialMarkers = [];
+        var resultsList = this.getResultsStore().getData().items;
+        for (var i = resultsList.length - 1; i >= 0; i--) {
+            var marker = resultsList[i].getData();
+            marker.iconText = i + 1;
+            intialMarkers.push({
+                lat: marker.address.coordinates.latitude,
+                lon: marker.address.coordinates.longitude,
+                data: marker
+            });
+        }
+
+        var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
+        cardView.removeAll(true, true);
+
+        var map = Ext.create('escape.view.ui.MapDisplay', {
+            height: Ext.Viewport.getSize().height - 86,
+            intialMarkers: intialMarkers
+        });
+        cardView.add(map);
+        cardView.setActiveItem(map);
+        this.setListShowing(false);
+    },
+
+    addResultsToTheMap: function() {
+        var resultsList = this.getResultsStore().getData().items;
+        for (var i = resultsList.length - 1; i >= 0; i--) {
+            var marker = resultsList[i];
+            this.getResultsMap().addMarker(marker.Latitude, marker.Longitude, marker);
+        }
+        this.getResultsMap().zoomToMarkers();
     }
 
 });
@@ -59675,7 +60395,7 @@ Ext.define('escape.store.ProductSearch', {
         model: 'escape.model.ProductSearch',
         proxy: {
             type: 'ajax',
-            url: escape.utils.AppVars.searchURL,
+            url: AppSettings.searchURL,
             startParam: 'start_rank',
             limitParam: 'num_ranks',
             reader: {
@@ -60220,180 +60940,7 @@ Ext.define("escape.view.Main", {
             xtype: 'section'
         },
 
-        items: [{
-            title: 'Home',
-            group: 'Group 1',
-            id: 'homeSection',
-            collectionType: null,
-            firstPage: {
-                xtype: 'homePage',
-                title: 'Sydney'
-            }
-        }, {
-
-            title: escape.utils.Translator.translate('About Sydney'),
-            group: 'Group 1',
-            id: 'aboutSection',
-            firstPage: {
-                xtype: 'contentPage',
-                title: 'About Sydney',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/about-sydney'
-            }
-        }, {
-            title: escape.utils.Translator.translate('My Itinerary'),
-            group: 'Group 1',
-            id: 'myItinerarySection',
-            firstPage: {
-                title: 'My Itinerary',
-                xtype: 'myItineraryPage'
-            }
-        }, {
-            title: escape.utils.Translator.translate('My Favourites'),
-            group: 'Group 1',
-            id: 'myFavouritesSection',
-            firstPage: {
-                title: 'My Favourites',
-                xtype: 'myFavouritesPage'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Things to do'),
-            group: 'Group 2',
-            id: 'thingsToDoSection',
-            collectionType: 'attr',
-            firstPage: {
-                title: 'Things to do',
-                xtype: 'thingsToDoCatigoriesPage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/things-to-do'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Food & Wine'),
-            group: 'Group 2',
-            id: 'foodAndWineSection',
-            collectionType: 'restaurants',
-            firstPage: {
-                title: 'Food & Wine',
-                xtype: 'thingsToDoTypePage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/food-and-wine'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Accommodation'),
-            group: 'Group 2',
-            id: 'accommodationSection',
-            collectionType: 'accom',
-            firstPage: {
-                xtype: 'listTypesSubSection',
-                title: 'Accommodation',
-                rightBtn: 'searchBtn'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Events'),
-            group: 'Group 2',
-            id: 'eventsSection',
-            collectionType: 'event',
-            firstPage: {
-                xtype: 'eventsPage',
-                title: 'Events',
-                rightBtn: 'searchBtn',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/things-to-do/arts,-culture'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Services & Facilities'),
-            group: 'Group 3',
-            id: 'servicesSection',
-            firstPage: {
-                title: 'Services & Facilities',
-                xtype: 'servicesAndFacilitiesPage'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Hire'),
-            group: 'Group 3',
-            id: 'hireSection',
-            firstPage: {
-                title: 'Hire',
-                collectionType: 'hire',
-                xtype: 'searchPage'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Tours'),
-            group: 'Group 3',
-            id: 'toursSection',
-            firstPage: {
-                title: 'Tours',
-                collectionType: 'tour',
-                xtype: 'searchPage'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Deals'),
-            group: 'Group 3',
-            id: 'dealsSection',
-            firstPage: {
-                title: 'Deals',
-                collectionType: 'deals',
-                xtype: 'searchPage'
-            }
-
-        }, {
-            title: escape.utils.Translator.translate('Current Weather'),
-            group: 'Group 4',
-            id: 'currentWeather',
-            firstPage: {
-                title: 'Weather',
-                xtype: 'weatherPage'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Currency Converter'),
-            group: 'Group 4',
-            id: 'currencyConverter',
-            firstPage: {
-                title: 'Currency Converter',
-                xtype: 'currencyConverterPage'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Transport Info'),
-            group: 'Group 4',
-            id: 'tranportSection',
-            firstPage: {
-                title: 'Transport Info',
-                xtype: 'contentPage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/transport-information'
-            }
-
-        }, {
-            title: escape.utils.Translator.translate('Visitor Information Centres'),
-            group: 'Group 4',
-            id: 'visitorInoSection',
-            firstPage: {
-                title: 'Visitor Information Centres',
-                collectionType: 'vic',
-                xtype: 'searchPage'
-            }
-        }, {
-            title: escape.utils.Translator.translate('About Desination NSW'),
-            group: 'Group 4',
-            id: 'aboutDNSWSection',
-            firstPage: {
-                title: 'About Desination NSW',
-                xtype: 'contentPage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/about-destination-nsw'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Other NSW Apps'),
-            group: 'Group 4',
-            id: 'otherAppsSection',
-            firstPage: {
-                title: 'Other DNSW apps',
-                xtype: 'contentPage',
-                contentPath: escape.utils.AppVars.getSMPSectionURL() + '/other-dnsw-apps'
-            }
-        }, {
-            title: escape.utils.Translator.translate('Settings'),
-            group: 'Group 5',
-            id: 'settingsSection',
-            firstPage: {
-                title: 'Settings',
-                xtype: 'settingsPage'
-            }
-        }]
+        items: AppSettings.mainMenu
 
     }
 });
@@ -61481,8 +62028,8 @@ Ext.define('escape.controller.CurrencyConverter', {
         var currencyItems = [];
         for (var i = cm.currencys.length - 1; i >= 0; i--) {
             currencyItems.push({
-                cls: cm.currencys[i].toLowerCase(),
-                text: cm.currencys[i],
+                cls: cm.currencys[i].code.toLowerCase(),
+                text: cm.currencys[i].code+ ' ' +cm.currencys[i].name,
                 value: i
             });
         }
@@ -61508,7 +62055,7 @@ Ext.define('escape.controller.CurrencyConverter', {
     orgCurrencySelected: function(picker, value) {
         var cm = escape.model.Currency;
         selectedValue = picker.getValue()[null];
-        cm.setOrginalCurrency(cm.currencys[selectedValue]);
+        cm.setOrginalCurrency(cm.currencys[selectedValue].code);
         this.getCurrencyConverterPage().setItems({
             xtype: 'loadingDisplay'
         });
@@ -61524,7 +62071,7 @@ Ext.define('escape.controller.CurrencyConverter', {
     converstionCurrencySelected: function(picker, value, options) {
         var cm = escape.model.Currency;
         var selectedValue = picker.getValue()[null];
-        cm.setConvertedCurrency(cm.currencys[selectedValue]);
+        cm.setConvertedCurrency(cm.currencys[selectedValue].code);
         this.getCurrencyConverterPage().setItems({
             xtype: 'loadingDisplay'
         });
@@ -62090,17 +62637,18 @@ Ext.define("escape.view.page.CurrencyConverter", {
         scrollable: {
             direction: 'vertical',
             directionLock: true
-        },
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
+        }
     },
     // load the currencys
     openView: function() {
+        this.setItems({
+            xtype: 'loadingDisplay'
+        });
         // check to see if the product is a favourite or not
         var selfRef = this;
         escape.model.Currency.loadDefaults({
             success: function() {
+                console.log('defaults set up');
                 selfRef.loadOrginal();
             },
             error: function(error) {
@@ -62110,7 +62658,8 @@ Ext.define("escape.view.page.CurrencyConverter", {
             },
             scope: this
         });
-        
+
+
 
 
     },
@@ -62151,6 +62700,16 @@ Ext.define("escape.view.page.CurrencyConverter", {
         var orgCurrency = cm.converstions[cm.getOrginalCurrency()];
         var conCurrency = cm.converstions[cm.getConvertedCurrency()];
         var rate = cm.getConverstionRate(cm.getOrginalCurrency(), cm.getConvertedCurrency());
+        var flagSize = '';
+        var bgSize = '';
+        if (window.devicePixelRatio) {
+            if (window.devicePixelRatio > 1) {
+                flagSize = '@2x';
+                bgSize = '-webkit-background-size: 53px 33px;';
+            }
+        }
+        flagSize = '@2x';
+        bgSize = '-webkit-background-size: 53px 33px;';
         //
         var items = [{
             xtype: 'container',
@@ -62161,7 +62720,8 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 xtype: 'button',
                 text: cm.getOrginalCurrency(),
                 action: 'selectOrginal',
-                cls: 'currencyBtn ' + cm.getOrginalCurrency().toLowerCase()
+                cls: 'currencyBtn',
+                style: "background-image:url('resources/images/flags/currency_flag_" + Ext.String.trim(cm.getOrginalCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
             }, {
                 xtype: 'numberfield',
                 minValue: 0,
@@ -62171,7 +62731,8 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 xtype: 'button',
                 text: cm.getConvertedCurrency(),
                 action: 'selectConverted',
-                cls: 'currencyBtn ' + cm.getConvertedCurrency().toLowerCase()
+                cls: 'currencyBtn',
+                style: "background-image:url('resources/images/flags/currency_flag_" + Ext.String.trim(cm.getConvertedCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
             }, {
                 xtype: 'numberfield',
                 minValue: 0,
@@ -62199,35 +62760,49 @@ Ext.define("escape.view.page.CurrencyConverter", {
     }
 
 });
+Ext.define("escape.view.ui.SelectField", {
+    extend: 'Ext.field.Select',
+    requires: [''],
+    xtype: 'selectField',
+    config: {
+        usePicker: true,
+        listeners: {
+            element: 'label',
+            tap: function() {
+                this.showPicker();
+            }
+        }
+    }
+});
 Ext.define("escape.view.page.Weather", {
     extend: 'escape.view.page.Page',
     xtype: 'weatherPage',
     requires: ['Ext.field.Select', 'Ext.field.Toggle', 'escape.view.ui.LoadError', 'escape.model.Weather'],
-    translations : null,
+    translations: null,
     config: {
         cls: 'weatherPanel',
-        pageTitle: 'Weather',
-        rightBtn: 'hide',
-        pageTypeId:3,
-        pageTrackingId:3,
+        rightBtn: 'refreshBtn',
+        pageTitle: AppSettings.appAreaName + ' Weather',
+        pageTypeId: 3,
+        pageTrackingId: 3,
         layout: 'vbox',
         scrollable: {
             direction: 'vertical',
             directionLock: true
-        },
-        items: [{
-            xtype: 'loadingDisplay'
-        }]
+        }
     },
     openView: function() {
-          this.getTheWeather();
-          this.setNavTitle(this.getPageTitle());
+        this.getTheWeather();
+        this.setNavTitle(this.getPageTitle());
 
     },
-    getTheWeather: function() {
+    getTheWeather: function(refresh) {
+        this.setItems({
+            xtype: 'loadingDisplay'
+        });
         // check to see if the product is a favourite or not
         var selfRef = this;
-        escape.model.Weather.getFullWeather({
+        escape.model.Weather.getFullWeather(refresh,{
             success: function() {
                 selfRef.build();
             },
@@ -62241,14 +62816,37 @@ Ext.define("escape.view.page.Weather", {
     },
     // build the weather page
     build: function() {
+        // get the weather model
         var wm = escape.model.Weather;
+        var stationId = wm.getStationId();
+        var initStationValue = -1;
+        // build the weather locations
+        var closesName = 'Closest';
+        if (stationId === 0) {
+            closesName += ' (' + wm.weatherData.SiteName + ')';
+        }
+        var weatherOptions = [{
+            value: 0,
+            text: closesName
+        }];
+        for (var i = 0; i < AppSettings.weatherStations.length; i++) {
+            var station = AppSettings.weatherStations[i];
+            weatherOptions.push({
+                value: station.stationId,
+                text: station.name
+            });
+        }
         var forcastItems = [];
 
-        for (var i = 1; i < 8; i++) {
-            forcastItems.push({
-                itemId: 'forecast' + i,
-                html: this.buildDayWeather(i)
-            });
+        for (var f = 1; f < 8; f++) {
+            var dayData = this.buildDayWeather(f);
+            if (dayData) {
+                forcastItems.push({
+                    itemId: 'forecast' + f,
+                    html: dayData
+                });
+            }
+
         }
         var toggleValue = (wm.getIsDegrees()) ? 1 : 0;
         //
@@ -62256,7 +62854,7 @@ Ext.define("escape.view.page.Weather", {
             //docked: 'top',
             cls: 'todaysWeather',
             itemId: 'todaysWeather',
-            padding: '20px',
+            padding: '20px 0 20px 20px',
             html: this.buildTodaysWeather()
         }, {
             xtype: 'container',
@@ -62265,6 +62863,13 @@ Ext.define("escape.view.page.Weather", {
             items: [{
                 xtype: 'togglefield',
                 value: toggleValue
+            }, {
+                xtype: 'selectField',
+                label: 'Location',
+                name: 'location',
+                labelAlign: 'top',
+                options: weatherOptions,
+                value: stationId
             }]
         }, {
             xtype: 'container',
@@ -62303,43 +62908,68 @@ Ext.define("escape.view.page.Weather", {
             imagaeName = 'we_ico_' + today.icon + '_lge@2x';
         }
         //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
-        todaysWeather.addCls('icon_'+today.icon);
+        todaysWeather.addCls('icon_' + today.icon);
         // update forcast
         var weatherForcast = this.getComponent('weatherForcast');
         var weatherForcastContainer = weatherForcast.getComponent('weatherForcastContainer');
         for (var i = 1; i < 8; i++) {
             var day = weatherForcastContainer.getComponent('forecast' + i);
-            day.setHtml(this.buildDayWeather(i));
-            var dayData = wm.forcatsByDay[i];
-            imagaeName = 'we_ico_' + dayData.icon + '_med';
-            if (escape.utils.Img.retinaAvailable()) {
-                imagaeName = 'we_ico_' + dayData.icon + '_med@2x';
+            if (day) {
+                day.setHtml(this.buildDayWeather(i));
+                var dayData = wm.forcatsByDay[i];
+                imagaeName = 'we_ico_' + dayData.icon + '_med';
+                if (escape.utils.Img.retinaAvailable()) {
+                    imagaeName = 'we_ico_' + dayData.icon + '_med@2x';
+                }
+                // day.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+                day.addCls('icon_' + dayData.icon);
             }
-           // day.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
-           day.addCls('icon_'+dayData.icon);
+
         }
     },
-    // build todays weather
+    // build day weather
     buildDayWeather: function(dayId) {
         var wm = escape.model.Weather;
         var day = wm.forcatsByDay[dayId];
         var dayDate = new Date();
         dayDate.setDate(wm.todaysDate.getDate() + dayId);
         var dayOfTheWeek = dayDate.getDay();
-        var dayName =  Ext.Date.dayNames[dayOfTheWeek];
-        var dayHTML = '<div class="dayinfo"><h2 class="day">'+dayName+'</h2><h2>' + day.forecast + '</h2></div><div class="details"><div class="extremes"><h3 class="high">' + wm.convertTempature(day.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(day.low) + '&deg;</h3></div>';
+        var dayName = Ext.Date.dayNames[dayOfTheWeek];
+        if (day.high == 999 || day.low == 999) {
+            return false;
+        }
+        //day.forecast
+        var dayHTML = '<div class="dayinfo"><h2 class="day">' + dayName + '</h2><h2>' + wm.getIconName(day.icon) + '</h2></div><div class="details"><div class="extremes"><h3 class="high">' + wm.convertTempature(day.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(day.low) + '&deg;</h3></div>';
         return dayHTML;
     },
     // build todays weather
     buildTodaysWeather: function() {
         var wm = escape.model.Weather;
         var today = wm.forcatsByDay[0];
-        var todaysWeather = '<div class="info"><h1>' + wm.convertTempature(wm.currentTemp) + '&deg;</h1>';
+        var temp =wm.convertTempature(wm.currentTemp)+' &deg;';
+        if (wm.currentTemp == -9999){
+            temp = '-';
+        }
+        var todaysWeather = '<div class="info"><h1>' + temp + '</h1>';
         // check to see if the extremes are available
         if (today.high != 999 && today.low != 999) {
-            todaysWeather += '<div class="extremes"><h3 class="high">' + wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
+            todaysWeather += '<div class="extremes"><h3 class="high">' + temp + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
         }
-        todaysWeather += '<h2>' + today.forecast + '</h2></div>';
+        var forcastDetails = today.forecast;
+        if (forcastDetails.toLowerCase() == wm.getIconName(today.icon).toLowerCase()) {
+            forcastDetails = '';
+        }
+
+        todaysWeather += '<h2>' + wm.getIconName(today.icon) + '</h2><p>' + forcastDetails + '</p>';
+        if (wm.weatherData.RainFall != -9999) {
+            todaysWeather += '<h4 class="rain">' + Math.round(wm.weatherData.RainFall)+ ' mm</h4>';
+        }
+        if (wm.weatherData.WindSpeedmps != -9999) {
+            var windKm = MathExt.prototype.roundNumber(wm.weatherData.WindSpeedmps * (3.6),2);
+            todaysWeather += '<h4 class="wind">' + windKm + ' KM/H ' + wm.weatherData.WindDirection + '</h4></div>';
+        }
+
+
         return todaysWeather;
     }
 
@@ -62354,7 +62984,18 @@ Ext.define("escape.view.page.Search", {
         pageTitle: 'Search',
         rightBtn: 'hide',
         layout: 'hbox',
-        items: [{
+        items: [],
+        pageTypeId: 11,
+        pageTrackingId: 1
+    },
+    reOpenView: function() {
+        this.openView();
+    },
+    closeView: function() {
+        this.setItems([]);
+    },
+    openView: function() {
+        this.setItems([{
             xtype: 'formpanel',
             layout: 'hbox',
             width: '100%',
@@ -62371,17 +63012,17 @@ Ext.define("escape.view.page.Search", {
                 }]
             }, {
                 xtype: 'container',
-                itemId:'searchOptions',
+                itemId: 'searchOptions',
                 cls: 'searchOptions',
                 flex: 1,
                 padding: '10px',
-                defaults : {
+                defaults: {
                     margin: '0 0 10px 0'
                 },
                 items: [{
-                    xtype: 'selectfield',
+                    xtype: 'selectField',
                     label: 'Distance',
-                    name:'distance',
+                    name: 'distance',
                     options: [{
                         text: 'Any',
                         value: -1
@@ -62428,18 +63069,13 @@ Ext.define("escape.view.page.Search", {
                     text: 'Search',
                     action: 'search',
                     cls: 'search'
-                }, {
-                    xtype: 'button',
-                    text: 'Reset',
-                    action: 'cancelSearch',
-                    cls: 'reset'
                 }]
             }]
-        }]
+        }]);
     }
 });
 Ext.define('escape.controller.GlobalActions', {
-    requires: ['escape.utils.AppVars', 'escape.view.page.Weather', 'escape.view.page.Search', 'escape.view.page.Directions'],
+    requires: ['escape.utils.AppVars', 'escape.view.page.Weather', 'escape.view.page.Search', 'escape.view.page.Directions', 'escape.view.page.MapTerms'],
     extend: 'Ext.app.Controller',
     config: {
         refs: {
@@ -62460,9 +63096,10 @@ Ext.define('escape.controller.GlobalActions', {
             'section button[cls="searchBtn iconBtn"]': {
                 tap: 'showSearch'
             },
-            'section [action=getDirections]': {
+            'section button[action=getDirections]': {
                 tap: function(btn) {
-                    this.showDirections();
+                    console.log(btn);
+                    this.showDirections(btn.config.address, btn.config.latlon);
                 }
             },
             'section button[action=makePhoneCall]': {
@@ -62490,7 +63127,7 @@ Ext.define('escape.controller.GlobalActions', {
                     var data = record.getData();
                     switch (data.action) {
                     case 'getDirections':
-                        this.showDirections();
+                        this.showDirections(data.address, data.latlon);
                         break;
                     case 'sendEmail':
                         this.sendEmail(data.data);
@@ -62504,12 +63141,10 @@ Ext.define('escape.controller.GlobalActions', {
                     case 'makeBooking':
                         this.makeBooking(data.data);
                         break;
-
                     }
                     list.deselectAll();
                 }
             },
-           
             'weatherPage button[action=closeSearch]': {
                 tap: 'closeWeather'
             },
@@ -62524,12 +63159,49 @@ Ext.define('escape.controller.GlobalActions', {
             },
             'page list[action="changeSection"]': {
                 select: 'listSectionChange'
+            },
+            'selectfield label': {
+                tap: 'showSelectFieldOptions'
+            },
+            'page button[action=openMapTerms]': {
+                tap: 'showMapTerms'
+            },
+            'servicesAndFacilitiesDetails mapDisplay': {
+                markerSelected: 'showLargeMap'
+            },
+            'productPage mapDisplay': {
+                markerSelected: 'showLargeMap'
+            },
+            'panel': {
+                hide: 'removePanel'
             }
         }
     },
+    removePanel: function(panel) {
+        console.log('removePanel');
+        try {
+            Ext.Viewport.remove(panel, true);
+        } catch (e) {
 
-    pageInit: function() {
+        }
+    },
+    showLargeMap: function(data) {
+        escape.utils.Tracking.trackEventOnCurrent(5);
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'mapPage',
+            latlon: data.latlon,
+            address: data.address
+        });
 
+    },
+
+    showSelectFieldOptions: function() {
+        console.log('showSelectFieldOptions');
+    },
+    showMapTerms: function() {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'mapTerms'
+        });
     },
     scrollTopTop: function() {
         var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
@@ -62542,12 +63214,15 @@ Ext.define('escape.controller.GlobalActions', {
         var collectionType = escape.utils.AppVars.currentSection.getCollectionType();
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'searchPage',
-            collectionType : collectionType
+            collectionType: collectionType
         });
     },
-    showDirections: function(btn) {
+    showDirections: function(address, latlon) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage'
+            xtype: 'mapPage',
+            //xtype: 'directionsPage',
+            address: address,
+            latlon: latlon
         });
     },
     makePhoneCall: function(phoneNumber) {
@@ -62644,121 +63319,12 @@ Ext.define('escape.controller.GlobalActions', {
         anim.run(panel.element);
     }
 });
-Ext.define('escape.controller.About', {
-    extend: 'Ext.app.Controller',
-    requires: ['Ext.Anim', 'escape.view.subSection.MapList', 'escape.view.page.Season', 'escape.view.page.LikeALocal', 'escape.view.page.Town', 'escape.view.page.Search', 'escape.view.subSection.Towns'],
-    config: {
-        refs: {
-            navView: '#aboutSection > navigationview',
-            likeALocalSection: 'likeALocalSection',
-            mapListSubSection: '#aboutSection  mapListSubSection'
-        },
-        control: {
-            '#aboutSection aboutPage list': {
-                select: 'getToKnowAreaSelected'
-            },
-            '#aboutSection likeALocalPage list': {
-                select: 'areasSelected'
-            },
-            '#aboutSection seasonPage list': {
-                select: 'eventSelected'
-            },
-            '#aboutSection mapListSubSection list': {
-                select: 'areaSelected'
-            }
-           
-        }
-    },
-    getToKnowAreaSelected: function(list, record) {
-        var type = record.data.type;
-        var newPage;
-        switch (type) {
-        case 'local':
-            newPage = Ext.create('escape.view.page.LikeALocal');
-            break;
-        case 'areas':
-            newPage = Ext.create('escape.view.subSection.MapList', {
-                title: 'Local Areas',
-                listItems: [{
-                    title: 'Inner Sydney',
-                    lat: -33.899355,
-                    lon: 151.11572
-                }, {
-                    title: 'Sydney City',
-                    lat: -33.873651,
-                    lon: 151.2068896
-                }, {
-                    title: 'Sydney East',
-                    lat: -33.908035299892994,
-                    lon: 151.2446594238281
-                }, {
-                    title: 'Sydney North',
-                    lat: 33.82536404276827,
-                    lon: 151.2103271484375
-                }, {
-                    title: 'Sydney South',
-                    lat: -34.0367286748951,
-                    lon: 151.10733032226562
-                }, {
-                    title: 'Sydney West'
-                }]
-            });
-            break;
-        case 'season':
-            newPage = Ext.create('escape.view.page.Season', {
-                title: record.data.season
-            });
-            break;
-        }
-        if (newPage) {
-            this.getNavView().push(newPage);
-        }
-        list.deselect(record);
-    },
-    areaSelected: function(list) {
-        this.getNavView().push({
-            xtype: 'areaPage'
-        });
-    },
-    areasSelected: function(list) {
-        this.getNavView().push({
-            xtype: 'townsSubSection'
-        });
-    },
-    eventSelected: function(list, record) {
-        console.log(record);
-        this.getNavView().push({
-            xtype: 'productPage',
-            title: record.data.title
-        });
-    }
-});
-
-
-Ext.define('escape.controller.MapList', {
-    extend: 'Ext.app.Controller',
-    requires: [],
-    config: {
-        refs: {
-            navView: '#hireSection > navigationview'
-        },
-        control: {
-
-        }
-    },
-    viewSelected: function() {
-        this.getNavView().push({
-            title: 'Hire Product',
-            xtype: 'productPage'
-        });
-    }
-});
 Ext.define("escape.view.page.AddToItinerary", {
     extend: 'escape.view.page.Page',
     xtype: 'addToItineraryPage',
-    requires: ['Ext.field.Select', 'Ext.form.Panel','Ext.form.FieldSet','Ext.field.Spinner'],
+    requires: ['Ext.field.Select', 'Ext.form.Panel', 'Ext.form.FieldSet', 'Ext.field.Spinner'],
     config: {
-        cls: 'searchPage formPage',
+        cls: 'searchPage formPage addToItineraryPage',
         collectionType: null,
         pageTitle: 'Add to Itinerary',
         rightBtn: 'hide',
@@ -62767,6 +63333,8 @@ Ext.define("escape.view.page.AddToItinerary", {
         productType: null,
         productData: null,
         productName: null,
+        pageTypeId: 14,
+        pageTrackingId: 6,
         scrollable: {
             direction: 'vertical',
             directionLock: true
@@ -62786,12 +63354,14 @@ Ext.define("escape.view.page.AddToItinerary", {
                     selfRef.buildPage(itineraries);
                 } else {
                     // error you have no itineraries
-                    selfRef.buildPage();
+                    console.log('error you have no itineraries');
+                    selfRef.fireEvent('addToNewItinerary', this);
                 }
             },
             error: function(error) {
                 // error show the create button
-                selfRef.buildPage();
+                console.log('error show the create button');
+                selfRef.fireEvent('addToNewItinerary', this);
             },
             scope: this
         });
@@ -62806,21 +63376,23 @@ Ext.define("escape.view.page.AddToItinerary", {
                         label: itinerary.name,
                         labelWidth: '80%',
                         xtype: 'checkboxfield',
-                        name: 'add-'+itinerary.id
+                        name: 'add-' + itinerary.id
                     }];
                     var startDate = new Date(itinerary.startDate);
                     var endDate = new Date(itinerary.endDate);
                     var oneDay = 1000 * 60 * 60 * 24;
                     var daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay));
 
-                    if (daysDiff > 1) {
+                    console.log('daysDiff: ' + daysDiff);
+
+                    if (daysDiff > 0) {
                         itineraryOptions.push({
                             label: 'Day',
                             xtype: 'spinnerfield',
-                            increment : 1,
+                            increment: 1,
                             minValue: 1,
-                            maxValue: daysDiff,
-                            name: 'day-'+itinerary.id
+                            maxValue: daysDiff+1,
+                            name: 'day-' + itinerary.id
                         });
                     }
 
@@ -62865,7 +63437,7 @@ Ext.define("escape.view.page.AddToItinerary", {
                     cls: 'search'
                 }, {
                     xtype: 'button',
-                    text: 'Canel',
+                    text: 'Cancel',
                     action: 'cancel',
                     cls: 'reset'
                 }]
@@ -62892,7 +63464,6 @@ Ext.define('escape.controller.Product', {
                 tap: 'removeFromFavourites'
             },
             'page button[action="addToItineray"]': {
-
                 tap: 'addToItineray'
             }
         }
@@ -63782,13 +64353,13 @@ Ext.define("escape.view.page.ItineraryEditor", {
         rightBtn: 'hide',
         itinerary: null,
         productAddData: null,
-        items: [{
-            xtype: 'loadingDisplay'
-        }],
-        layout: 'vbox'
-
+        layout: 'vbox',
+        pageTypeId: 14,
+        pageTrackingId: 3
     },
-    openView: function() {
+    
+    viewCreated: function() {
+        this.setNavTitle(this.getPageTitle());
 
         var todaysDate = new Date();
         var maxDate = new Date();
@@ -63870,16 +64441,19 @@ Ext.define("escape.view.page.ItineraryEditor", {
             },
             items: btns
         }];
+        this.removeAll(true, true);
         this.setItems(items);
     }
 
 });
 Ext.define('escape.controller.Itinerarys', {
     extend: 'Ext.app.Controller',
-    requires: ['Ext.Anim', 'escape.view.page.ItineraryEditor', 'escape.view.subSection.Itinerary', 'escape.model.Itineraries'],
+    requires: ['Ext.Anim', 'escape.view.page.ItineraryEditor', 'escape.view.subSection.Itinerary', 'escape.model.Itineraries', 'escape.view.ui.QuestionAction'],
     config: {
         currentItineray: null,
+        deleteItineraryAction: null,
         refs: {
+            myItinerarySection: '#myItinerarySection',
             myItineraryPage: 'myItineraryPage',
             navView: '#myItinerarySection > navigationview',
             itinerarySubSection: 'itinerarySubSection',
@@ -63903,6 +64477,15 @@ Ext.define('escape.controller.Itinerarys', {
             'itineraryEditorPage button[action=create]': {
                 tap: 'createItineray'
             },
+            '#myItinerarySection #deletActionSheet': {
+                hide: 'removeItinerayQs'
+            },
+            '#myItinerarySection #deletActionSheet button[action=cancel]': {
+                tap: 'hideItinerayQs'
+            },
+            '#myItinerarySection #deletActionSheet button[action=delete]': {
+                tap: 'deleteItinerary'
+            },
             'itineraryEditorPage button[action=update]': {
                 tap: 'updateItineray'
             },
@@ -63912,8 +64495,14 @@ Ext.define('escape.controller.Itinerarys', {
             '#myItinerarySection button[cls="editBtn iconBtn"]': {
                 tap: 'showEditItinerary'
             },
+            'addToItineraryPage': {
+                addToNewItinerary: 'showNewItineraryWithProduct'
+            },
             'addToItineraryPage button[action=add]': {
                 tap: 'addProductToItineraries'
+            },
+            'addToItineraryPage button[action=cancel]': {
+                tap: 'cancelAdd'
             },
             'addToItineraryPage button[action=create]': {
                 tap: 'showNewItineraryWithProduct'
@@ -63949,22 +64538,41 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     buildItineraryList: function(itineraries) {
-        var itinerary = [];
+        var itinerariesList = [];
         for (var i = itineraries.length - 1; i >= 0; i--) {
-            itinerary.push(itineraries.item(i));
+            var itinerary = itineraries.item(i);
+            var startDate = new Date(itinerary.startDate);
+            var endDate = new Date(itinerary.endDate);
+            var oneDay = 1000 * 60 * 60 * 24;
+            var daysDiff = 1 + (Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay)));
+            var days = daysDiff;
+            if (daysDiff > 1) {
+                days += ' days';
+            } else {
+                days += ' day';
+            }
+            console.log(startDate);
+            itinerariesList.push({
+                id: itinerary.id,
+                name: itinerary.name,
+                startDateStr: Ext.Date.format(startDate, 'd/m/y'),
+                endDateStr: Ext.Date.format(endDate, 'd/m/y'),
+                days: days
+            });
         }
         var items = [{
             xtype: 'list',
-            itemTpl: '{name}',
-            cls: 'favouritesList',
-            data: itinerary,
+            itemTpl: '<div><h3>{name}</h3><h4>{days} {startDateStr} - {endDateStr}</h4></div>',
+            cls: 'itinerariesList',
+            data: itinerariesList,
+            padding: '10px',
             onItemDisclosure: true,
             flex: 1
         }, {
             xtype: 'container',
             docked: 'bottom',
             cls: 'btnsArea',
-            padding: '10xp',
+            padding: '10px',
             defaults: {
                 margin: '10px 0 0 0'
             },
@@ -63979,13 +64587,33 @@ Ext.define('escape.controller.Itinerarys', {
         this.getMyItineraryPage().setItems(items);
     },
     showCreatePage: function() {
-        this.getMyItineraryPage().setItems({
+        this.getMyItineraryPage().removeAll(true, true);
+        this.getMyItineraryPage().setItems([{
             xtype: 'button',
             action: 'createItinerary',
             cls: 'createItineraryBtnLarge',
-            text: 'Create a new Itinerary',
+            text: '',
             flex: 1
-        });
+        }, {
+            cls: 'createItineraryInstructions',
+            padding: '25px',
+            html: '<p>Create a new itinerary and start planning your trip, add notes and organise your day</p>',
+            height: 140
+        }, {
+            xtype: 'container',
+            docked: 'bottom',
+            cls: 'btnsArea',
+            padding: '10xp',
+            defaults: {
+                margin: '10px 0 0 0'
+            },
+            items: [{
+                xtype: 'button',
+                text: 'Create Itinerary',
+                action: 'createItinerary',
+                cls: 'search'
+            }]
+        }]);
     },
     showNewItinerary: function() {
         this.getNavView().push({
@@ -64063,6 +64691,7 @@ Ext.define('escape.controller.Itinerarys', {
                             scope: this
                         });
                     } else {
+                        escape.utils.AppVars.currentSection.getNavigationView().pop();
                         selfRef.showItinerary(result.item(0));
                     }
 
@@ -64082,11 +64711,16 @@ Ext.define('escape.controller.Itinerarys', {
         var errors = this.checkItineraryErrors(data);
         if (errors.length === 0) {
             // create the new itinerary
-            escape.model.Itineraries.updateItinerary(this.getCurrentItineray().id, data.name, data.startDate, data.endDate, {
+            var itineraryId = this.getCurrentItineray().id;
+            escape.model.Itineraries.updateItinerary(itineraryId, data.name, data.startDate, data.endDate, {
                 success: function(result) {
+                    console.log(result);
+                    escape.utils.AppVars.currentSection.getNavigationView().pop(2);
                     selfRef.showItinerary(result.item(0));
                 },
-                error: function(error) {},
+                error: function(error) {
+                    escape.utils.AppVars.currentSection.getNavigationView().pop(2);
+                },
                 scope: this
             });
         } else {
@@ -64113,18 +64747,27 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     addProductToItineraries: function() {
+
+        console.log('addProductToItineraries');
         var selfRef = this;
         var productId = this.getAddToItineraryPage().getProductId();
         var productType = this.getAddToItineraryPage().getProductType();
         var productData = this.getAddToItineraryPage().getProductData();
         var productName = this.getAddToItineraryPage().getProductName();
+
+        console.log('productId: ' + productId);
+        console.log('productType: ' + productType);
+        console.log('productName: ' + productName);
+        console.log('productData: ' + productData);
         // get form data
         var values = this.getAddToItineraryForm().getValues();
+        console.log(values);
         var addToItineraries = {};
         for (var key in values) {
             var breakdown = key.split('-');
             var type = breakdown[0];
             var itineraryId = Number(breakdown[1]);
+            console.log('itineraryId: ' + itineraryId);
             if (!addToItineraries['add-' + itineraryId]) {
                 addToItineraries['add-' + itineraryId] = {
                     id: itineraryId,
@@ -64139,8 +64782,11 @@ Ext.define('escape.controller.Itinerarys', {
             xtype: 'loadingDisplay'
         });
         // add product into itineraries
+        console.log('addToItineraries');
+        console.log(addToItineraries);
         for (var row in addToItineraries) {
             var itineraryValues = addToItineraries[row];
+            console.log(itineraryValues);
             if (itineraryValues.add) {
                 escape.model.Itineraries.addProduct(itineraryValues.id, itineraryValues.day, productId, productType, productName, productData, {
                     success: function() {
@@ -64157,7 +64803,9 @@ Ext.define('escape.controller.Itinerarys', {
         escape.utils.AppVars.currentSection.getNavigationView().pop();
 
     },
-
+    cancelAdd: function() {
+        escape.utils.AppVars.currentSection.getNavigationView().pop();
+    },
     showAddedMsg: function() {
         var addedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt favsAddedMsg',
@@ -64197,7 +64845,6 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     deleteFromForm: function() {
-
         this.deleteItinerayQs(this.getCurrentItineray().id);
     },
 
@@ -64208,37 +64855,56 @@ Ext.define('escape.controller.Itinerarys', {
 
     deleteItinerayQs: function(id) {
         var selfRef = this;
-
-        // var msgBox = Ext.create('Ext.Msg');
-        Ext.Msg.show({
-            message: 'Delete Itinarery?',
-            buttons: [{
-                text: 'NO',
-                itemId: 'no'
+        var deletActionSheet = Ext.create('escape.view.ui.QuestionAction', {
+            itemId: 'deletActionSheet',
+            data: {
+                itineraryId: id
+            },
+            question: 'Delete Itinerary?',
+            btns: [{
+                cls: 'reset',
+                action: 'delete',
+                text: 'Delete'
             }, {
-                text: 'YES',
-                itemId: 'yes'
-            }],
-            fn: function(buttonId) {
-                if (buttonId == 'yes') {
-                    selfRef.deleteItinerary(id);
-                }
-
-            }
+                cls: 'reset',
+                action: 'cancel',
+                text: 'Cancel'
+            }]
         });
+        this.setDeleteItineraryAction(deletActionSheet);
+        this.getMyItinerarySection().add(deletActionSheet);
+        deletActionSheet.show();
 
     },
-    deleteItinerary: function(id) {
+    hideItinerayQs: function() {
+        console.log('hideItinerayQs');
+        var deletActionSheet = this.getDeleteItineraryAction();
+        deletActionSheet.hide();
+    },
+    removeItinerayQs: function() {
+        console.log('removeItinerayQs');
+        var deletActionSheet = this.getDeleteItineraryAction();
+        this.getMyItinerarySection().remove(deletActionSheet);
+    },
+    deleteItinerary: function(deleteBtn) {
+        var deletActionSheet = this.getDeleteItineraryAction();
+        console.log(deletActionSheet);
+        var id = deletActionSheet.getData().itineraryId;
+        console.log('itineraryId: ' + id);
         var selfRef = this;
         escape.model.Itineraries.deleteItinerary(id, {
             success: function(result) {
                 selfRef.checkItineraries();
             },
-            error: function(error) {
-
-            },
+            error: function(error) {},
             scope: this
         });
+        this.hideItinerayQs();
+        console.log(escape.utils.AppVars.currentPage.getXTypes());
+        if (escape.utils.AppVars.currentPage.getXTypes().indexOf('itineraryEditorPage') != -1) {
+            escape.utils.AppVars.currentSection.getNavigationView().pop(2);
+        }
+        // show removed message
         var removedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt removedAddedMsg',
             modal: true,
@@ -64259,7 +64925,6 @@ Ext.define('escape.controller.Itinerarys', {
             removedMsg.hide();
         }, this);
         task.delay(1000);
-
         Ext.Viewport.add(removedMsg);
         removedMsg.show();
     }
@@ -64411,8 +65076,8 @@ Ext.define('Ext.data.reader.Array', {
 Ext.application({
     name: 'escape',
     requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox','escape.utils.DatabaseManager', 'escape.utils.Tracking','escape.utils.AppFuncs','escape.utils.AppVars'],
-    views: ['Main', 'section.Section', 'page.Home', 'page.Area', 'page.FeaturedList', 'page.FoodAndWine', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer','page.CurrencyConverter','page.ContentPage'],
-    controllers: ['GlobalActions', 'Section', 'Search', 'Sharing','Itinerarys','ItineraryViewer', 'Product', 'Towns', 'About', 'FoodAndWine', 'ProductSections', 'Accommodation', 'Events','CurrencyConverter','Weather','MyFavourites','ContentPage'],
+    views: ['Main', 'section.Section', 'page.Home', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer','page.CurrencyConverter','page.ContentPage','ui.SelectField','page.Map'],
+    controllers: ['GlobalActions', 'Section', 'Search', 'Sharing','Itinerarys','ItineraryViewer', 'Product', 'ProductSections', 'Events','ServicesAndFacilities','CurrencyConverter','Weather','MyFavourites','ContentPage'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register','ProductSearch','Itineraries'],
     stores: ['ProductSearch'],

@@ -170,7 +170,7 @@ Ext.define("escape.view.page.Weather", {
     buildTodaysWeather: function() {
         var wm = escape.model.Weather;
         var today = wm.forcatsByDay[0];
-        var temp =wm.convertTempature(wm.currentTemp)+' &deg;';
+        var temp =wm.convertTempature(wm.currentTemp)+'&deg;';
         if (wm.currentTemp == -9999){
             temp = '-';
         }

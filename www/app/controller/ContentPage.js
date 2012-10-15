@@ -102,7 +102,7 @@ Ext.define('escape.controller.ContentPage', {
             var container = contentPage.getComponent('mustDoPlaceHolder');
             console.log(container);
             container.add({
-                html: '<h2>Must Do\'s</h2>',
+                html: '<h2>Must Do</h2>',
                 padding: '0 10px'
             });
             container.add({

@@ -6,22 +6,14 @@ Ext.define('escape.utils.Tracking', {
     RegID: 0,
     trackEvent: function(pageCode, pageId, eventId) {
         this.insertTracking(pageCode, pageId, eventId);
-        console.log('pageCode: ' + pageCode);
-        console.log('pageId: ' + pageId); // String events/
-        console.log('eventId: ' + eventId);
-
     },
      trackEventOnCurrent: function(eventId) {
-        console.log('trackEventOnCurrent');
         var trackBy = escape.utils.AppVars.currentPage;
          if (!trackBy){
               trackBy= escape.utils.AppVars.currentSection;
          }
         var  pageCode = trackBy.getPageTypeId();
         var pageId =  trackBy.getPageTrackingId();
-        console.log('pageCode: ' + pageCode);
-        console.log('pageId: ' + pageId);
-        console.log('eventId: ' + eventId);
         this.insertTracking(pageCode, pageId, eventId);
     },
 
@@ -116,7 +108,6 @@ Ext.define('escape.utils.Tracking', {
         var db = escape.utils.DatabaseManager.getBDConn('user');
         var selfRef = this;
         var SQL = 'DELETE FROM Tracking WHERE';
-
         for (var i = rows.length - 1; i >= 0; i--) {
             var eventObj = rows.item(i);
             SQL += '  id = ' + eventObj.id;

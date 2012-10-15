@@ -158,13 +158,14 @@ Ext.define("escape.view.ui.MapDisplay", {
             map.markersLayer.addMarker(marker);
             var selfRef = this;
             var markerClick = function(evt) {
+                console.log('!!! markerClick');
                     selfRef.fireEvent('markerSelected', data);
                 };
-            marker.events.register('mousedown', marker, markerClick);
+           // marker.events.register('mousedown', marker, markerClick);
             marker.events.register('touchend', marker, markerClick);
 
             marker.events.register("touchstart", marker, function(e) {
-                console.warn("touch start");
+                 console.log('!!! touchstart');
             });
         } else {
             this.getIntialMarkers().push({
