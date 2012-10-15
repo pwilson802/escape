@@ -41,21 +41,6 @@ Ext.define("escape.view.page.SevicesAndFacilitiesResults", {
                 itemId: 'cardView',
                 layout: 'card',
                 flex: 1
-            }, {
-                xtype: 'container',
-                itemId: 'optionsArea',
-                docked: 'bottom',
-                cls: 'btnsArea',
-                padding: '10xp',
-                defaults: {
-                    margin: '0'
-                },
-                items: [{
-                    xtype: 'button',
-                    text: 'Load More Results',
-                    action: 'loadMore',
-                    cls: 'loadMore'
-                }]
             }];
 
 

@@ -360,14 +360,43 @@ Ext.define('escape.controller.Search', {
             cardView.removeAll(true, true);
             var collectionType = this.getSearchPage().getCollectionType();
             var itemTPL = (collectionType == 'restaurants' || collectionType == 'event' || collectionType == 'tour' || collectionType == 'deals' || collectionType === null) ? '{Title}' : '{Name}';
-            var list = new Ext.List({
-                itemTpl: itemTPL,
-                store: this.getResultsStore(),
-                flex: 1
-            });
+            var list = new Ext.List();
             // add this list
-            cardView.add(list);
-            cardView.setActiveItem(list);
+            //cardView.add(list);
+            //
+            var container = new Ext.Container({
+                scrollable: {
+                    direction: 'vertical',
+                    directionLock: true
+                },
+                flex: 1,
+                //height: Ext.Viewport.getSize().height - 43,
+                items: [{
+                    xtype: 'list',
+                    itemTpl: itemTPL,
+                    store: this.getResultsStore(),
+                    scrollable: false
+                }, {
+                    xtype: 'container',
+                    itemId: 'optionsArea',
+                    cls: 'btnsArea',
+                    padding: '10xp',
+                    defaults: {
+                        margin: '0'
+                    },
+                    items: [{
+                        xtype: 'button',
+                        text: 'Load More Results',
+                        action: 'loadMore',
+                        cls: 'loadMore search'
+                    }]
+                }]
+
+            });
+            // add load more button
+            cardView.add(container);
+            //
+            cardView.setActiveItem(container);
         }
         this.setListShowing(true);
 
@@ -417,7 +446,7 @@ Ext.define('escape.controller.Search', {
         if (!funnelbackCollection || funnelbackCollection == 'deals') {
             funnelbackCollection = data.Product_Type;
         }
-        
+
         if (funnelbackCollection === 'centres') {
             funnelbackCollection = 'vic';
         }

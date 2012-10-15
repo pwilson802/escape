@@ -62,7 +62,7 @@ Ext.define("escape.model.Content", {
                     xtype: 'contentImg',
                     width: screenWidth,
                     height: 200,
-                    imagePath: content.images[i]['Full Size'],
+                    imagePath: escape.utils.Img.getResizeURL(content.images[i]['Full Size'],screenWidth),
                     altText: content.images[i]['Alt']
                 });
             }

@@ -16,7 +16,6 @@ Ext.define("escape.view.page.SearchResults", {
         pageTrackingId: 2
     },
     buildPage: function(moreResullts) {
-
         if (!this.getResultsBuilt()) {
             this.setMargin(0);
             this.setResultsBuilt(true);
@@ -41,25 +40,7 @@ Ext.define("escape.view.page.SearchResults", {
                 itemId: 'cardView',
                 layout: 'card',
                 flex: 1
-            }, {
-                xtype: 'container',
-                itemId: 'optionsArea',
-                docked: 'bottom',
-                cls: 'btnsArea',
-                padding: '10xp',
-                defaults: {
-                    margin: '0'
-                },
-                items: [{
-                    xtype: 'button',
-                    text: 'Load More Results',
-                    action: 'loadMore',
-                    cls: 'loadMore'
-                }]
             }];
-
-
-
             this.setItems(items);
         }
 
@@ -71,3 +52,20 @@ Ext.define("escape.view.page.SearchResults", {
 
     }
 });
+
+// {
+//                 xtype: 'container',
+//                 itemId: 'optionsArea',
+//                 docked: 'bottom',
+//                 cls: 'btnsArea',
+//                 padding: '10xp',
+//                 defaults: {
+//                     margin: '0'
+//                 },
+//                 items: [{
+//                     xtype: 'button',
+//                     text: 'Load More Results',
+//                     action: 'loadMore',
+//                     cls: 'loadMore'
+//                 }]
+//             }

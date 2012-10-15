@@ -49,15 +49,37 @@ Ext.define('escape.utils.Img', {
     // request an image at a particular width
     getResizeURL: function(url, width) {
         // make sure the image is from our server
-        if (url.indexOf(AppSettings.imageResizing.fromURL) != -1) {
-            var imagePath = url.split(AppSettings.imageResizing.fromURL)[1];
+        var allowedDomain = false;
+        var imagePath ='';
+        for (var i = AppSettings.imageResizing.fromURLs.length - 1; i >= 0; i--) {
+            fromURL = AppSettings.imageResizing.fromURLs[i];
+            if (url.indexOf(fromURL.url) != -1) {
+                if (fromURL.remote){
+                imagePath = '/remote/'+fromURL.url+url.split(fromURL.url)[1];
+                } else {
+                    imagePath = url.split(fromURL.url)[1];
+                }
+                allowedDomain = true;
+                break;
+            }
+
+        }
+        if (allowedDomain) {
             var ratio = 1;
+            var connectionType = Ext.device.Connection.getType();
             if (window.devicePixelRatio) {
                 ratio = window.devicePixelRatio;
             }
+            // don't request high def images if on a low connection
+            if (connectionType=='CELL_2G'){
+                ratio = 1;
+            }
+            //ratio = 0.5;
+
             // scale the width to account for pixel density
-            var realWidth = width * ratio;
-            return AppSettings.imageResizing.resizeURL + imagePath+'?width='+realWidth;
+            var realWidth = Math.round(width * ratio);
+            var returnURL = AppSettings.imageResizing.resizeURL + imagePath + '?width=' + realWidth;
+            return returnURL;
         }
         return url;
     }

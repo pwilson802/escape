@@ -27,15 +27,27 @@ AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;29
 AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 // Image resizing
-AppSettings.imageResizing =  {
-    resizeURL :'http://m.img.getconnected.dnsw.com.au/',
-    fromURL: "http://getconnected.dnsw.com.au/"
+AppSettings.imageResizing = {
+    resizeURL: 'http://m.img.getconnected.dnsw.com.au/',
+    fromURLs: [{
+        url: "getconnected.dnsw.com.au/",
+        remote:false
+    }, {
+        url: "destinationnsw.com.au/",
+         remote:true
+    }, {
+        url: "sydney.com/",
+         remote:true
+    }, {
+        url: "visitnsw.com",
+         remote:true
+    }]
 };
 // SHARING
 AppSettings.defualtShareData = {
-    name: AppSettings.appAreaName+' Guide',
-    defaultMessage: 'Check the '+AppSettings.appAreaName+' Guide on the app shore',
-    description: 'The '+AppSettings.appAreaName+' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
+    name: AppSettings.appAreaName + ' Guide',
+    defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide on the app shore',
+    description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
     link: 'http://www.sydney.com/',
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };

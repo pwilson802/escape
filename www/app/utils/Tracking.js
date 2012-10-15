@@ -7,12 +7,12 @@ Ext.define('escape.utils.Tracking', {
     trackEvent: function(pageCode, pageId, eventId) {
         this.insertTracking(pageCode, pageId, eventId);
         console.log('pageCode: ' + pageCode);
-        console.log('pageId: ' + pageId);
+        console.log('pageId: ' + pageId); // String events/
         console.log('eventId: ' + eventId);
 
     },
      trackEventOnCurrent: function(eventId) {
-        console.log('trackEventOnCurrent')
+        console.log('trackEventOnCurrent');
         var trackBy = escape.utils.AppVars.currentPage;
          if (!trackBy){
               trackBy= escape.utils.AppVars.currentSection;

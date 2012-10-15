@@ -27,8 +27,8 @@ Ext.define('escape.controller.Events', {
         contents.setPadding(10);
         contents.setItems(loadingDislay);
 
-        if (btn.config.type == 'featured') {
-            this.loadFeatured();
+        if (btn.config.type == 'eventsCalender') {
+            this.loadEventsCalender();
         }
 
         if (btn.config.type == 'weekly') {
@@ -103,12 +103,17 @@ Ext.define('escape.controller.Events', {
         var params = {};
        // params.meta_D_phrase_sand = AppSettings.destinationWebpath;
         // set the serach to use the right collection
+         var todaysDate = new Date();
+        var weekFromNow = new Date();
+        weekFromNow.setDate(todaysDate.getDate() + 7);
         params.collection = 'tourism-nsw-meta';
         params.form = 'mobile-all-json';
         params.meta_C_not = 'dest';
         params.meta_h_phrase_sand = AppSettings.EventCalName;
         var dateNow = new Date();
-        params.gt_q = parseInt(dateNow.getTime()/86400000);
+        params.sort = 'metap';
+        params.gt_q= parseInt(todaysDate/86400000);
+        params.lt_p= parseInt(weekFromNow/86400000);
         //perform the seach
         var productSearch = Ext.create('escape.store.ProductSearch');
         // add the extra paramaters to the search
@@ -134,6 +139,8 @@ Ext.define('escape.controller.Events', {
         console.log('eventsCalenderLoaded');
         console.log(data);
         if (this.getCurrentSection() == 'eventsCalender') {
+             console.log('1 built');
+            console.log(data.data.results);
             var viewportSize = Ext.Viewport.getSize();
             var list = new Ext.List({
                 itemTpl: '{Title}',
