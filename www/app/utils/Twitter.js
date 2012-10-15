@@ -117,9 +117,9 @@
     /*
     Now that we have the information we can Tweet!
     */
-     post: function(tweet,callback,scope) {
+     post: function(tweet,url,callback,scope) {
          this.oauth.post('https://api.twitter.com/1/statuses/update.json', {
-             'status': tweet+' http://www.visitnsw.com/destinations/snowy-mountains/kosciuszko-national-park/thredbo',
+             'status': tweet+' '+url,
              // jsOAuth encodes for us
              'trim_user': 'true'
          }, function(data) {

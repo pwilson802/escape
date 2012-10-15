@@ -12,12 +12,13 @@ Ext.define("escape.view.page.ContentPage", {
         scrollable: {
             direction: 'vertical',
             directionLock: true
-        }
+        },
+        pageTypeId: 1,
+        pageTrackingId: 0
     },
     //
     buildPage: function(content) {
         this.setContent(content);
-        console.log(content);
         var items =  escape.model.Content.buildItems(content);
         this.setItems(items);
         this.fireEvent('built');

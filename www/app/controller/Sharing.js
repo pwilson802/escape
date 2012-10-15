@@ -2,6 +2,7 @@ Ext.define('escape.controller.Sharing', {
     requires: ['escape.view.ui.SharingOptions', 'escape.utils.Facebook', 'escape.utils.Twitter'],
     extend: 'Ext.app.Controller',
     config: {
+        sharingData: null,
         refs: {
             sharingOptions: 'sharingOptions'
         },
@@ -32,21 +33,34 @@ Ext.define('escape.controller.Sharing', {
             }
         }
     },
-    showSharingOptions: function() {
+    showSharingOptions: function(btn) {
         var sharingOptions = Ext.create('escape.view.ui.SharingOptions');
+
+        var sharingData = escape.utils.AppVars.currentPage.getSharingData();
+        console.log(sharingData);
+        if (!sharingData){
+            sharingData = AppSettings.defualtShareData;
+        }
+        console.log(sharingData);
+        
+        this.setSharingData(sharingData);
         Ext.Viewport.add(sharingOptions);
         sharingOptions.show();
+        //this.getSharingOptions().showMessageForm('postToFacebook');
     },
     removeSharingOptions: function() {
-        console.log('!!!! removeSharingOptions');
         Ext.Viewport.remove(this.getSharingOptions());
     },
     sendEmail: function() {
-        console.log('!!!! sendEmail');
+        var sharingData = this.getSharingData();
+        var subject = sharingData.name;
+        var body = sharingData.defaultMessage+ ' '+sharingData.link;
+
+        
         try {
-            window.plugins.emailComposer.showEmailComposer("Check this out", "sharing msgs");
+            window.plugins.emailComposer.showEmailComposer(subject, body);
         } catch (e) {
-            window.open('mailto:' + emailAddress, '_blank');
+            window.open('mailto:?subject='+subject+'&body='+body, '_blank');
         }
         escape.utils.Tracking.trackEventOnCurrent(10);
     },
@@ -59,7 +73,6 @@ Ext.define('escape.controller.Sharing', {
     ///////////////////////////////////////////////////////////////////
     shareFacebook: function() {
         console.log('!!!! shareFacebook');
-
         // this device does not support native twitter use the OAuth method
         this.getSharingOptions().showLoading();
         var selfRef = this;
@@ -88,11 +101,13 @@ Ext.define('escape.controller.Sharing', {
         this.getSharingOptions().showLoading();
         var selfRef = this;
         console.log(message);
+        var sharingData = this.getSharingData();
         escape.utils.Facebook.postMessage('feed', {
             message: message,
-            name: 'Kosciuszko National Park',
-            description: 'Check out Kosciuszko National Park at Visit NSW.',
-            link: 'http://www.visitnsw.com/destinations/snowy-mountains/kosciuszko-national-park/kosciuszko/attractions/kosciuszko-national-park'
+            name: sharingData.name,
+            description: sharingData.description,
+            link: sharingData.link,
+            picture : sharingData.picture
         }, {
             success: function(accessToken) {
                 console.log('!!!! post success');
@@ -111,6 +126,8 @@ Ext.define('escape.controller.Sharing', {
         console.log('!!!! shareTwitter');
         escape.utils.Tracking.trackEventOnCurrent(12);
         var selfRef = this;
+        var sharingData = this.getSharingData();
+        
         window.plugins.twitter.isTwitterSetup(function(r) {
             console.log('isTwitterSetup: ' + r);
             if (r === 1) {
@@ -120,8 +137,9 @@ Ext.define('escape.controller.Sharing', {
                     console.log("tweet success");
                 }, function(error) {
                     console.log("tweet failure: " + error);
-                }, "Check out Kosciuszko National Park at Visit NSW.", {
-                    urlAttach: "http://www.visitnsw.com/destinations/snowy-mountains/kosciuszko-national-park/kosciuszko/attractions/kosciuszko-national-park"
+                }, sharingData.defaultMessage, {
+                    urlAttach: sharingData.link,
+                    imageAttach: sharingData.picture
                 });
             } else {
                 selfRef.useOAuthTwitter();
@@ -155,8 +173,9 @@ Ext.define('escape.controller.Sharing', {
         var message = messageArea.getValue();
         console.log('!!! message');
         console.log(message);
+        var sharingData = this.getSharingData();
         this.getSharingOptions().showLoading();
-        escape.utils.Twitter.tweet(message, {
+        escape.utils.Twitter.tweet(message, sharingData.link, {
             success: function(accessToken) {
                 console.log('!!!! post success');
                 selfRef.getSharingOptions().showSuccess();

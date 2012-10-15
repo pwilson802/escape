@@ -7,7 +7,9 @@ Ext.define("escape.view.page.Directions", {
         rightBtn: '',
         address: null,
         latlon: null,
-        mapDisplay: null
+        mapDisplay: null,
+         pageTypeId: 15,
+        pageTrackingId: 15
     },
     openView: function() {
         var address = this.getAddress();

@@ -59,7 +59,6 @@
      getAccessToken: function(fbCode, callback, scope) {
          var selfRef = this;
          var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + AppSettings.facebook.clientId + '&client_secret=' +AppSettings.facebook.secret + '&code=' + fbCode + '&redirect_uri=' + AppSettings.facebook.redirectUrl;
-
          Ext.Ajax.request({
              url: url,
              method: "POST",
@@ -93,7 +92,7 @@
      /////////////////////////////////////////////////////
      postMessage: function(fbType, extraParams,callback, scope) {
          console.log('!!!!! postMessage');
-         var url = 'https://graph.facebook.com/me/' + fbType + '?access_token=' + this.accessToken;
+         var url = '`/me/' + fbType + '?access_token=' + this.accessToken;
          for (var key in extraParams) {
              if (key == "message") {
                  // We will want to escape any special characters here vs encodeURI

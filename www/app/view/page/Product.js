@@ -9,18 +9,22 @@ Ext.define("escape.view.page.Product", {
         productType: "event",
         productId: "the-life-of-patrick-white",
         productData: null,
+        pageTypeId: 2,
+        pageTrackingId: 0,
         scrollable: {
             direction: 'vertical',
             directionLock: true
         },
         items: [{
             xtype: 'loadingDisplay'
-        }]
+        }],
+        sharingData: null
     },
     openView: function() {
+        this.setPageTrackingId(this.getProductType().toLowerCase() + '/' + this.getProductId());
         if (this.getProductData() === null) {
             // load the product data
-            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL+'product-details/' +  this.getProductType().toLowerCase() + '-details');
+            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
                     this.setProductData(product.raw);
@@ -89,13 +93,27 @@ Ext.define("escape.view.page.Product", {
         }
     },
     buildPage: function() {
-
-        var viewportSize = Ext.Viewport.getSize();
-        var screenWidth = viewportSize.width;
-
         var product = this.getProductData();
         this.setTitle(product.Type);
 
+
+        var imageURL = product.Images[0]['Full Size'];
+        if (!imageURL){
+            imageURL='';
+        }
+        // set sharing data
+        sharingData = {
+            name: product.Name,
+            defaultMessage: 'Check the ' + product.Name + ' information I found via DNSW',
+            description: product.Name,
+            link: AppSettings.websiteURL+product['Full Path'],
+            picture: imageURL
+        };
+        this.setSharingData(sharingData);
+        // view portsize
+        var viewportSize = Ext.Viewport.getSize();
+        var screenWidth = viewportSize.width;
+        //
         var contactBtns = [];
         var contactList = [];
         var mainBtns = [];
@@ -252,12 +270,12 @@ Ext.define("escape.view.page.Product", {
             imageItems.push({
                 xtype: 'appImage',
                 height: 200,
-                imagePath: escape.utils.Img.getResizeURL(imageData['Full Size'],viewportSize.width),
+                imagePath: escape.utils.Img.getResizeURL(imageData['Full Size'], viewportSize.width),
                 altText: imageData['Alt']
             });
         }
 
-         var indicator  = (imageItems.length>1) ? true : false;
+        var indicator = (imageItems.length > 1) ? true : false;
         items.push({
             xtype: 'carousel',
             height: 200,
@@ -293,12 +311,12 @@ Ext.define("escape.view.page.Product", {
             var startDate = null;
             if (product.Dates['Start Date']) {
                 var startDateBreakDown = product.Dates['Start Date'].split(' ')[0].split('-');
-                startDate = new Date(Number(startDateBreakDown[0]), Number(startDateBreakDown[1])-1, Number(startDateBreakDown[2]));
+                startDate = new Date(Number(startDateBreakDown[0]), Number(startDateBreakDown[1]) - 1, Number(startDateBreakDown[2]));
             }
             var endDate = null;
             if (product.Dates['End Date']) {
                 var endDateBreakDown = product.Dates['End Date'].split(' ')[0].split('-');
-                endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1])-1, Number(endDateBreakDown[2]));
+                endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1]) - 1, Number(endDateBreakDown[2]));
             }
             console.log('Event Dates!!!');
             console.log(product.Dates['Start Date']);
@@ -306,9 +324,9 @@ Ext.define("escape.view.page.Product", {
             console.log(product.Dates['End Date']);
             console.log(endDate);
             if (startDate !== null) {
-                var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] +' '+ startDate.getFullYear() + '</h4></div>';
+                var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear() + '</h4></div>';
                 if (endDate !== null) {
-                    output += '<div class="dateDisplay end"><h4  class="dayName">' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] +' '+ endDate.getFullYear() +  '</h4></div></div>';
+                    output += '<div class="dateDisplay end"><h4  class="dayName">' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] + ' ' + endDate.getFullYear() + '</h4></div></div>';
                 }
                 items.push({
                     xtype: 'container',
@@ -328,22 +346,22 @@ Ext.define("escape.view.page.Product", {
         if (product.Deal) {
             var deal = '<h2>Deal</h2>';
             if (product.Deal['Start Date']) {
-               deal+='<h3>Start Date: '+product.Deal['Start Date']+'</h3>';
+                deal += '<h3>Start Date: ' + product.Deal['Start Date'] + '</h3>';
             }
-              if (product.Deal['End Date']) {
-               deal+='<h3>End Date: '+product.Deal['End Date']+'</h3>';
+            if (product.Deal['End Date']) {
+                deal += '<h3>End Date: ' + product.Deal['End Date'] + '</h3>';
             }
             if (product.Deal.Description) {
-                deal+='<p>'+escape.utils.AppFuncs.parseCMSText(product.Deal.Description)+'</p>';
+                deal += '<p>' + escape.utils.AppFuncs.parseCMSText(product.Deal.Description) + '</p>';
             }
             if (product.Deal['How to get deal']) {
-               deal+='<p>'+escape.utils.AppFuncs.parseCMSText(product.Deal['How to get deal'])+'</p>';
+                deal += '<p>' + escape.utils.AppFuncs.parseCMSText(product.Deal['How to get deal']) + '</p>';
             }
             if (product.Deal['Term and Conditions']) {
-               deal+='<p>'+escape.utils.AppFuncs.parseCMSText(product.Deal['Term and Conditions'])+'</p>';
+                deal += '<p>' + escape.utils.AppFuncs.parseCMSText(product.Deal['Term and Conditions']) + '</p>';
             }
             items.push({
-                padding:'10px',
+                padding: '10px',
                 cls: 'deal',
                 html: deal
             });
@@ -357,7 +375,7 @@ Ext.define("escape.view.page.Product", {
             }
             facilities += '</ul>';
             items.push({
-                padding:'10px',
+                padding: '10px',
                 cls: 'facilities',
                 html: facilities
             });
@@ -366,14 +384,14 @@ Ext.define("escape.view.page.Product", {
         if (product.Products) {
             var productOutput = '<h2>Products</h2><ul>';
             for (var p = 0; p < product.Products.length; p++) {
-                var productDetails= product.Products[p];
+                var productDetails = product.Products[p];
                 productOutput += '<li><h3>' + productDetails.Name + '</h3>';
                 productOutput += '<p>' + productDetails.Features + '</p>';
 
             }
             productOutput += '</ul>';
             items.push({
-                padding:'10px',
+                padding: '10px',
                 cls: 'rooms',
                 html: productOutput
             });
@@ -390,7 +408,7 @@ Ext.define("escape.view.page.Product", {
             }
             rooms += '</ul>';
             items.push({
-                padding:'10px',
+                padding: '10px',
                 cls: 'rooms',
                 html: rooms
             });
@@ -410,7 +428,7 @@ Ext.define("escape.view.page.Product", {
         }, {
             xtype: 'container',
             cls: 'btnsArea',
-            padding:'10px',
+            padding: '10px',
             items: mainBtns
         });
 

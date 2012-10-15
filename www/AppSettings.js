@@ -3,6 +3,8 @@ AppSettings = {};
 AppSettings.AppID = 2;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Sydney';
+// Website URL
+AppSettings.websiteURL = 'http://www.sydney.com/';
 // The Area of the app which is used for services and faclitices searches
 AppSettings.appAddress = {
     state: 'nsw',
@@ -29,6 +31,14 @@ AppSettings.imageResizing =  {
     resizeURL :'http://m.img.getconnected.dnsw.com.au/',
     fromURL: "http://getconnected.dnsw.com.au/"
 };
+// SHARING
+AppSettings.defualtShareData = {
+    name: AppSettings.appAreaName+' Guide',
+    defaultMessage: 'Check the '+AppSettings.appAreaName+' Guide on the app shore',
+    description: 'The '+AppSettings.appAreaName+' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
+    link: 'http://www.sydney.com/',
+    picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
+};
 // FACEBOOK settings
 AppSettings.facebook = {
     clientId: "369207786488947",
@@ -53,7 +63,7 @@ AppSettings.twitter = {
     consumerKey: 'z04Kkl1zVF3HilGKLre4w',
     // REPLACE WITH YOUR CONSUMER_KEY
     consumerSecret: 'Cu5Qs3Kg2PUIAYqFfVg8VNHEZmzweEdFjphVo82HGA',
-    // REPLACE WITH YOUR CONSUMER_SECRET
+    // Replace with your thankyou URL
     callbackUrl: "http://www.visitnsw.com/"
     // YOUR URL
 };

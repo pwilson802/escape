@@ -41,7 +41,7 @@ Ext.define("escape.model.Currency", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRates',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRates?nocache='+new Date().getTime(),
             method: "POST",
             jsonData: {
                 "RateID": "0",
@@ -172,7 +172,7 @@ Ext.define("escape.model.Currency", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRate',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRate?nocache='+new Date().getTime(),
             method: "POST",
             jsonData: {
                 "RateID": "0",

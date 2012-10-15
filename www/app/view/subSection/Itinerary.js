@@ -7,7 +7,9 @@ Ext.define("escape.view.subSection.Itinerary", {
         cardViewItemId: 1,
         itinerary: null,
         layout: 'vbox',
-        viewType:'list'
+        viewType:'list',
+        pageTypeId: 14,
+        pageTrackingId: 2
     },
     openView: function() {
         this.pageName = this.getItinerary().name;

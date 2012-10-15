@@ -3,12 +3,13 @@ Ext.define("escape.view.page.ItineraryNotes", {
     xtype: 'ItineraryNotesPage',
     requires: ['Ext.field.TextArea'],
     config: {
-        
         pageTitle: 'Notes',
         rightBtn: '',
         padding: '10px',
         itineraryId: null,
-        dayNum: 1
+        dayNum: 1,
+        pageTypeId: 14,
+        pageTrackingId: 5
     },
     openView: function() {
         var selfRef = this;

@@ -6,6 +6,7 @@ Ext.define("escape.view.page.Settings", {
         pageTitle: 'Settings',
         cls: 'settings',
         rightBtn: 'hide',
+        pageTypeId: 12,
         pageTrackingId: 0,
         scrollable: {
             direction: 'vertical',

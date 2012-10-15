@@ -5,7 +5,9 @@ Ext.define("escape.view.page.MyItinerary", {
     config: {
         pageTitle: 'My Itinerary',
         rightBtn: '',
-        layout:'vbox'
+        layout:'vbox',
+        pageTypeId: 14,
+        pageTrackingId: 1
     }
 });
 

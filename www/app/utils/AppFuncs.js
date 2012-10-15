@@ -1,17 +1,14 @@
 Ext.define('escape.utils.AppFuncs', {
     singleton: true,
     openLink: function(url) {
+        console.log('openLink');
         cb = window.plugins.childBrowser;
         cb.showWebPage(url);
         escape.utils.Tracking.trackEventOnCurrent(7);
     },
     trackPhoneCall: function() {
+        console.log('trackPhoneCall');
         escape.utils.Tracking.trackEventOnCurrent(2);
-    },
-    showBingTerms: function() {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'bingTerms'
-        });
     },
     openProduct: function(productId, type) {
         escape.utils.AppVars.currentSection.getNavigationView().push({

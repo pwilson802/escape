@@ -8,7 +8,9 @@ Ext.define("escape.view.page.Events", {
         pageTrackingId: 0,
         scrollable: false,
         padding: 0,
-        layout: 'hbox'
+        layout: 'hbox',
+        pageTypeId: 16,
+        pageTrackingId: 16
     },
     //
     openView: function() {

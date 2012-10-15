@@ -6,6 +6,8 @@ Ext.define("escape.view.page.ItineraryDay", {
         title: '',
         itineraryId: null,
         dayNum: 1,
+        pageTypeId: 14,
+        pageTrackingId: 2,
         padding: '0',
         products: [],
         initViewType: 'list',

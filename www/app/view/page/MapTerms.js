@@ -5,7 +5,7 @@ Ext.define("escape.view.page.MapTerms", {
     config: {
         rightBtn: '',
         pageTitle: 'Map Terms',
-        pageTypeId: 20,
+        pageTypeId: 6,
         pageTrackingId: 20,
         latlon: null,
         address: null,

@@ -8,7 +8,9 @@ Ext.define("escape.view.page.Search", {
         pageTitle: 'Search',
         rightBtn: 'hide',
         layout: 'hbox',
-        items: []
+        items: [],
+        pageTypeId: 11,
+        pageTrackingId: 1
     },
     reOpenView: function() {
         this.openView();

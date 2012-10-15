@@ -26,6 +26,7 @@ Ext.define('escape.controller.ContentPage', {
         });
     },
     loadContent: function(contentPage) {
+        contentPage.setPageTrackingId(contentPage.getContentPath());
         contentPage.setItems({
             xtype: 'loadingDisplay'
         });

@@ -8,8 +8,9 @@ Ext.define("escape.view.page.ItineraryEditor", {
         rightBtn: 'hide',
         itinerary: null,
         productAddData: null,
-        layout: 'vbox'
-
+        layout: 'vbox',
+        pageTypeId: 14,
+        pageTrackingId: 3
     },
     
     viewCreated: function() {

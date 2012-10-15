@@ -224,7 +224,7 @@ Ext.define("escape.model.Weather", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppID',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppID?nocache='+new Date().getTime(),
             method: "POST",
             jsonData: {
                 "StationID": this.getStationId(),
@@ -324,7 +324,7 @@ Ext.define("escape.model.Weather", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppIDBrief',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppIDBrief?nocache='+new Date().getTime(),
             method: "POST",
             jsonData: {
                 "StationID": this.getStationId(),

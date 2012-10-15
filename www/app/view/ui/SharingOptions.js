@@ -12,20 +12,24 @@ Ext.define("escape.view.ui.SharingOptions", {
             xtype: 'button',
             margin: '10px 0',
             action: 'email',
+            cls:'email',
             text: 'Email'
         }, {
             xtype: 'button',
             margin: '10px 0',
             action: 'facebook',
+            cls:'facebook',
             text: 'Facebook'
         }, {
             xtype: 'button',
             margin: '10px 0',
+             cls:'twitter',
             action: 'twitter',
             text: 'Twitter'
         }, {
             xtype: 'button',
             margin: '10px 0',
+            cls:'cancel',
             action: 'cancel',
             text: 'Close'
         }],

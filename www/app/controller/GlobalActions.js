@@ -1,5 +1,5 @@
 Ext.define('escape.controller.GlobalActions', {
-    requires: ['escape.utils.AppVars', 'escape.view.page.Weather', 'escape.view.page.Search', 'escape.view.page.Directions','escape.view.page.MapTerms'],
+    requires: ['escape.utils.AppVars', 'escape.view.page.Weather', 'escape.view.page.Search', 'escape.view.page.Directions', 'escape.view.page.MapTerms'],
     extend: 'Ext.app.Controller',
     config: {
         refs: {
@@ -95,16 +95,28 @@ Ext.define('escape.controller.GlobalActions', {
             },
             'productPage mapDisplay': {
                 markerSelected: 'showLargeMap'
+            },
+            'panel': {
+                hide: 'removePanel'
             }
         }
     },
-     showLargeMap: function(data) {
+    removePanel: function(panel) {
+        console.log('removePanel');
+        try {
+            Ext.Viewport.remove(panel, true);
+        } catch (e) {
+
+        }
+    },
+    showLargeMap: function(data) {
+        escape.utils.Tracking.trackEventOnCurrent(5);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'mapPage',
             latlon: data.latlon,
             address: data.address
         });
-        escape.utils.Tracking.trackEventOnCurrent(5);
+
     },
 
     showSelectFieldOptions: function() {

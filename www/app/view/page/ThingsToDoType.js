@@ -8,6 +8,8 @@ Ext.define("escape.view.page.ThingsToDoType", {
             directionLock: true
         },
         subPageXtype: 'listTypesSubSection',
-        rightBtn: 'searchBtn'
+        rightBtn: 'searchBtn',
+        pageTypeId: 17,
+        pageTrackingId: 17
     }
 });

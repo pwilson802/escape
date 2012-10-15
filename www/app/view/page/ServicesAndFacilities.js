@@ -6,7 +6,9 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
         title: "Services & Facilities",
         cls: 'searchPage formPage',
         rightBtn: "hide",
-        layout: 'vbox'
+        layout: 'vbox',
+        pageTypeId: 5,
+        pageTrackingId: 1
     },
     openView: function() {
         var items = [{

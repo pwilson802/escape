@@ -12,6 +12,8 @@ Ext.define("escape.view.page.AddToItinerary", {
         productType: null,
         productData: null,
         productName: null,
+        pageTypeId: 14,
+        pageTrackingId: 6,
         scrollable: {
             direction: 'vertical',
             directionLock: true

@@ -1413,7 +1413,7 @@ p {
 				background-repeat: no-repeat;
 				background-position: left bottom;
 				width:25px;
-				height:11px;
+				height:20px;
 				display: inline-block;
 			}
 			span {
@@ -1444,6 +1444,7 @@ p {
 			border-left: none !important;
 			.x-button-label {
 				span.icon  {
+					width:35px;
 					background-image:url(../images/ico_home_btn_itinerary.png);
 				}
 			}
@@ -1879,9 +1880,13 @@ x-floating {
 
 // SHARING PANEL - SHANE
 .sharingOptions {
-	background-color: #cac8c5;
+	background-color: #cac8c5 !important;
 	width:240px;
-	@include box-shadow(0 0 50px rgba(0,0,0,.75)); // drop shadow
+	@include box-shadow(0 0 50px rgba(0,0,0,.75)); // drop shadow''
+	border:none;
+	.x-inner {
+		background-color:transparent !important;
+	}
 	
 	.x-panel-inner {
 		background-color: #cac8c5;

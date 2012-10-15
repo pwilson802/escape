@@ -11,7 +11,9 @@ Ext.define("escape.view.page.SearchResults", {
         margin: '10px',
         items: [{
             xtype: 'loadingDisplay'
-        }]
+        }],
+        pageTypeId: 11,
+        pageTrackingId: 2
     },
     buildPage: function(moreResullts) {
 

@@ -21,6 +21,7 @@ Ext.define("escape.model.Favourites", {
         }, function(t, e) {}, []);
     },
     add: function(productId, productType, productName, productData, callback, scope) {
+        escape.utils.Tracking.trackEvent(8,productId,13);
         var db = escape.utils.DatabaseManager.getBDConn('user');
         var selfRef = this;
         db.queryDB('SELECT * FROM Favourites WHERE product_id = (?)', function(t, rs) {
@@ -47,6 +48,7 @@ Ext.define("escape.model.Favourites", {
     },
 
     remove: function(productId, callback, scope) {
+         escape.utils.Tracking.trackEvent(8,productId,13);
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('user');
         db.queryDB('DELETE FROM Favourites WHERE product_id = (?)', function(t, rs) {

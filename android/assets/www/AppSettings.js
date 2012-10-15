@@ -3,6 +3,8 @@ AppSettings = {};
 AppSettings.AppID = 2;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Sydney';
+// Website URL
+AppSettings.websiteURL = 'http://www.sydney.com/';
 // The Area of the app which is used for services and faclitices searches
 AppSettings.appAddress = {
     state: 'nsw',
@@ -17,6 +19,7 @@ AppSettings.bounds = {
 // The detinations to perform all funnel back serches within
 AppSettings.destinationWebpath = '/sydney/';
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
+AppSettings.EventCalName = 'SYDNEY EVENTS CALENDAR';
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
 // matrix destination ids for this app
 AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;295;296;297;298;299;300;301;302;303;304;305;306;308;309;310;311;312;313;314;315;316;317;318;319;320;321;332;406;407;408;409;410;411;4177;4178;4179;4180;4181;4182;4188;4190';
@@ -27,6 +30,14 @@ AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 AppSettings.imageResizing =  {
     resizeURL :'http://m.img.getconnected.dnsw.com.au/',
     fromURL: "http://getconnected.dnsw.com.au/"
+};
+// SHARING
+AppSettings.defualtShareData = {
+    name: AppSettings.appAreaName+' Guide',
+    defaultMessage: 'Check the '+AppSettings.appAreaName+' Guide on the app shore',
+    description: 'The '+AppSettings.appAreaName+' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
+    link: 'http://www.sydney.com/',
+    picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
 // FACEBOOK settings
 AppSettings.facebook = {
