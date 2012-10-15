@@ -75,6 +75,16 @@ Ext.define("escape.view.page.CurrencyConverter", {
         var orgCurrency = cm.converstions[cm.getOrginalCurrency()];
         var conCurrency = cm.converstions[cm.getConvertedCurrency()];
         var rate = cm.getConverstionRate(cm.getOrginalCurrency(), cm.getConvertedCurrency());
+        var flagSize = '';
+        var bgSize = '';
+        if (window.devicePixelRatio) {
+            if (window.devicePixelRatio > 1) {
+                flagSize = '@2x';
+                bgSize = '-webkit-background-size: 53px 33px;';
+            }
+        }
+        flagSize = '@2x';
+        bgSize = '-webkit-background-size: 53px 33px;';
         //
         var items = [{
             xtype: 'container',
@@ -85,7 +95,8 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 xtype: 'button',
                 text: cm.getOrginalCurrency(),
                 action: 'selectOrginal',
-                cls: 'currencyBtn ' + cm.getOrginalCurrency().toLowerCase()
+                cls: 'currencyBtn',
+                style: "background-image:url('resources/images/flags/currency_flag_" + Ext.String.trim(cm.getOrginalCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
             }, {
                 xtype: 'numberfield',
                 minValue: 0,
@@ -95,7 +106,8 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 xtype: 'button',
                 text: cm.getConvertedCurrency(),
                 action: 'selectConverted',
-                cls: 'currencyBtn ' + cm.getConvertedCurrency().toLowerCase()
+                cls: 'currencyBtn',
+                style: "background-image:url('resources/images/flags/currency_flag_" + Ext.String.trim(cm.getConvertedCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
             }, {
                 xtype: 'numberfield',
                 minValue: 0,
