@@ -9,6 +9,7 @@ Ext.define('escape.controller.Search', {
         resultsStore: null,
         listShowing: false,
         searchValues: null,
+        moreResults: false,
         refs: {
             searchPage: 'searchPage',
             searchForm: 'searchPage formpanel',
@@ -148,7 +149,6 @@ Ext.define('escape.controller.Search', {
     },
 
     addOption: function(name, options) {
-
         var choices = [];
         for (var key in options) {
             choices.push({
@@ -172,7 +172,6 @@ Ext.define('escape.controller.Search', {
             text: 'All',
             value: 'all'
         });
-
         choices.reverse();
 
         if (choices.length > 2) {
@@ -325,10 +324,17 @@ Ext.define('escape.controller.Search', {
     },
 
     resultsLoaded: function(records) {
-        this.setResultsList(records.getData().results);
+        console.log('resultsLoaded');
+        var resultsList = records.getData().results;
+        var startIndex = this.getResultsStore().getData().items.length;
+        for (var i = 0; i < resultsList.length; i++) {
+            resultsList[i].resultIndex = (startIndex + i + 1);
+        }
+        this.setResultsList(resultsList);
         // make the results page build itself ready for results
-        var moreResullts = (Number(records.getData().endIndex) < Number(records.getData().total.split(',').join(''))) ? true : false;
-        this.getSearchResultsPage().buildPage(moreResullts);
+        var moreResults = (Number(records.getData().endIndex) < Number(records.getData().total.split(',').join(''))) ? true : false;
+        this.getSearchResultsPage().buildPage(moreResults);
+        this.setMoreResults(moreResults);
         // update the store
         var storeData = this.getResultsStore().getData();
         this.getResultsStore().add(this.getResultsList());
@@ -360,6 +366,7 @@ Ext.define('escape.controller.Search', {
             cardView.removeAll(true, true);
             var collectionType = this.getSearchPage().getCollectionType();
             var itemTPL = (collectionType == 'restaurants' || collectionType == 'event' || collectionType == 'tour' || collectionType == 'deals' || collectionType === null) ? '{Title}' : '{Name}';
+            var fullTPL = '{resultIndex} ' + itemTPL;
             var list = new Ext.List();
             // add this list
             //cardView.add(list);
@@ -373,10 +380,14 @@ Ext.define('escape.controller.Search', {
                 //height: Ext.Viewport.getSize().height - 43,
                 items: [{
                     xtype: 'list',
-                    itemTpl: itemTPL,
+                    itemTpl: fullTPL,
                     store: this.getResultsStore(),
                     scrollable: false
-                }, {
+                }]
+
+            });
+            if (this.getMoreResults()) {
+                container.add({
                     xtype: 'container',
                     itemId: 'optionsArea',
                     cls: 'btnsArea',
@@ -390,9 +401,8 @@ Ext.define('escape.controller.Search', {
                         action: 'loadMore',
                         cls: 'loadMore search'
                     }]
-                }]
-
-            });
+                });
+            }
             // add load more button
             cardView.add(container);
             //
@@ -407,6 +417,7 @@ Ext.define('escape.controller.Search', {
         var resultsList = this.getResultsStore().getData().items;
         for (var i = resultsList.length - 1; i >= 0; i--) {
             var marker = resultsList[i].getData();
+            marker.iconText = marker.resultIndex;
             intialMarkers.push({
                 lat: marker.Latitude,
                 lon: marker.Longitude,

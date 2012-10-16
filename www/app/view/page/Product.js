@@ -95,18 +95,23 @@ Ext.define("escape.view.page.Product", {
     buildPage: function() {
         var product = this.getProductData();
         this.setTitle(product.Type);
+        //
+        var imageURL;
+        try {
+            imageURL = product.Images[0]['Full Size'];
+        } catch (e) {
 
+        }
 
-        var imageURL = product.Images[0]['Full Size'];
-        if (!imageURL){
-            imageURL='';
+        if (!imageURL) {
+            imageURL = '';
         }
         // set sharing data
         sharingData = {
             name: product.Name,
             defaultMessage: 'Check the ' + product.Name + ' information I found via DNSW',
             description: product.Name,
-            link: AppSettings.websiteURL+product['Full Path'],
+            link: AppSettings.websiteURL + product['Full Path'],
             picture: imageURL
         };
         this.setSharingData(sharingData);

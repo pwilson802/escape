@@ -6,37 +6,23 @@ Ext.define("escape.view.ui.ContentImg", {
         imagePath: '',
         width: 320,
         height: 200,
-        altId: null,
+        altText: null,
         infoOpen: false,
         cls: 'contentImg',
         listeners: {
-            initialize: 'requestSize',
-            tap: 'infoRequested'
+             initialize: 'requestSize',
+            tap: 'dispalyInfo'
         }
     },
-    infoRequested: function() {
-        if (!this.getInfoOpen()) {
-            var selfRef = this;
-            if (this.getAltId()) {
-                escape.model.LanguageContent.load(this.getAltId(), {
-                    success: function(translation) {
-                        selfRef.dispalyInfo(translation);
-                    },
-                    error: function(error) {},
-                    scope: this
-                });
-            }
-        }
-    },
-    dispalyInfo: function(translation) {
-        if (!this.getInfoOpen()) {
+    dispalyInfo: function() {
+        if (!this.getInfoOpen() && this.getAltText() !== null) {
             this.setInfoOpen(true);
             var selfRef = this;
             var infoPanel = Ext.create('Ext.Panel', {
                 cls: 'infoMsg',
                 modal: true,
                 centered: true,
-                html: translation,
+                html: this.getAltText(),
                 hideOnMaskTap: true,
                 showAnimation: {
                     type: 'popIn',
@@ -50,16 +36,19 @@ Ext.define("escape.view.ui.ContentImg", {
                 }
             });
             infoPanel.on('hide', function() {
-                selfRef.setInfoOpen(false);
+                // delay the set of closed
+                var task = new Ext.util.DelayedTask(function() {
+                    selfRef.setInfoOpen(false);
+                }, this);
+                task.delay(300);
             });
             Ext.Viewport.add(infoPanel);
             infoPanel.show();
         }
-
     },
-    requestSize: function() {
+     requestSize: function() {
         var path = this.getImagePath();
-        //path = escape.utils.Img.getImgPath(path, this.getWidth(), this.getHeight());
+        // path = escape.utils.Img.getImgPath(path, this.getWidth(), this.getHeight());
         //this.setStyle(escape.utils.Img.getImgStyle(this.getWidth(), this.getHeight()));
         // set the image path
         this.setSrc(path);

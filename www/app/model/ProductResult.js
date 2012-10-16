@@ -2,6 +2,8 @@ Ext.define("escape.model.ProductResult", {
     extend: 'Ext.data.Model',
     config: {
         fields: [{
+            name:'resultIndex'
+        },{
             name: 'Name'
         }, {
             name: 'Title'

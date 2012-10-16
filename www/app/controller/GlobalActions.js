@@ -102,12 +102,13 @@ Ext.define('escape.controller.GlobalActions', {
         }
     },
     removePanel: function(panel) {
-        console.log('removePanel');
-        console.log(panel);
-        try {
-           // Ext.Viewport.remove(panel, true);
-        } catch (e) {
-            console.log(e);
+        var baseCls = panel.getBaseCls();
+        if (baseCls!='x-sheet' && baseCls!='x-msgbox'){
+            try {
+                Ext.Viewport.remove(panel, true);
+            } catch (e) {
+                console.log(e);
+            }
         }
     },
     showLargeMap: function(data) {

@@ -58,6 +58,7 @@ Ext.define("escape.model.Content", {
         if (content.images.length > 0) {
             var caroselImages = [];
             for (var i = 0; i < content.images.length; i++) {
+                console.log(content.images[i]['Alt']);
                 caroselImages.push({
                     xtype: 'contentImg',
                     width: screenWidth,

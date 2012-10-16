@@ -16,8 +16,6 @@ Ext.define("escape.view.ui.AppImage", {
    
 
     dispalyInfo: function() {
-        console.log(this.getInfoOpen());
-        console.log(this.getAltText());
         if (!this.getInfoOpen() && this.getAltText() !== null) {
             this.setInfoOpen(true);
             var selfRef = this;
