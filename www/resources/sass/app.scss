@@ -544,7 +544,11 @@ p {
 	.x-list-item {
 		margin:0 0 10px 0;
 	}
-
+	.x-item-selected {
+		.x-list-disclosure {
+			background-color:transparent;
+		}
+	}
 
 	.x-list-disclosure {
 		top:0;
@@ -556,7 +560,6 @@ p {
 		background-image:url('../images/itinerary_item_edit_white.png');
 		background-repeat:no-repeat;
 		background-position: right top;
-
 	}
 
 	.x-list-item-label {

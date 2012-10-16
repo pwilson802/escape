@@ -55,7 +55,8 @@ Ext.define("escape.view.page.AddToItinerary", {
                         label: itinerary.name,
                         labelWidth: '80%',
                         xtype: 'checkboxfield',
-                        name: 'add-' + itinerary.id
+                        name: 'add-' + itinerary.id,
+                        checked: (itineraries.length===1) ? true : false
                     }];
                     var startDate = new Date(itinerary.startDate);
                     var endDate = new Date(itinerary.endDate);
