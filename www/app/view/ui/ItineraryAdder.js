@@ -3,7 +3,7 @@ Ext.define("escape.view.ui.ItineraryAdder", {
     xtype: 'itineraryAdder',
     config: {
         cls: 'itineraryAdder prompt',
-        modal: true,
+        //modal: true,
         centered: true,
         width: 300,
         height: 400,

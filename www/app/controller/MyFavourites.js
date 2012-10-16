@@ -169,7 +169,7 @@ Ext.define('escape.controller.MyFavourites', {
 
         var removedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt removedAddedMsg',
-            modal: true,
+            //modal: true,
             centered: true,
             html: 'Removed',
             showAnimation: {

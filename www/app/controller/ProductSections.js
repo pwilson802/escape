@@ -9,7 +9,7 @@ Ext.define('escape.controller.ProductSections', {
             thingsToDoSection: '#thingsToDoSection'
         },
         control: {
-             'homePage #thingsToDoList': {
+            'homePage #thingsToDoList': {
                 select: 'catigoriesSelected'
             },
             '#thingsToDoSection thingsToDoCatigoriesPage list': {
@@ -33,16 +33,20 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadProduct: function(productListItem) {
         var data = productListItem.getData();
+        console.log('type: ' + data.type.toLowerCase());
+        console.log('data.productId: ' + data.productId);
         escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
                 var data = productListItem.getData();
+                console.log(data);
+                console.log(product);
                 if (product.raw.Contact.Address.Suburb) {
                     data.suburb = product.raw.Contact.Address.Suburb;
                 }
                 if (product.raw.Images) {
                     if (product.raw.Images.length > 0) {
-                        data.imagePath = escape.utils.Img.getResizeURL(product.raw.Images[0]['Full Size'],Ext.Viewport.getSize().width-20);
+                        data.imagePath = escape.utils.Img.getResizeURL(product.raw.Images[0]['Full Size'], Ext.Viewport.getSize().width - 20);
                     }
                 }
                 productListItem.setData(data);
@@ -180,6 +184,9 @@ Ext.define('escape.controller.ProductSections', {
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
+                    if (type == 'restaurants') {
+                        type = 'restaurant';
+                    }
 
                     if (type !== null && productId !== null) {
 
@@ -197,7 +204,7 @@ Ext.define('escape.controller.ProductSections', {
                                     name: linkText,
                                     type: type,
                                     productId: productId,
-                                    suburb:'-'
+                                    suburb: '-'
                                 }
 
                             });
@@ -205,10 +212,10 @@ Ext.define('escape.controller.ProductSections', {
                     }
                 }
             }
-             mustDoItems.push({
+            mustDoItems.push({
                 margin: '20px 0 0 0',
-             xtype: 'footer'
-             });
+                xtype: 'footer'
+            });
             productSubSection.getCardView().getComponent('contents').setPadding(0);
             productSubSection.getCardView().getComponent('contents').setItems(mustDoItems);
         }
@@ -219,16 +226,16 @@ Ext.define('escape.controller.ProductSections', {
         var productList = '';
         var values = url.split('/product-list-generator/')[1].split('&');
         var params = {};
-        var producType ='attraction';
+        var producType = 'attraction';
         for (var i = 0; i < values.length; i++) {
             var param = values[i].split('=');
-            if (param[0]=='product_types'){
-                producType= param[1].split(',')[0];
-                 params[param[0]] =producType;
+            if (param[0] == 'product_types') {
+                producType = param[1].split(',')[0];
+                params[param[0]] = producType;
             } else {
-                 params[param[0]] = param[1].split(',').join(';');
+                params[param[0]] = param[1].split(',').join(';');
             }
-           
+
         }
         console.log('producType: ' + producType);
         // if no destination are sent use the default ones
@@ -264,7 +271,7 @@ Ext.define('escape.controller.ProductSections', {
                 margin: '10 10 10 10',
                 itemTpl: '{Name}',
                 cls: 'selectionList',
-                action:'productList',
+                action: 'productList',
                 scrollable: false,
                 data: productList
             };
@@ -274,7 +281,7 @@ Ext.define('escape.controller.ProductSections', {
     },
     openProductListItem: function(openProductListItem) {
         var data = openProductListItem.getData();
-        
+
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: String(data.type).toProperCase(),
             xtype: 'productPage',

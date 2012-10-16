@@ -59,9 +59,10 @@ Ext.define('escape.controller.Product', {
 
         var addedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt favsAddedMsg',
-            modal: true,
+           // modal: true,
             centered: true,
-            hideOnMaskTap: true,
+            //hideOnMaskTap: true,
+            masked: false,
             html: 'Added',
             showAnimation: {
                 type: 'popIn',
@@ -98,9 +99,10 @@ Ext.define('escape.controller.Product', {
         });
         var removedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt removedAddedMsg',
-            modal: true,
+           // modal: true,
             centered: true,
-            hideOnMaskTap: true,
+            //hideOnMaskTap: true,
+            masked: false,
             html: 'Removed',
             showAnimation: {
                 type: 'popIn',

@@ -37,6 +37,9 @@ Ext.define('escape.utils.AppFuncs', {
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
+                    if (type =='restaurants'){
+                        type = 'restaurant';
+                    }
                      for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
                         if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
                             allowedLink = true;

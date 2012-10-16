@@ -209,9 +209,9 @@ Ext.define('escape.controller.ItineraryViewer', {
     showMessage: function(msg) {
         var addedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt favsAddedMsg',
-            modal: true,
+            //modal: true,
             centered: true,
-            hideOnMaskTap: true,
+            //hideOnMaskTap: true,
             html: msg,
             showAnimation: {
                 type: 'popIn',

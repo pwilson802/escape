@@ -755,6 +755,7 @@ p {
 ///////////////////////
 .x-list-header {
 	color:$mediumGrey !important;
+	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 }
 .x-list {
 	//background:$page-bg-color;
@@ -1144,6 +1145,7 @@ p {
 		-o-background-size: cover;
 		background-size: cover;
 		background-position: center center;
+		
 	}
 }
 .productListItem.x-button-pressing,

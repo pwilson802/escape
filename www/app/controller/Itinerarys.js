@@ -340,8 +340,6 @@ Ext.define('escape.controller.Itinerarys', {
             xtype: 'loadingDisplay'
         });
         // add product into itineraries
-        console.log('addToItineraries');
-        console.log(addToItineraries);
         for (var row in addToItineraries) {
             var itineraryValues = addToItineraries[row];
             console.log(itineraryValues);
@@ -367,10 +365,11 @@ Ext.define('escape.controller.Itinerarys', {
     showAddedMsg: function() {
         var addedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt favsAddedMsg',
-            modal: true,
+            //modal: true,
             centered: true,
-            hideOnMaskTap: true,
+            //hideOnMaskTap: true,
             html: 'Added',
+            masked: false,
             showAnimation: {
                 type: 'popIn',
                 duration: 200,
@@ -465,7 +464,7 @@ Ext.define('escape.controller.Itinerarys', {
         // show removed message
         var removedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt removedAddedMsg',
-            modal: true,
+            //modal: true,
             centered: true,
             html: 'Deleted',
             showAnimation: {

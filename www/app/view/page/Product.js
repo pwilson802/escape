@@ -298,15 +298,17 @@ Ext.define("escape.view.page.Product", {
             indicator: indicator
         });
 
+        if (Ext.device.Connection.isOnline()) {
+            items.push({
+                xtype: 'mapDisplay',
+                lat: Number(product.Contact.Latitude),
+                lon: Number(product.Contact.Longitude),
+                address: product.Contact.Address,
+                interaction: false,
+                markerAtCenter: true
+            });
+        }
 
-        items.push({
-            xtype: 'mapDisplay',
-            lat: Number(product.Contact.Latitude),
-            lon: Number(product.Contact.Longitude),
-            address: product.Contact.Address,
-            interaction: false,
-            markerAtCenter: true
-        });
 
         items.push({
             xtype: 'container',
