@@ -267,6 +267,16 @@ Ext.define("escape.view.page.Product", {
             productPage: this
         }];
 
+        if (product.Deal) {
+            items.push({
+                cls: 'dealBtn',
+                top: 20,
+                left: 0,
+                width: 94,
+                height: 56
+            });
+        }
+
 
         var imageItems = [];
         // add the product images to the page

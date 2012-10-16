@@ -461,9 +461,7 @@ p {
 	.x-field-search {
 		background:$mediumGrey;
 		 @include border-radius(20px);
-		 
-		
-		
+		 margin-left:15px !important;
 		.x-component-outer {
 			-webkit-border-radius: 1em;
 			border-radius: 1em;
@@ -1707,6 +1705,10 @@ p {
     height: 43;
 }
 
+.dealBtn {
+	background: url('../images/deal_flag.png') no-repeat;
+}
+
 .itinerayBtn,
 .favoriteBtn {
 	background-image: url('../images/btn_favourite.png');
@@ -2759,6 +2761,10 @@ x-floating {
 	.favoriteBtn {
 		background-image: url('../images/btn_favourite@2x.png');
 		-webkit-background-size: 50px 110px; 
+	}
+	.dealBtn {
+		background: url('../images/deal_flag@2x.png');
+		-webkit-background-size: 94px 56px;
 	}
 	.itinerayBtn {
 		background-image: url('../images/btn_itinerary@2x.png');
