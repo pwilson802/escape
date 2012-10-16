@@ -588,7 +588,6 @@ p {
 			line-height: 1;
 			font-weight:bold;
 			font-size:15px;
-			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		}
 		h4 {
 			line-height: 1;
@@ -657,7 +656,6 @@ p {
 			font-size:14px;
 			color:#ffffff;
 			display: inline-block;
-			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		}
 		span {
 			font-size:11px;
@@ -1220,7 +1218,6 @@ p {
 		text-align:center;
 		width:200px;
 		margin: 0 auto !important;
-		font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 	}
 }
 
@@ -1873,14 +1870,14 @@ p {
 		@include box-shadow(inset 0px 4px 12px 1px #1c2023);
 		background-color:$mediumGrey !important;
 		color:#fff;
-		border-color:#mediumGrey !important;
+		border-color:#fff !important;
 		//border:none !important;
 	}
 	.x-button-pressed {
 		@include box-shadow(inset 0px 3px 8px 1px #1c2023);
 		background-color:$mediumGrey !important;
 		color:#fff;
-		border-color:#mediumGrey !important;
+		border-color:#fff !important;
 		//border:none !important;
 	}
 }
@@ -1900,9 +1897,6 @@ x-floating {
 .x-picker {
 	@include background-image(linear-gradient(bottom, #1f2737 0%, #384766 100%));
 	@include border-radius(5px); // border radius
-	.x-picker-item {
-		font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
-	}
 	.x-button {
 		margin:0;
 		margin-left:10px;
@@ -2006,7 +2000,7 @@ x-floating {
 		@include background-image(linear-gradient(bottom, #039bb2 0%, #00b5cf 100%)); // gradient overlay
 		.x-button-label {
 			color: #fff; // text color
-			@include text-shadow(0 -1px 0 rgba(0,0,0,.68)); // drop shadow
+			@include text-shadow(0 -1px 0 rgba(0,0,0,.68)); // drop shadow blah
 		}
 	}
 	
@@ -2390,7 +2384,6 @@ x-floating {
 				line-height:normal;
 				float:left;
 				margin:0;
-				font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 			}
 			.extremes {
 				width:30%;
@@ -2406,7 +2399,6 @@ x-floating {
 			}
 			h2 {
 				clear:both;
-				font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 				margin:0;
 				font-size:15px;
 				color:#323840;
@@ -2549,7 +2541,6 @@ x-floating {
 			float:left;
 			h2 {
 				color:#414851;
-
 				font-size:14px;
 				margin:0;
 				padding:0;
@@ -2557,7 +2548,6 @@ x-floating {
 			}
 			h2.day {
 				margin:0px 0 0px 0;
-				font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 				font-weight:bold;
 			}
 			.dayinfo {
@@ -3196,7 +3186,7 @@ x-floating {
 		background: url(../images/linen_bg@2x.png);
 		-webkit-background-size: 333px 500px;
 		.border {
-			background-image:url(../images/footer_pattern@2x.png);
+			background-image:url(../images/footer_pattern@2x.png) repeat-x;
 			-webkit-background-size: 7px 31px; 
 		}
 		.logo {
