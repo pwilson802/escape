@@ -1874,14 +1874,14 @@ p {
 		@include box-shadow(inset 0px 4px 12px 1px #1c2023);
 		background-color:$mediumGrey !important;
 		color:#fff;
-		border-color:#fff !important;
+		border-color:$mediumGrey !important;
 		//border:none !important;
 	}
 	.x-button-pressed {
 		@include box-shadow(inset 0px 3px 8px 1px #1c2023);
 		background-color:$mediumGrey !important;
 		color:#fff;
-		border-color:#fff !important;
+		border-color:$mediumGrey !important;
 		//border:none !important;
 	}
 }

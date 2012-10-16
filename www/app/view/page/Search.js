@@ -19,6 +19,18 @@ Ext.define("escape.view.page.Search", {
         this.setItems([]);
     },
     openView: function() {
+        // build destination options
+        var destinationOptions = [{
+            text: 'All',
+            value: AppSettings.destinationWebpath
+        }];
+        for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
+            destinationOptions.push({
+                text: AppSettings.appSubDestination[i],
+                value: AppSettings.appSubDestination[i].toLowerCase()
+            });
+        }
+        //
         this.setItems([{
             xtype: 'formpanel',
             layout: 'hbox',
@@ -46,6 +58,7 @@ Ext.define("escape.view.page.Search", {
                 items: [{
                     xtype: 'selectField',
                     label: 'Distance',
+                    labelWidth: '50%',
                     name: 'distance',
                     options: [{
                         text: 'Any',
@@ -78,6 +91,12 @@ Ext.define("escape.view.page.Search", {
                         text: '200Km',
                         value: 200
                     }]
+                }, {
+                    xtype: 'selectField',
+                    label: 'Destination',
+                    name: 'destination',
+                    labelWidth: '50%',
+                    options: destinationOptions
                 }]
 
             }, {

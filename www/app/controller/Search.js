@@ -116,19 +116,19 @@ Ext.define('escape.controller.Search', {
      * Build the return optins for this search type
      */
     buildOptions: function(options) {
-        if (options.destinations) {
-            var newDesList = {};
-            for (var key in options.destinations) {
-                var keys = key.split(',');
-                for (var i = 0; i < keys.length; i++) {
-                    var keyName = Ext.String.trim(keys[i]);
-                    if (!newDesList[keyName]) {
-                        newDesList[keyName] = keyName;
-                    }
-                }
-            }
-            this.addOption('Destinations', newDesList);
-        }
+        // if (options.destinations) {
+        //     var newDesList = {};
+        //     for (var key in options.destinations) {
+        //         var keys = key.split(',');
+        //         for (var i = 0; i < keys.length; i++) {
+        //             var keyName = Ext.String.trim(keys[i]);
+        //             if (!newDesList[keyName]) {
+        //                 newDesList[keyName] = keyName;
+        //             }
+        //         }
+        //     }
+        //     this.addOption('Destinations', newDesList);
+        // }
 
         if (options.type) {
             this.addOption('Type', options.type);
@@ -219,10 +219,8 @@ Ext.define('escape.controller.Search', {
     },
 
     getSearchParams: function() {
-        var params = {
-            // linit the search to the apps destination webpath
-            meta_D_phrase_sand: AppSettings.destinationWebpath
-        };
+        var params = {};
+          
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
         if (collectionType === 'restaurants') {
@@ -267,7 +265,13 @@ Ext.define('escape.controller.Search', {
             params.maxdist = values.distance;
             params.sort = 'prox';
             params.origin = geoLocation.latitude + ',' + geoLocation.longitude;
+            // limit the serch to the app destination
+            params.meta_D_phrase_sand = AppSettings.destinationWebpath;
+        } else {
+            // limit the serch to the users destination
+            params.meta_D_phrase_sand = values.destination;
         }
+        
         // check to see if extra options are selected
         params = this.checkOption(params, values.destinations, 'r');
         params = this.checkOption(params, values.features, 'f');

@@ -10,6 +10,7 @@ AppSettings.appAddress = {
     state: 'nsw',
     suburb: 'sydney'
 };
+
 AppSettings.bounds = {
     "left": 150.55337081542,
     "bottom": -36.119202120384,
@@ -18,6 +19,7 @@ AppSettings.bounds = {
 };
 // The detinations to perform all funnel back serches within
 AppSettings.destinationWebpath = '/sydney/';
+AppSettings.appSubDestination = ["Sydney City","Sydney North","Sydney West","Sydney South","Sydney East","Inner Sydney"];
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 AppSettings.EventCalName = 'SYDNEY EVENTS CALENDAR';
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
