@@ -93,11 +93,11 @@ AppSettings.pointsOfInterests = [{
     sensis: false
 }, {
     label: 'Service Stations',
-    keyword: 'toilet',
+    keyword: 'Service Stations',
     sensis: false
 }, {
     label: 'Post Office',
-    keyword: 'toilet',
+    keyword: 'Post Office',
     sensis: false
 }, {
     label: 'Beaches',
@@ -182,34 +182,34 @@ AppSettings.homeImgs = [{
     altText: 'View of Sydney Harbour from Bradley\'s Head, Mosman by Hamilton Lund'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
-AppSettings.attractionCats = [{
-    title: 'Arts & Culture',
-    subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_a.png',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
-}, {
-    title: 'Food & Wine',
-    subheading: 'Food and wine in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_b.png',
-    hideInSubSections: true,
-    // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+AppSettings.attractionCats = [ {
+    title: 'Beach Lifestyle',
+    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
+    imgPath: 'resources/images/home_experience_e.png',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
 }, {
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
     imgPath: 'resources/images/home_experience_c.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
+    title: 'Dining & Entertainment',
+    subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
+    imgPath: 'resources/images/home_experience_b.png',
+    hideInSubSections: true,
+    // hides this section from subsections as it has it's own section
+    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+}, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_d.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
-    title: 'Beach Lifestyle',
-    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_e.png',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
-}, {
+    title: 'Arts & Culture',
+    subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
+    imgPath: 'resources/images/home_experience_a.png',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
+},{
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_f.png',
@@ -262,12 +262,12 @@ AppSettings.mainMenu = [{
         contentPath: AppSettings.getSMPSectionURL() + '/things-to-do'
     }
 }, {
-    title: 'Food & Wine',
+    title: 'Dining & Entertainment',
     group: 'Group 2',
     id: 'foodAndWineSection',
     collectionType: 'restaurants',
     firstPage: {
-        title: 'Food & Wine',
+        title: 'Dining & Entertainment',
         xtype: 'productSubSection',
         contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
     }

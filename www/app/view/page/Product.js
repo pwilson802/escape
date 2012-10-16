@@ -109,7 +109,7 @@ Ext.define("escape.view.page.Product", {
         // set sharing data
         sharingData = {
             name: product.Name,
-            defaultMessage: 'Check the ' + product.Name + ' information I found via DNSW',
+            defaultMessage: 'Having a great time at ' + product.Name,
             description: product.Name,
             link: AppSettings.websiteURL + product['Full Path'],
             picture: imageURL
