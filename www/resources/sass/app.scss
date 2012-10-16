@@ -549,8 +549,8 @@ p {
 	.x-list-disclosure {
 		top:0;
 		right:0;
-		width:50px;
-		height:50px;
+		width:40px;
+		height:40px;
 		background-color:transparent;;
 		-webkit-mask:none;
 		background-image:url('../images/itinerary_item_edit_white.png');
@@ -1161,7 +1161,7 @@ p {
 .homeList {
 	background-image: url('../images/home_top_pattern.png');
 	background-repeat: repeat-x;
-	margin:0px 0 0 0;
+	margin:-3px 0 0 0;
 	padding:10px;
 	background-color:#f9f7f4;
 	.x-list-item {
@@ -1243,11 +1243,15 @@ p {
 
 .favouritesList,
 .itineraryList {
+	
 	background-color:transparent;
+	
 	.x-list-item {
 		margin: 0 0 10px 0;
-		
 	}
+	
+	
+	
 	.x-list-disclosure {
 		top:0;
 		right:0;
@@ -1261,6 +1265,8 @@ p {
 
 	}
 	.x-list-item-label {
+		border-top: none !important;
+		border-bottom: none !important;
 		padding: 10px 30px 10px 0px !important;
 		height:80px;
 		@include border-radius(5px); // border radius
@@ -1268,6 +1274,7 @@ p {
 		background-color: #fff; // layer fill content
 		@include box-shadow(0 3px 9px rgba(0,0,0,.15)); // drop shadow
 		@include background-image(linear-gradient(bottom, #f7f5f1 0%, #fff 100%)); // gradient overlay
+		
 		.icon {
 			width:70px;
 			height:60px;
@@ -1275,6 +1282,7 @@ p {
 			-webkit-background-size: 54px 54px;
 			background-repeat:no-repeat;
 			background-position:  5px center;
+		
 			&.accommodation {
 				background-image:url('../images/ico_accommodation@2x.png') !important;
 			}
@@ -1329,11 +1337,12 @@ p {
 	.x-list-item.x-item-pressed .x-list-item-label {
 		background-repeat:no-repeat;
 		background-position:  10px center;
-		background-color: #fff; // layer fill content
-		-webkit-background-size: 54px 54px;
+		@include box-shadow(0 0px 0px rgba(0,0,0,.0)); // drop shadow
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background-color: #f9f7f3; // layer fill content + color overlay
+		@include box-shadow(0 1px 1px rgba(255,255,255,.4), inset 0 1px 1px rgba(0,0,0,.4)); // drop shadow and inner shadow
 		color:#000;
 	}
-	
 	
 }
 
@@ -1684,7 +1693,7 @@ p {
 .editBtn {
 	background-image: url('../images/btn_edit.png');
 	width: 34px !important;
-    height: 25px !important;
+    height: 30px !important;
     margin-top: 4px !important;
 }
 
@@ -2646,19 +2655,6 @@ x-floating {
 		-webkit-background-size: 118px 118px; 
 	}
 
-	.footer {
-		background: url(../images/linen_bg@2x.png);
-		-webkit-background-size: 333px 500px;
-		.border {
-			background-image:url(../images/footer_pattern@2x.png) repeat-x;
-			-webkit-background-size: 7px 31px; 
-		}
-		.logo {
-			background-image:url(../images/footer_logo@2x.png);
-			-webkit-background-size: 158px 46px; 
-		}
-	}
-	
 	.btnsHomeContainer {
 		.x-button {
 			&.weatherHome {
@@ -3073,11 +3069,8 @@ x-floating {
 		-webkit-background-size: 86px 79px;
 	}
 	.loadingDisplay {
-		//background-image:url(../images/preloader_icon@2x.png) !important;
-		-webkit-background-size: 86px 79px;
+			-webkit-background-size: 86px 79px;
 	}
-
-
 
 	.radioList {
 		.x-list-item-label {
@@ -3090,8 +3083,8 @@ x-floating {
 			background-image:url('../images/radio_btn_on@2x.png') !important;
 			-webkit-background-size: 25px 27px;
 		}
-	
 	}
+	
 	.loadError {
 		background-image: url(../images/error_icon@2x.png);
 		-webkit-background-size: 89px 76px;
@@ -3099,8 +3092,8 @@ x-floating {
 	
 	.bing-logo {
 		background:url(../images/bing_sm.png) no-repeat;
-		
 	}	
+	
 	.itinerariesList {
 		.x-list-item {
 			
@@ -3117,8 +3110,13 @@ x-floating {
 		.x-list-item.x-item-pressed .x-list-item-label{
 			-webkit-background-size: 21px 13px;
 		}
-
+		
+		.x-list-disclosure {
+			background-image:url('../images/itinerary_item_edit_white@2x.png');
+			-webkit-background-size: 40px 40px;
+		}
 	}
+	
 	.favouritesList,
 	.itineraryList {
 		background: #cbbdab url('../images/pattern_sand@2x.png');
@@ -3127,7 +3125,6 @@ x-floating {
 		.x-list-disclosure {
 			background-image:url('../images/itinerary_item_edit_white@2x.png');
 			-webkit-background-size: 29px 29px;
-
 		}
 	}
 	
@@ -3145,7 +3142,6 @@ x-floating {
 		.x-layout-card-item {
 			background: #dfdfdf url('../images/pattern_favs@2x.png');
 			-webkit-background-size: 150px 150px;
-			
 		}
 		.x-scroll-scroller {
 			background: #dfdfdf url('../images/pattern_favs@2x.png');
@@ -3168,6 +3164,19 @@ x-floating {
 	.itineraryInstructions {
 		background: url('../images/ico_itinerary_badge@2x.png') center 0 no-repeat;
 		-webkit-background-size: 107px 105px;
+	}
+	
+	.footer {
+		background: url(../images/linen_bg@2x.png);
+		-webkit-background-size: 333px 500px;
+		.border {
+			background-image:url(../images/footer_pattern@2x.png) repeat-x;
+			-webkit-background-size: 7px 31px; 
+		}
+		.logo {
+			background-image:url(../images/footer_logo@2x.png);
+			-webkit-background-size: 158px 46px; 
+		}
 	}
 
 }
