@@ -1,5 +1,5 @@
 Ext.define("escape.view.ui.LoadingDisplay", {
-    extend: 'Ext.Component',
+    extend: 'Ext.',
     xtype: 'loadingDisplay',
     config: {
         cls: 'loadingDisplay',
