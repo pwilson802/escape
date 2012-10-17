@@ -4,11 +4,11 @@
 
 
 $active-color: #00B5D0;
-$base-color : #f6f5f1;
-$page-bg-color : #f6f5f1;
+$base-color : #f9f7f4;
+$page-bg-color : #f9f7f4;
 $font-family : arial;
-$neutral-color : #f6f5f1;
-$base-gradient : #f6f5f1;
+$neutral-color : #f9f7f4;
+$base-gradient : #f9f7f4;
 $include-highlights : false;
 $include-default-icons : false; 
 
@@ -218,6 +218,7 @@ p {
 
 .questionAction {
 	.question {
+		font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		font-weight: bold;
 		text-align:center;
 		font-size:16px;
@@ -582,6 +583,7 @@ p {
 		}
 
 		h3 {
+			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 			padding:12px 0 5px 0;
 			line-height: 1;
 			font-weight:bold;
@@ -642,6 +644,7 @@ p {
 
 .x-toolbar.itineraryDayToolbar {
 	.info {
+		font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		width: 100px;
 		text-align:center;
 		@include border-radius(20px); // border radius
@@ -732,10 +735,10 @@ p {
 }
 
 .languageMsgBox {
-	background-color:#F6F5F1 !important;
+	background-color:#f9f7f4 !important;
 	padding:0 !important;
 	.x-inner {
-		background-color:#F6F5F1 !important;
+		background-color:#f9f7f4 !important;
 	}
 	.x-button {
 		margin:10px;
@@ -957,7 +960,7 @@ p {
 		margin:0px 0 0 0;
 	}
 	.x-list-item:first-child .x-list-item-label {
-		border-top:2px solid #f6f5f1 !important;	
+		border-top:2px solid #f9f7f4 !important;	
 	}
 	.x-list-item-label {
 		border-top:2px solid $lightGray !important;
@@ -1212,6 +1215,7 @@ p {
 	padding:115px 0 0 0;
 	background: url('../images/ico_itinerary_badge.png') center 0 no-repeat;
 	p {
+		font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		color:#84817d;
 		font-size:12px;
 		font-weight:bold;
@@ -1358,7 +1362,7 @@ p {
 	}
 	
 	.x-scroll-scroller {
-		background: #F6F5F1 !important;
+		background: #f9f7f4 !important;
 	}
 }
 
@@ -1378,6 +1382,7 @@ p {
 		line-height:100%;
 		padding:10px 0;
 		h3 {
+			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 			margin: 0 0 5px 0;
 			padding: 0;
 			font-size:36px;
@@ -1387,7 +1392,7 @@ p {
 		h4 {
 			margin:0;
 			padding:0;
-			font-style:italic;
+			//font-style:italic;
 			line-height: 100%;
 			font-size:12px;
 		}
@@ -1899,6 +1904,7 @@ x-floating {
 }
 
 .x-picker {
+	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 	@include background-image(linear-gradient(bottom, #1f2737 0%, #384766 100%));
 	@include border-radius(5px); // border radius
 	.x-button {
@@ -1980,11 +1986,11 @@ x-floating {
 	.x-button {
 		
 		.x-button-label {
-			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande";
+			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 			color: #ffffff;
 			@include text-shadow(0 -1px 0 rgba(0,0,0,.68)); // drop shadow
 		}
-				
+		font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;		
 		padding:13px;
 		margin: 0 0 10px 0;
 		color:#fff;
@@ -2278,7 +2284,7 @@ x-floating {
 // Settings
 ///////////////////////
 .settings {
-	background: #f6f5f1;
+	background: #f9f7f4;
 	.x-field {
 		border:none;
 		@include border-radius(0);
@@ -2289,13 +2295,13 @@ x-floating {
 	}
 	.x-toggle-field {
 		@include border-radius(0);
-		background: #f6f5f1;
+		background: #f9f7f4;
 		border:0px solid #DEDEDE;
 	}
 	.x-form-label {
 		@include border-radius(0);
 		width: 80% !important;
-		background:#f6f5f1;
+		background:#f9f7f4;
 		border:none;
 		span {
 			font-size:16px !important;
@@ -2381,6 +2387,7 @@ x-floating {
 			float: left;
 			
 			h1 {
+				font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 				font-size:65px;
 				font-weight:bold;
 				color:$active-color;
@@ -2402,6 +2409,7 @@ x-floating {
 				}
 			}
 			h2 {
+				font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 				clear:both;
 				margin:0;
 				font-size:15px;
@@ -2551,6 +2559,7 @@ x-floating {
 				line-height:normal;
 			}
 			h2.day {
+				font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 				margin:0px 0 0px 0;
 				font-weight:bold;
 			}
