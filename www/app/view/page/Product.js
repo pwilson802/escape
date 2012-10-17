@@ -21,14 +21,9 @@ Ext.define("escape.view.page.Product", {
         sharingData: null
     },
     openView: function() {
-        console.log('openView');
-        console.log(this.getProductData());
         this.setPageTrackingId(this.getProductType().toLowerCase() + '/' + this.getProductId());
         if (this.getProductData() === null) {
             // load the product data
-            console.log('load product');
-            console.log(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details')
-            console.log(this.getProductId())
             escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
@@ -116,7 +111,8 @@ Ext.define("escape.view.page.Product", {
         sharingData = {
             name: product.Name,
             defaultMessage: 'Having a great time at ' + product.Name,
-            description: product.Name,
+            description: 'Check out ' + product.Name + ' at '+ AppSettings.displayWebsiteURL,
+            emailBody: 'Hi, I saw ' + product.Name + ' on the Sydney Guide app from '+AppSettings.displayWebsiteURL+' and thought you might like to check it out. '+AppSettings.websiteURL + product['Full Path'],
             link: AppSettings.websiteURL + product['Full Path'],
             picture: imageURL
         };

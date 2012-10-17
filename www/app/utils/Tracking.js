@@ -70,7 +70,7 @@ Ext.define('escape.utils.Tracking', {
         this.sendingTracking = true;
 
         var trackingObj = {
-            RegID: (this.RegID) ? this.RegID :5,
+            RegID: this.RegID,
             AppID: AppSettings.AppID,
             activities: []
         };

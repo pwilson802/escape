@@ -82,6 +82,9 @@ p {
 .x-sheet-action {
 	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 }
+.x-input-search {
+	margin: 0px 10px 0 15px !important;
+}
 .bgTexture,
 .x-scroll-container {
 	background: url(../images/linen_bg.png);
@@ -1431,6 +1434,7 @@ p {
 			font-size:36px;
 			font-weight:bold;
 			line-height:100%;
+			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 		}
 		h4 {
 			margin:0;
@@ -1441,6 +1445,7 @@ p {
 		}
 		h4.dayName {
 			font-size:16px;
+			font-style:normal;
 		}
 		&.end {
 			padding-left:60px;
@@ -2601,7 +2606,7 @@ x-floating {
        (min-resolution: 1.5dppx)              /* The Future */ {
 	body {
 		background-image: url(../images/Splash_Portrait@2x.png);
-		-webkit-background-size: 320px 480px; 
+		-webkit-background-size: 320px 460px; 
 	}
 	.weatherBtn {
 		-webkit-background-size: 32px 76px !important;

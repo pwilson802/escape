@@ -92,7 +92,7 @@
      /////////////////////////////////////////////////////
      postMessage: function(fbType, extraParams,callback, scope) {
          console.log('!!!!! postMessage');
-         var url = '`/me/' + fbType + '?access_token=' + this.accessToken;
+         var url = 'https://graph.facebook.com/me/' + fbType + '?access_token=' + this.accessToken;
          for (var key in extraParams) {
              if (key == "message") {
                  // We will want to escape any special characters here vs encodeURI
@@ -101,16 +101,17 @@
                  url = url + "&" + key + "=" + encodeURIComponent(extraParams[key]);
              }
          }
+         console.log(url);
          Ext.Ajax.request({
              url: url,
              method: "POST",
              success: function(response) {
-                 console.log('!!! post success');
+                 console.log('!!! fb callback post success');
                  Ext.callback(callback.success, scope, []);
              },
              failure: function(response, opts) {
                 Ext.callback(callback.error, scope, []);
-                 console.log('!!! post fail');
+                 console.log('!!! fb callback post fail');
                  console.log('server-side failure with status code ' + response.status);
              }
          });

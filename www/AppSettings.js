@@ -4,6 +4,7 @@ AppSettings.AppID = 2;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Sydney';
 // Website URL
+AppSettings.displayWebsiteURL = 'sydney.com';
 AppSettings.websiteURL = 'http://www.sydney.com/';
 // The Area of the app which is used for services and faclitices searches
 AppSettings.appAddress = {
@@ -48,18 +49,19 @@ AppSettings.imageResizing = {
 // SHARING
 AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' Guide',
-    defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide on the app shore',
+    defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide app on the app store',
     description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
-    link: 'http://www.sydney.com/',
+    emailBody:'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
+    link: AppSettings.websiteURL,
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
 // FACEBOOK settings
 AppSettings.facebook = {
-    clientId: "369207786488947",
+    clientId: "522195534476569",
     // FACEBOOK APP ID
-    secret: "553933b85e84c3650f9b3a06ad5e023c",
+    secret: "9079d25a28945c3d9e6ac6ec880b6197",
     // FACEBOOK APP SECRET
-    redirectUrl: "https://apps.facebook.com/dnswtesting/",
+    redirectUrl: "https://apps.facebook.com/sydneyguideapp/",
     // CHANGE THIS THE USER WILL SEE IT AFTER THEY LOGIN
     type: "user_agent",
     // LEAVE THIS
@@ -74,11 +76,11 @@ AppSettings.sensis = {
 };
 // TWITTER settings
 AppSettings.twitter = {
-    consumerKey: 'z04Kkl1zVF3HilGKLre4w',
+    consumerKey: '6TRaloNDL4sZWQxPRfFw',
     // REPLACE WITH YOUR CONSUMER_KEY
-    consumerSecret: 'Cu5Qs3Kg2PUIAYqFfVg8VNHEZmzweEdFjphVo82HGA',
+    consumerSecret: 'C0TmFAYUYZEw6zopz1sxLKCSEyddFqeu9YO00MX1PA',
     // Replace with your thankyou URL
-    callbackUrl: "http://www.visitnsw.com/"
+    callbackUrl: "http://www.sydney.com/"
     // YOUR URL
 };
 AppSettings.getSMPSectionURL = function() {

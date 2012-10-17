@@ -54,9 +54,7 @@ Ext.define('escape.controller.Sharing', {
     sendEmail: function() {
         var sharingData = this.getSharingData();
         var subject = sharingData.name;
-        var body = sharingData.defaultMessage+ ' '+sharingData.link;
-
-        
+        var body = sharingData.emailBody;
         try {
             window.plugins.emailComposer.showEmailComposer(subject, body);
         } catch (e) {
@@ -77,12 +75,13 @@ Ext.define('escape.controller.Sharing', {
         this.getSharingOptions().showLoading();
         var selfRef = this;
         escape.utils.Tracking.trackEventOnCurrent(11);
+        var sharingData = this.getSharingData();
         // Get access code
         escape.utils.Facebook.getAccess({
             success: function(accessToken) {
                 console.log('!!!! get acceess success');
                 console.log(accessToken);
-                selfRef.getSharingOptions().showMessageForm('postToFacebook');
+                selfRef.getSharingOptions().showMessageForm('postToFacebook',sharingData.defaultMessage);
 
             },
             error: function(error) {
@@ -96,6 +95,7 @@ Ext.define('escape.controller.Sharing', {
 
     },
     postToFacebook: function(btn) {
+
         var messageArea = btn.parent.getComponent('messagebox');
         var message = messageArea.getValue();
         this.getSharingOptions().showLoading();
@@ -110,11 +110,11 @@ Ext.define('escape.controller.Sharing', {
             picture : sharingData.picture
         }, {
             success: function(accessToken) {
-                console.log('!!!! post success');
+                console.log('!!!! facebook post success');
                 selfRef.getSharingOptions().showSuccess();
             },
             error: function(error) {
-                console.log('!!!! post error');
+                console.log('!!!! facebook post error');
                 selfRef.getSharingOptions().showError();
             }
         }, this);
@@ -150,13 +150,14 @@ Ext.define('escape.controller.Sharing', {
     useOAuthTwitter: function() {
         // this does not supports iOS native tweeting!
         console.log('!!!! oAuth shareTwitter');
+        var sharingData = this.getSharingData();
         var selfRef = this;
         this.getSharingOptions().showLoading();
         escape.utils.Twitter.getAccess({
             success: function(accessToken) {
                 console.log('!!!! Twitter get acceess success');
                 console.log(accessToken);
-                selfRef.getSharingOptions().showMessageForm('postToTwitter');
+                selfRef.getSharingOptions().showMessageForm('postToTwitter',sharingData.defaultMessage);
                 //
             },
             error: function(error) {

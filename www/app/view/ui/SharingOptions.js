@@ -44,14 +44,15 @@ Ext.define("escape.view.ui.SharingOptions", {
             easing: 'ease-out'
         }
     },
-    showMessageForm: function(action) {
+    showMessageForm: function(action,value) {
         console.log('!!! showMessageForm: ' + action);
         var items = [];
         items.push({
             itemId:'messagebox',
             xtype: 'textareafield',
             maxRows: 5,
-            name: 'meesage'
+            name: 'meesage',
+            value: value
         });
          items.push({
             xtype: 'button',
@@ -65,7 +66,7 @@ Ext.define("escape.view.ui.SharingOptions", {
         this.setItems({xtype: 'loadingDisplay'});
     },
     showSuccess : function(){
-        this.setItems({html: 'sucess'});
+        this.setItems({html: 'Success'});
         var selfRef = this;
         var task = new Ext.util.DelayedTask(function() {
             selfRef.hide();
@@ -73,7 +74,7 @@ Ext.define("escape.view.ui.SharingOptions", {
         task.delay(1000);
     },
     showError : function(){
-        this.setItems({html: 'loadError'});
+        this.setItems({html: 'Error'});
          var task = new Ext.util.DelayedTask(function() {
             selfRef.hide();
         }, this);

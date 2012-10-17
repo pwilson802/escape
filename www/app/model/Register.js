@@ -21,13 +21,6 @@ Ext.define("escape.model.Register", {
 
     },
     getReistration: function(callback, scope) {
-        console.log('getReistration');
-        console.log('device.uuid: ' + device.uuid);
-        console.log('device.uuid: ' + AppSettings.AppID);
-        console.log('device.uuid: ' + AppSettings.appAreaName);
-        console.log('device.uuid: ' + device.name);
-        console.log('device.uuid: ' + device.platform);
-        console.log('device.uuid: ' + device.version);
         var jsonData = {
             "UUIDNum": device.uuid,
             "AppID": AppSettings.AppID,

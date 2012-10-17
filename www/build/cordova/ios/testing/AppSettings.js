@@ -4,12 +4,14 @@ AppSettings.AppID = 2;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Sydney';
 // Website URL
+AppSettings.displayWebsiteURL = 'sydney.com';
 AppSettings.websiteURL = 'http://www.sydney.com/';
 // The Area of the app which is used for services and faclitices searches
 AppSettings.appAddress = {
     state: 'nsw',
     suburb: 'sydney'
 };
+
 AppSettings.bounds = {
     "left": 150.55337081542,
     "bottom": -36.119202120384,
@@ -18,6 +20,7 @@ AppSettings.bounds = {
 };
 // The detinations to perform all funnel back serches within
 AppSettings.destinationWebpath = '/sydney/';
+AppSettings.appSubDestination = ["Sydney City","Sydney North","Sydney West","Sydney South","Sydney East","Inner Sydney"];
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 AppSettings.EventCalName = 'SYDNEY EVENTS CALENDAR';
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
@@ -46,18 +49,19 @@ AppSettings.imageResizing = {
 // SHARING
 AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' Guide',
-    defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide on the app shore',
+    defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide app on the app store',
     description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
-    link: 'http://www.sydney.com/',
+    emailBody:'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
+    link: AppSettings.websiteURL,
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
 // FACEBOOK settings
 AppSettings.facebook = {
-    clientId: "369207786488947",
+    clientId: "522195534476569",
     // FACEBOOK APP ID
-    secret: "553933b85e84c3650f9b3a06ad5e023c",
+    secret: "9079d25a28945c3d9e6ac6ec880b6197",
     // FACEBOOK APP SECRET
-    redirectUrl: "https://apps.facebook.com/dnswtesting/",
+    redirectUrl: "https://apps.facebook.com/sydneyguideapp/",
     // CHANGE THIS THE USER WILL SEE IT AFTER THEY LOGIN
     type: "user_agent",
     // LEAVE THIS
@@ -93,11 +97,11 @@ AppSettings.pointsOfInterests = [{
     sensis: false
 }, {
     label: 'Service Stations',
-    keyword: 'toilet',
+    keyword: 'Service Stations',
     sensis: false
 }, {
     label: 'Post Office',
-    keyword: 'toilet',
+    keyword: 'Post Office',
     sensis: false
 }, {
     label: 'Beaches',
@@ -182,34 +186,34 @@ AppSettings.homeImgs = [{
     altText: 'View of Sydney Harbour from Bradley\'s Head, Mosman by Hamilton Lund'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
-AppSettings.attractionCats = [{
-    title: 'Arts & Culture',
-    subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_a.png',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
-}, {
-    title: 'Food & Wine',
-    subheading: 'Food and wine in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_b.png',
-    hideInSubSections: true,
-    // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+AppSettings.attractionCats = [ {
+    title: 'Beach Lifestyle',
+    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
+    imgPath: 'resources/images/home_experience_e.png',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
 }, {
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
     imgPath: 'resources/images/home_experience_c.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
+    title: 'Dining & Entertainment',
+    subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
+    imgPath: 'resources/images/home_experience_b.png',
+    hideInSubSections: true,
+    // hides this section from subsections as it has it's own section
+    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+}, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_d.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
-    title: 'Beach Lifestyle',
-    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_e.png',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
-}, {
+    title: 'Arts & Culture',
+    subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
+    imgPath: 'resources/images/home_experience_a.png',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
+},{
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_f.png',
@@ -262,12 +266,12 @@ AppSettings.mainMenu = [{
         contentPath: AppSettings.getSMPSectionURL() + '/things-to-do'
     }
 }, {
-    title: 'Food & Wine',
+    title: 'Dining & Entertainment',
     group: 'Group 2',
     id: 'foodAndWineSection',
     collectionType: 'restaurants',
     firstPage: {
-        title: 'Food & Wine',
+        title: 'Dining & Entertainment',
         xtype: 'productSubSection',
         contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
     }
