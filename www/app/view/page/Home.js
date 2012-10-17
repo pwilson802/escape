@@ -26,8 +26,8 @@ Ext.define("escape.view.page.Home", {
         this.openView();
     },
     closeView: function() {
-        this.setItems([]);
-          this.removeWeatherBtn();
+        this.removeAll(true,true);
+        this.removeWeatherBtn();
     },
     reOpenView: function() {
         this.setHomeBuilt(false);
