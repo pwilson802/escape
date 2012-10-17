@@ -367,7 +367,12 @@ Ext.define('escape.controller.Search', {
     showListResults: function() {
         if (!this.getListShowing()) {
             var cardView = this.getSearchResultsPage().getItems().items[1];
-            cardView.removeAll(true, true);
+            try{
+                cardView.removeAll(true, true);
+            } catch(e){
+
+            }
+            
             var collectionType = this.getSearchPage().getCollectionType();
             var itemTPL = (collectionType == 'restaurants' || collectionType == 'event' || collectionType == 'tour' || collectionType == 'deals' || collectionType === null) ? '{Title}' : '{Name}';
             var fullTPL = '{resultIndex} ' + itemTPL;

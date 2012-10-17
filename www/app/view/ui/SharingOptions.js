@@ -29,7 +29,7 @@ Ext.define("escape.view.ui.SharingOptions", {
         }, {
             xtype: 'button',
             margin: '10px 0',
-            cls:'cancel',
+            cls:'reset',
             action: 'cancel',
             text: 'Close'
         }],
