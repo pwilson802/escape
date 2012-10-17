@@ -35,7 +35,7 @@ Ext.define('escape.controller.Section', {
         section.setNavigationView(navView);
         var scrollTopTopBtn = section.add({
             xtype: 'scrollTopTopBtn',
-            width: Ext.Viewport.getSize().width - 120
+            width: Math.round(Ext.Viewport.getSize().width - 120)
         });
         section.setTopText(scrollTopTopBtn.getComponent('topBtn'));
         // define menu btns

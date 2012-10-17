@@ -63,6 +63,8 @@ Ext.define('escape.controller.GlobalActions', {
                         this.goToLink(data.data);
                         break;
                     case 'makeBooking':
+                        console.log('makeBooking');
+                        console.log(data.data)
                         this.makeBooking(data.data);
                         break;
                     }

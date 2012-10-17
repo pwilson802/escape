@@ -8,13 +8,12 @@ Ext.define("escape.view.ui.ScrollToTopBtn", {
         width: 10,
         height: 43,
         itemId:'topContainer',
+        layout:'fit',
         items: [{
             xtype: 'button',
             itemId:'topBtn',
             action: 'scrollToTop',
             cls: 'scrollTopTopBtn',
-            width: '100%',
-            height: 43,
             html:''
         }]
     }

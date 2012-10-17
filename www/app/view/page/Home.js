@@ -26,7 +26,6 @@ Ext.define("escape.view.page.Home", {
         this.openView();
     },
     closeView: function() {
-        console.log('closeView')
         this.setItems([]);
           this.removeWeatherBtn();
     },
@@ -51,7 +50,6 @@ Ext.define("escape.view.page.Home", {
             this.setItems([{
                 xtype: 'carousel',
                 layout: 'fit',
-
                 height: 200,
                 defaults: {
                     xtype: 'appImage',
@@ -116,12 +114,10 @@ Ext.define("escape.view.page.Home", {
     },
     showWeather: function() {
         var currenctSection = escape.utils.AppVars.currentSection;
-        console.log(currenctSection.getId());
         // make sure we are in the home section
         if (currenctSection.getId() == 'homeSection') {
             // get the weather btn
             var weatherBtn = currenctSection.getComponent('weatherBtn');
-            console.log(weatherBtn);
             // if does not exist so create it
             if (!weatherBtn) {
                 weatherBtn = currenctSection.add({
@@ -157,17 +153,13 @@ Ext.define("escape.view.page.Home", {
         // todaysWeather.setText('<h2>' + wm.convertTempature(wm.currentTemp) + '&deg;</h2><h4>' + today.forecast + '</h4>');
     },
     removeWeatherBtn: function() {
-        console.log('removeWeatherBtn');
         var currenctSection = escape.utils.AppVars.currentSection;
-        console.log(currenctSection);
         if (currenctSection) {
             var weatherBtn = currenctSection.getComponent('weatherBtn');
-            console.log(weatherBtn)
             if (weatherBtn) {
                 currenctSection.remove(weatherBtn, true);
             }
         }
-
     }
 });
 

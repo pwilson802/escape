@@ -337,12 +337,12 @@ Ext.define('escape.controller.Search', {
         this.setResultsList(resultsList);
         // make the results page build itself ready for results
         var moreResults = (Number(records.getData().endIndex) < Number(records.getData().total.split(',').join(''))) ? true : false;
-        this.getSearchResultsPage().buildPage(moreResults);
+
+        this.getSearchResultsPage().buildPage(moreResults,records.getData().total);
         this.setMoreResults(moreResults);
         // update the store
         var storeData = this.getResultsStore().getData();
         this.getResultsStore().add(this.getResultsList());
-
         if (this.getResultsPage() == 1) {
             // build the list page if the results have been return for the first time
             this.showListResults();

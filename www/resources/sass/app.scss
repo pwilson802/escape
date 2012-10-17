@@ -94,7 +94,7 @@ p {
 .x-form-label {
 	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 }
-
+.bgTexture,
 .x-scroll-container {
 	background: url(../images/linen_bg.png);
 }
@@ -221,6 +221,18 @@ p {
 		font-weight: bold;
 		text-align:center;
 		font-size:16px;
+	}
+}
+
+.noResults {
+	background: url(../images/no_results_badge.png) no-repeat center center;
+	width:222px;
+	height:222px;
+	margin:40px auto;
+	.x-innerhtml {
+		text-align: center;
+		text-transform:uppercase;
+		padding:125px 40px 40px 40px;
 	}
 }
 
@@ -1663,12 +1675,21 @@ p {
 	background-position: 0 6px;
 	background-repeat: no-repeat;
 }
+.scrollTopTopContainer {
+	text-overflow: ellipsis;
+	overflow:hidden;
+}
 .scrollTopTopBtn {
 	background:none;
 	font-size:16px;
 	color:#181d2a;
 	border:none !important;
 	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+	text-overflow: ellipsis;
+	overflow:hidden;
+	.x-button-label {
+		text-overflow: ellipsis;
+	}
 
 }
 .x-button.x-button-pressed.scrollTopTopBtn,
@@ -2664,7 +2685,7 @@ x-floating {
 
 
 
-
+	.bgTexture,
 	.x-scroll-container {
 		background: url(../images/linen_bg@2x.png);
 		-webkit-background-size: 333px 500px; 
@@ -3082,6 +3103,10 @@ x-floating {
 	}
 	.noFavourites {
 		background-image: url(../images/favs_no_badge@2x.png);
+		-webkit-background-size: 107px 146px;
+	}
+	.noResults {
+		background: url(../images/no_results_badge@2x.png) no-repeat center center;	
 		-webkit-background-size: 107px 146px;
 	}
 	.favsAddedMsg {

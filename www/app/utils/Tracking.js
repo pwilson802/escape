@@ -5,6 +5,7 @@ Ext.define('escape.utils.Tracking', {
     uploadSize: 10,
     RegID: 0,
     trackEvent: function(pageCode, pageId, eventId) {
+
         this.insertTracking(pageCode, pageId, eventId);
     },
      trackEventOnCurrent: function(eventId) {
@@ -21,24 +22,31 @@ Ext.define('escape.utils.Tracking', {
     checkTable: function() {
         var db = escape.utils.DatabaseManager.getBDConn('user');
         //db.queryDB('DROP TABLE Tracking');
-        db.queryDB('CREATE TABLE IF NOT EXISTS Tracking (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, pageCode INTEGER, pageId INTEGER, eventId INTEGER, eventDate INTEGER, stage INTEGER)');
+        db.queryDB('CREATE TABLE IF NOT EXISTS Tracking (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, pageCode INTEGER, pageId INTEGER, eventId INTEGER, eventDesc STRING, eventDate INTEGER, stage INTEGER)');
     },
     // insert the tracking code into the user settings
     insertTracking: function(pageCode, pageId, eventId) {
         if (this.RegID === 0) {
             this.loadRegInfo();
         }
+        // eventDesc
+         var eventDesc = '';
+        if (isNaN(pageId)){
+              eventDesc = pageId;
+              pageId = 0;
+        }
+        //
         var date = new Date();
         var mili = Date.parse(date);
         this.checkTable();
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('user');
-        db.queryDB('INSERT INTO Tracking (pageCode,pageId,eventId,eventDate,stage) VALUES (?,?,?,?,?)', function(t, rs) {
+        db.queryDB('INSERT INTO Tracking (pageCode,pageId,eventId,eventDesc,eventDate,stage) VALUES (?,?,?,?,?,?)', function(t, rs) {
             // tracking was saved
             selfRef.checkSendTracking();
         }, function(t, e) {
             // error return null for the user value
-        }, [pageCode, pageId, eventId, mili, 0]);
+        }, [pageCode, pageId, eventId, eventDesc ,mili, 0]);
     },
     // check in we want to send the the tracking to the server
     checkSendTracking: function(pageCode, pageId, eventId) {
@@ -62,9 +70,9 @@ Ext.define('escape.utils.Tracking', {
         this.sendingTracking = true;
 
         var trackingObj = {
-            RegID: this.RegID,
+            RegID: (this.RegID) ? this.RegID :5,
             AppID: AppSettings.AppID,
-            events: []
+            activities: []
         };
         //pageCode,,eventId
         for (var i = 0; i < rows.length; i++) {
@@ -74,34 +82,33 @@ Ext.define('escape.utils.Tracking', {
             saveData.EvtCode = eventObj.pageCode;
             saveData.EvtCode2 = eventObj.pageId;
             saveData.EvtCode3 = eventObj.eventId;
-
-            trackingObj.events.push(saveData);
+            saveData.EvtDesc = eventObj.eventDesc;
+            trackingObj.activities.push(saveData);
         }
         //
-        //console.log(trackingObj);
         var selfRef = this;
         // send the tracking
-        // Ext.Ajax.useDefaultXhrHeader = false;
-        // Ext.Ajax.request({
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/BulkLogEvent',
-        //     method: "POST",
-        //     jsonData: trackingObj,
-        //     success: function(response) {
-        //         var regData = JSON.parse(Ext.decode(response.responseText));
-        //         if (regData.EvtID > 0) {
-        //             selfRef.deleteTrackingEvents(rows);
-        //         } else {
-        //             selfRef.sendingTracking = false;
-        //         }
+        Ext.Ajax.useDefaultXhrHeader = false;
+        Ext.Ajax.request({
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/BulkLogActivity',
+            method: "POST",
+            jsonData: trackingObj,
+            success: function(response) {
+                var regData = JSON.parse(Ext.decode(response.responseText));
+                if (regData.EvtID > 0) {
+                    selfRef.deleteTrackingEvents(rows);
+                } else {
+                    selfRef.sendingTracking = false;
+                }
 
-        //     },
-        //     failure: function(response, opts) {
-        //         selfRef.sendingTracking = false;
-        //     }
-        // });
+            },
+            failure: function(response, opts) {
+                selfRef.sendingTracking = false;
+            }
+        });
     },
     deleteTrackingEvents: function(rows) {
         this.sendingTracking = false;
@@ -116,9 +123,7 @@ Ext.define('escape.utils.Tracking', {
             }
         }
         db.queryDB(SQL, function(t, rs) {
-            console.log('records deleted');
         }, function(e) {
-            console.log('error');
         }, []);
     },
     // laod the Reg info

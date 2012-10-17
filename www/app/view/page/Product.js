@@ -21,12 +21,18 @@ Ext.define("escape.view.page.Product", {
         sharingData: null
     },
     openView: function() {
+        console.log('openView');
+        console.log(this.getProductData());
         this.setPageTrackingId(this.getProductType().toLowerCase() + '/' + this.getProductId());
         if (this.getProductData() === null) {
             // load the product data
+            console.log('load product');
+            console.log(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details')
+            console.log(this.getProductId())
             escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
+                    console.log(product);
                     this.setProductData(product.raw);
                     this.buildPage();
                 },
@@ -237,7 +243,7 @@ Ext.define("escape.view.page.Product", {
                 xtype: 'button',
                 text: escape.utils.Translator.translate('Make a booking'),
                 action: 'makeBooking',
-                data: product.Contact.Book,
+                bookingURL: product.Contact.Book,
                 cls: 'bookingBtnLarge'
             });
         }
@@ -279,16 +285,19 @@ Ext.define("escape.view.page.Product", {
 
 
         var imageItems = [];
-        // add the product images to the page
-        for (var i = 0; i < product.Images.length; i++) {
-            var imageData = product.Images[i];
-            imageItems.push({
-                xtype: 'appImage',
-                height: 200,
-                imagePath: escape.utils.Img.getResizeURL(imageData['Full Size'], viewportSize.width),
-                altText: imageData['Alt']
-            });
+        if (product.Images){
+            // add the product images to the page
+            for (var i = 0; i < product.Images.length; i++) {
+                var imageData = product.Images[i];
+                imageItems.push({
+                    xtype: 'appImage',
+                    height: 200,
+                    imagePath: escape.utils.Img.getResizeURL(imageData['Full Size'], viewportSize.width),
+                    altText: imageData['Alt']
+                });
+            }
         }
+        
 
         var indicator = (imageItems.length > 1) ? true : false;
         items.push({

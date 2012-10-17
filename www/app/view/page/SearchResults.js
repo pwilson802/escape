@@ -15,7 +15,7 @@ Ext.define("escape.view.page.SearchResults", {
         pageTypeId: 11,
         pageTrackingId: 2
     },
-    buildPage: function(moreResullts) {
+    buildPage: function(moreResullts,total) {
         if (!this.getResultsBuilt()) {
             this.setMargin(0);
             this.setResultsBuilt(true);
@@ -44,10 +44,15 @@ Ext.define("escape.view.page.SearchResults", {
             this.setItems(items);
         }
 
-        if (!moreResullts) {
-            // there are no more results to load
-            var optionsArea = this.getComponent('optionsArea');
-            this.remove(optionsArea,true);
+        console.log('total: ' + total);
+
+        if (Number(total)===0) {
+            console.log('SHOW NO RESULTS MSG');
+            this.removeAll(true,true);
+            this.setItems({
+                cls:'noResults'
+            });
+            this.addCls('bgTexture');
         }
 
     }

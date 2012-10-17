@@ -12,7 +12,7 @@ Ext.define("escape.model.Content", {
                     var childLink = content.children[c];
                     if (childLink.Url.indexOf('must-do-links') != -1 || childLink.Name.indexOf('Must Do Links') != -1) {
                         content.productLists.push({
-                            name: 'Must Do',
+                            name: 'Must do',
                             url: childLink.Url,
                             type: 'mustDo'
                         });
@@ -58,7 +58,6 @@ Ext.define("escape.model.Content", {
         if (content.images.length > 0) {
             var caroselImages = [];
             for (var i = 0; i < content.images.length; i++) {
-                console.log(content.images[i]['Alt']);
                 caroselImages.push({
                     xtype: 'contentImg',
                     width: screenWidth,

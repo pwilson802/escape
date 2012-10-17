@@ -11,6 +11,8 @@ Ext.define('escape.utils.AppFuncs', {
         escape.utils.Tracking.trackEventOnCurrent(2);
     },
     openProduct: function(productId, type) {
+        console.log('type: ' + type);
+        console.log('productId: ' + productId);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: type.toProperCase(),
             xtype: 'productPage',

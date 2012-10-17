@@ -19,7 +19,6 @@ Ext.define("escape.view.page.ContentPage", {
     //
     buildPage: function(content) {
         this.setContent(content);
-        console.log('content');
         var items = [];
         for (var i = 0; i < content.productLists.length; i++) {
             var productList = content.productLists[i];
@@ -37,7 +36,7 @@ Ext.define("escape.view.page.ContentPage", {
                         pressed: true,
                         flex: 1
                     }, {
-                        text: 'Must Do',
+                        text: 'Must do',
                         type: 'mustDo',
                         action: 'mustDo',
                         flex: 1

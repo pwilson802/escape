@@ -13,10 +13,10 @@ Ext.define("escape.view.page.Map", {
     },
     openView: function() {
         var address = this.getAddress();
-        var addressString = address.Street + '</br>' + address.Suburb + '</br>' + address.State + '</br>' + address.Postcode;
+        var addressString = address.Street + '</br>' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
 
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
-            height: Ext.Viewport.getSize().height - 143,
+            height: Ext.Viewport.getSize().height - 163,
             lat: Number(this.getLatlon()[0]),
             lon: Number(this.getLatlon()[1]),
             interaction: true,
@@ -26,7 +26,7 @@ Ext.define("escape.view.page.Map", {
         this.setItems(mapDisplay);
         this.add({
             xtype: 'container',
-            height:100,
+            height: 120,
             cls: 'mapAddress',
             html: addressString
         });
