@@ -5,13 +5,10 @@
      // FACEBOOK ACCESS
      /////////////////////////////////////////////////////
      getAccess: function(callback, scope) {
-        console.log('!!! facebookAccessToken get access');
          var selfRef = this;
-         console.log('this.accessToken: ' + this.accessToken);
          if (this.accessToken === null) {
              escape.model.UserSettings.getSetting('facebookAccessToken', {
                  success: function(accessToken) {
-                    console.log('!!! accessToken: ' + accessToken);
                      if (!accessToken) {
                          // no FacebookAccessToken has been save
                          selfRef.startAccessProcess(callback, scope);
@@ -75,13 +72,10 @@
      },
      saveAccessToken: function(accessToken, callback, scope) {
          this.accessToken = accessToken;
-         console.log(accessToken);
          escape.model.UserSettings.setSetting('facebookAccessToken', accessToken, {
              success: function(FacebookAccessToken) {
-                 console.log('facebookAccessToken Saved');
              },
              error: function(error) {
-                 console.log('facebookAccessToken Error');
              },
              scope: this
          });
@@ -91,7 +85,6 @@
      // FACEBOOK SHARING
      /////////////////////////////////////////////////////
      postMessage: function(fbType, extraParams,callback, scope) {
-         console.log('!!!!! postMessage');
          var url = 'https://graph.facebook.com/me/' + fbType + '?access_token=' + this.accessToken;
          for (var key in extraParams) {
              if (key == "message") {
@@ -101,18 +94,14 @@
                  url = url + "&" + key + "=" + encodeURIComponent(extraParams[key]);
              }
          }
-         console.log(url);
          Ext.Ajax.request({
              url: url,
              method: "POST",
              success: function(response) {
-                 console.log('!!! fb callback post success');
                  Ext.callback(callback.success, scope, []);
              },
              failure: function(response, opts) {
                 Ext.callback(callback.error, scope, []);
-                 console.log('!!! fb callback post fail');
-                 console.log('server-side failure with status code ' + response.status);
              }
          });
      }

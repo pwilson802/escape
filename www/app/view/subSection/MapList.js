@@ -26,7 +26,6 @@ Ext.define("escape.view.subSection.MapList", {
             }],
             listeners: {
                 toggle: function(container, btn, pressed) {
-                    console.log('toggle');
                     if (btn.config.type == 'map') {
                         container.parent.showMap();
                     } else {
@@ -46,7 +45,6 @@ Ext.define("escape.view.subSection.MapList", {
         }
     },
     showMap: function() {
-        console.log('showMap');
         var cardView = this.getItems().items[1];
         cardView.removeAll(true, true);
         var map = new escape.view.ui.MapDisplay({

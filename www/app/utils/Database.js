@@ -25,7 +25,6 @@ Ext.define('escape.utils.Database', {
             var dbName = selfRef.getFileName() + '.db';
             this.dbConn = window.sqlitePlugin.openDatabase(dbName, selfRef.getVersion(), selfRef.getName(), selfRef.getSize());
             if (this.dbConn) {
-                console.log('sql working');
                 selfRef.fireEvent('ready');
             }
 
@@ -41,7 +40,6 @@ Ext.define('escape.utils.Database', {
                     selfRef.checkDatabase();
                 }
             } else {
-                console.log('web sql failed to load');
             }
         }
     },

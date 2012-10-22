@@ -62,7 +62,6 @@ Ext.define("escape.view.page.ItineraryDay", {
         }
     },
     showList: function() {
-        console.log('showList')
         var products = this.getProducts();
         if (products.length == 0) {
             this.showEmptyDay();
@@ -104,11 +103,9 @@ Ext.define("escape.view.page.ItineraryDay", {
 
     showMap: function() {
         var products = this.getProducts();
-        console.log(products);
         var intialMarkers = [];
         for (var i = 0; i < products.length; i++) {
             var product = products.item(i);
-            console.log(product);
             var productData = JSON.parse(product.data);
             product.iconText = i + 1;
             intialMarkers.push({
@@ -117,12 +114,12 @@ Ext.define("escape.view.page.ItineraryDay", {
                 data: product
             });
         }
-        console.log('showMap');
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
             height: Ext.Viewport.getSize().height - 103,
             interaction: true,
             intialMarkers: intialMarkers
         });
+         this.removeAll(true, true);
         this.setItems(mapDisplay);
     },
 
@@ -130,7 +127,6 @@ Ext.define("escape.view.page.ItineraryDay", {
         var data = [];
         for (var i = 0; i < products.length; i++) {
             product = products.item(i);
-            console.log(product.type);
             data.push({
                 id: product.id,
                 productId: product.product_id,
@@ -167,8 +163,6 @@ Ext.define("escape.view.page.ItineraryDay", {
     },
     loadNotes: function() {
         var selfRef = this;
-        console.log('this.getItineraryId(): ' + this.getItineraryId());
-        console.log('this.getDayNum(): ' + this.getDayNum());
         escape.model.Itineraries.getItineraryDayNotes(this.getItineraryId(), this.getDayNum(), {
             success: function(itineraryDay) {
                 selfRef.buildNotes(itineraryDay.item(0).notes);
@@ -179,6 +173,7 @@ Ext.define("escape.view.page.ItineraryDay", {
 
     },
     buildNotes: function(notes) {
+        this.removeAll(true,true);
         this.setItems([{
             html: '<h2>Notes</h2>',
             padding:'0 10px'

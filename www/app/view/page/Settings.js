@@ -58,6 +58,16 @@ Ext.define("escape.view.page.Settings", {
                     options: weatherOptions,
                     value: stationId
                 }]
+            }, {
+                xtype: 'fieldset',
+                title: 'Cache',
+                instructions: 'Clear downloaded browsing data ',
+                items: [{
+                    text: 'Clear Cache',
+                    cls:'reset',
+                    xtype: 'button',
+                    action: 'clearCache'
+                }]
             }]
         });
         ///

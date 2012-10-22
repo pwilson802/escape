@@ -44,10 +44,7 @@ Ext.define("escape.view.page.SearchResults", {
             this.setItems(items);
         }
 
-        console.log('total: ' + total);
-
         if (Number(total)===0) {
-            console.log('SHOW NO RESULTS MSG');
             this.removeAll(true,true);
             this.setItems({
                 cls:'noResults'

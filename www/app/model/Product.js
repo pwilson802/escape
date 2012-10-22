@@ -5,7 +5,7 @@ Ext.define("escape.model.Product", {
         idProperty : 'product',
         proxy: {
             type: 'ajaxcache',
-            noCache : false,
+            cacheTimeout: AppSettings.caching.productCacheLength,
             reader: {
                 type: 'json'
             }

@@ -82,7 +82,6 @@ Ext.define("escape.view.page.ContentPage", {
         } else {
             items = pageItems;
         }
-        console.log(items)
         this.setItems(items);
         this.fireEvent('built');
     }

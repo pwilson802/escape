@@ -33,14 +33,10 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadProduct: function(productListItem) {
         var data = productListItem.getData();
-        console.log('type: ' + data.type.toLowerCase());
-        console.log('data.productId: ' + data.productId);
         escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
                 var data = productListItem.getData();
-                console.log(data);
-                console.log(product);
                 if (product.raw.Contact.Address.Suburb) {
                     data.suburb = product.raw.Contact.Address.Suburb;
                 }
@@ -179,15 +175,12 @@ Ext.define('escape.controller.ProductSections', {
                     var urlBreakdown = link.split('/');
                     var type = urlBreakdown[urlBreakdown.length - 2];
                     var productId = urlBreakdown[urlBreakdown.length - 1];
-                    console.log('productId: ' + productId);
-
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
                     if (type == 'restaurants') {
                         type = 'restaurant';
                     }
-
                     if (type !== null && productId !== null) {
 
                         var typeAllowed = false;
@@ -237,7 +230,6 @@ Ext.define('escape.controller.ProductSections', {
             }
 
         }
-        console.log('producType: ' + producType);
         // if no destination are sent use the default ones
         if (!params.destination_id) {
             params.destination_id = AppSettings.destinationIds;
@@ -265,7 +257,6 @@ Ext.define('escape.controller.ProductSections', {
             for (var i = productList.length - 1; i >= 0; i--) {
                 productList[i].producType = producType;
             }
-            console.log(productList);
             var items = {
                 xtype: 'list',
                 margin: '10 10 10 10',
@@ -291,7 +282,6 @@ Ext.define('escape.controller.ProductSections', {
     },
     productSelected: function(list, record) {
         var data = record.getData();
-        console.log('producType: ' + data.producType);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: String(data.producType).toProperCase().removePuralS(),
             xtype: 'productPage',

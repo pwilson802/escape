@@ -73,7 +73,6 @@ Ext.define('escape.controller.MyFavourites', {
                 });
             }
 
-            console.log(items);
 
             var list = new Ext.List({
                 itemTpl: '<div class="icon {type}"></div><div class="labels"><h3>{title}</h3><h4>{suburb}</h4><div>',
@@ -93,9 +92,7 @@ Ext.define('escape.controller.MyFavourites', {
     },
     productSelected: function(list, record) {
         var productData = record.getData();
-        console.log(productData);
         escape.utils.AppVars.currentSection.getNavigationView().push({
-           
             xtype: 'productPage',
             pageTitle: String(productData.data.Type).toProperCase(),
             productId: productData.productId,
@@ -142,19 +139,16 @@ Ext.define('escape.controller.MyFavourites', {
 
     },
     hideRemoveQs: function() {
-        console.log('hideRemoveQs');
         var removeActionSheet = this.getRemoveActionSheet();
         removeActionSheet.hide();
     },
     removeRemoveQs: function() {
-        console.log('removeRemoveQs');
         var removeActionSheet = this.getRemoveActionSheet();
         this.getMyFavouritesSection().remove(removeActionSheet);
     },
     removeFromFavourites: function() {
         var selfRef = this;
         var productId = this.getRemoveActionSheet().getData().productId;
-        console.log('productId');
         escape.model.Favourites.remove(productId, {
             success: function(result) {
                 selfRef.reLoadList();

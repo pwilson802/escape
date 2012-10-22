@@ -24,7 +24,6 @@ Ext.define("escape.view.ui.ItineraryAdder", {
         }
     },
     getItinerariesList: function() {
-        console.log('getItinerariesList');
         var selfRef = this;
         escape.model.Itineraries.getItineraries({
             success: function(itineraries) {
@@ -44,7 +43,6 @@ Ext.define("escape.view.ui.ItineraryAdder", {
         });
     },
     showAddPage: function(itineraries) {
-        console.log('showAddPage');
         var items = [{
             html: '<h2>Add to My Itinerary</h2>'
         }];
@@ -106,7 +104,6 @@ Ext.define("escape.view.ui.ItineraryAdder", {
             }]
         });
 
-        console.log(item);
 
         this.setItems(items);
     }

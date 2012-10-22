@@ -17,8 +17,6 @@ Ext.define("escape.model.Directions", {
         });
     },
     processAddress: function(addresses, callback, scope) {
-        console.log('processAddress');
-        console.log(addresses);
         if (addresses.results.length > 0) {
             Ext.callback(callback.success, scope, [addresses.results[0]]);
         } else {
@@ -30,10 +28,8 @@ Ext.define("escape.model.Directions", {
         this.map.markersLayer.clearMarkers();
     },
     getRoute: function(routeList) {
-        console.log(routeList);
         this.routeManager.route(routeList, true, true, "ALL_VEHICLES", this.map.vlayer, {
             onComplete: function(routeResult) {
-                console.log('display route');
             }
         });
     }

@@ -4,7 +4,8 @@ Ext.define('escape.store.ProductSearch', {
     config: {
         model: 'escape.model.ProductSearch',
         proxy: {
-            type: 'ajax',
+            type: 'ajaxcache',
+            cacheTimeout: AppSettings.caching.searchCacheLength,
             url: AppSettings.searchURL,
             startParam: 'start_rank',
             limitParam: 'num_ranks',

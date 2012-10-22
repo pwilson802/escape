@@ -8,14 +8,22 @@ Ext.define('escape.utils.Tracking', {
 
         this.insertTracking(pageCode, pageId, eventId);
     },
-     trackEventOnCurrent: function(eventId) {
+    trackEventOnCurrent: function(eventId) {
         var trackBy = escape.utils.AppVars.currentPage;
-         if (!trackBy){
-              trackBy= escape.utils.AppVars.currentSection;
-         }
-        var  pageCode = trackBy.getPageTypeId();
-        var pageId =  trackBy.getPageTrackingId();
+        if (!trackBy) {
+            trackBy = escape.utils.AppVars.currentSection;
+        }
+        var pageCode = trackBy.getPageTypeId();
+        var pageId = trackBy.getPageTrackingId();
         this.insertTracking(pageCode, pageId, eventId);
+    },
+    getRegID: function() {
+        if (this.RegID === 0 || this.RegID === null || this.RegID === undefined) {
+            // if the device has not been registered use dev reg id ( 5 is one of Ryans Reg IDs )
+            return 5;
+        } else {
+            return this.RegID;
+        }
     },
 
     // if the users table has not been created then create it values are stored as key value pairs
@@ -30,10 +38,10 @@ Ext.define('escape.utils.Tracking', {
             this.loadRegInfo();
         }
         // eventDesc
-         var eventDesc = '';
-        if (isNaN(pageId)){
-              eventDesc = pageId;
-              pageId = 0;
+        var eventDesc = '';
+        if (isNaN(pageId)) {
+            eventDesc = pageId;
+            pageId = 0;
         }
         //
         var date = new Date();
@@ -46,7 +54,7 @@ Ext.define('escape.utils.Tracking', {
             selfRef.checkSendTracking();
         }, function(t, e) {
             // error return null for the user value
-        }, [pageCode, pageId, eventId, eventDesc ,mili, 0]);
+        }, [pageCode, pageId, eventId, eventDesc, mili, 0]);
     },
     // check in we want to send the the tracking to the server
     checkSendTracking: function(pageCode, pageId, eventId) {
@@ -67,48 +75,51 @@ Ext.define('escape.utils.Tracking', {
     },
     //  currently saving rows
     saveTracking: function(rows) {
-        this.sendingTracking = true;
+        if (Ext.device.Connection.isOnline()) {
+            // only try to send tracking if the device is online
+            this.sendingTracking = true;
+            var trackingObj = {
+                RegID: this.getRegID(),
+                AppID: AppSettings.AppID,
+                activities: []
+            };
+            //pageCode,,eventId
+            for (var i = 0; i < rows.length; i++) {
+                var eventObj = rows.item(i);
+                var saveData = {};
+                saveData.DateTime = "/Date(" + eventObj.eventDate + ")/";
+                saveData.EvtCode = eventObj.pageCode;
+                saveData.EvtCode2 = eventObj.pageId;
+                saveData.EvtCode3 = eventObj.eventId;
+                saveData.EvtDesc = eventObj.eventDesc;
+                trackingObj.activities.push(saveData);
+            }
+            //
+            var selfRef = this;
+            // send the tracking
+            Ext.Ajax.useDefaultXhrHeader = false;
+            Ext.Ajax.request({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/BulkLogActivity',
+                method: "POST",
+                jsonData: trackingObj,
+                success: function(response) {
+                    var regData = JSON.parse(Ext.decode(response.responseText));
+                    if (regData.EvtID > 0) {
+                        selfRef.deleteTrackingEvents(rows);
+                    } else {
+                        selfRef.sendingTracking = false;
+                    }
 
-        var trackingObj = {
-            RegID: this.RegID,
-            AppID: AppSettings.AppID,
-            activities: []
-        };
-        //pageCode,,eventId
-        for (var i = 0; i < rows.length; i++) {
-            var eventObj = rows.item(i);
-            var saveData = {};
-            saveData.DateTime = "/Date(" + eventObj.eventDate + ")/";
-            saveData.EvtCode = eventObj.pageCode;
-            saveData.EvtCode2 = eventObj.pageId;
-            saveData.EvtCode3 = eventObj.eventId;
-            saveData.EvtDesc = eventObj.eventDesc;
-            trackingObj.activities.push(saveData);
-        }
-        //
-        var selfRef = this;
-        // send the tracking
-        Ext.Ajax.useDefaultXhrHeader = false;
-        Ext.Ajax.request({
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/BulkLogActivity',
-            method: "POST",
-            jsonData: trackingObj,
-            success: function(response) {
-                var regData = JSON.parse(Ext.decode(response.responseText));
-                if (regData.EvtID > 0) {
-                    selfRef.deleteTrackingEvents(rows);
-                } else {
+                },
+                failure: function(response, opts) {
                     selfRef.sendingTracking = false;
                 }
+            });
+        }
 
-            },
-            failure: function(response, opts) {
-                selfRef.sendingTracking = false;
-            }
-        });
     },
     deleteTrackingEvents: function(rows) {
         this.sendingTracking = false;
@@ -122,9 +133,7 @@ Ext.define('escape.utils.Tracking', {
                 SQL += ' OR';
             }
         }
-        db.queryDB(SQL, function(t, rs) {
-        }, function(e) {
-        }, []);
+        db.queryDB(SQL, function(t, rs) {}, function(e) {}, []);
     },
     // laod the Reg info
     loadRegInfo: function() {

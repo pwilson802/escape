@@ -22,7 +22,6 @@ Ext.define('escape.controller.GlobalActions', {
             },
             'section button[action=getDirections]': {
                 tap: function(btn) {
-                    console.log(btn);
                     this.showDirections(btn.config.address, btn.config.latlon);
                 }
             },
@@ -51,7 +50,7 @@ Ext.define('escape.controller.GlobalActions', {
                     var data = record.getData();
                     switch (data.action) {
                     case 'getDirections':
-                        this.showDirections(data.address, data.latlon);
+                        this.showDirections(data.data.address, data.data.latlog);
                         break;
                     case 'sendEmail':
                         this.sendEmail(data.data);
@@ -63,8 +62,6 @@ Ext.define('escape.controller.GlobalActions', {
                         this.goToLink(data.data);
                         break;
                     case 'makeBooking':
-                        console.log('makeBooking');
-                        console.log(data.data)
                         this.makeBooking(data.data);
                         break;
                     }
@@ -124,7 +121,6 @@ Ext.define('escape.controller.GlobalActions', {
     },
 
     showSelectFieldOptions: function() {
-        console.log('showSelectFieldOptions');
     },
     showMapTerms: function() {
         escape.utils.AppVars.currentSection.getNavigationView().push({

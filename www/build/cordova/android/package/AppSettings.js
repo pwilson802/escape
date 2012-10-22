@@ -11,7 +11,6 @@ AppSettings.appAddress = {
     state: 'nsw',
     suburb: 'sydney'
 };
-
 AppSettings.bounds = {
     "left": 150.55337081542,
     "bottom": -36.119202120384,
@@ -29,6 +28,13 @@ AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;29
 // The smartphone cms section
 AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
+// Caching
+AppSettings.caching = {
+
+    cmsCacheLength :(60 * 60 * 24 * 14),
+    searchCacheLength : (60 * 60 * 24 * 14),
+    productCacheLength : (60 * 60 * 24 * 14)
+};
 // Image resizing
 AppSettings.imageResizing = {
     resizeURL: 'http://m.img.getconnected.dnsw.com.au/',

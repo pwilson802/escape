@@ -45,7 +45,6 @@ Ext.define("escape.view.ui.SharingOptions", {
         }
     },
     showMessageForm: function(action,value) {
-        console.log('!!! showMessageForm: ' + action);
         var items = [];
         items.push({
             itemId:'messagebox',

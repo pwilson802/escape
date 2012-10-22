@@ -118,13 +118,11 @@ Ext.define('escape.controller.ItineraryViewer', {
         var dayField = editSheet.getComponent('dayField');
         escape.model.Itineraries.changeProductDay(editSheet.getProductId(),dayField.getValue(), {
             success: function() {
-                console.log('product moved');
                 var sectionView = selfRef.getItinerarySubSection();
                 var cardView = sectionView.getCardView();
                 cardView.getActiveItem().loadProducts();
             },
             error: function(error) {
-                console.log('error moving product');
             },
             scope: this
         });
@@ -135,13 +133,11 @@ Ext.define('escape.controller.ItineraryViewer', {
         var editSheet = this.getEditItineraryProduct();
         escape.model.Itineraries.deleteProduct(editSheet.getProductId(), {
             success: function() {
-                console.log('product deleted');
                 var sectionView = selfRef.getItinerarySubSection();
                 var cardView = sectionView.getCardView();
                 cardView.getActiveItem().loadProducts();
             },
             error: function(error) {
-                console.log('error deleting product');
             },
             scope: this
         });
@@ -149,10 +145,7 @@ Ext.define('escape.controller.ItineraryViewer', {
 
     },
     closeProductEdit: function() {
-        console.log('closeProductEdit');
-
         var editSheet = this.getEditItineraryProduct();
-        console.log(editSheet);
         editSheet.hide();
     },
     saveProductOrder: function(list) {
@@ -167,12 +160,12 @@ Ext.define('escape.controller.ItineraryViewer', {
         }
     },
     showList : function(btn){
-        this.getItinerarySubSection().setViewType('list')
+        this.getItinerarySubSection().setViewType('list');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.showList();
     },
     showNotes: function(btn) {
-        this.getItinerarySubSection().setViewType('notes')
+        this.getItinerarySubSection().setViewType('notes');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.loadNotes();
         // escape.utils.AppVars.currentSection.getNavigationView().push({
@@ -183,7 +176,7 @@ Ext.define('escape.controller.ItineraryViewer', {
     
     },
     showMap : function(btn){
-        this.getItinerarySubSection().setViewType('map')
+        this.getItinerarySubSection().setViewType('map');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.showMap();
     },
@@ -289,7 +282,6 @@ Ext.define('escape.controller.ItineraryViewer', {
         }
     },
     productMarkerSelected: function(productData){
-        console.log(productData);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'productPage',
             pageTitle: String(productData.type).toProperCase(),

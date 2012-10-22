@@ -23,7 +23,6 @@ Ext.define("escape.view.page.CurrencyConverter", {
         var selfRef = this;
         escape.model.Currency.loadDefaults({
             success: function() {
-                console.log('defaults set up');
                 selfRef.loadOrginal();
             },
             error: function(error) {

@@ -3,8 +3,8 @@ Ext.define("escape.model.ProductList", {
     requires: 'Ext.ux.proxy.AjaxCache',
     config: {
         proxy: {
-            type: 'ajax',
-            cacheTimeout: (60 * 60 * 24 * 14),
+            type: 'ajaxcache',
+            cacheTimeout: AppSettings.caching.productCacheLength,
             url: null,
             reader: {
                 type: 'json'

@@ -22,7 +22,7 @@ Ext.define("escape.view.page.Events", {
             allowDepress: false,
             docked: 'top',
             items: [{
-                text: 'Events Calender',
+                text: 'Featured Events',
                 type: 'eventsCalender',
                 pressed: true,
                 flex: 1

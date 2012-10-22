@@ -76,7 +76,6 @@
                  selfRef.saveAccessToken(accessData, callback, scope);
                 
              }, function(data) {
-                 console.log('!!! oauth fail');
                  window.plugins.childBrowser.close();
                  Ext.callback(callback.error, scope, [false]);
              });
@@ -84,13 +83,10 @@
      },
      saveAccessToken: function(accessData, callback, scope) {
          this.twitterKey = accessData;
-         console.log(accessData);
          escape.model.UserSettings.setSetting('twitterKey', JSON.stringify(accessData), {
              success: function(FacebookAccessToken) {
-                 console.log('twitterKey Saved');
              },
              error: function(error) {
-                 console.log('twitterKey Error');
              },
              scope: this
          });
@@ -101,15 +97,12 @@
      // TWEET
      /////////////////////////////////////////////////////
      tweet: function(tweet,callback,scope) {
-         console.log('!!! tweet');
          AppSettings.twitter.accessTokenKey = this.twitterKey.accessTokenKey; // This is saved when they first sign in
          AppSettings.twitter.accessTokenSecret = this.twitterKey.accessTokenSecret; // this is saved when they first sign in
-         console.log(AppSettings.twitter);
          // jsOAuth takes care of everything for us we just need to provide the options
          this.oauth = OAuth(AppSettings.twitter);
          var selfRef = this;
          this.oauth.get('https://api.twitter.com/1/account/verify_credentials.json?skip_status=true', function(data) {
-             console.log('!!! verified!');
              var entry = JSON.parse(data.text);
              selfRef.post(tweet,callback,scope);
          });
@@ -123,13 +116,11 @@
              // jsOAuth encodes for us
              'trim_user': 'true'
          }, function(data) {
-             console.log('!!! sucessfull set update');
              var entry = JSON.parse(data.text);
              Ext.callback(callback.success, scope, []);
              // FOR THE EXAMPLE
              app.done();
          }, function(data) {
-             console.log('!!! error posting status');
              console.log(data);
              Ext.callback(callback.error, scope, []);
          });

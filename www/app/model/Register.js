@@ -32,7 +32,6 @@ Ext.define("escape.model.Register", {
             "OSType": device.platform,
             "OSVer": device.version
         };
-        console.log(jsonData);
         var selfRef = this;
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
@@ -44,13 +43,11 @@ Ext.define("escape.model.Register", {
             method: "POST",
             jsonData: jsonData,
             success: function(response) {
-                console.log('reg success');
                 var regData = JSON.parse(Ext.decode(response.responseText));
                 // process server response here
                 selfRef.registerComplete(regData, callback, scope);
             },
             failure: function(response, opts) {
-                console.log('reg failure');
                 Ext.callback(callback.error, scope);
             }
         });

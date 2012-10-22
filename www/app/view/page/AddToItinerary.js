@@ -33,13 +33,11 @@ Ext.define("escape.view.page.AddToItinerary", {
                     selfRef.buildPage(itineraries);
                 } else {
                     // error you have no itineraries
-                    console.log('error you have no itineraries');
                     selfRef.fireEvent('addToNewItinerary', this);
                 }
             },
             error: function(error) {
                 // error show the create button
-                console.log('error show the create button');
                 selfRef.fireEvent('addToNewItinerary', this);
             },
             scope: this
@@ -63,7 +61,6 @@ Ext.define("escape.view.page.AddToItinerary", {
                     var oneDay = 1000 * 60 * 60 * 24;
                     var daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay));
 
-                    console.log('daysDiff: ' + daysDiff);
 
                     if (daysDiff > 0) {
                         itineraryOptions.push({

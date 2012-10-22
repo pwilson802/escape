@@ -9,7 +9,8 @@ Ext.define("escape.view.page.Map", {
         latlon: null,
         mapDisplay: null,
         pageTypeId: 6,
-        pageTrackingId: 6
+        pageTrackingId: 6,
+        cls:'mapPage'
     },
     openView: function() {
         var address = this.getAddress();

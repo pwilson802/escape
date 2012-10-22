@@ -13,8 +13,6 @@ Ext.define("escape.view.page.ItineraryNotes", {
     },
     openView: function() {
         var selfRef = this;
-        console.log('this.getItineraryId(): ' + this.getItineraryId());
-        console.log('this.getDayNum(): ' + this.getDayNum());
         escape.model.Itineraries.getItineraryDayNotes(this.getItineraryId(), this.getDayNum(), {
             success: function(itineraryDay) {
                 selfRef.buildPage(itineraryDay.item(0).notes);

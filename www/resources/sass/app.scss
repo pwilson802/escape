@@ -82,9 +82,7 @@ p {
 .x-sheet-action {
 	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 }
-.x-input-search {
-	margin: 0px 10px 0 15px !important;
-}
+
 .bgTexture,
 .x-scroll-container {
 	background: url(../images/linen_bg.png);
@@ -1956,8 +1954,8 @@ p {
 	background: rgba(0, 0, 0, 0.5) center center no-repeat;
 }
 
-x-floating {
-	height: 240px !important;
+.x-form-fieldset-title {
+	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 }
 
 .x-picker {
@@ -1989,6 +1987,9 @@ x-floating {
 		background-color: #fff; // layer fill content
 		@include box-shadow(0 3px 7px rgba(35,51,55,.8)); // drop shadow
 		@include background-image(linear-gradient(bottom, rgba(72,72,72,.65) 0%, rgba(86,86,86,.65) 49.51%, rgba(124,124,124,.65) 51.22%, rgba(121,121,121,.65) 100%)); // gradient overlay
+	}
+	.x-picker-item {
+		font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 	}
 }
 .x-form-label {
@@ -2140,9 +2141,26 @@ x-floating {
 		left:10px;
 		border:none;
 		z-index:1000 !important;
-	}	
+	}
+	.bing-logo {
+		background:url(../images/bing_sm.png) no-repeat left bottom;
+		width:100px;
+		height:30px;
+		position:absolute;
+		bottom:10px;
+		left:10px;
+		border:none;
+		z-index:1000 !important;
+	}		
 
 }
+.mapPage,
+.directionsPage {
+	.bing-logo {
+		background:url(../images/bing_m1.png) no-repeat left bottom;
+	}
+}
+
 
 .mapTerms {
 	background:url(../images/whereis-logo.gif) no-repeat center 20px;

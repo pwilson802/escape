@@ -17,36 +17,42 @@ Ext.define("escape.model.Currency", {
     },
     // call the setup if need the perform the required callback
     loadDefaults: function(callback, scope) {
-        var dateNow = new Date();
-        var diff = dateNow - this.lastUpdatedDate;
-        if (diff > this.reloadIn || this.currencys.length === 0) {
-            // reload the current data is old or does not exist
+        if (!this.lastUpdatedDate) {
             this.loadCurrencyList(callback, scope);
         } else {
-            // do not reload use the current data
-            if (this.getOrginalCurrency() === null) {
-                this.checkOrginalCurrency(callback, scope);
+            var dateNow = new Date();
+            var diff = dateNow - this.lastUpdated;
+            if (diff > this.reloadIn || this.currencys.length === 0) {
+                // reload the current data is old or does not exist
+                this.loadCurrencyList(callback, scope);
             } else {
-                Ext.callback(callback.success, scope);
-            }
+                // do not reload use the current data
+                if (this.getOrginalCurrency() === null) {
+                    this.checkOrginalCurrency(callback, scope);
+                } else {
+                    Ext.callback(callback.success, scope);
+                }
 
+            }
         }
     },
     // Load the list of currencys
     loadCurrencyList: function(callback, scope) {
+        var regID = escape.utils.Tracking.getRegID();
         var selfRef = this;
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
+        var url = 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRates?nocache=' + new Date().getTime();
         Ext.Ajax.request({
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRates?nocache='+new Date().getTime(),
+            url: url,
             method: "POST",
             jsonData: {
                 "RateID": "0",
                 "RateCode": "",
-                "RegID": "1"
+                "RegID": regID
             },
             success: function(response) {
                 selfRef.lastUpdated = new Date();
@@ -83,7 +89,7 @@ Ext.define("escape.model.Currency", {
             success: function(orginalCurrency) {
                 if (orginalCurrency === null || orginalCurrency === undefined) {
                     // no user language has been selected
-                    selfRef.setOrginalCurrency(selfRef.currencys[0]);
+                    selfRef.setOrginalCurrency('AUD');
                 } else {
                     selfRef.setOrginalCurrency(orginalCurrency);
                 }
@@ -91,7 +97,7 @@ Ext.define("escape.model.Currency", {
             },
             error: function(error) {
                 // no user temp has been selected
-                selfRef.setOrginalCurrency(selfRef.currencys[0]);
+                selfRef.setOrginalCurrency('AUD');
                 selfRef.checkConvertedCurrency(callback, scope);
             },
             scope: this
@@ -99,12 +105,13 @@ Ext.define("escape.model.Currency", {
     },
     // Check to see if the user has picked a convertedCurrency
     checkConvertedCurrency: function(callback, scope) {
-        var selfRef = this;
+         var selfRef = this;
+       
         escape.model.UserSettings.getSetting('convertedCurrency', {
             success: function(convertedCurrency) {
                 if (convertedCurrency === null || convertedCurrency === undefined) {
                     // no user language has been selected
-                    selfRef.setConvertedCurrency(selfRef.currencys[1]);
+                    selfRef.setConvertedCurrency('EUR');
                 } else {
                     selfRef.setConvertedCurrency(convertedCurrency);
                 }
@@ -112,7 +119,7 @@ Ext.define("escape.model.Currency", {
             },
             error: function(error) {
                 // no user temp has been selected
-                selfRef.setConvertedCurrency(selfRef.currencys[1]);
+                selfRef.setConvertedCurrency('EUR');
                 Ext.callback(callback.success, scope);
             },
             scope: this
@@ -172,7 +179,7 @@ Ext.define("escape.model.Currency", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRate?nocache='+new Date().getTime(),
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRate?nocache=' + new Date().getTime(),
             method: "POST",
             jsonData: {
                 "RateID": "0",

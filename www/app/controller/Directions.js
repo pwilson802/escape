@@ -12,7 +12,6 @@ Ext.define('escape.controller.Directions', {
         }
     },
     createRoute: function(btn) {
-        console.log('createRoute');
         var map = this.getDirectionsPage().getMapDisplay().getMap();
         escape.model.Directions.setup(map);
         // var routeList = [{
@@ -51,7 +50,6 @@ Ext.define('escape.controller.Directions', {
         //
         this.getRouteList({
             success: function(routeList) {
-                console.log(routeList);
                 escape.model.Directions.getRoute(routeList);
             },
             failure: function() {
@@ -77,7 +75,6 @@ Ext.define('escape.controller.Directions', {
         var selfRef = this;
         escape.model.Directions.geocodeAddress('Manly NSW', {
             success: function(startAddress) {
-                console.log(startAddress.address);
                 selfRef.getEndLocation(startAddress.address, callback, scope);
             },
             failure: function() {
@@ -89,7 +86,6 @@ Ext.define('escape.controller.Directions', {
         var selfRef = this;
         escape.model.Directions.geocodeAddress('Narrabeen NSW', {
             success: function(endAddress) {
-                console.log(endAddress);
                 Ext.callback(callback.success, scope, [
                     [startAddress, endAddress.address]
                 ]);

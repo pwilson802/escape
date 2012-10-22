@@ -39,8 +39,8 @@ Ext.define("escape.model.ContentPage", {
             defaultValue: ''
         }],
         proxy: {
-            type: 'ajax',
-            cacheTimeout: (60 * 60 * 24 * 14),
+            type: 'ajaxcache',
+            cacheTimeout: AppSettings.caching.cmsCacheLength,
             url: null,
             reader: {
                 type: 'json'

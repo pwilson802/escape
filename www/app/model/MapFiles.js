@@ -28,7 +28,6 @@ Ext.define("escape.model.MapFiles", {
 
     },
     loadTouchControls: function(callback, scope) {
-        console.log('loadTouchControls');
         this.loaded = true;
         var selfRef = this;
         //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
@@ -40,7 +39,6 @@ Ext.define("escape.model.MapFiles", {
     }
 
     // loadMootTools: function(callback, scope) {
-    //     console.log('MootTools');
     //     this.loaded = true;
     //     var selfRef = this;
     //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
@@ -52,7 +50,6 @@ Ext.define("escape.model.MapFiles", {
     // },
 
     // loadTablet: function(callback, scope) {
-    //     console.log('loadTablet');
     //     this.loaded = true;
     //     var selfRef = this;
     //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';

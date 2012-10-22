@@ -1,4 +1,5 @@
 Ext.define("escape.model.WhereIsPOI", {
+    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
     mixins: ['Ext.mixin.Observable'],
     singleton: true,
     query: null,

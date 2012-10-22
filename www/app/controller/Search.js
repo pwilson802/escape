@@ -10,6 +10,7 @@ Ext.define('escape.controller.Search', {
         listShowing: false,
         searchValues: null,
         moreResults: false,
+        collectionType: null,
         refs: {
             searchPage: 'searchPage',
             searchForm: 'searchPage formpanel',
@@ -129,20 +130,22 @@ Ext.define('escape.controller.Search', {
         //     }
         //     this.addOption('Destinations', newDesList);
         // }
-
+        var collectionType = this.getCollectionType();
+        console.log('collectionType: ' + collectionType);
+        
         if (options.type) {
             this.addOption('Type', options.type);
         }
-        if (options.features) {
+        if (options.features  && collectionType!='deals') {
             this.addOption('Features', options.features);
         }
-        if (options.experiences) {
+        if (options.experiences && collectionType!='deals') {
             this.addOption('Experience', options.experiences);
         }
-        if (options.activities) {
+        if (options.activities && collectionType!='deals') {
             this.addOption('Activities', options.activities);
         }
-        if (options.starRating) {
+        if (options.starRating && collectionType!='deals') {
             this.addOption('Star Rating', options.starRating);
         }
 
@@ -223,6 +226,10 @@ Ext.define('escape.controller.Search', {
           
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
+        this.setCollectionType(collectionType);
+
+        console.log('getSearchParams collectionType: ' + collectionType);
+
         if (collectionType === 'restaurants') {
             params.collection = 'restaurants'; //'prototype-dnsw-' +
             params.form = 'mobile-restaurant-json';
@@ -328,7 +335,6 @@ Ext.define('escape.controller.Search', {
     },
 
     resultsLoaded: function(records) {
-        console.log('resultsLoaded');
         var resultsList = records.getData().results;
         var startIndex = this.getResultsStore().getData().items.length;
         for (var i = 0; i < resultsList.length; i++) {
@@ -470,7 +476,6 @@ Ext.define('escape.controller.Search', {
         if (funnelbackCollection === 'centres') {
             funnelbackCollection = 'vic';
         }
-        console.log('funnelbackCollection: ' + funnelbackCollection);
         var collection;
         // map funnel back collection to matrix collection
         for (var i = escape.utils.AppVars.collectionMapping.length - 1; i >= 0; i--) {

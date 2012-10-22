@@ -71,7 +71,6 @@ Ext.define('escape.controller.Events', {
         });
     },
     weeklyEventsLoaded: function(records) {
-        console.log(records);
         var resultsStore = Ext.create('Ext.data.Store', {
             model: 'escape.model.ProductResult',
             data: records.results,
@@ -99,7 +98,6 @@ Ext.define('escape.controller.Events', {
         contents.setItems(list);
     },
     loadEventsCalender: function() {
-        console.log('loadEventsCalender');
         var params = {};
        // params.meta_D_phrase_sand = AppSettings.destinationWebpath;
         // set the serach to use the right collection
@@ -136,11 +134,7 @@ Ext.define('escape.controller.Events', {
 
     },
     eventsCalenderLoaded: function(data) {
-        console.log('eventsCalenderLoaded');
-        console.log(data);
         if (this.getCurrentSection() == 'eventsCalender') {
-             console.log('1 built');
-            console.log(data.data.results);
             var viewportSize = Ext.Viewport.getSize();
             var list = new Ext.List({
                 itemTpl: '{Title}',
@@ -148,7 +142,6 @@ Ext.define('escape.controller.Events', {
                 height: viewportSize.height - 89,
                 scrollable: true
             });
-
             var contents = this.getEventsPage().getComponent('contents');
             contents.setPadding(0);
             contents.setItems(list);

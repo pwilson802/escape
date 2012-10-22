@@ -20,17 +20,12 @@ Ext.define('escape.controller.Product', {
         }
     },
     addToItineray: function(btn, event, option) {
-        console.log('addToItineray');
-
         var viewportSize = Ext.Viewport.getSize();
-
         var productPage = btn.config.productPage;
         var productId = productPage.getProductId();
         var productType = productPage.getProductType();
         var productData = productPage.getProductData();
         var productName = productData.Name;
-        console.log('productName: ' + productName);
-
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'addToItineraryPage',
             productId: productId,

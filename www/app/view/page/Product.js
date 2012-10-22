@@ -27,7 +27,6 @@ Ext.define("escape.view.page.Product", {
             escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
-                    console.log(product);
                     this.setProductData(product.raw);
                     this.buildPage();
                 },
@@ -340,11 +339,6 @@ Ext.define("escape.view.page.Product", {
                 var endDateBreakDown = product.Dates['End Date'].split(' ')[0].split('-');
                 endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1]) - 1, Number(endDateBreakDown[2]));
             }
-            console.log('Event Dates!!!');
-            console.log(product.Dates['Start Date']);
-            console.log(startDate);
-            console.log(product.Dates['End Date']);
-            console.log(endDate);
             if (startDate !== null) {
                 var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear() + '</h4></div>';
                 if (endDate !== null) {

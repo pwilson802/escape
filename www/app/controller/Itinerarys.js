@@ -103,7 +103,6 @@ Ext.define('escape.controller.Itinerarys', {
             } else {
                 days += ' day';
             }
-            console.log(startDate);
             itinerariesList.push({
                 id: itinerary.id,
                 name: itinerary.name,
@@ -200,18 +199,12 @@ Ext.define('escape.controller.Itinerarys', {
         });
     },
     checkItineraryErrors: function(data) {
-
-        console.log(data);
-
         var errors = [];
         if (data.name === null || data.name === '') {
             errors.push('Please enter a Name');
         }
         var oneDay = 1000 * 60 * 60 * 24;
         var daysDiff = Math.ceil((data.endDate.getTime() - data.startDate.getTime()) / (oneDay));
-        console.log(data.startDate);
-        console.log(data.endDate);
-        console.log(daysDiff);
 
         if (daysDiff < 0) {
             errors.push('Please enter a end date after your start date');
@@ -237,13 +230,11 @@ Ext.define('escape.controller.Itinerarys', {
                     if (addProductData !== null) {
                         escape.model.Itineraries.addProduct(result.item(0).id, 1, addProductData.id, addProductData.type, addProductData.name, addProductData.data, {
                             success: function() {
-                                console.log('product added to itinerary');
                                 // show success
                                 selfRef.showAddedMsg();
                                 escape.utils.AppVars.currentSection.getNavigationView().pop(2);
                             },
                             error: function(error) {
-                                console.log('product add error');
                                 selfRef.showItinerary(result.item(0));
                             },
                             scope: this
@@ -272,7 +263,6 @@ Ext.define('escape.controller.Itinerarys', {
             var itineraryId = this.getCurrentItineray().id;
             escape.model.Itineraries.updateItinerary(itineraryId, data.name, data.startDate, data.endDate, {
                 success: function(result) {
-                    console.log(result);
                     escape.utils.AppVars.currentSection.getNavigationView().pop(2);
                     selfRef.showItinerary(result.item(0));
                 },
@@ -306,26 +296,19 @@ Ext.define('escape.controller.Itinerarys', {
 
     addProductToItineraries: function() {
 
-        console.log('addProductToItineraries');
         var selfRef = this;
         var productId = this.getAddToItineraryPage().getProductId();
         var productType = this.getAddToItineraryPage().getProductType();
         var productData = this.getAddToItineraryPage().getProductData();
         var productName = this.getAddToItineraryPage().getProductName();
 
-        console.log('productId: ' + productId);
-        console.log('productType: ' + productType);
-        console.log('productName: ' + productName);
-        console.log('productData: ' + productData);
         // get form data
         var values = this.getAddToItineraryForm().getValues();
-        console.log(values);
         var addToItineraries = {};
         for (var key in values) {
             var breakdown = key.split('-');
             var type = breakdown[0];
             var itineraryId = Number(breakdown[1]);
-            console.log('itineraryId: ' + itineraryId);
             if (!addToItineraries['add-' + itineraryId]) {
                 addToItineraries['add-' + itineraryId] = {
                     id: itineraryId,
@@ -342,7 +325,6 @@ Ext.define('escape.controller.Itinerarys', {
         // add product into itineraries
         for (var row in addToItineraries) {
             var itineraryValues = addToItineraries[row];
-            console.log(itineraryValues);
             if (itineraryValues.add) {
                 escape.model.Itineraries.addProduct(itineraryValues.id, itineraryValues.day, productId, productType, productName, productData, {
                     success: function() {
@@ -434,20 +416,16 @@ Ext.define('escape.controller.Itinerarys', {
 
     },
     hideItinerayQs: function() {
-        console.log('hideItinerayQs');
         var deletActionSheet = this.getDeleteItineraryAction();
         deletActionSheet.hide();
     },
     removeItinerayQs: function() {
-        console.log('removeItinerayQs');
         var deletActionSheet = this.getDeleteItineraryAction();
         this.getMyItinerarySection().remove(deletActionSheet);
     },
     deleteItinerary: function(deleteBtn) {
         var deletActionSheet = this.getDeleteItineraryAction();
-        console.log(deletActionSheet);
         var id = deletActionSheet.getData().itineraryId;
-        console.log('itineraryId: ' + id);
         var selfRef = this;
         escape.model.Itineraries.deleteItinerary(id, {
             success: function(result) {
@@ -457,7 +435,6 @@ Ext.define('escape.controller.Itinerarys', {
             scope: this
         });
         this.hideItinerayQs();
-        console.log(escape.utils.AppVars.currentPage.getXTypes());
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('itineraryEditorPage') != -1) {
             escape.utils.AppVars.currentSection.getNavigationView().pop(2);
         }

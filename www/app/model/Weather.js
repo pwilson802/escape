@@ -182,9 +182,7 @@ Ext.define("escape.model.Weather", {
             } else {
                 var dateNow = new Date();
                 var diff = dateNow - this.lastUpdatedDate;
-                console.log('!!! diff: ' + diff);
                 if (diff > this.reloadIn || this.forcatsByDay.length <= 1) {
-                    console.log('!!! reload full weather !!!');
                     // reload the current data is old or the fullweather has not been loaded
                     this.checkLocation(callback, scope);
 
@@ -197,7 +195,6 @@ Ext.define("escape.model.Weather", {
 
     },
     checkLocation: function(callback, scope) {
-        console.log('checkLocation');
         var selfRef = this;
         if (this.getStationId() === 0) {
             Ext.device.Geolocation.getCurrentPosition({
@@ -215,10 +212,9 @@ Ext.define("escape.model.Weather", {
 
     // Loads the full weather including the forcasts
     loadWeather: function(lat, lon, callback, scope) {
-        console.log('loadWeather: ' + lat);
-        console.log('loadWeather: ' + lon);
         var selfRef = this;
         // load the waeather
+         var regID = escape.utils.Tracking.getRegID();
         Ext.Ajax.useDefaultXhrHeader = false;
         Ext.Ajax.request({
             headers: {
@@ -230,11 +226,10 @@ Ext.define("escape.model.Weather", {
                 "StationID": this.getStationId(),
                 "Latitude": lat,
                 "Longitude": lon,
-                "RegID": "1",
+                "RegID": regID,
                 "AppID": AppSettings.AppID
             },
             success: function(response) {
-                console.log(response);
                 var weatherData = JSON.parse(Ext.decode(response.responseText));
 
                 // process server response here
@@ -318,6 +313,7 @@ Ext.define("escape.model.Weather", {
     loadBriefWeather: function(lat, lon, callback, scope) {
         //http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherBrief
         var selfRef = this;
+         var regID = escape.utils.Tracking.getRegID();
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
         Ext.Ajax.request({
@@ -330,7 +326,7 @@ Ext.define("escape.model.Weather", {
                 "StationID": this.getStationId(),
                 "Latitude": lat,
                 "Longitude": lon,
-                "RegID": "1",
+                "RegID": regID,
                 "AppID": AppSettings.AppID
             },
             success: function(response) {

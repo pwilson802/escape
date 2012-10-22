@@ -97,7 +97,6 @@ Ext.define('escape.controller.ContentPage', {
                     var urlBreakdown = link.split('/');
                     var type = urlBreakdown[urlBreakdown.length - 2];
                     var productId = urlBreakdown[urlBreakdown.length - 1];
-                    console.log('productId: ' + productId);
 
                     if (type == 'attractions') {
                         type = 'attraction';
@@ -140,20 +139,16 @@ Ext.define('escape.controller.ContentPage', {
     openPage: function(list, record) {
         var changeAllowed = true;
         this.setSelectedRecord(record);
-        console.log(record);
         // Content Page
         var data = record.getData();
-        console.log(data);
         var xtype = (data.xtype) ? data.xtype : 'contentPage';
         if (data.typeId == 'like-a-local') {
             xtype = 'townsSubSection';
         }
-        console.log('list.subPageXtype: ' + list.subPageXtype);
         if (list.subPageXtype) {
             // let the list overwrite the page type
             xtype = list.subPageXtype;
         }
-        console.log('xtype: ' + xtype);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: data.Name,
             xtype: xtype,
