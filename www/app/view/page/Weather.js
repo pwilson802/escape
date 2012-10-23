@@ -26,7 +26,7 @@ Ext.define("escape.view.page.Weather", {
         });
         // check to see if the product is a favourite or not
         var selfRef = this;
-        escape.model.Weather.getFullWeather(refresh,{
+        escape.model.Weather.getFullWeather(refresh, {
             success: function() {
                 selfRef.build();
             },
@@ -93,7 +93,8 @@ Ext.define("escape.view.page.Weather", {
                 name: 'location',
                 labelAlign: 'top',
                 options: weatherOptions,
-                value: stationId
+                value: stationId,
+                width: Ext.Viewport.getSize().width - 160
             }]
         }, {
             xtype: 'container',
@@ -170,14 +171,14 @@ Ext.define("escape.view.page.Weather", {
     buildTodaysWeather: function() {
         var wm = escape.model.Weather;
         var today = wm.forcatsByDay[0];
-        var temp =wm.convertTempature(wm.currentTemp)+'&deg;';
-        if (wm.currentTemp == -9999){
+        var temp = wm.convertTempature(wm.currentTemp) + '&deg;';
+        if (wm.currentTemp == -9999) {
             temp = '-';
         }
         var todaysWeather = '<div class="info"><h1>' + temp + '</h1>';
         // check to see if the extremes are available
         if (today.high != 999 && today.low != 999) {
-            todaysWeather += '<div class="extremes"><h3 class="high">' +  wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
+            todaysWeather += '<div class="extremes"><h3 class="high">' + wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
         }
         var forcastDetails = today.forecast;
         if (forcastDetails.toLowerCase() == wm.getIconName(today.icon).toLowerCase()) {
@@ -186,10 +187,10 @@ Ext.define("escape.view.page.Weather", {
 
         todaysWeather += '<h2>' + wm.getIconName(today.icon) + '</h2><p>' + forcastDetails + '</p>';
         if (wm.weatherData.RainFall != -9999) {
-            todaysWeather += '<h4 class="rain">' + Math.round(wm.weatherData.RainFall)+ ' mm</h4>';
+            todaysWeather += '<h4 class="rain">' + Math.round(wm.weatherData.RainFall) + ' mm</h4>';
         }
         if (wm.weatherData.WindSpeedmps != -9999) {
-            var windKm = MathExt.prototype.roundNumber(wm.weatherData.WindSpeedmps * (3.6),2);
+            var windKm = MathExt.prototype.roundNumber(wm.weatherData.WindSpeedmps * (3.6), 2);
             todaysWeather += '<h4 class="wind">' + windKm + ' KM/H ' + wm.weatherData.WindDirection + '</h4></div>';
         }
 

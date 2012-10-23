@@ -336,7 +336,7 @@ p {
  	@include text-shadow(0 1px 0 rgba(255,255,255,.56)); // drop shadow
 	@include background-clip(); // prevents bg color from leaking outside the border
 	background-color: #414851; // layer fill content
-	@include box-shadow(0 2px 0 rgba(255,255,255,.6), inset 0 1px 1px rgba(0,0,0,.32)); // drop shadow and inner shadow
+	@include box-shadow(0 1px 0 rgba(255,255,255,.6), inset 0 1px 1px rgba(0,0,0,.32)); // drop shadow and inner shadow
 	@include background-image(linear-gradient(bottom, #afadaa 0%, #c7c5c3 100%)); // gradient overlay
 	border:none;
 }
@@ -1300,7 +1300,8 @@ p {
 .createItineraryInstructions {
 	@include opacity(.8); // layer alpha
 	color: #32373f; // text color
-	font-family: "Helvetica Neue";
+	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+	font-weight:bold;
 	font-size: 16px;
 	text-align:center;
 }
@@ -2652,9 +2653,9 @@ p {
 ///////////////////////
 // PIXEL RATIO IMAGES
 ///////////////////////
-@media (-webkit-min-device-pixel-ratio: 1.5), /* Webkit */
-       (min-resolution: 100dpi),           /* Everyone else */
-       (min-resolution: 1.5dppx)              /* The Future */ {
+// @media (-webkit-min-device-pixel-ratio: 1.5), /* Webkit */
+//        (min-resolution: 100dpi),           /* Everyone else */
+//        (min-resolution: 1.5dppx)              /* The Future */ {
 	body {
 		background-image: url(../images/Splash_Portrait@2x.png);
 		-webkit-background-size: 320px 460px; 
@@ -2706,7 +2707,7 @@ p {
 	}
 
 	.createItineraryBtnLarge {
-		background-image:url('../images/itinerary_badge_add@2x.png');
+		background-image:url('../images/itinerary_badge_add@2x.png') !important;
 	    -webkit-background-size: 130px 151px;
 	}
 
@@ -3284,5 +3285,5 @@ p {
 		}
 	}
 
-}
+//}
 

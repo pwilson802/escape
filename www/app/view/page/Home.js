@@ -36,6 +36,7 @@ Ext.define("escape.view.page.Home", {
 
     openView: function() {
         if (!this.getHomeBuilt()) {
+            console.log('build home page');
             this.setHomeBuilt(true);
             var screenWidth = Ext.Viewport.getSize().width;
 
@@ -49,7 +50,6 @@ Ext.define("escape.view.page.Home", {
 
             this.setItems([{
                 xtype: 'carousel',
-                layout: 'fit',
                 height: 200,
                 defaults: {
                     xtype: 'appImage',
