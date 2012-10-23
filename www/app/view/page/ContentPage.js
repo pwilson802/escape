@@ -46,6 +46,21 @@ Ext.define("escape.view.page.ContentPage", {
             }
         }
         var pageItems = escape.model.Content.buildItems(content);
+        // add share this app button
+        if (this.getContentPath().indexOf('about-destination-nsw') != -1) {
+            pageItems.pop();
+            pageItems.push({
+                margin:10,
+                xtype: 'button',
+                text: 'Share this App',
+                cls: 'shareAppBtn',
+                action: 'shareApp',
+        
+            });
+            pageItems.push({
+                xtype: 'footer'
+            });
+        }
         //var fullItems = menuItems.concat(items);
         var viewportSize = Ext.Viewport.getSize();
 
@@ -65,7 +80,7 @@ Ext.define("escape.view.page.ContentPage", {
             items.push({
                 xtype: 'container',
                 layout: 'card',
-                 itemId: 'cardView',
+                itemId: 'cardView',
                 width: viewportSize.width,
                 height: viewportSize.height - 89,
                 items: {

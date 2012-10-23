@@ -45,6 +45,13 @@ Ext.define('escape.controller.GlobalActions', {
                     this.makeBooking(btn.config.bookingURL);
                 }
             },
+            'section list[action=appList]': {
+                itemsingletap: function(list, index, element, record) {
+                    console.log('other app selected');
+                    var data = record.getData();
+                    window.open(data.link);
+                }
+            },
             'section list[action=contactSheet]': {
                 itemsingletap: function(list, index, element, record) {
                     var data = record.getData();
@@ -102,7 +109,7 @@ Ext.define('escape.controller.GlobalActions', {
     },
     removePanel: function(panel) {
         var baseCls = panel.getBaseCls();
-        if (baseCls!='x-sheet' && baseCls!='x-msgbox'){
+        if (baseCls != 'x-sheet' && baseCls != 'x-msgbox') {
             try {
                 Ext.Viewport.remove(panel, true);
             } catch (e) {
@@ -120,8 +127,7 @@ Ext.define('escape.controller.GlobalActions', {
 
     },
 
-    showSelectFieldOptions: function() {
-    },
+    showSelectFieldOptions: function() {},
     showMapTerms: function() {
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'mapTerms'

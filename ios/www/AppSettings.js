@@ -56,8 +56,8 @@ AppSettings.imageResizing = {
 AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' Guide',
     defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide app on the app store',
-    description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
-    emailBody:'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
+    description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName+'.',
+    emailBody:'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName+'.',
     link: AppSettings.websiteURL,
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
@@ -388,7 +388,7 @@ AppSettings.mainMenu = [{
     id: 'otherAppsSection',
     firstPage: {
         title: 'Other DNSW apps',
-        xtype: 'contentPage',
+        xtype: 'otherAppsPage',
         contentPath: AppSettings.getSMPSectionURL() + '/other-dnsw-apps'
     }
 }, {

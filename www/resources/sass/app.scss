@@ -62,6 +62,9 @@ body {
 	background: $active-color url(../images/Splash_Portrait.png) no-repeat center top;
 }
 
+b {
+	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+}
 
 h2 {
 	font-size:25px;
@@ -72,6 +75,7 @@ h2 {
 p {
 	margin: 0 0 10px 0;
 	line-height:150%;
+	
 }
 .x-button {
 	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
@@ -868,6 +872,13 @@ p {
 	}
 }
 
+.appList {
+	img {
+		float:left;
+		margin: 0 10px 10px 0;
+	}
+}
+
 .radioList {
 	.x-list-item-label {
 		background-image:url('../images/radio_btn_off.png') !important;
@@ -883,6 +894,7 @@ p {
 	}
 	
 }
+
 
 	
 .contactList {
@@ -1765,6 +1777,27 @@ p {
 	background-color:#ffffff;
 	width: 56;
     height: 43;
+}
+.shareAppBtn {
+	@include border-radius(6px);
+	border:1px solid $cellStroke !important;
+	padding:0 !important;
+	.x-button-label {
+		text-align:left;
+		padding:15px 10px 15px 50px;
+		@include border-radius(6px);
+		font-weight:normal;
+		background:#F4F3F1 url('../images/btn_share.png') no-repeat 6px 10px;
+		@include text-shadow(1px 1px 0 #fff);
+		background-repeat:no-repeat;
+		@include box-shadow(inset 0px 1px 1px 0px #fff,0px 1px 1px 0px #fff);
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+	}
+}
+.shareAppBtn.x-button-pressing {
+	.x-button-label {
+		background-color:#F4F3F1;
+	}
 }
 
 .dealBtn {
@@ -2792,6 +2825,13 @@ p {
 	}
 	.shareBtn {
 		background-image: url('../images/btn_share@2x.png');
+	}
+	.shareAppBtn {
+		.x-button-label {
+			background-image: url('../images/btn_share@2x.png');
+			-webkit-background-size: 44px 73px; 
+		}
+
 	}
 	.editBtn {
 		background-image: url('../images/btn_edit@2x.png');

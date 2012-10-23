@@ -47,8 +47,6 @@ Ext.define("escape.view.page.ItineraryDay", {
     },
 
     showInitView: function() {
-        console.log('showInitView');
-        console.log(this.getInitViewType());
         switch (this.getInitViewType()) {
         case 'list':
             this.showList();
@@ -114,6 +112,7 @@ Ext.define("escape.view.page.ItineraryDay", {
                 data: product
             });
         }
+        console.log(intialMarkers);
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
             height: Ext.Viewport.getSize().height - 103,
             interaction: true,

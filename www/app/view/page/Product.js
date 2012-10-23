@@ -360,13 +360,14 @@ Ext.define("escape.view.page.Product", {
         }
         //Deal
         if (product.Deal) {
-            var deal = '<h2>Deal</h2>';
+            var deal = '<h2>Deal</h2><p>';
             if (product.Deal['Start Date']) {
-                deal += '<h3>Start Date: ' + product.Deal['Start Date'] + '</h3>';
+                deal += 'Start Date: ' + product.Deal['Start Date'] + '</br>';
             }
             if (product.Deal['End Date']) {
-                deal += '<h3>End Date: ' + product.Deal['End Date'] + '</h3>';
+                deal += 'End Date: ' + product.Deal['End Date'];
             }
+            deal += '</p>';
             if (product.Deal.Description) {
                 deal += '<p>' + escape.utils.AppFuncs.parseCMSText(product.Deal.Description) + '</p>';
             }
@@ -418,8 +419,8 @@ Ext.define("escape.view.page.Product", {
             for (var r = 0; r < product.Rooms.length; r++) {
                 var room = product.Rooms[r];
                 rooms += '<li><h3>' + room.Name + '</h3>';
-                rooms += '<h4>From: $' + room['Price From'] + ' to $' + room['Price To'] + '</h4>';
-                rooms += '<p>' + room.Details + '</p>';
+                rooms += '<p>From: $' + room['Price From'] + ' to $' + room['Price To'] + '<br>';
+                rooms +=  room.Details + '</p>';
 
             }
             rooms += '</ul>';

@@ -30,13 +30,23 @@ Ext.define('escape.controller.Sharing', {
             },
             'sharingOptions': {
                 hide: 'removeSharingOptions'
+            },
+            'section button[action="shareApp"]': {
+                tap: 'showSharingOptions'
             }
         }
     },
     showSharingOptions: function(btn) {
+        console.log('showSharingOptions');
         var sharingOptions = Ext.create('escape.view.ui.SharingOptions');
-        var sharingData = escape.utils.AppVars.currentPage.getSharingData();
-        if (!sharingData){
+        var sharingData;
+        try {
+            sharingData = escape.utils.AppVars.currentPage.getSharingData();
+        } catch (e) {
+            sharingData = false;
+        }
+
+        if (!sharingData) {
             sharingData = AppSettings.defualtShareData;
         }
         this.setSharingData(sharingData);
@@ -54,7 +64,7 @@ Ext.define('escape.controller.Sharing', {
         try {
             window.plugins.emailComposer.showEmailComposer(subject, body);
         } catch (e) {
-            window.open('mailto:?subject='+subject+'&body='+body, '_blank');
+            window.open('mailto:?subject=' + subject + '&body=' + body, '_blank');
         }
         escape.utils.Tracking.trackEventOnCurrent(10);
     },
@@ -74,11 +84,10 @@ Ext.define('escape.controller.Sharing', {
         // Get access code
         escape.utils.Facebook.getAccess({
             success: function(accessToken) {
-                selfRef.getSharingOptions().showMessageForm('postToFacebook',sharingData.defaultMessage);
+                selfRef.getSharingOptions().showMessageForm('postToFacebook', sharingData.defaultMessage);
 
             },
-            error: function(error) {
-            },
+            error: function(error) {},
             scope: this
         });
 
@@ -97,7 +106,7 @@ Ext.define('escape.controller.Sharing', {
             name: sharingData.name,
             description: sharingData.description,
             link: sharingData.link,
-            picture : sharingData.picture
+            picture: sharingData.picture
         }, {
             success: function(accessToken) {
                 selfRef.getSharingOptions().showSuccess();
@@ -114,14 +123,12 @@ Ext.define('escape.controller.Sharing', {
         escape.utils.Tracking.trackEventOnCurrent(12);
         var selfRef = this;
         var sharingData = this.getSharingData();
-        
+
         window.plugins.twitter.isTwitterSetup(function(r) {
             if (r === 1) {
                 window.plugins.twitter.composeTweet(
 
-                function() {
-                }, function(error) {
-                }, sharingData.defaultMessage, {
+                function() {}, function(error) {}, sharingData.defaultMessage, {
                     urlAttach: sharingData.link,
                     imageAttach: sharingData.picture
                 });
@@ -138,11 +145,10 @@ Ext.define('escape.controller.Sharing', {
         this.getSharingOptions().showLoading();
         escape.utils.Twitter.getAccess({
             success: function(accessToken) {
-                selfRef.getSharingOptions().showMessageForm('postToTwitter',sharingData.defaultMessage);
+                selfRef.getSharingOptions().showMessageForm('postToTwitter', sharingData.defaultMessage);
                 //
             },
-            error: function(error) {
-            },
+            error: function(error) {},
             scope: this
         });
     },

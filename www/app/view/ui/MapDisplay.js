@@ -116,7 +116,9 @@ Ext.define("escape.view.ui.MapDisplay", {
         // add a markers layer
         // add any intial markers
         var intialMarkers = this.getIntialMarkers();
-        if (intialMarkers.length > 1) {
+        console.log(intialMarkers);
+        if (intialMarkers.length > 0) {
+
             // make sure the makers are added in the right order
             intialMarkers = intialMarkers.sort(function(obj1, obj2) {
                 return Number(obj2.lat) - Number(obj1.lat);
@@ -142,7 +144,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         //this.getOpenDirections();
         //this.getBingDirections();
         //this.addMarker(this.getLat(), this.getLon());
-        if (intialMarkers.length > 1) {
+        if (intialMarkers.length > 0) {
             map.zoomToExtent(markers.getDataExtent());
             this.setIntialMarkers([]);
         }
@@ -169,10 +171,10 @@ Ext.define("escape.view.ui.MapDisplay", {
             }
 
             if (useIcon) {
-                size = new OpenLayers.Size(32, 36);
+                size = new OpenLayers.Size(50, 42);
                 var iconNumber = (Number(data.iconText));
                 iconNumber = (iconNumber>99) ? 0 : iconNumber;
-                imgPath = 'resources/images/markers/blue/'+iconNumber+'.png';
+                imgPath = 'resources/images/markers/marker_1.png';
             }
 
             var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);

@@ -563,7 +563,7 @@
 				GCC_PREFIX_HEADER = "SydneyGuide/Sydney Guide-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "SydneyGuide/Sydney Guide-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Sydney Guide";
 				PROVISIONING_PROFILE = "0842C6EC-5F30-4782-ABFD-90B210458C76";
@@ -584,7 +584,7 @@
 				GCC_PREFIX_HEADER = "SydneyGuide/Sydney Guide-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "SydneyGuide/Sydney Guide-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Sydney Guide";
 				PROVISIONING_PROFILE = "0842C6EC-5F30-4782-ABFD-90B210458C76";
