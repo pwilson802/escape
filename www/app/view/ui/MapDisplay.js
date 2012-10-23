@@ -116,7 +116,6 @@ Ext.define("escape.view.ui.MapDisplay", {
         // add a markers layer
         // add any intial markers
         var intialMarkers = this.getIntialMarkers();
-        console.log(intialMarkers);
         if (intialMarkers.length > 0) {
 
             // make sure the makers are added in the right order
@@ -154,7 +153,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         if (this.getBuilt()) {
             var lonLat = escape.utils.Maps.getLatLon(lat, lon);
             var size = new OpenLayers.Size(45, 38);
-            
+
             var imgPath = 'resources/images/pin_red.png';
             if (escape.utils.Img.useRetinaImg) {
                 imgPath = 'resources/images/pin_red@2x.png';
@@ -173,8 +172,12 @@ Ext.define("escape.view.ui.MapDisplay", {
             if (useIcon) {
                 size = new OpenLayers.Size(50, 42);
                 var iconNumber = (Number(data.iconText));
-                iconNumber = (iconNumber>99) ? 0 : iconNumber;
-                imgPath = 'resources/images/markers/marker_1.png';
+                iconNumber = (iconNumber > 99) ? 'star' : iconNumber;
+                var imgSize = '';
+                if (window.devicePixelRatio > 1.2) {
+                    imgSize = '@2x';
+                }
+                imgPath = 'resources/images/markers/marker_' + iconNumber +''+imgSize+'.png';
             }
 
             var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);

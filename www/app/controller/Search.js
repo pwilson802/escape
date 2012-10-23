@@ -131,7 +131,6 @@ Ext.define('escape.controller.Search', {
         //     this.addOption('Destinations', newDesList);
         // }
         var collectionType = this.getCollectionType();
-        console.log('collectionType: ' + collectionType);
         
         if (options.type) {
             this.addOption('Type', options.type);
@@ -228,7 +227,6 @@ Ext.define('escape.controller.Search', {
         var collectionType = this.getSearchPage().getCollectionType();
         this.setCollectionType(collectionType);
 
-        console.log('getSearchParams collectionType: ' + collectionType);
 
         if (collectionType === 'restaurants') {
             params.collection = 'restaurants'; //'prototype-dnsw-' +
