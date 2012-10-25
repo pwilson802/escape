@@ -24,6 +24,14 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     initialize: function() {},
     loadLibaries: function() {
+        if (this.getHeight() > 200) {
+            this.addCls('mapLarge');
+        }
+        this.setMapId('mapContainier' + Math.random() * 1000000000);
+        var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
+        this.add({
+            html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
+        });
         var selfRef = this;
         escape.model.MapFiles.loadRequiredFiles({
             success: function(results) {
@@ -39,11 +47,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     createMapElement: function() {
         if (!this.getBuilt()) {
             EMS.Services.communicationMode = "CrossDomain";
-            this.setMapId('mapContainier' + Math.random() * 1000000000);
-            var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
-            this.add({
-                html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
-            });
+
             // the map logo
             this.add({
                 xtype: 'button',

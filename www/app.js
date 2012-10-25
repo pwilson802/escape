@@ -11,7 +11,7 @@ Ext.application({
     name: 'escape',
     requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars'],
     views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map'],
-    controllers: ['Map','GlobalActions', 'Settings', 'Section', 'Search', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage'],
+    controllers: ['Map','GlobalActions', 'Settings', 'Section', 'Search', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage','Directions'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register', 'ProductSearch', 'Itineraries'],
     stores: ['ProductSearch'],

@@ -232,7 +232,7 @@ AppSettings.mainMenu = [{
     id: 'homeSection',
     collectionType: null,
     firstPage: {
-        xtype: 'homePage',
+        xtype: 'directionsPage',
         title: 'Sydney'
     }
 }, {

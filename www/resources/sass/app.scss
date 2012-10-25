@@ -2067,7 +2067,69 @@ p {
 }
 
 
+///////////////////////
+// Directions
+///////////////////////
+.directionsPage {
+	.x-form {
+		background: #cbccce;
+	}
+	.x-field {
+		@include border-radius(6px); // border radius
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background-color: #fff; // layer fill content
+		@include box-shadow(inset 0 1px 1px rgba(0,0,0,.35)); // inner shadow
+		.x-form-label {
+			background:transparent;
+			font-weight: normal;
+			color: #4c4c4c;
+			span {
+				font-weight: normal;
+				color: #4c4c4c;
+				font-size: 14px;
+			}
+		}
+	}
+	.x-segmentedbutton {
+		background:transparent;
 
+		padding:none;
+		.x-segmentedbutton-inner {
+			background:transparent !important;
+			padding:0 !important;
+			.x-button.listBtn {
+				height: auto;
+				@include box-shadow(2px 4px 5px 1px rgba(0,0,0,.32)); 
+			}
+			.x-button.mapBtn {
+				height: auto;
+				@include box-shadow(2px 4px 5px 1px rgba(0,0,0,.32)); 
+			}
+		}
+	}
+	.directionsList {
+		h1 {
+			text-align: center;
+		}
+		.segment {
+			padding:10px 0;
+			border-bottom:1px solid #cbccce;
+			h2 {
+				display:inline-block;
+				margin: 0;
+				padding:0;
+			}
+			h3 {
+				display:inline-block;
+				margin: 0 0 0 10px;
+			}
+			p {
+				margin: 0;
+				padding:0;
+			}
+		}
+	}
+}
 
 
 
@@ -2177,6 +2239,12 @@ p {
 // MAPPING
 ///////////////////////
 .mapDisplay {
+	background: url(../images/linen_bg.png);
+	&.mapLarge {
+		.mapHolder {
+			background: url(../images/map_loading_badge.png) no-repeat center center;
+		}
+	}
 	.olMap {
 		border-bottom:2px solid #adafb2;
 	}
@@ -3307,6 +3375,20 @@ p {
 		background-image:url(../images/arrow_select@2x.png);
 		-webkit-background-size: 29px 13px; 
 	}
+	.mapDisplay {
+		background-image: url(../images/linen_bg@2x.png);
+		-webkit-background-size: 333px 500px; 
+		&.mapLarge {
+			.mapHolder {
+				background-image: url(../images/map_loading_badge@2x.png);
+				-webkit-background-size: 107px 135px; 
+			}
+		}
+
+	}
+	
+		
+
 
 }
 
