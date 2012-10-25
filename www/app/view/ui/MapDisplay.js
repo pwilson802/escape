@@ -105,7 +105,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         // add zoom controls
         if (this.getInteraction()) {
             try {
-                if (device.platform == 'Android') {
+                //if (device.platform == 'Android') {
                     this.add({
                         xtype: 'button',
                         cls: 'zoomIn',
@@ -126,7 +126,7 @@ Ext.define("escape.view.ui.MapDisplay", {
                         width: 40,
                         zIndex: 1000
                     });
-                }
+                //}
             } catch (e) {
 
             }

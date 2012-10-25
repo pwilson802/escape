@@ -46,6 +46,7 @@ Ext.define("escape.view.page.Directions", {
                 width: 45,
                 items: [{
                     xtype: 'button',
+                    cls: 'switchDirection',
                     action: 'switchDirection',
                     width: 41,
                     height: 41,

@@ -2073,6 +2073,9 @@ p {
 .directionsPage {
 	.x-form {
 		background: #cbccce;
+		.switchDirection {
+			background:#fcfcfb url(../images/map_ico_switch.png) no-repeat center 10px;
+		}
 	}
 	.x-field {
 		@include border-radius(6px); // border radius
@@ -2239,6 +2242,19 @@ p {
 // MAPPING
 ///////////////////////
 .mapDisplay {
+	.zoomIn {
+		border: 1px solid #bbbdbd; // stroke
+		@include border-radius(5px 5px 0 0); // border radius
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background: #f8f6f3 url(../images/map_ico_plus.png) no-repeat center center;
+		border-bottom:0;
+	}
+	.zoomOut {
+		border: 1px solid #bbbdbd; // stroke
+		@include border-radius(0 0 5px 5px); // border radius
+		@include background-clip(); // prevents bg color from leaking outside the border
+		background: #f8f6f3 url(../images/map_ico_minus.png) no-repeat center center;
+	}
 	background: url(../images/linen_bg.png);
 	&.mapLarge {
 		.mapHolder {
