@@ -78,7 +78,7 @@ Ext.define("escape.view.page.Directions", {
                 items: [{
                     xtype: 'button',
                     action: 'switchTranport',
-                    cls: 'switchTranport',
+                    cls: 'car',
                     height: 41,
                     margin: '0 0 6px 0'
                 }, {
@@ -102,11 +102,11 @@ Ext.define("escape.view.page.Directions", {
             items: [{
                 cls: 'mapBtn',
                 type: 'map',
+                pressed: true,
                 flex: 1
             }, {
                 cls: 'listBtn',
                 type: 'list',
-                pressed: true,
                 flex: 1
             }]
         }, {

@@ -2075,7 +2075,19 @@ p {
 		background: #cbccce;
 		.switchDirection {
 			background:#fcfcfb url(../images/map_ico_switch.png) no-repeat center 10px;
+			&.x-button-pressing,
+			&.x-button-pressed {
+				background-position: center -30px;
+			}
 		}
+		.car {
+			background:#fcfcfb url(../images/map_ico_car.png) no-repeat center center;
+		}
+		.walk {
+			background:#fcfcfb url(../images/map_ico_walk.png) no-repeat center center;
+		}
+
+
 	}
 	.x-field {
 		@include border-radius(6px); // border radius

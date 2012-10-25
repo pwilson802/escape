@@ -27,10 +27,14 @@ Ext.define("escape.model.Directions", {
         this.routeManager.clearRoute();
         this.map.markersLayer.clearMarkers();
     },
-    getRoute: function(routeList,callback, scope) {
-        this.routeManager.route(routeList, true, true, "ALL_VEHICLES", this.map.vlayer, {
+    getRoute: function(routeList, transportType, callback, scope) {
+        var useTransportType = "ALL_VEHICLES";
+        if (transportType == 'walk') {
+            useTransportType = "PEDESTRIAN";
+        }
+        this.routeManager.route(routeList, true, true, useTransportType, this.map.vlayer, {
             onComplete: function(routeResult) {
-                 Ext.callback(callback.success, scope, [routeResult]);
+                Ext.callback(callback.success, scope, [routeResult]);
             }
         });
     }
