@@ -212,18 +212,25 @@ Ext.define("escape.model.Weather", {
 
     // Loads the full weather including the forcasts
     loadWeather: function(lat, lon, callback, scope) {
+
         var selfRef = this;
         // load the waeather
-         var regID = escape.utils.Tracking.getRegID();
+        var regID = escape.utils.Tracking.getRegID();
         Ext.Ajax.useDefaultXhrHeader = false;
+
+        var stationId = this.getStationId();
+        if (stationId === 0 && lat === 0) {
+            stationId = AppSettings.weatherStations[0].stationId;
+        }
+
         Ext.Ajax.request({
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppID?nocache='+new Date().getTime(),
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppID?nocache=' + new Date().getTime(),
             method: "POST",
             jsonData: {
-                "StationID": this.getStationId(),
+                "StationID": stationId,
                 "Latitude": lat,
                 "Longitude": lon,
                 "RegID": regID,
@@ -313,17 +320,22 @@ Ext.define("escape.model.Weather", {
     loadBriefWeather: function(lat, lon, callback, scope) {
         //http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherBrief
         var selfRef = this;
-         var regID = escape.utils.Tracking.getRegID();
+        var regID = escape.utils.Tracking.getRegID();
+        //
+        var stationId = this.getStationId();
+        if (stationId === 0 && lat === 0) {
+            stationId = AppSettings.weatherStations[0].stationId;
+        }
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
         Ext.Ajax.request({
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppIDBrief?nocache='+new Date().getTime(),
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppIDBrief?nocache=' + new Date().getTime(),
             method: "POST",
             jsonData: {
-                "StationID": this.getStationId(),
+                "StationID": stationId,
                 "Latitude": lat,
                 "Longitude": lon,
                 "RegID": regID,

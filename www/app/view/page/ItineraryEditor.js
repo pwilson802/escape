@@ -70,6 +70,7 @@ Ext.define("escape.view.page.ItineraryEditor", {
                 dateFormat: 'd/m/Y',
                 value: startDateValue,
                 name: 'startDate',
+                itemId: 'startDate',
                 picker: {
                     yearFrom: todaysDate.getFullYear(),
                     yearTo: maxDate.getFullYear()
@@ -80,6 +81,7 @@ Ext.define("escape.view.page.ItineraryEditor", {
                 dateFormat: 'd/m/Y',
                 value: endDateValue,
                 name: 'endDate',
+                itemId: 'endDate',
                 picker: {
                     yearFrom: todaysDate.getFullYear(),
                     yearTo: maxDate.getFullYear()

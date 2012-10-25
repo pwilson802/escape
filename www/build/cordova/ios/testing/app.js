@@ -27861,14 +27861,12 @@ Ext.define('escape.utils.Img', {
     // see if the network level and phone supports the use of a retina img
     retinaAvailable: function() {
         // is the user on IOS
-        if (window.device) {
-            if (device.platform == 'iOS' || device.platform == 'iPhone' || device.platform == 'iPad') {
-                // does that iOS device support retina
-                if (Number(device.version) >= 4) {
-                    return true;
-                }
+        if (window.devicePixelRatio) {
+            if (window.devicePixelRatio > 1) {
+                return true;
+            } else {
+                return false;
             }
-            return false;
         }
         return false;
     },
@@ -27908,12 +27906,12 @@ Ext.define('escape.utils.Img', {
     getResizeURL: function(url, width) {
         // make sure the image is from our server
         var allowedDomain = false;
-        var imagePath ='';
+        var imagePath = '';
         for (var i = AppSettings.imageResizing.fromURLs.length - 1; i >= 0; i--) {
             fromURL = AppSettings.imageResizing.fromURLs[i];
             if (url.indexOf(fromURL.url) != -1) {
-                if (fromURL.remote){
-                imagePath = '/remote/'+fromURL.url+url.split(fromURL.url)[1];
+                if (fromURL.remote) {
+                    imagePath = '/remote/' + fromURL.url + url.split(fromURL.url)[1];
                 } else {
                     imagePath = url.split(fromURL.url)[1];
                 }
@@ -27929,11 +27927,10 @@ Ext.define('escape.utils.Img', {
                 ratio = window.devicePixelRatio;
             }
             // don't request high def images if on a low connection
-            if (connectionType=='CELL_2G'){
+            if (connectionType == 'CELL_2G') {
                 ratio = 1;
             }
             //ratio = 0.5;
-
             // scale the width to account for pixel density
             var realWidth = Math.round(width * ratio);
             var returnURL = AppSettings.imageResizing.resizeURL + imagePath + '?width=' + realWidth;
@@ -27945,24 +27942,62 @@ Ext.define('escape.utils.Img', {
 Ext.define('escape.utils.AppFuncs', {
     singleton: true,
     openLink: function(url) {
-        console.log('openLink');
         cb = window.plugins.childBrowser;
         cb.showWebPage(url);
         escape.utils.Tracking.trackEventOnCurrent(7);
     },
     trackPhoneCall: function() {
-        console.log('trackPhoneCall');
         escape.utils.Tracking.trackEventOnCurrent(2);
     },
     openProduct: function(productId, type) {
-        console.log('type: ' + type);
-        console.log('productId: ' + productId);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: type.toProperCase(),
             xtype: 'productPage',
             productId: productId,
             productType: type
         });
+    },
+    unfousFields: function() {
+        // samll hack to unfous text fields on android
+        if (!Ext.os.is.iOS) {
+            // var field = document.createElement('input');
+            // field.setAttribute('type', 'text');
+            // field.setAttribute('style', 'font-size:1px');
+            // document.body.appendChild(field);
+            // setTimeout(function() {
+            //     field.focus();
+            //     setTimeout(function() {
+            //         field.setAttribute('style', 'display:none;font-size:1px;');
+            //     }, 50);
+            // }, 50);
+
+
+            var inputClearPanel = Ext.create('Ext.Panel', {
+                cls: 'inputClearPanel',
+                itemId: 'inputClearPanel',
+                top: 0,
+                right: 55,
+                width: 25,
+                items: [{
+                    xtype: 'textfield',
+                    itemId: 'inputClear'
+                }]
+            });
+
+            Ext.Viewport.add(inputClearPanel);
+            var input = inputClearPanel.getComponent('inputClear');
+            //addedMsg.show();
+            setTimeout(function() {
+                input.focus();
+                setTimeout(function() {
+                    input.setStyle('display:none');
+                    setTimeout(function() {
+                        Ext.Viewport.remove(inputClearPanel);
+                    }, 1000);
+                }, 20);
+            }, 20);
+        }
+
     },
     parseCMSText: function(description) {
         var linksStartBreakdown = description.split('<a href="');
@@ -27983,19 +28018,19 @@ Ext.define('escape.utils.AppFuncs', {
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
-                    if (type =='restaurants'){
+                    if (type == 'restaurants') {
                         type = 'restaurant';
                     }
-                     for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
+                    for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
                         if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
                             allowedLink = true;
                             break;
                         }
                     }
-                    if (allowedLink){
-                         output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                    if (allowedLink) {
+                        output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
                     }
-                   
+
                 }
                 if (!allowedLink) {
                     // the link is an external link make sure it opens in a child browser
@@ -28076,7 +28111,6 @@ Ext.define('escape.utils.Database', {
             var dbName = selfRef.getFileName() + '.db';
             this.dbConn = window.sqlitePlugin.openDatabase(dbName, selfRef.getVersion(), selfRef.getName(), selfRef.getSize());
             if (this.dbConn) {
-                console.log('sql working');
                 selfRef.fireEvent('ready');
             }
 
@@ -28092,7 +28126,6 @@ Ext.define('escape.utils.Database', {
                     selfRef.checkDatabase();
                 }
             } else {
-                console.log('web sql failed to load');
             }
         }
     },
@@ -28175,11 +28208,7 @@ Ext.define('escape.utils.Database', {
             }
             tx.executeSql(
             sql, (params ? params : []), function(tx, results) {
-                try {
-                    successcallback(tx, results);
-                } catch (e) {
-
-                }
+                //  close the database
                 if (!Ext.os.is.iOS) {
                     // we only need to close an open the database connection on android
                     try {
@@ -28188,6 +28217,13 @@ Ext.define('escape.utils.Database', {
 
                     }
                 }
+                // call the sucess function
+                try {
+                    successcallback(tx, results);
+                } catch (e) {
+
+                }
+                
             }, function(tx, e) {
                 console.log(sql);
                 console.log(e);
@@ -28334,14 +28370,22 @@ Ext.define('escape.utils.Tracking', {
 
         this.insertTracking(pageCode, pageId, eventId);
     },
-     trackEventOnCurrent: function(eventId) {
+    trackEventOnCurrent: function(eventId) {
         var trackBy = escape.utils.AppVars.currentPage;
-         if (!trackBy){
-              trackBy= escape.utils.AppVars.currentSection;
-         }
-        var  pageCode = trackBy.getPageTypeId();
-        var pageId =  trackBy.getPageTrackingId();
+        if (!trackBy) {
+            trackBy = escape.utils.AppVars.currentSection;
+        }
+        var pageCode = trackBy.getPageTypeId();
+        var pageId = trackBy.getPageTrackingId();
         this.insertTracking(pageCode, pageId, eventId);
+    },
+    getRegID: function() {
+        if (this.RegID === 0 || this.RegID === null || this.RegID === undefined) {
+            // if the device has not been registered use dev reg id ( 5 is one of Ryans Reg IDs )
+            return 5;
+        } else {
+            return this.RegID;
+        }
     },
 
     // if the users table has not been created then create it values are stored as key value pairs
@@ -28356,10 +28400,10 @@ Ext.define('escape.utils.Tracking', {
             this.loadRegInfo();
         }
         // eventDesc
-         var eventDesc = '';
-        if (isNaN(pageId)){
-              eventDesc = pageId;
-              pageId = 0;
+        var eventDesc = '';
+        if (isNaN(pageId)) {
+            eventDesc = pageId;
+            pageId = 0;
         }
         //
         var date = new Date();
@@ -28372,7 +28416,7 @@ Ext.define('escape.utils.Tracking', {
             selfRef.checkSendTracking();
         }, function(t, e) {
             // error return null for the user value
-        }, [pageCode, pageId, eventId, eventDesc ,mili, 0]);
+        }, [pageCode, pageId, eventId, eventDesc, mili, 0]);
     },
     // check in we want to send the the tracking to the server
     checkSendTracking: function(pageCode, pageId, eventId) {
@@ -28393,48 +28437,51 @@ Ext.define('escape.utils.Tracking', {
     },
     //  currently saving rows
     saveTracking: function(rows) {
-        this.sendingTracking = true;
+        if (Ext.device.Connection.isOnline()) {
+            // only try to send tracking if the device is online
+            this.sendingTracking = true;
+            var trackingObj = {
+                RegID: this.getRegID(),
+                AppID: AppSettings.AppID,
+                activities: []
+            };
+            //pageCode,,eventId
+            for (var i = 0; i < rows.length; i++) {
+                var eventObj = rows.item(i);
+                var saveData = {};
+                saveData.DateTime = "/Date(" + eventObj.eventDate + ")/";
+                saveData.EvtCode = eventObj.pageCode;
+                saveData.EvtCode2 = eventObj.pageId;
+                saveData.EvtCode3 = eventObj.eventId;
+                saveData.EvtDesc = eventObj.eventDesc;
+                trackingObj.activities.push(saveData);
+            }
+            //
+            var selfRef = this;
+            // send the tracking
+            Ext.Ajax.useDefaultXhrHeader = false;
+            Ext.Ajax.request({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/BulkLogActivity',
+                method: "POST",
+                jsonData: trackingObj,
+                success: function(response) {
+                    var regData = JSON.parse(Ext.decode(response.responseText));
+                    if (regData.EvtID > 0) {
+                        selfRef.deleteTrackingEvents(rows);
+                    } else {
+                        selfRef.sendingTracking = false;
+                    }
 
-        var trackingObj = {
-            RegID: this.RegID,
-            AppID: AppSettings.AppID,
-            activities: []
-        };
-        //pageCode,,eventId
-        for (var i = 0; i < rows.length; i++) {
-            var eventObj = rows.item(i);
-            var saveData = {};
-            saveData.DateTime = "/Date(" + eventObj.eventDate + ")/";
-            saveData.EvtCode = eventObj.pageCode;
-            saveData.EvtCode2 = eventObj.pageId;
-            saveData.EvtCode3 = eventObj.eventId;
-            saveData.EvtDesc = eventObj.eventDesc;
-            trackingObj.activities.push(saveData);
-        }
-        //
-        var selfRef = this;
-        // send the tracking
-        Ext.Ajax.useDefaultXhrHeader = false;
-        Ext.Ajax.request({
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/BulkLogActivity',
-            method: "POST",
-            jsonData: trackingObj,
-            success: function(response) {
-                var regData = JSON.parse(Ext.decode(response.responseText));
-                if (regData.EvtID > 0) {
-                    selfRef.deleteTrackingEvents(rows);
-                } else {
+                },
+                failure: function(response, opts) {
                     selfRef.sendingTracking = false;
                 }
+            });
+        }
 
-            },
-            failure: function(response, opts) {
-                selfRef.sendingTracking = false;
-            }
-        });
     },
     deleteTrackingEvents: function(rows) {
         this.sendingTracking = false;
@@ -28448,9 +28495,7 @@ Ext.define('escape.utils.Tracking', {
                 SQL += ' OR';
             }
         }
-        db.queryDB(SQL, function(t, rs) {
-        }, function(e) {
-        }, []);
+        db.queryDB(SQL, function(t, rs) {}, function(e) {}, []);
     },
     // laod the Reg info
     loadRegInfo: function() {
@@ -28568,36 +28613,42 @@ Ext.define("escape.model.Currency", {
     },
     // call the setup if need the perform the required callback
     loadDefaults: function(callback, scope) {
-        var dateNow = new Date();
-        var diff = dateNow - this.lastUpdatedDate;
-        if (diff > this.reloadIn || this.currencys.length === 0) {
-            // reload the current data is old or does not exist
+        if (!this.lastUpdatedDate) {
             this.loadCurrencyList(callback, scope);
         } else {
-            // do not reload use the current data
-            if (this.getOrginalCurrency() === null) {
-                this.checkOrginalCurrency(callback, scope);
+            var dateNow = new Date();
+            var diff = dateNow - this.lastUpdated;
+            if (diff > this.reloadIn || this.currencys.length === 0) {
+                // reload the current data is old or does not exist
+                this.loadCurrencyList(callback, scope);
             } else {
-                Ext.callback(callback.success, scope);
-            }
+                // do not reload use the current data
+                if (this.getOrginalCurrency() === null) {
+                    this.checkOrginalCurrency(callback, scope);
+                } else {
+                    Ext.callback(callback.success, scope);
+                }
 
+            }
         }
     },
     // Load the list of currencys
     loadCurrencyList: function(callback, scope) {
+        var regID = escape.utils.Tracking.getRegID();
         var selfRef = this;
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
+        var url = 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRates?nocache=' + new Date().getTime();
         Ext.Ajax.request({
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRates?nocache='+new Date().getTime(),
+            url: url,
             method: "POST",
             jsonData: {
                 "RateID": "0",
                 "RateCode": "",
-                "RegID": "1"
+                "RegID": regID
             },
             success: function(response) {
                 selfRef.lastUpdated = new Date();
@@ -28634,7 +28685,7 @@ Ext.define("escape.model.Currency", {
             success: function(orginalCurrency) {
                 if (orginalCurrency === null || orginalCurrency === undefined) {
                     // no user language has been selected
-                    selfRef.setOrginalCurrency(selfRef.currencys[0]);
+                    selfRef.setOrginalCurrency('AUD');
                 } else {
                     selfRef.setOrginalCurrency(orginalCurrency);
                 }
@@ -28642,7 +28693,7 @@ Ext.define("escape.model.Currency", {
             },
             error: function(error) {
                 // no user temp has been selected
-                selfRef.setOrginalCurrency(selfRef.currencys[0]);
+                selfRef.setOrginalCurrency('AUD');
                 selfRef.checkConvertedCurrency(callback, scope);
             },
             scope: this
@@ -28650,12 +28701,13 @@ Ext.define("escape.model.Currency", {
     },
     // Check to see if the user has picked a convertedCurrency
     checkConvertedCurrency: function(callback, scope) {
-        var selfRef = this;
+         var selfRef = this;
+       
         escape.model.UserSettings.getSetting('convertedCurrency', {
             success: function(convertedCurrency) {
                 if (convertedCurrency === null || convertedCurrency === undefined) {
                     // no user language has been selected
-                    selfRef.setConvertedCurrency(selfRef.currencys[1]);
+                    selfRef.setConvertedCurrency('EUR');
                 } else {
                     selfRef.setConvertedCurrency(convertedCurrency);
                 }
@@ -28663,7 +28715,7 @@ Ext.define("escape.model.Currency", {
             },
             error: function(error) {
                 // no user temp has been selected
-                selfRef.setConvertedCurrency(selfRef.currencys[1]);
+                selfRef.setConvertedCurrency('EUR');
                 Ext.callback(callback.success, scope);
             },
             scope: this
@@ -28723,7 +28775,7 @@ Ext.define("escape.model.Currency", {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRate?nocache='+new Date().getTime(),
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/ExRate?nocache=' + new Date().getTime(),
             method: "POST",
             jsonData: {
                 "RateID": "0",
@@ -28790,7 +28842,6 @@ Ext.define("escape.model.Register", {
             "OSType": device.platform,
             "OSVer": device.version
         };
-        console.log(jsonData);
         var selfRef = this;
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
@@ -28802,13 +28853,11 @@ Ext.define("escape.model.Register", {
             method: "POST",
             jsonData: jsonData,
             success: function(response) {
-                console.log('reg success');
                 var regData = JSON.parse(Ext.decode(response.responseText));
                 // process server response here
                 selfRef.registerComplete(regData, callback, scope);
             },
             failure: function(response, opts) {
-                console.log('reg failure');
                 Ext.callback(callback.error, scope);
             }
         });
@@ -28835,8 +28884,8 @@ Ext.define("escape.model.Itineraries", {
         // create the required tables for your itineraries
         var db = escape.utils.DatabaseManager.getBDConn('user');
         db.queryDB('CREATE TABLE IF NOT EXISTS itineraries (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name, startDate, endDate)');
-        db.queryDB('CREATE TABLE IF NOT EXISTS itineraryDays (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, itinerary_id, dayNum, notes)');
-        db.queryDB('CREATE TABLE IF NOT EXISTS itineraryProducts (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, itinerary_id, dayNum, orderNum, product_id, type, name, data)');
+        db.queryDB('CREATE TABLE IF NOT EXISTS itineraryDays (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER, dayNum INTEGER, notes)');
+        db.queryDB('CREATE TABLE IF NOT EXISTS itineraryProducts (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER, dayNum INTEGER, orderNum INTEGER, product_id INTEGER, type, name, data)');
     },
     // itineraries
     getItineraries: function(callback, scope) {
@@ -28867,7 +28916,7 @@ Ext.define("escape.model.Itineraries", {
             selfRef.getItinerary(rs.insertId, callback, scope);
         }, function(t, e) {
             Ext.callback(callback.error, scope, []);
-        }, [name, startDate, endDate]);
+        }, [name, String(startDate), String(endDate)]);
     },
     deleteItinerary: function(id, callback, scope) {
         var selfRef = this;
@@ -28906,21 +28955,22 @@ Ext.define("escape.model.Itineraries", {
                 Ext.callback(callback.success, scope, [rs.rows]);
             } else {
                 // create the notes if they do not exist
-                selfRef.addItineraryDayNotes(itinerary_id, dayNum, callback, scope);
+                Ext.callback(callback.success, scope, [false]);
+                //selfRef.addItineraryDayNotes(itinerary_id, dayNum, callback, scope);
             }
 
         }, function(t, e) {
-            selfRef.addItineraryDayNotes(itinerary_id, dayNum, callback, scope);
+            Ext.callback(callback.error, scope, [false]);
         }, [itinerary_id, dayNum]);
     },
-    addItineraryDayNotes: function(itinerary_id, dayNum, callback, scope) {
+    addItineraryDayNotes: function(itinerary_id, dayNum, notes, callback, scope) {
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('user');
         db.queryDB('INSERT INTO itineraryDays (itinerary_id, dayNum, notes) VALUES (?,?,?)', function(t, rs) {
-            selfRef.getItineraryDayNotes(itinerary_id, dayNum, callback, scope);
-        }, function(t, e) {
             Ext.callback(callback.success, scope, []);
-        }, [itinerary_id, dayNum, '']);
+        }, function(t, e) {
+            Ext.callback(callback.error, scope, []);
+        }, [itinerary_id, dayNum, notes]);
     },
     updateItineraryDayNotes: function(itinerary_id, dayNum, notes, callback, scope) {
         var selfRef = this;
@@ -28928,7 +28978,7 @@ Ext.define("escape.model.Itineraries", {
         db.queryDB('UPDATE  itineraryDays SET notes=(?) WHERE itinerary_id = (?) AND dayNum = (?)', function(t, rs) {
             Ext.callback(callback.success, scope, []);
         }, function(t, e) {
-            Ext.callback(callback.success, scope, []);
+            Ext.callback(callback.error, scope, []);
         }, [notes, itinerary_id, dayNum]);
     },
     // itineraries products
@@ -28995,6 +29045,54 @@ Ext.define("escape.view.ui.Footer", {
             cls: 'logo'
         }]
     }
+});
+Ext.define('escape.controller.Settings', {
+    extend: 'Ext.app.Controller',
+    config: {
+        refs: {
+            settingsPage: 'settingsPage'
+        },
+        control: {
+            'settingsPage button[action=clearCache]': {
+                tap: 'clearCache'
+            }
+        }
+    },
+    // clear the proxy cache
+    clearCache: function() {
+        // will clear all downloaded data
+         var localdata =  localStorage.getItem("proxyCache");
+        localStorage.setItem("proxyCache", '{}');
+        localdata =  localStorage.getItem("proxyCache");
+        
+         var addedMsg = Ext.create('Ext.Panel', {
+            cls: 'prompt favsAddedMsg',
+           // modal: true,
+            centered: true,
+            //hideOnMaskTap: true,
+            masked: false,
+            html: 'Cleared',
+            showAnimation: {
+                type: 'popIn',
+                duration: 200,
+                easing: 'ease-out'
+            },
+            hideAnimation: {
+                type: 'popOut',
+                duration: 100,
+                easing: 'ease-out'
+            }
+        });
+
+        Ext.Viewport.add(addedMsg);
+        addedMsg.show();
+
+        var task = new Ext.util.DelayedTask(function() {
+            addedMsg.hide();
+        }, this);
+        task.delay(1000);
+    }
+
 });
 /**
  * @aside guide forms
@@ -29443,6 +29541,7 @@ Ext.define("escape.view.subSection.SubSection", {
         fullscreen: true,
         pageTitle: '',
         rightBtn: "searchBtn",
+        hasInputs: false,
         cardViewItemId: 0,
         cardView: null,
         listeners: {
@@ -29970,9 +30069,7 @@ Ext.define("escape.model.Weather", {
             } else {
                 var dateNow = new Date();
                 var diff = dateNow - this.lastUpdatedDate;
-                console.log('!!! diff: ' + diff);
                 if (diff > this.reloadIn || this.forcatsByDay.length <= 1) {
-                    console.log('!!! reload full weather !!!');
                     // reload the current data is old or the fullweather has not been loaded
                     this.checkLocation(callback, scope);
 
@@ -29985,7 +30082,6 @@ Ext.define("escape.model.Weather", {
 
     },
     checkLocation: function(callback, scope) {
-        console.log('checkLocation');
         var selfRef = this;
         if (this.getStationId() === 0) {
             Ext.device.Geolocation.getCurrentPosition({
@@ -30003,26 +30099,31 @@ Ext.define("escape.model.Weather", {
 
     // Loads the full weather including the forcasts
     loadWeather: function(lat, lon, callback, scope) {
-        console.log('loadWeather: ' + lat);
-        console.log('loadWeather: ' + lon);
+
         var selfRef = this;
         // load the waeather
+        var regID = escape.utils.Tracking.getRegID();
         Ext.Ajax.useDefaultXhrHeader = false;
+
+        var stationId = this.getStationId();
+        if (stationId === 0 && lat === 0) {
+            stationId = AppSettings.weatherStations[0].stationId;
+        }
+
         Ext.Ajax.request({
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppID?nocache='+new Date().getTime(),
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppID?nocache=' + new Date().getTime(),
             method: "POST",
             jsonData: {
-                "StationID": this.getStationId(),
+                "StationID": stationId,
                 "Latitude": lat,
                 "Longitude": lon,
-                "RegID": "1",
+                "RegID": regID,
                 "AppID": AppSettings.AppID
             },
             success: function(response) {
-                console.log(response);
                 var weatherData = JSON.parse(Ext.decode(response.responseText));
 
                 // process server response here
@@ -30106,19 +30207,25 @@ Ext.define("escape.model.Weather", {
     loadBriefWeather: function(lat, lon, callback, scope) {
         //http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherBrief
         var selfRef = this;
+        var regID = escape.utils.Tracking.getRegID();
+        //
+        var stationId = this.getStationId();
+        if (stationId === 0 && lat === 0) {
+            stationId = AppSettings.weatherStations[0].stationId;
+        }
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
         Ext.Ajax.request({
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppIDBrief?nocache='+new Date().getTime(),
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherAppIDBrief?nocache=' + new Date().getTime(),
             method: "POST",
             jsonData: {
-                "StationID": this.getStationId(),
+                "StationID": stationId,
                 "Latitude": lat,
                 "Longitude": lon,
-                "RegID": "1",
+                "RegID": regID,
                 "AppID": AppSettings.AppID
             },
             success: function(response) {
@@ -30150,31 +30257,6 @@ Ext.define("escape.model.Weather", {
         //
     }
 
-
-});
-Ext.define('escape.controller.Settings', {
-    extend: 'Ext.app.Controller',
-    config: {
-        refs: {
-            settingsPage: 'settingsPage'
-        },
-        control: {
-            'settingsPage list[action=selectLang]': {
-                select: 'languageSelected'
-            }
-
-
-        }
-    },
-
-    // a language has been selected
-    languageSelected: function(list, record) {
-        if (escape.model.LanguageContent.getLangCode() != record.data.value) {
-            escape.model.LanguageContent.setLangCode(record.data.value);
-            this.getSettingsPage().openView();
-        }
-
-    }
 
 });
 Ext.define("escape.view.ui.MenuBtn", {
@@ -30862,13 +30944,10 @@ Ext.define('Ext.util.Geolocation', {
      // FACEBOOK ACCESS
      /////////////////////////////////////////////////////
      getAccess: function(callback, scope) {
-        console.log('!!! facebookAccessToken get access');
          var selfRef = this;
-         console.log('this.accessToken: ' + this.accessToken);
          if (this.accessToken === null) {
              escape.model.UserSettings.getSetting('facebookAccessToken', {
                  success: function(accessToken) {
-                    console.log('!!! accessToken: ' + accessToken);
                      if (!accessToken) {
                          // no FacebookAccessToken has been save
                          selfRef.startAccessProcess(callback, scope);
@@ -30932,13 +31011,10 @@ Ext.define('Ext.util.Geolocation', {
      },
      saveAccessToken: function(accessToken, callback, scope) {
          this.accessToken = accessToken;
-         console.log(accessToken);
          escape.model.UserSettings.setSetting('facebookAccessToken', accessToken, {
              success: function(FacebookAccessToken) {
-                 console.log('facebookAccessToken Saved');
              },
              error: function(error) {
-                 console.log('facebookAccessToken Error');
              },
              scope: this
          });
@@ -30948,8 +31024,7 @@ Ext.define('Ext.util.Geolocation', {
      // FACEBOOK SHARING
      /////////////////////////////////////////////////////
      postMessage: function(fbType, extraParams,callback, scope) {
-         console.log('!!!!! postMessage');
-         var url = '`/me/' + fbType + '?access_token=' + this.accessToken;
+         var url = 'https://graph.facebook.com/me/' + fbType + '?access_token=' + this.accessToken;
          for (var key in extraParams) {
              if (key == "message") {
                  // We will want to escape any special characters here vs encodeURI
@@ -30958,18 +31033,14 @@ Ext.define('Ext.util.Geolocation', {
                  url = url + "&" + key + "=" + encodeURIComponent(extraParams[key]);
              }
          }
-         console.log(url);
          Ext.Ajax.request({
              url: url,
              method: "POST",
              success: function(response) {
-                 console.log('!!! fb callback post success');
                  Ext.callback(callback.success, scope, []);
              },
              failure: function(response, opts) {
                 Ext.callback(callback.error, scope, []);
-                 console.log('!!! fb callback post fail');
-                 console.log('server-side failure with status code ' + response.status);
              }
          });
      }
@@ -31053,7 +31124,6 @@ Ext.define('Ext.util.Geolocation', {
                  selfRef.saveAccessToken(accessData, callback, scope);
                 
              }, function(data) {
-                 console.log('!!! oauth fail');
                  window.plugins.childBrowser.close();
                  Ext.callback(callback.error, scope, [false]);
              });
@@ -31061,13 +31131,10 @@ Ext.define('Ext.util.Geolocation', {
      },
      saveAccessToken: function(accessData, callback, scope) {
          this.twitterKey = accessData;
-         console.log(accessData);
          escape.model.UserSettings.setSetting('twitterKey', JSON.stringify(accessData), {
              success: function(FacebookAccessToken) {
-                 console.log('twitterKey Saved');
              },
              error: function(error) {
-                 console.log('twitterKey Error');
              },
              scope: this
          });
@@ -31078,15 +31145,12 @@ Ext.define('Ext.util.Geolocation', {
      // TWEET
      /////////////////////////////////////////////////////
      tweet: function(tweet,callback,scope) {
-         console.log('!!! tweet');
          AppSettings.twitter.accessTokenKey = this.twitterKey.accessTokenKey; // This is saved when they first sign in
          AppSettings.twitter.accessTokenSecret = this.twitterKey.accessTokenSecret; // this is saved when they first sign in
-         console.log(AppSettings.twitter);
          // jsOAuth takes care of everything for us we just need to provide the options
          this.oauth = OAuth(AppSettings.twitter);
          var selfRef = this;
          this.oauth.get('https://api.twitter.com/1/account/verify_credentials.json?skip_status=true', function(data) {
-             console.log('!!! verified!');
              var entry = JSON.parse(data.text);
              selfRef.post(tweet,callback,scope);
          });
@@ -31100,14 +31164,11 @@ Ext.define('Ext.util.Geolocation', {
              // jsOAuth encodes for us
              'trim_user': 'true'
          }, function(data) {
-             console.log('!!! sucessfull set update');
              var entry = JSON.parse(data.text);
              Ext.callback(callback.success, scope, []);
              // FOR THE EXAMPLE
              app.done();
          }, function(data) {
-             console.log('!!! error posting status');
-             console.log(data);
              Ext.callback(callback.error, scope, []);
          });
      }
@@ -31266,90 +31327,6 @@ Ext.define("escape.view.ui.ProductListItem", {
     config: {
         cls: 'productListItem',
         tpl: '<h3>{name}</h3><h4>{suburb}</h4><div class="productImg" style="background-image:url({imagePath});"></div>'
-    }
-});
-Ext.define("escape.model.WhereIsPOI", {
-    mixins: ['Ext.mixin.Observable'],
-    singleton: true,
-    query: null,
-    distance: -1,
-    geoLocation: false,
-    pageSize: 25,
-    search: function($query, $distance, $geoLocation) {
-        this.query = $query;
-        this.distance = $distance;
-        this.geoLocation = $geoLocation;
-        this.loadLibaries();
-    },
-    loadLibaries: function() {
-        var selfRef = this;
-        escape.model.MapFiles.loadRequiredFiles({
-            success: function(results) {
-                EMS.Util.getDomain = function() {
-                    return "destinationnsw.com.au";
-                };
-                selfRef.defineQurey();
-                selfRef.runQuery();
-            },
-            error: function(error) {},
-            scope: this
-        });
-    },
-    defineQurey: function() {
-        var query = {};
-        // the keyword to search by
-        query.keyword = this.query;
-        if (this.distance != -1) {
-            // convert your lat lon into a EMS lat lon
-            var latlon = new EMS.LonLat(this.geoLocation.longitude, this.geoLocation.latitude);
-            // one approx km in degress
-            var dist = this.distance / 6371;
-            // search by lat long to radians
-            var lon1 = latlon.lon * Math.PI / 180;
-            var lat1 = latlon.lat * Math.PI / 180;
-            // get the lat lon in the north west
-            var brng = 315 * (Math.PI / 180);
-            var lat2 = Math.asin(Math.sin(lat1) * Math.cos(dist) + Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
-            var lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) * Math.cos(lat1), Math.cos(dist) - Math.sin(lat1) * Math.sin(lat2));
-            // get the lat lon in the south east
-            brng = 135 * (Math.PI / 180);
-            var lat3 = Math.asin(Math.sin(lat1) * Math.cos(dist) + Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
-            var lon3 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) * Math.cos(lat1), Math.cos(dist) - Math.sin(lat1) * Math.sin(lat3));
-            // convert lat back to deimails
-            lon1 = (lon1 * 180 / Math.PI);
-            lon2 = (lon2 * 180 / Math.PI);
-            lon3 = (lon3 * 180 / Math.PI);
-            lat1 = (lat1 * 180 / Math.PI);
-            lat2 = (lat2 * 180 / Math.PI);
-            lat3 = (lat3 * 180 / Math.PI);
-            // create the bounds object
-            bounds = new OpenLayers.Bounds(lon2, lat3, lon3, lat2);
-            query.bounds = bounds.asWGS84();
-        } else {
-            // search within the app bounds
-            bounds = new OpenLayers.Bounds(AppSettings.bounds.left, AppSettings.bounds.bottom, AppSettings.bounds.right, AppSettings.bounds.top);
-            query.bounds = bounds.asWGS84();
-        }
-        // the amount of results to be returned
-        query.size = this.pageSize;
-        this.query = query;
-    },
-    runQuery: function() {
-        var selfRef = this;
-        var geocoder = new EMS.Services.Geocoder();
-        // request the search
-        geocoder.poiSearch(this.query, function(poiResults) {
-            selfRef.resultsLoaded(poiResults);
-        });
-
-    },
-    loadMore: function(page) {
-        this.query.offset = this.pageSize * page;
-        this.query.id = new Date().getTime();
-        this.runQuery();
-    },
-    resultsLoaded: function(poiResults) {
-        this.fireEvent('resultsLoaded', poiResults);
     }
 });
 /**
@@ -31580,70 +31557,41 @@ Ext.define('escape.utils.Maps', {
         return pointsList;
     }
 });
-Ext.define("escape.model.MapFiles", {
-    loaded: false,
+Ext.define("escape.model.Directions", {
+    requires: [],
     singleton: true,
-    config: {},
-    loadRequiredFiles: function(callback, scope) {
-        if (this.loaded) {
-            Ext.callback(callback.success, scope, []);
+    geocoder: null,
+    routeManager: null,
+    map: null,
+    setup: function(map) {
+        this.map = map;
+        this.geocoder = new EMS.Services.Geocoder();
+        this.routeManager = new EMS.Services.RouteManager(map);
+    },
+    // given an address will return a latlon via the  processAddress return func
+    geocodeAddress: function(addressStr, callback, scope) {
+        var selfRef = this;
+        this.geocoder.findGeocodedAddress(addressStr, function(addresses) {
+            selfRef.processAddress(addresses, callback);
+        });
+    },
+    processAddress: function(addresses, callback, scope) {
+        if (addresses.results.length > 0) {
+            Ext.callback(callback.success, scope, [addresses.results[0]]);
         } else {
-            this.loadOpenLayers(callback, scope);
+            Ext.callback(callback.error, scope, []);
         }
     },
-
-    loadOpenLayers: function(callback, scope) {
-        var selfRef = this;
-        //'resources/js/OpenLayers.js' 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'
-        LazyLoad.js(['http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'], function() {
-            selfRef.loadEMS(callback, scope);
-        });
+    clearRoute: function() {
+        this.routeManager.clearRoute();
+        this.map.markersLayer.clearMarkers();
     },
-
-    loadEMS: function(callback, scope) {
-        var selfRef = this;
-        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-        var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=8348923927920532480';
-        LazyLoad.js([url], function() {
-             selfRef.loadTouchControls(callback, scope);
+    getRoute: function(routeList) {
+        this.routeManager.route(routeList, true, true, "ALL_VEHICLES", this.map.vlayer, {
+            onComplete: function(routeResult) {
+            }
         });
-
-    },
-    loadTouchControls: function(callback, scope) {
-        console.log('loadTouchControls');
-        this.loaded = true;
-        var selfRef = this;
-        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-        var url = 'resources/js/IPhoneDefaults.js';
-        LazyLoad.js([url], function() {
-             Ext.callback(callback.success, scope, []);
-        });
-
     }
-
-    // loadMootTools: function(callback, scope) {
-    //     console.log('MootTools');
-    //     this.loaded = true;
-    //     var selfRef = this;
-    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-    //     var url = 'resources/js/MootTools.js';
-    //     LazyLoad.js([url], function() {
-    //         selfRef.loadTablet(callback, scope);
-    //     });
-
-    // },
-
-    // loadTablet: function(callback, scope) {
-    //     console.log('loadTablet');
-    //     this.loaded = true;
-    //     var selfRef = this;
-    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-    //     var url = 'resources/js/WhereIsMobileUI.js';
-    //     LazyLoad.js([url], function() {
-    //         Ext.callback(callback.success, scope, []);
-    //     });
-
-    // }
 });
 /**
  * @aside guide forms
@@ -32549,6 +32497,68 @@ Ext.define('Ext.form.FieldSet', {
     }
 });
 
+Ext.define("escape.model.MapFiles", {
+    loaded: false,
+    singleton: true,
+    config: {},
+    loadRequiredFiles: function(callback, scope) {
+        if (this.loaded) {
+            Ext.callback(callback.success, scope, []);
+        } else {
+            this.loadOpenLayers(callback, scope);
+        }
+    },
+
+    loadOpenLayers: function(callback, scope) {
+        var selfRef = this;
+        //'resources/js/OpenLayers.js' 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'
+        LazyLoad.js(['http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'], function() {
+            selfRef.loadEMS(callback, scope);
+        });
+    },
+
+    loadEMS: function(callback, scope) {
+        var selfRef = this;
+        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+        var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=8348923927920532480';
+        LazyLoad.js([url], function() {
+             selfRef.loadTouchControls(callback, scope);
+        });
+
+    },
+    loadTouchControls: function(callback, scope) {
+        this.loaded = true;
+        var selfRef = this;
+        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+        var url = 'resources/js/IPhoneDefaults.js';
+        LazyLoad.js([url], function() {
+             Ext.callback(callback.success, scope, []);
+        });
+
+    }
+
+    // loadMootTools: function(callback, scope) {
+    //     this.loaded = true;
+    //     var selfRef = this;
+    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+    //     var url = 'resources/js/MootTools.js';
+    //     LazyLoad.js([url], function() {
+    //         selfRef.loadTablet(callback, scope);
+    //     });
+
+    // },
+
+    // loadTablet: function(callback, scope) {
+    //     this.loaded = true;
+    //     var selfRef = this;
+    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+    //     var url = 'resources/js/WhereIsMobileUI.js';
+    //     LazyLoad.js([url], function() {
+    //         Ext.callback(callback.success, scope, []);
+    //     });
+
+    // }
+});
 /**
  * @author Ed Spencer
  *
@@ -39001,14 +39011,10 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadProduct: function(productListItem) {
         var data = productListItem.getData();
-        console.log('type: ' + data.type.toLowerCase());
-        console.log('data.productId: ' + data.productId);
         escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
                 var data = productListItem.getData();
-                console.log(data);
-                console.log(product);
                 if (product.raw.Contact.Address.Suburb) {
                     data.suburb = product.raw.Contact.Address.Suburb;
                 }
@@ -39147,15 +39153,12 @@ Ext.define('escape.controller.ProductSections', {
                     var urlBreakdown = link.split('/');
                     var type = urlBreakdown[urlBreakdown.length - 2];
                     var productId = urlBreakdown[urlBreakdown.length - 1];
-                    console.log('productId: ' + productId);
-
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
                     if (type == 'restaurants') {
                         type = 'restaurant';
                     }
-
                     if (type !== null && productId !== null) {
 
                         var typeAllowed = false;
@@ -39205,7 +39208,6 @@ Ext.define('escape.controller.ProductSections', {
             }
 
         }
-        console.log('producType: ' + producType);
         // if no destination are sent use the default ones
         if (!params.destination_id) {
             params.destination_id = AppSettings.destinationIds;
@@ -39233,7 +39235,6 @@ Ext.define('escape.controller.ProductSections', {
             for (var i = productList.length - 1; i >= 0; i--) {
                 productList[i].producType = producType;
             }
-            console.log(productList);
             var items = {
                 xtype: 'list',
                 margin: '10 10 10 10',
@@ -39259,7 +39260,6 @@ Ext.define('escape.controller.ProductSections', {
     },
     productSelected: function(list, record) {
         var data = record.getData();
-        console.log('producType: ' + data.producType);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: String(data.producType).toProperCase().removePuralS(),
             xtype: 'productPage',
@@ -39310,8 +39310,6 @@ Ext.define('escape.controller.Weather', {
     },
     // a language has been selected
     stationChanges: function(field,newValue) {
-        //console.log(field.value.getValue());
-        console.log(newValue.getData().value);
         escape.model.Weather.setStationId(newValue.getData().value);
         try {
             this.getWeatherPage().getTheWeather(true);
@@ -39345,6 +39343,7 @@ Ext.define("escape.view.page.Page", {
         pageTypeId: 0,
         pageTrackingId: 0,
         addToItemId: -1,
+        hasInputs: false,
         itemsToAdd: [],
         listeners: {
             activate: function() {
@@ -39362,7 +39361,6 @@ Ext.define("escape.view.page.Page", {
             } catch (e) {
             }
         }
-
     },
 
     viewCreated: function() {
@@ -39396,6 +39394,10 @@ Ext.define("escape.view.page.Page", {
     },
     openView: function() {},
     viewClose: function() {
+         if (this.getHasInputs()){
+            // only run if the page has input fields
+            escape.utils.AppFuncs.unfousFields();
+        }
         this.fireEvent('closeView', this);
         this.closeView();
     },
@@ -39466,7 +39468,7 @@ Ext.define("escape.view.page.Events", {
             allowDepress: false,
             docked: 'top',
             items: [{
-                text: 'Events Calender',
+                text: 'Featured Events',
                 type: 'eventsCalender',
                 pressed: true,
                 flex: 1
@@ -40544,7 +40546,7 @@ Ext.define('Ext.carousel.Carousel', {
 
 Ext.define("escape.view.ui.MapDisplay", {
     extend: 'Ext.Container',
-    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
+    requires: ['escape.utils.Maps', 'escape.model.Directions'],
     xtype: 'mapDisplay',
     config: {
         cls: 'mapDisplay',
@@ -40553,14 +40555,18 @@ Ext.define("escape.view.ui.MapDisplay", {
         width: '100%',
         built: false,
         intialMarkers: [],
-        height: 150,
-        zoomLevel: 12,
+        height: 140,
+        zoomLevel: 15,
         lat: -33.873651,
         lon: 151.2068896,
         address: null,
         markerAtCenter: false,
         interaction: true,
-        zoomToBounds: true,
+        routeStyle: {
+            strokeColor: '#0000ff',
+            strokeOpacity: 0.5,
+            strokeWidth: 5
+        },
         listeners: {
             initialize: 'initialize',
             painted: 'loadLibaries'
@@ -40568,66 +40574,106 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     initialize: function() {},
     loadLibaries: function() {
-        var selfRef = this;
-        escape.model.MapFiles.loadRequiredFiles({
-            success: function(results) {
-                EMS.Util.getDomain = function() {
-                    return "destinationnsw.com.au";
-                };
+        var loadFiles = false;
+        try {
+            new OpenLayers.Map();
+        } catch (e) {
+            loadFiles = true;
+        }
+
+        if (loadFiles) {
+            var selfRef = this;
+            LazyLoad.js(['resources/js/OpenLayers.js'], function() {
                 selfRef.createMapElement();
-            },
-            error: function(error) {},
-            scope: this
-        });
+            });
+        } else {
+            this.createMapElement();
+        }
+
     },
+
+
     createMapElement: function() {
         if (!this.getBuilt()) {
-            EMS.Services.communicationMode = "CrossDomain";
             this.setMapId('mapContainier' + Math.random() * 1000000000);
             var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
             this.add({
-                html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"></div>'
+                html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';" class="mapHolder"></div>'
             });
-            // the map logo
+            this.add({
+                html: '<div id="bing-map" style="width:0; height:0;"></div>'
+            });
             this.add({
                 xtype: 'button',
-                cls: 'map-provider-logo',
-                action: 'openMapTerms',
+                cls: 'bing-logo',
+                action: 'openBingTerms',
                 bottom: 10,
                 left: 10,
                 width: 100,
                 zIndex: 1000
             });
-            this.createWhereIsMap();
+            this.buildMap();
         }
+
+
     },
-    createWhereIsMap: function() {
-        var selfRef = this;
-        var controls = [];
-        map = new EMS.Services.Map(this.getMapId(), {
-            controls: [],
-            onInit: function() {
-                selfRef.setupMap(map);
-            }
+    buildMap: function() {
+        var bingMapsAPIKey = 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB';
+        map = new OpenLayers.Map(this.getMapId(), {
+            controls: []
         });
-        console.log("set");
         this.setMap(map);
+        if (this.getInteraction()) {
+            map.addControl(new OpenLayers.Control.TouchNavigation());
+            try {
+                if (device.platform == 'Android') {
+                    if (Number(device.version.split('.')[0]) < 4) {
+                        map.addControl(new OpenLayers.Control.Zoom());
+                    }
+                }
+            } catch (e) {
 
-        //  Center the map
-        lonlat = new EMS.LonLat(this.getLon(), this.getLat());
-        map.setCenter(lonlat, this.getZoomLevel());
+            }
+
+
+        }
+
+        var options = {
+            name: "Road",
+            key: bingMapsAPIKey,
+            type: "Road"
+        };
+
+        // add map layer
+        var mapLayer = new OpenLayers.Layer.Bing(options);
+        // var mapLayer = new OpenLayers.Layer.OSM();
+        map.addLayer(mapLayer);
+        // create a point
+        var lonLat = escape.utils.Maps.getLatLon(this.getLat(), this.getLon());
+        // add the directions layer
+        var directionsLayer = new OpenLayers.Layer.Vector("DirectionsLayer");
+        map.addLayer(directionsLayer);
+        // add a markers layer
+        var markers = new OpenLayers.Layer.Markers("Markers");
+        map.addLayer(markers);
+
         this.setBuilt(true);
-
+        // terms layer
+        // add a markers layer
         // add any intial markers
         var intialMarkers = this.getIntialMarkers();
-        // make sure the makers are added in the right order
-        intialMarkers = intialMarkers.sort(function(obj1, obj2) {
-            return Number(obj2.lat) - Number(obj1.lat);
-        });
-        for (var m = 0; m < intialMarkers.length; m++) {
-            var marker = intialMarkers[m];
-            this.addMarker(marker.lat, marker.lon, marker.data);
+        if (intialMarkers.length > 0) {
+
+            // make sure the makers are added in the right order
+            intialMarkers = intialMarkers.sort(function(obj1, obj2) {
+                return Number(obj2.lat) - Number(obj1.lat);
+            });
+            for (var m = 0; m < intialMarkers.length; m++) {
+                var marker = intialMarkers[m];
+                this.addMarker(marker.lat, marker.lon, marker.data);
+            }
         }
+
 
         if (this.getMarkerAtCenter()) {
             var markerData = {
@@ -40636,42 +40682,29 @@ Ext.define("escape.view.ui.MapDisplay", {
             };
             this.addMarker(this.getLat(), this.getLon(), markerData);
         }
-
-        if (intialMarkers.length >= 1 && this.getZoomToBounds()) {
-            map.zoomToExtent(map.markersLayer.getDataExtent());
+        // position the map
+        map.setCenter(lonLat, this.getZoomLevel());
+        // show direction
+        //this.getDirections('Sydney, Australia', 'Manly');
+        //this.getOpenDirections();
+        //this.getBingDirections();
+        //this.addMarker(this.getLat(), this.getLon());
+        if (intialMarkers.length > 0) {
+            map.zoomToExtent(markers.getDataExtent());
             this.setIntialMarkers([]);
         }
-    },
-    setupMap: function() {
-        var map = this.getMap();
-        if (this.getInteraction()) {
-            if (hasTouch) {
-                var iphoneControls = new EMS.Control.IPhoneDefaults({
-                    supportsScale3d: true
-                });
-                map.iphoneControls = iphoneControls;
-                map.addControl(iphoneControls);
-            } else { //PC
-                map.addControl(new OpenLayers.Control.KeyboardDefaults());
-                map.addControl(new EMS.Control.MouseDefaults());
-            }
-        }
-
-    },
-    clearMarkers: function() {
-        this.getMap().getLayersByName("Markers").destory();
-        var markers = new OpenLayers.Layer.Markers("Markers");
-        this.getMap().addLayer(markers);
-    },
-    zoomToMarkers: function() {
-        var map = this.getMap();
-        map.zoomToExtent(map.markersLayer.getDataExtent());
-        this.setIntialMarkers([]);
+        mapLayer.updateAttribution();
     },
     addMarker: function(lat, lon, data) {
         if (this.getBuilt()) {
-            var map = this.getMap();
-            var icon;
+            var lonLat = escape.utils.Maps.getLatLon(lat, lon);
+            var size = new OpenLayers.Size(45, 38);
+
+            var imgPath = 'resources/images/pin_red.png';
+            if (escape.utils.Img.useRetinaImg) {
+                imgPath = 'resources/images/pin_red@2x.png';
+            }
+
             var useIcon = true;
             try {
                 var d = data.iconText;
@@ -40683,34 +40716,35 @@ Ext.define("escape.view.ui.MapDisplay", {
             }
 
             if (useIcon) {
-                icon = EMS.Services.StandardIcons.poi(map.tilePath, '323840', '323840', data.iconText);
-            } else {
-                // pin icon
-                var imgPath = 'resources/images/pin_red.png';
-                if (escape.utils.Img.useRetinaImg) {
-                    imgPath = 'resources/images/pin_red@2x.png';
+                size = new OpenLayers.Size(50, 42);
+                var iconNumber = (Number(data.iconText));
+                iconNumber = (iconNumber > 99) ? 'star' : iconNumber;
+                var imgSize = '';
+                if (window.devicePixelRatio > 1.2) {
+                    imgSize = '@2x';
                 }
-                var size = new OpenLayers.Size(45, 38);
-                var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-                icon = new OpenLayers.Icon(imgPath, size, offset);
-
+                imgPath = 'resources/images/markers/marker_' + iconNumber +''+imgSize+'.png';
             }
-            var lonlat = new EMS.LonLat(lon, lat);
-            var marker = new OpenLayers.Marker(lonlat, icon);
 
-            // custom marker
-            map.markersLayer.addMarker(marker);
+            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+
+
+
+            var icon = new OpenLayers.Icon(imgPath, size, offset);
+            var marker = new OpenLayers.Marker(lonLat, icon);
+            this.getMap().getLayersByName("Markers")[0].addMarker(marker);
             var selfRef = this;
             var markerClick = function(evt) {
-                console.log('!!! markerClick');
+                    evt.preventDefault();
                     selfRef.fireEvent('markerSelected', data);
                 };
-           // marker.events.register('mousedown', marker, markerClick);
-            marker.events.register('touchend', marker, markerClick);
+            if (Ext.feature.has.Touch) {
+                marker.events.register('touchend', marker, markerClick);
+            } else {
+                marker.events.register('mousedown', marker, markerClick);
+            }
 
-            marker.events.register("touchstart", marker, function(e) {
-                 console.log('!!! touchstart');
-            });
+
         } else {
             this.getIntialMarkers().push({
                 data: data,
@@ -40719,7 +40753,18 @@ Ext.define("escape.view.ui.MapDisplay", {
             });
         }
 
+    },
+    zoomToMarkers: function() {
+        var map = this.getMap();
+        var markers = map.getLayersByName("Markers")[0];
+        map.zoomToExtent(markers.getDataExtent());
+    },
+    clearMarkers: function() {
+        this.getMap().getLayersByName("Markers")[0].destory();
+        var markers = new OpenLayers.Layer.Markers("Markers");
+        this.getMap().addLayer(markers);
     }
+
 });
 Ext.define("escape.view.subSection.MapList", {
     extend: 'escape.view.subSection.SubSection',
@@ -40749,7 +40794,6 @@ Ext.define("escape.view.subSection.MapList", {
             }],
             listeners: {
                 toggle: function(container, btn, pressed) {
-                    console.log('toggle');
                     if (btn.config.type == 'map') {
                         container.parent.showMap();
                     } else {
@@ -40769,7 +40813,6 @@ Ext.define("escape.view.subSection.MapList", {
         }
     },
     showMap: function() {
-        console.log('showMap');
         var cardView = this.getItems().items[1];
         cardView.removeAll(true, true);
         var map = new escape.view.ui.MapDisplay({
@@ -40802,7 +40845,8 @@ Ext.define("escape.view.page.Map", {
         latlon: null,
         mapDisplay: null,
         pageTypeId: 6,
-        pageTrackingId: 6
+        pageTrackingId: 6,
+        cls:'mapPage'
     },
     openView: function() {
         var address = this.getAddress();
@@ -41102,10 +41146,7 @@ Ext.define("escape.view.page.SearchResults", {
             this.setItems(items);
         }
 
-        console.log('total: ' + total);
-
         if (Number(total)===0) {
-            console.log('SHOW NO RESULTS MSG');
             this.removeAll(true,true);
             this.setItems({
                 cls:'noResults'
@@ -41152,9 +41193,7 @@ Ext.define("escape.view.ui.QuestionAction", {
             cls:'question',
             html: this.getQuestion()
         });
-        console.log(this.getBtns());
         items=  items.concat(this.getBtns());
-        console.log(items);
         this.setItems(items);
     }
 
@@ -41174,8 +41213,6 @@ Ext.define("escape.view.page.ItineraryNotes", {
     },
     openView: function() {
         var selfRef = this;
-        console.log('this.getItineraryId(): ' + this.getItineraryId());
-        console.log('this.getDayNum(): ' + this.getDayNum());
         escape.model.Itineraries.getItineraryDayNotes(this.getItineraryId(), this.getDayNum(), {
             success: function(itineraryDay) {
                 selfRef.buildPage(itineraryDay.item(0).notes);
@@ -41311,6 +41348,91 @@ Ext.define("escape.view.page.SevicesAndFacilitiesResults", {
             this.remove(optionsArea,true);
         }
 
+    }
+});
+Ext.define("escape.model.WhereIsPOI", {
+    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
+    mixins: ['Ext.mixin.Observable'],
+    singleton: true,
+    query: null,
+    distance: -1,
+    geoLocation: false,
+    pageSize: 25,
+    search: function($query, $distance, $geoLocation) {
+        this.query = $query;
+        this.distance = $distance;
+        this.geoLocation = $geoLocation;
+        this.loadLibaries();
+    },
+    loadLibaries: function() {
+        var selfRef = this;
+        escape.model.MapFiles.loadRequiredFiles({
+            success: function(results) {
+                EMS.Util.getDomain = function() {
+                    return "destinationnsw.com.au";
+                };
+                selfRef.defineQurey();
+                selfRef.runQuery();
+            },
+            error: function(error) {},
+            scope: this
+        });
+    },
+    defineQurey: function() {
+        var query = {};
+        // the keyword to search by
+        query.keyword = this.query;
+        if (this.distance != -1) {
+            // convert your lat lon into a EMS lat lon
+            var latlon = new EMS.LonLat(this.geoLocation.longitude, this.geoLocation.latitude);
+            // one approx km in degress
+            var dist = this.distance / 6371;
+            // search by lat long to radians
+            var lon1 = latlon.lon * Math.PI / 180;
+            var lat1 = latlon.lat * Math.PI / 180;
+            // get the lat lon in the north west
+            var brng = 315 * (Math.PI / 180);
+            var lat2 = Math.asin(Math.sin(lat1) * Math.cos(dist) + Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
+            var lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) * Math.cos(lat1), Math.cos(dist) - Math.sin(lat1) * Math.sin(lat2));
+            // get the lat lon in the south east
+            brng = 135 * (Math.PI / 180);
+            var lat3 = Math.asin(Math.sin(lat1) * Math.cos(dist) + Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
+            var lon3 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) * Math.cos(lat1), Math.cos(dist) - Math.sin(lat1) * Math.sin(lat3));
+            // convert lat back to deimails
+            lon1 = (lon1 * 180 / Math.PI);
+            lon2 = (lon2 * 180 / Math.PI);
+            lon3 = (lon3 * 180 / Math.PI);
+            lat1 = (lat1 * 180 / Math.PI);
+            lat2 = (lat2 * 180 / Math.PI);
+            lat3 = (lat3 * 180 / Math.PI);
+            // create the bounds object
+            bounds = new OpenLayers.Bounds(lon2, lat3, lon3, lat2);
+            query.bounds = bounds.asWGS84();
+        } else {
+            // search within the app bounds
+            bounds = new OpenLayers.Bounds(AppSettings.bounds.left, AppSettings.bounds.bottom, AppSettings.bounds.right, AppSettings.bounds.top);
+            query.bounds = bounds.asWGS84();
+        }
+        // the amount of results to be returned
+        query.size = this.pageSize;
+        this.query = query;
+    },
+    runQuery: function() {
+        var selfRef = this;
+        var geocoder = new EMS.Services.Geocoder();
+        // request the search
+        geocoder.poiSearch(this.query, function(poiResults) {
+            selfRef.resultsLoaded(poiResults);
+        });
+
+    },
+    loadMore: function(page) {
+        this.query.offset = this.pageSize * page;
+        this.query.id = new Date().getTime();
+        this.runQuery();
+    },
+    resultsLoaded: function(poiResults) {
+        this.fireEvent('resultsLoaded', poiResults);
     }
 });
 /**
@@ -44790,6 +44912,16 @@ Ext.define("escape.view.page.Settings", {
                     options: weatherOptions,
                     value: stationId
                 }]
+            }, {
+                xtype: 'fieldset',
+                title: 'Cache',
+                instructions: 'Clear downloaded browsing data ',
+                items: [{
+                    text: 'Clear Cache',
+                    cls:'reset',
+                    xtype: 'button',
+                    action: 'clearCache'
+                }]
             }]
         });
         ///
@@ -44847,7 +44979,6 @@ Ext.define("escape.view.ui.SharingOptions", {
         }
     },
     showMessageForm: function(action,value) {
-        console.log('!!! showMessageForm: ' + action);
         var items = [];
         items.push({
             itemId:'messagebox',
@@ -44915,23 +45046,46 @@ Ext.define('escape.controller.Sharing', {
             },
             'sharingOptions': {
                 hide: 'removeSharingOptions'
+            },
+            'section button[action="shareApp"]': {
+                tap: 'showSharingOptions'
             }
         }
     },
     showSharingOptions: function(btn) {
-        var sharingOptions = Ext.create('escape.view.ui.SharingOptions');
+        // define sharing data
+        try {
+            sharingData = escape.utils.AppVars.currentPage.getSharingData();
+        } catch (e) {
+            sharingData = false;
+        }
 
-        var sharingData = escape.utils.AppVars.currentPage.getSharingData();
-        console.log(sharingData);
-        if (!sharingData){
+        if (!sharingData) {
             sharingData = AppSettings.defualtShareData;
         }
-        console.log(sharingData);
-        
-        this.setSharingData(sharingData);
-        Ext.Viewport.add(sharingOptions);
-        sharingOptions.show();
-        //this.getSharingOptions().showMessageForm('postToFacebook');
+        // set share type
+        if (!window.plugins.share) {
+            // android sharing not  found
+            var sharingOptions = Ext.create('escape.view.ui.SharingOptions');
+            var sharingData;
+
+            this.setSharingData(sharingData);
+            Ext.Viewport.add(sharingOptions);
+            sharingOptions.show();
+
+        } else {
+            // use android share plugin
+            window.plugins.share.show({
+                subject: sharingData.name,
+                text: sharingData.defaultMessage + ' ' + sharingData.link
+            }, function() {
+            }, // Success function
+
+            function() {
+            } // Failure function
+            );
+        }
+
     },
     removeSharingOptions: function() {
         Ext.Viewport.remove(this.getSharingOptions());
@@ -44943,7 +45097,7 @@ Ext.define('escape.controller.Sharing', {
         try {
             window.plugins.emailComposer.showEmailComposer(subject, body);
         } catch (e) {
-            window.open('mailto:?subject='+subject+'&body='+body, '_blank');
+            window.open('mailto:?subject=' + subject + '&body=' + body, '_blank');
         }
         escape.utils.Tracking.trackEventOnCurrent(10);
     },
@@ -44955,7 +45109,6 @@ Ext.define('escape.controller.Sharing', {
     // FACEBOOK
     ///////////////////////////////////////////////////////////////////
     shareFacebook: function() {
-        console.log('!!!! shareFacebook');
         // this device does not support native twitter use the OAuth method
         this.getSharingOptions().showLoading();
         var selfRef = this;
@@ -44964,15 +45117,10 @@ Ext.define('escape.controller.Sharing', {
         // Get access code
         escape.utils.Facebook.getAccess({
             success: function(accessToken) {
-                console.log('!!!! get acceess success');
-                console.log(accessToken);
-                selfRef.getSharingOptions().showMessageForm('postToFacebook',sharingData.defaultMessage);
+                selfRef.getSharingOptions().showMessageForm('postToFacebook', sharingData.defaultMessage);
 
             },
-            error: function(error) {
-                console.log('!!!! get acceess error');
-                console.log(accessToken);
-            },
+            error: function(error) {},
             scope: this
         });
 
@@ -44985,20 +45133,18 @@ Ext.define('escape.controller.Sharing', {
         var message = messageArea.getValue();
         this.getSharingOptions().showLoading();
         var selfRef = this;
-        console.log(message);
         var sharingData = this.getSharingData();
         escape.utils.Facebook.postMessage('feed', {
             message: message,
             name: sharingData.name,
             description: sharingData.description,
-            link: sharingData.link
+            link: sharingData.link,
+            picture: sharingData.picture
         }, {
             success: function(accessToken) {
-                console.log('!!!! facebook post success');
                 selfRef.getSharingOptions().showSuccess();
             },
             error: function(error) {
-                console.log('!!!! facebook post error');
                 selfRef.getSharingOptions().showError();
             }
         }, this);
@@ -45007,21 +45153,15 @@ Ext.define('escape.controller.Sharing', {
     // TWITTER
     ///////////////////////////////////////////////////////////////////
     shareTwitter: function() {
-        console.log('!!!! shareTwitter');
         escape.utils.Tracking.trackEventOnCurrent(12);
         var selfRef = this;
         var sharingData = this.getSharingData();
-        
+
         window.plugins.twitter.isTwitterSetup(function(r) {
-            console.log('isTwitterSetup: ' + r);
             if (r === 1) {
                 window.plugins.twitter.composeTweet(
 
-                function() {
-                    console.log("tweet success");
-                }, function(error) {
-                    console.log("tweet failure: " + error);
-                }, sharingData.defaultMessage, {
+                function() {}, function(error) {}, sharingData.defaultMessage, {
                     urlAttach: sharingData.link,
                     imageAttach: sharingData.picture
                 });
@@ -45033,40 +45173,29 @@ Ext.define('escape.controller.Sharing', {
     },
     useOAuthTwitter: function() {
         // this does not supports iOS native tweeting!
-        console.log('!!!! oAuth shareTwitter');
         var sharingData = this.getSharingData();
         var selfRef = this;
         this.getSharingOptions().showLoading();
         escape.utils.Twitter.getAccess({
             success: function(accessToken) {
-                console.log('!!!! Twitter get acceess success');
-                console.log(accessToken);
-                selfRef.getSharingOptions().showMessageForm('postToTwitter',sharingData.defaultMessage);
+                selfRef.getSharingOptions().showMessageForm('postToTwitter', sharingData.defaultMessage);
                 //
             },
-            error: function(error) {
-                console.log('!!!! Twitter get acceess error');
-                console.log(accessToken);
-            },
+            error: function(error) {},
             scope: this
         });
     },
     postToTwitter: function(btn) {
-        console.log("!!! postToTwitter");
         var selfRef = this;
         var messageArea = btn.parent.getComponent('messagebox');
         var message = messageArea.getValue();
-        console.log('!!! message');
-        console.log(message);
         var sharingData = this.getSharingData();
         this.getSharingOptions().showLoading();
         escape.utils.Twitter.tweet(message, sharingData.link, {
             success: function(accessToken) {
-                console.log('!!!! post success');
                 selfRef.getSharingOptions().showSuccess();
             },
             error: function(error) {
-                console.log('!!!! post error');
                 selfRef.getSharingOptions().showError();
             }
         }, this);
@@ -48519,7 +48648,6 @@ Ext.define("escape.view.page.Home", {
 
             this.setItems([{
                 xtype: 'carousel',
-                layout: 'fit',
                 height: 200,
                 defaults: {
                     xtype: 'appImage',
@@ -51597,8 +51725,10 @@ Ext.define("escape.view.page.ItineraryDay", {
         dayNum: 1,
         pageTypeId: 14,
         pageTrackingId: 2,
+        dayId: false,
         padding: '0',
         products: [],
+        hasInputs: true,
         initViewType: 'list',
         items: [{
             xtype: 'loadingDisplay'
@@ -51636,8 +51766,6 @@ Ext.define("escape.view.page.ItineraryDay", {
     },
 
     showInitView: function() {
-        console.log('showInitView');
-        console.log(this.getInitViewType());
         switch (this.getInitViewType()) {
         case 'list':
             this.showList();
@@ -51651,7 +51779,6 @@ Ext.define("escape.view.page.ItineraryDay", {
         }
     },
     showList: function() {
-        console.log('showList')
         var products = this.getProducts();
         if (products.length == 0) {
             this.showEmptyDay();
@@ -51693,11 +51820,9 @@ Ext.define("escape.view.page.ItineraryDay", {
 
     showMap: function() {
         var products = this.getProducts();
-        console.log(products);
         var intialMarkers = [];
         for (var i = 0; i < products.length; i++) {
             var product = products.item(i);
-            console.log(product);
             var productData = JSON.parse(product.data);
             product.iconText = i + 1;
             intialMarkers.push({
@@ -51706,12 +51831,12 @@ Ext.define("escape.view.page.ItineraryDay", {
                 data: product
             });
         }
-        console.log('showMap');
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
             height: Ext.Viewport.getSize().height - 103,
             interaction: true,
             intialMarkers: intialMarkers
         });
+        this.removeAll(true, true);
         this.setItems(mapDisplay);
     },
 
@@ -51719,7 +51844,6 @@ Ext.define("escape.view.page.ItineraryDay", {
         var data = [];
         for (var i = 0; i < products.length; i++) {
             product = products.item(i);
-            console.log(product.type);
             data.push({
                 id: product.id,
                 productId: product.product_id,
@@ -51756,42 +51880,47 @@ Ext.define("escape.view.page.ItineraryDay", {
     },
     loadNotes: function() {
         var selfRef = this;
-        console.log('this.getItineraryId(): ' + this.getItineraryId());
-        console.log('this.getDayNum(): ' + this.getDayNum());
         escape.model.Itineraries.getItineraryDayNotes(this.getItineraryId(), this.getDayNum(), {
             success: function(itineraryDay) {
-                selfRef.buildNotes(itineraryDay.item(0).notes);
+                if (itineraryDay===false) {
+                    selfRef.setDayId(false);
+                    selfRef.buildNotes('');
+                } else {
+                   selfRef.setDayId(itineraryDay.item(0).id);
+                    selfRef.buildNotes(itineraryDay.item(0).notes);
+                }
             },
             error: function(error) {},
             scope: this
         });
 
     },
+
     buildNotes: function(notes) {
+        this.removeAll(true, true);
         this.setItems([{
-            html: '<h2>Notes</h2>',
-            padding:'0 10px'
+            xtype: 'container',
+            layout: 'hbox',
+            padding: '0 10px',
+            items: [{
+                html: '<h2>Notes</h2>',
+                flex: 3
+            }, {
+                xtype: 'button',
+                text: 'Save',
+                action: 'save',
+                cls: 'search',
+                margin:'10px 0 0 0',
+                flex: 1
+            }]
+
         }, {
             xtype: 'textareafield',
-            maxRows: 10,
+            maxRows: 4,
             name: 'notes',
             itemId: 'notesPage',
             value: notes,
             margin: '10px'
-        }, {
-            xtype: 'container',
-            docked: 'bottom',
-            cls: 'btnsArea',
-            padding: '10px',
-            defaults: {
-                margin: '10px 0 0 0'
-            },
-            items: [{
-                xtype: 'button',
-                text: 'Save',
-                action: 'save',
-                cls: 'search'
-            }]
         }]);
     }
 });
@@ -51975,7 +52104,7 @@ Ext.define('escape.controller.ItineraryViewer', {
             }
         }
     },
-   
+
     setUp: function(itinerarySubSection) {
         itinerarySubSection.setCardView(itinerarySubSection.getItems().items[itinerarySubSection.getCardViewItemId()]);
         // set the card view
@@ -52024,26 +52153,23 @@ Ext.define('escape.controller.ItineraryViewer', {
         Ext.Viewport.add(actionSheet);
         actionSheet.show();
     },
-     removeEditProduct: function() {
+    removeEditProduct: function() {
         var editSheet = this.getEditItineraryProduct();
         Ext.Viewport.remove(editSheet, true);
-        
+
     },
 
     updateProduct: function() {
         var selfRef = this;
         var editSheet = this.getEditItineraryProduct();
         var dayField = editSheet.getComponent('dayField');
-        escape.model.Itineraries.changeProductDay(editSheet.getProductId(),dayField.getValue(), {
+        escape.model.Itineraries.changeProductDay(editSheet.getProductId(), dayField.getValue(), {
             success: function() {
-                console.log('product moved');
                 var sectionView = selfRef.getItinerarySubSection();
                 var cardView = sectionView.getCardView();
                 cardView.getActiveItem().loadProducts();
             },
-            error: function(error) {
-                console.log('error moving product');
-            },
+            error: function(error) {},
             scope: this
         });
         editSheet.hide();
@@ -52053,24 +52179,18 @@ Ext.define('escape.controller.ItineraryViewer', {
         var editSheet = this.getEditItineraryProduct();
         escape.model.Itineraries.deleteProduct(editSheet.getProductId(), {
             success: function() {
-                console.log('product deleted');
                 var sectionView = selfRef.getItinerarySubSection();
                 var cardView = sectionView.getCardView();
                 cardView.getActiveItem().loadProducts();
             },
-            error: function(error) {
-                console.log('error deleting product');
-            },
+            error: function(error) {},
             scope: this
         });
         editSheet.hide();
 
     },
     closeProductEdit: function() {
-        console.log('closeProductEdit');
-
         var editSheet = this.getEditItineraryProduct();
-        console.log(editSheet);
         editSheet.hide();
     },
     saveProductOrder: function(list) {
@@ -52084,13 +52204,14 @@ Ext.define('escape.controller.ItineraryViewer', {
             });
         }
     },
-    showList : function(btn){
-        this.getItinerarySubSection().setViewType('list')
+    showList: function(btn) {
+        this.getItinerarySubSection().setViewType('list');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.showList();
     },
     showNotes: function(btn) {
-        this.getItinerarySubSection().setViewType('notes')
+        escape.utils.AppFuncs.unfousFields();
+        this.getItinerarySubSection().setViewType('notes');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.loadNotes();
         // escape.utils.AppVars.currentSection.getNavigationView().push({
@@ -52098,31 +52219,43 @@ Ext.define('escape.controller.ItineraryViewer', {
         //     itineraryId: dayPage.getItineraryId(),
         //     dayNum: dayPage.getDayNum()
         // });
-    
     },
-    showMap : function(btn){
-        this.getItinerarySubSection().setViewType('map')
+    showMap: function(btn) {
+        this.getItinerarySubSection().setViewType('map');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.showMap();
     },
-
     saveNotes: function(btn) {
+        escape.utils.AppFuncs.unfousFields();
         var selfRef = this;
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         //var notesPage = btn.parent.parent;
         var itineraryId = dayPage.getItineraryId();
+        var dayId = dayPage.getDayId();
         var dayNum = dayPage.getDayNum();
         var notes = dayPage.getComponent('notesPage').getValue();
+        var update = dayPage.getComponent('notesPage').getValue();
 
+        if (dayId !== false) {
+            // the day row has been created so update the notes
+            escape.model.Itineraries.updateItineraryDayNotes(itineraryId, dayNum, notes, {
+                success: function() {
+                    selfRef.showMessage('Saved');
+                },
+                error: function(error) {},
+                scope: this
+            });
+        } else {
+            // no day row has been created so created it and insert the notes
+            escape.model.Itineraries.addItineraryDayNotes(itineraryId, dayNum, notes, {
+                success: function() {
+                    selfRef.showMessage('Saved');
+                },
+                error: function(error) {},
+                scope: this
+            });
+        }
 
-        escape.model.Itineraries.updateItineraryDayNotes(itineraryId, dayNum, notes, {
-            success: function() {
-                selfRef.showMessage('Saved');
-                //escape.utils.AppVars.currentSection.getNavigationView().pop();
-            },
-            error: function(error) {},
-            scope: this
-        });
     },
     showMessage: function(msg) {
         var addedMsg = Ext.create('Ext.Panel', {
@@ -52206,8 +52339,7 @@ Ext.define('escape.controller.ItineraryViewer', {
             sectionView.getScrollable().getScroller().scrollTo(0, 0, false);
         }
     },
-    productMarkerSelected: function(productData){
-        console.log(productData);
+    productMarkerSelected: function(productData) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'productPage',
             pageTitle: String(productData.type).toProperCase(),
@@ -56374,7 +56506,6 @@ Ext.define('escape.controller.Events', {
         });
     },
     weeklyEventsLoaded: function(records) {
-        console.log(records);
         var resultsStore = Ext.create('Ext.data.Store', {
             model: 'escape.model.ProductResult',
             data: records.results,
@@ -56402,7 +56533,6 @@ Ext.define('escape.controller.Events', {
         contents.setItems(list);
     },
     loadEventsCalender: function() {
-        console.log('loadEventsCalender');
         var params = {};
        // params.meta_D_phrase_sand = AppSettings.destinationWebpath;
         // set the serach to use the right collection
@@ -56439,11 +56569,7 @@ Ext.define('escape.controller.Events', {
 
     },
     eventsCalenderLoaded: function(data) {
-        console.log('eventsCalenderLoaded');
-        console.log(data);
         if (this.getCurrentSection() == 'eventsCalender') {
-             console.log('1 built');
-            console.log(data.data.results);
             var viewportSize = Ext.Viewport.getSize();
             var list = new Ext.List({
                 itemTpl: '{Title}',
@@ -56451,7 +56577,6 @@ Ext.define('escape.controller.Events', {
                 height: viewportSize.height - 89,
                 scrollable: true
             });
-
             var contents = this.getEventsPage().getComponent('contents');
             contents.setPadding(0);
             contents.setItems(list);
@@ -56519,8 +56644,8 @@ Ext.define("escape.model.ProductList", {
     requires: 'Ext.ux.proxy.AjaxCache',
     config: {
         proxy: {
-            type: 'ajax',
-            cacheTimeout: (60 * 60 * 24 * 14),
+            type: 'ajaxcache',
+            cacheTimeout: AppSettings.caching.productCacheLength,
             url: null,
             reader: {
                 type: 'json'
@@ -56576,6 +56701,20 @@ Ext.define("escape.view.page.ContentPage", {
             }
         }
         var pageItems = escape.model.Content.buildItems(content);
+        // add share this app button
+        if (this.getContentPath().indexOf('about-destination-nsw') != -1) {
+            pageItems.pop();
+            pageItems.push({
+                margin:10,
+                xtype: 'button',
+                text: 'Share this App',
+                cls: 'shareAppBtn',
+                action: 'shareApp'
+            });
+            pageItems.push({
+                xtype: 'footer'
+            });
+        }
         //var fullItems = menuItems.concat(items);
         var viewportSize = Ext.Viewport.getSize();
 
@@ -56595,7 +56734,7 @@ Ext.define("escape.view.page.ContentPage", {
             items.push({
                 xtype: 'container',
                 layout: 'card',
-                 itemId: 'cardView',
+                itemId: 'cardView',
                 width: viewportSize.width,
                 height: viewportSize.height - 89,
                 items: {
@@ -56612,9 +56751,41 @@ Ext.define("escape.view.page.ContentPage", {
         } else {
             items = pageItems;
         }
-        console.log(items)
         this.setItems(items);
         this.fireEvent('built');
+    }
+});
+Ext.define("escape.view.page.OtherApps", {
+    extend: 'escape.view.page.ContentPage',
+    xtype: 'otherAppsPage',
+    requires: [],
+    config: {
+        rightBtn: '',
+        scrollable: {
+            direction: 'vertical',
+            directionLock: true
+        }
+    },
+    buildPage: function(content) {
+        content.description = '<div id="content_div_134035">[{"name":"Sydney 悉尼","description":"This chinese language app is designed to help you plan your trip to Sydney and help you easily get around once you arrive.","appleAppStrore":"https://itunes.apple.com/au/app/sydney-xi-ni/id559654518?mt=8","googlePlay":"https://play.google.com/store/apps/details?id=com.sydney.dnswchina&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5zeWRuZXkuZG5zd2NoaW5hIl0","imgPath": "resources/images/chinaIcon-72@2x.png"}]</div>';
+
+        var otherApps = JSON.parse(content.description.split('>')[1].split('<')[0]);
+        for (var i = otherApps.length - 1; i >= 0; i--) {
+            otherApps[i].link = (!Ext.os.is.iOS) ?  otherApps[i].googlePlay : otherApps[i].appleAppStrore;
+        }
+
+        this.setItems([{
+            xtype: 'list',
+            itemTpl: '<img src="{imgPath}" witdh="72" height="72" /><b>{name}</b><br>{description}<br><b>View on the App Store</b>',
+            scrollable: false,
+            cls: 'selectionList appList',
+            margin: 10,
+            action: 'appList',
+            disableSelection: true,
+            data: otherApps
+        }, {
+            xtype: 'footer'
+        }]);
     }
 });
 Ext.define("escape.view.page.ThingsToDoType", {
@@ -56673,8 +56844,8 @@ Ext.define("escape.model.ContentPage", {
             defaultValue: ''
         }],
         proxy: {
-            type: 'ajax',
-            cacheTimeout: (60 * 60 * 24 * 14),
+            type: 'ajaxcache',
+            cacheTimeout: AppSettings.caching.cmsCacheLength,
             url: null,
             reader: {
                 type: 'json'
@@ -56781,7 +56952,6 @@ Ext.define('escape.controller.ContentPage', {
                     var urlBreakdown = link.split('/');
                     var type = urlBreakdown[urlBreakdown.length - 2];
                     var productId = urlBreakdown[urlBreakdown.length - 1];
-                    console.log('productId: ' + productId);
 
                     if (type == 'attractions') {
                         type = 'attraction';
@@ -56824,20 +56994,16 @@ Ext.define('escape.controller.ContentPage', {
     openPage: function(list, record) {
         var changeAllowed = true;
         this.setSelectedRecord(record);
-        console.log(record);
         // Content Page
         var data = record.getData();
-        console.log(data);
         var xtype = (data.xtype) ? data.xtype : 'contentPage';
         if (data.typeId == 'like-a-local') {
             xtype = 'townsSubSection';
         }
-        console.log('list.subPageXtype: ' + list.subPageXtype);
         if (list.subPageXtype) {
             // let the list overwrite the page type
             xtype = list.subPageXtype;
         }
-        console.log('xtype: ' + xtype);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: data.Name,
             xtype: xtype,
@@ -56852,7 +57018,7 @@ Ext.define("escape.model.Product", {
         idProperty : 'product',
         proxy: {
             type: 'ajaxcache',
-            noCache : false,
+            cacheTimeout: AppSettings.caching.productCacheLength,
             reader: {
                 type: 'json'
             }
@@ -56888,7 +57054,6 @@ Ext.define("escape.view.page.Product", {
             escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
-                    console.log(product);
                     this.setProductData(product.raw);
                     this.buildPage();
                 },
@@ -57201,11 +57366,6 @@ Ext.define("escape.view.page.Product", {
                 var endDateBreakDown = product.Dates['End Date'].split(' ')[0].split('-');
                 endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1]) - 1, Number(endDateBreakDown[2]));
             }
-            console.log('Event Dates!!!');
-            console.log(product.Dates['Start Date']);
-            console.log(startDate);
-            console.log(product.Dates['End Date']);
-            console.log(endDate);
             if (startDate !== null) {
                 var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear() + '</h4></div>';
                 if (endDate !== null) {
@@ -57227,13 +57387,14 @@ Ext.define("escape.view.page.Product", {
         }
         //Deal
         if (product.Deal) {
-            var deal = '<h2>Deal</h2>';
+            var deal = '<h2>Deal</h2><p>';
             if (product.Deal['Start Date']) {
-                deal += '<h3>Start Date: ' + product.Deal['Start Date'] + '</h3>';
+                deal += 'Start Date: ' + product.Deal['Start Date'] + '</br>';
             }
             if (product.Deal['End Date']) {
-                deal += '<h3>End Date: ' + product.Deal['End Date'] + '</h3>';
+                deal += 'End Date: ' + product.Deal['End Date'];
             }
+            deal += '</p>';
             if (product.Deal.Description) {
                 deal += '<p>' + escape.utils.AppFuncs.parseCMSText(product.Deal.Description) + '</p>';
             }
@@ -57285,8 +57446,8 @@ Ext.define("escape.view.page.Product", {
             for (var r = 0; r < product.Rooms.length; r++) {
                 var room = product.Rooms[r];
                 rooms += '<li><h3>' + room.Name + '</h3>';
-                rooms += '<h4>From: $' + room['Price From'] + ' to $' + room['Price To'] + '</h4>';
-                rooms += '<p>' + room.Details + '</p>';
+                rooms += '<p>From: $' + room['Price From'] + ' to $' + room['Price To'] + '<br>';
+                rooms +=  room.Details + '</p>';
 
             }
             rooms += '</ul>';
@@ -57334,6 +57495,7 @@ Ext.define('escape.controller.Search', {
         listShowing: false,
         searchValues: null,
         moreResults: false,
+        collectionType: null,
         refs: {
             searchPage: 'searchPage',
             searchForm: 'searchPage formpanel',
@@ -57453,20 +57615,21 @@ Ext.define('escape.controller.Search', {
         //     }
         //     this.addOption('Destinations', newDesList);
         // }
-
+        var collectionType = this.getCollectionType();
+        
         if (options.type) {
             this.addOption('Type', options.type);
         }
-        if (options.features) {
+        if (options.features  && collectionType!='deals') {
             this.addOption('Features', options.features);
         }
-        if (options.experiences) {
+        if (options.experiences && collectionType!='deals') {
             this.addOption('Experience', options.experiences);
         }
-        if (options.activities) {
+        if (options.activities && collectionType!='deals') {
             this.addOption('Activities', options.activities);
         }
-        if (options.starRating) {
+        if (options.starRating && collectionType!='deals') {
             this.addOption('Star Rating', options.starRating);
         }
 
@@ -57547,6 +57710,9 @@ Ext.define('escape.controller.Search', {
           
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
+        this.setCollectionType(collectionType);
+
+
         if (collectionType === 'restaurants') {
             params.collection = 'restaurants'; //'prototype-dnsw-' +
             params.form = 'mobile-restaurant-json';
@@ -57652,7 +57818,6 @@ Ext.define('escape.controller.Search', {
     },
 
     resultsLoaded: function(records) {
-        console.log('resultsLoaded');
         var resultsList = records.getData().results;
         var startIndex = this.getResultsStore().getData().items.length;
         for (var i = 0; i < resultsList.length; i++) {
@@ -57794,7 +57959,6 @@ Ext.define('escape.controller.Search', {
         if (funnelbackCollection === 'centres') {
             funnelbackCollection = 'vic';
         }
-        console.log('funnelbackCollection: ' + funnelbackCollection);
         var collection;
         // map funnel back collection to matrix collection
         for (var i = escape.utils.AppVars.collectionMapping.length - 1; i >= 0; i--) {
@@ -57894,7 +58058,6 @@ Ext.define('escape.controller.MyFavourites', {
                 });
             }
 
-            console.log(items);
 
             var list = new Ext.List({
                 itemTpl: '<div class="icon {type}"></div><div class="labels"><h3>{title}</h3><h4>{suburb}</h4><div>',
@@ -57914,9 +58077,7 @@ Ext.define('escape.controller.MyFavourites', {
     },
     productSelected: function(list, record) {
         var productData = record.getData();
-        console.log(productData);
         escape.utils.AppVars.currentSection.getNavigationView().push({
-           
             xtype: 'productPage',
             pageTitle: String(productData.data.Type).toProperCase(),
             productId: productData.productId,
@@ -57963,19 +58124,16 @@ Ext.define('escape.controller.MyFavourites', {
 
     },
     hideRemoveQs: function() {
-        console.log('hideRemoveQs');
         var removeActionSheet = this.getRemoveActionSheet();
         removeActionSheet.hide();
     },
     removeRemoveQs: function() {
-        console.log('removeRemoveQs');
         var removeActionSheet = this.getRemoveActionSheet();
         this.getMyFavouritesSection().remove(removeActionSheet);
     },
     removeFromFavourites: function() {
         var selfRef = this;
         var productId = this.getRemoveActionSheet().getData().productId;
-        console.log('productId');
         escape.model.Favourites.remove(productId, {
             success: function(result) {
                 selfRef.reLoadList();
@@ -60518,7 +60676,8 @@ Ext.define('escape.store.ProductSearch', {
     config: {
         model: 'escape.model.ProductSearch',
         proxy: {
-            type: 'ajax',
+            type: 'ajaxcache',
+            cacheTimeout: AppSettings.caching.searchCacheLength,
             url: AppSettings.searchURL,
             startParam: 'start_rank',
             limitParam: 'num_ranks',
@@ -60824,6 +60983,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
         }
 
         this.moveContainer(offset.x);
+        this.fireEvent('menuOpened');
     },
 
     /**
@@ -60858,6 +61018,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
      *  Opens the container.  See ``moveContainer`` for more details.
      */
     openContainer: function(duration) {
+        this.fireEvent('menuOpened');
         duration = duration || this.config.slideDuration;
         this.container.addCls('open');
         this.moveContainer(this.config.list.width, duration);
@@ -62094,9 +62255,6 @@ Ext.define('escape.controller.CurrencyConverter', {
             convertedField: 'currencyConverterPage numberfield[name=converted]'
         },
         control: {
-            'slidenavigationview': {
-                menuOpened: 'unfousFields'
-            },
             'currencyConverterPage container': {
                 tap: 'unfousFields'
             },
@@ -62126,26 +62284,7 @@ Ext.define('escape.controller.CurrencyConverter', {
         this.getCurrencyConverterPage().getScrollable().getScroller().on('scrollstart', this.unfousFields);
     },
     unfousFields: function() {
-        console.log('unfousFields');
-        
-        try {
-            this.doConverstion();
-            //this.getOrgField().blur();
-            this.hideKeyboard();
-        } catch (e) {
-            console.log(e);
-        }
-    },
-    hideKeyboard: function() {
-        var activeElement = document.activeElement;
-        activeElement.setAttribute('readonly', 'readonly'); // Force keyboard to hide on input field.
-        activeElement.setAttribute('disabled', 'true'); // Force keyboard to hide on textarea field.
-        Ext.defer(function() {
-            activeElement.blur();
-            // Remove readonly attribute after keyboard is hidden.
-            activeElement.removeAttribute('readonly');
-            activeElement.removeAttribute('disabled');
-        }, 100);
+        escape.utils.AppFuncs.unfousFields();
     },
     createPicker: function() {
         var cm = escape.model.Currency;
@@ -62153,7 +62292,7 @@ Ext.define('escape.controller.CurrencyConverter', {
         for (var i = cm.currencys.length - 1; i >= 0; i--) {
             currencyItems.push({
                 cls: cm.currencys[i].code.toLowerCase(),
-                text: cm.currencys[i].code+ ' ' +cm.currencys[i].name,
+                text: cm.currencys[i].code + ' ' + cm.currencys[i].name,
                 value: i
             });
         }
@@ -62758,6 +62897,7 @@ Ext.define("escape.view.page.CurrencyConverter", {
         pageTypeId: 4,
         pageTrackingId: 4,
         layout: 'vbox',
+        hasInputs: true,
         scrollable: {
             direction: 'vertical',
             directionLock: true
@@ -62772,7 +62912,6 @@ Ext.define("escape.view.page.CurrencyConverter", {
         var selfRef = this;
         escape.model.Currency.loadDefaults({
             success: function() {
-                console.log('defaults set up');
                 selfRef.loadOrginal();
             },
             error: function(error) {
@@ -62926,7 +63065,7 @@ Ext.define("escape.view.page.Weather", {
         });
         // check to see if the product is a favourite or not
         var selfRef = this;
-        escape.model.Weather.getFullWeather(refresh,{
+        escape.model.Weather.getFullWeather(refresh, {
             success: function() {
                 selfRef.build();
             },
@@ -62993,7 +63132,8 @@ Ext.define("escape.view.page.Weather", {
                 name: 'location',
                 labelAlign: 'top',
                 options: weatherOptions,
-                value: stationId
+                value: stationId,
+                width: Ext.Viewport.getSize().width - 160
             }]
         }, {
             xtype: 'container',
@@ -63070,14 +63210,14 @@ Ext.define("escape.view.page.Weather", {
     buildTodaysWeather: function() {
         var wm = escape.model.Weather;
         var today = wm.forcatsByDay[0];
-        var temp =wm.convertTempature(wm.currentTemp)+'&deg;';
-        if (wm.currentTemp == -9999){
+        var temp = wm.convertTempature(wm.currentTemp) + '&deg;';
+        if (wm.currentTemp == -9999) {
             temp = '-';
         }
         var todaysWeather = '<div class="info"><h1>' + temp + '</h1>';
         // check to see if the extremes are available
         if (today.high != 999 && today.low != 999) {
-            todaysWeather += '<div class="extremes"><h3 class="high">' +  wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
+            todaysWeather += '<div class="extremes"><h3 class="high">' + wm.convertTempature(today.high) + '&deg;</h3><h3 class="low">' + wm.convertTempature(today.low) + '&deg;</h3></div>';
         }
         var forcastDetails = today.forecast;
         if (forcastDetails.toLowerCase() == wm.getIconName(today.icon).toLowerCase()) {
@@ -63086,10 +63226,10 @@ Ext.define("escape.view.page.Weather", {
 
         todaysWeather += '<h2>' + wm.getIconName(today.icon) + '</h2><p>' + forcastDetails + '</p>';
         if (wm.weatherData.RainFall != -9999) {
-            todaysWeather += '<h4 class="rain">' + Math.round(wm.weatherData.RainFall)+ ' mm</h4>';
+            todaysWeather += '<h4 class="rain">' + Math.round(wm.weatherData.RainFall) + ' mm</h4>';
         }
         if (wm.weatherData.WindSpeedmps != -9999) {
-            var windKm = MathExt.prototype.roundNumber(wm.weatherData.WindSpeedmps * (3.6),2);
+            var windKm = MathExt.prototype.roundNumber(wm.weatherData.WindSpeedmps * (3.6), 2);
             todaysWeather += '<h4 class="wind">' + windKm + ' KM/H ' + wm.weatherData.WindDirection + '</h4></div>';
         }
 
@@ -63110,7 +63250,8 @@ Ext.define("escape.view.page.Search", {
         layout: 'hbox',
         items: [],
         pageTypeId: 11,
-        pageTrackingId: 1
+        pageTrackingId: 1,
+        hasInputs: true
     },
     reOpenView: function() {
         this.openView();
@@ -63227,6 +63368,9 @@ Ext.define('escape.controller.GlobalActions', {
             weatherPage: 'weatherPage'
         },
         control: {
+             'slidenavigationview': {
+                menuOpened: 'menuOpened'
+            },
             'page button[action=showMenu]': {
                 tap: 'showMenu'
             },
@@ -63241,7 +63385,6 @@ Ext.define('escape.controller.GlobalActions', {
             },
             'section button[action=getDirections]': {
                 tap: function(btn) {
-                    console.log(btn);
                     this.showDirections(btn.config.address, btn.config.latlon);
                 }
             },
@@ -63265,12 +63408,28 @@ Ext.define('escape.controller.GlobalActions', {
                     this.makeBooking(btn.config.bookingURL);
                 }
             },
+            'section list[action=appList]': {
+                itemsingletap: function(list, index, element, record) {
+                    var data = record.getData();
+                    if (Ext.os.is.iOS) {
+                        window.open(data.link, '_blank');
+                    } else {
+                        try {
+                            cb = window.plugins.childBrowser;
+                            cb.showWebPage(data.link);
+                        } catch (e) {
+                            window.open(data.link, '_blank');
+                        }
+                    }
+                    
+                }
+            },
             'section list[action=contactSheet]': {
                 itemsingletap: function(list, index, element, record) {
                     var data = record.getData();
                     switch (data.action) {
                     case 'getDirections':
-                        this.showDirections(data.address, data.latlon);
+                        this.showDirections(data.data.address, data.data.latlog);
                         break;
                     case 'sendEmail':
                         this.sendEmail(data.data);
@@ -63282,8 +63441,6 @@ Ext.define('escape.controller.GlobalActions', {
                         this.goToLink(data.data);
                         break;
                     case 'makeBooking':
-                        console.log('makeBooking');
-                        console.log(data.data)
                         this.makeBooking(data.data);
                         break;
                     }
@@ -63322,9 +63479,15 @@ Ext.define('escape.controller.GlobalActions', {
             }
         }
     },
+     menuOpened: function() {
+        if (escape.utils.AppVars.currentPage.getHasInputs()){
+            // only run if the page has input fields
+            escape.utils.AppFuncs.unfousFields();
+        }
+    },
     removePanel: function(panel) {
         var baseCls = panel.getBaseCls();
-        if (baseCls!='x-sheet' && baseCls!='x-msgbox'){
+        if (baseCls != 'x-sheet' && baseCls != 'x-msgbox') {
             try {
                 Ext.Viewport.remove(panel, true);
             } catch (e) {
@@ -63342,9 +63505,7 @@ Ext.define('escape.controller.GlobalActions', {
 
     },
 
-    showSelectFieldOptions: function() {
-        console.log('showSelectFieldOptions');
-    },
+    showSelectFieldOptions: function() {},
     showMapTerms: function() {
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'mapTerms'
@@ -63501,13 +63662,11 @@ Ext.define("escape.view.page.AddToItinerary", {
                     selfRef.buildPage(itineraries);
                 } else {
                     // error you have no itineraries
-                    console.log('error you have no itineraries');
                     selfRef.fireEvent('addToNewItinerary', this);
                 }
             },
             error: function(error) {
                 // error show the create button
-                console.log('error show the create button');
                 selfRef.fireEvent('addToNewItinerary', this);
             },
             scope: this
@@ -63531,7 +63690,6 @@ Ext.define("escape.view.page.AddToItinerary", {
                     var oneDay = 1000 * 60 * 60 * 24;
                     var daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (oneDay));
 
-                    console.log('daysDiff: ' + daysDiff);
 
                     if (daysDiff > 0) {
                         itineraryOptions.push({
@@ -63617,17 +63775,12 @@ Ext.define('escape.controller.Product', {
         }
     },
     addToItineray: function(btn, event, option) {
-        console.log('addToItineray');
-
         var viewportSize = Ext.Viewport.getSize();
-
         var productPage = btn.config.productPage;
         var productId = productPage.getProductId();
         var productType = productPage.getProductType();
         var productData = productPage.getProductData();
         var productName = productData.Name;
-        console.log('productName: ' + productName);
-
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'addToItineraryPage',
             productId: productId,
@@ -63645,7 +63798,6 @@ Ext.define('escape.controller.Product', {
         var productName = productData.Name;
         escape.model.Favourites.add(productId, productType, productName, productData, {
             success: function(result) {
-                console.log('added to favouries');
                 productPage.addedToFavouries();
             },
             error: function(error) {
@@ -64565,6 +64717,7 @@ Ext.define("escape.view.page.ItineraryEditor", {
                 dateFormat: 'd/m/Y',
                 value: startDateValue,
                 name: 'startDate',
+                itemId: 'startDate',
                 picker: {
                     yearFrom: todaysDate.getFullYear(),
                     yearTo: maxDate.getFullYear()
@@ -64575,6 +64728,7 @@ Ext.define("escape.view.page.ItineraryEditor", {
                 dateFormat: 'd/m/Y',
                 value: endDateValue,
                 name: 'endDate',
+                itemId: 'endDate',
                 picker: {
                     yearFrom: todaysDate.getFullYear(),
                     yearTo: maxDate.getFullYear()
@@ -64701,7 +64855,6 @@ Ext.define('escape.controller.Itinerarys', {
             } else {
                 days += ' day';
             }
-            console.log(startDate);
             itinerariesList.push({
                 id: itinerary.id,
                 name: itinerary.name,
@@ -64798,18 +64951,12 @@ Ext.define('escape.controller.Itinerarys', {
         });
     },
     checkItineraryErrors: function(data) {
-
-        console.log(data);
-
         var errors = [];
         if (data.name === null || data.name === '') {
             errors.push('Please enter a Name');
         }
         var oneDay = 1000 * 60 * 60 * 24;
         var daysDiff = Math.ceil((data.endDate.getTime() - data.startDate.getTime()) / (oneDay));
-        console.log(data.startDate);
-        console.log(data.endDate);
-        console.log(daysDiff);
 
         if (daysDiff < 0) {
             errors.push('Please enter a end date after your start date');
@@ -64823,25 +64970,21 @@ Ext.define('escape.controller.Itinerarys', {
         var errors = this.checkItineraryErrors(data);
         var itineraryEditorPage = this.getItineraryEditorPage();
 
+
         if (errors.length === 0) {
             // create the new itinerary
-            escape.model.Itineraries.createItinerary(data.name, data.startDate, data.endDate, {
+            escape.model.Itineraries.createItinerary(data.name, String(data.startDate), String(data.endDate), {
                 success: function(result) {
-                    console.log('success');
-
                     // if a product was sent add it
                     var addProductData = selfRef.getItineraryEditorPage().getProductAddData();
-                    console.log('addProductData: ' + addProductData);
                     if (addProductData !== null) {
                         escape.model.Itineraries.addProduct(result.item(0).id, 1, addProductData.id, addProductData.type, addProductData.name, addProductData.data, {
                             success: function() {
-                                console.log('product added to itinerary');
                                 // show success
                                 selfRef.showAddedMsg();
                                 escape.utils.AppVars.currentSection.getNavigationView().pop(2);
                             },
                             error: function(error) {
-                                console.log('product add error');
                                 selfRef.showItinerary(result.item(0));
                             },
                             scope: this
@@ -64870,7 +65013,6 @@ Ext.define('escape.controller.Itinerarys', {
             var itineraryId = this.getCurrentItineray().id;
             escape.model.Itineraries.updateItinerary(itineraryId, data.name, data.startDate, data.endDate, {
                 success: function(result) {
-                    console.log(result);
                     escape.utils.AppVars.currentSection.getNavigationView().pop(2);
                     selfRef.showItinerary(result.item(0));
                 },
@@ -64903,27 +65045,20 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     addProductToItineraries: function() {
-
-        console.log('addProductToItineraries');
+        console.log('!!! addProductToItineraries');
         var selfRef = this;
         var productId = this.getAddToItineraryPage().getProductId();
         var productType = this.getAddToItineraryPage().getProductType();
         var productData = this.getAddToItineraryPage().getProductData();
         var productName = this.getAddToItineraryPage().getProductName();
 
-        console.log('productId: ' + productId);
-        console.log('productType: ' + productType);
-        console.log('productName: ' + productName);
-        console.log('productData: ' + productData);
         // get form data
         var values = this.getAddToItineraryForm().getValues();
-        console.log(values);
         var addToItineraries = {};
         for (var key in values) {
             var breakdown = key.split('-');
             var type = breakdown[0];
             var itineraryId = Number(breakdown[1]);
-            console.log('itineraryId: ' + itineraryId);
             if (!addToItineraries['add-' + itineraryId]) {
                 addToItineraries['add-' + itineraryId] = {
                     id: itineraryId,
@@ -64940,20 +65075,23 @@ Ext.define('escape.controller.Itinerarys', {
         // add product into itineraries
         for (var row in addToItineraries) {
             var itineraryValues = addToItineraries[row];
-            console.log(itineraryValues);
             if (itineraryValues.add) {
                 escape.model.Itineraries.addProduct(itineraryValues.id, itineraryValues.day, productId, productType, productName, productData, {
                     success: function() {
-                        console.log('product added to itinerary');
+                        console.log('!!! product added to itinerary');
+                        selfRef.showAddedMsg();
                         // show success
                     },
-                    error: function(error) {},
+                    error: function(error) {
+                        console.log('!!! error adding');
+                        selfRef.showErrorMsg();
+                    },
                     scope: this
                 });
             }
         }
 
-        selfRef.showAddedMsg();
+
         escape.utils.AppVars.currentSection.getNavigationView().pop();
 
     },
@@ -64967,6 +65105,35 @@ Ext.define('escape.controller.Itinerarys', {
             centered: true,
             //hideOnMaskTap: true,
             html: 'Added',
+            masked: false,
+            showAnimation: {
+                type: 'popIn',
+                duration: 200,
+                easing: 'ease-out'
+            },
+            hideAnimation: {
+                type: 'popOut',
+                duration: 100,
+                easing: 'ease-out'
+            }
+        });
+
+        Ext.Viewport.add(addedMsg);
+        addedMsg.show();
+
+        var task = new Ext.util.DelayedTask(function() {
+            addedMsg.hide();
+        }, this);
+        task.delay(1000);
+    },
+
+    showErrorMsg: function() {
+        var addedMsg = Ext.create('Ext.Panel', {
+            cls: 'prompt loadError',
+            //modal: true,
+            centered: true,
+            //hideOnMaskTap: true,
+            html: 'Error',
             masked: false,
             showAnimation: {
                 type: 'popIn',
@@ -65032,20 +65199,16 @@ Ext.define('escape.controller.Itinerarys', {
 
     },
     hideItinerayQs: function() {
-        console.log('hideItinerayQs');
         var deletActionSheet = this.getDeleteItineraryAction();
         deletActionSheet.hide();
     },
     removeItinerayQs: function() {
-        console.log('removeItinerayQs');
         var deletActionSheet = this.getDeleteItineraryAction();
         this.getMyItinerarySection().remove(deletActionSheet);
     },
     deleteItinerary: function(deleteBtn) {
         var deletActionSheet = this.getDeleteItineraryAction();
-        console.log(deletActionSheet);
         var id = deletActionSheet.getData().itineraryId;
-        console.log('itineraryId: ' + id);
         var selfRef = this;
         escape.model.Itineraries.deleteItinerary(id, {
             success: function(result) {
@@ -65055,7 +65218,6 @@ Ext.define('escape.controller.Itinerarys', {
             scope: this
         });
         this.hideItinerayQs();
-        console.log(escape.utils.AppVars.currentPage.getXTypes());
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('itineraryEditorPage') != -1) {
             escape.utils.AppVars.currentSection.getNavigationView().pop(2);
         }
@@ -65229,12 +65391,15 @@ Ext.define('Ext.data.reader.Array', {
     }
 });
 Ext.application({
+    refs: {
+        mainView: 'mainView'
+    },
     name: 'escape',
-    requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox','escape.utils.DatabaseManager', 'escape.utils.Tracking','escape.utils.AppFuncs','escape.utils.AppVars'],
-    views: ['Main', 'section.Section', 'page.Home', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer','page.CurrencyConverter','page.ContentPage','ui.SelectField','page.Map'],
-    controllers: ['GlobalActions', 'Section', 'Search', 'Sharing','Itinerarys','ItineraryViewer', 'Product', 'ProductSections', 'Events','ServicesAndFacilities','CurrencyConverter','Weather','MyFavourites','ContentPage'],
+    requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars'],
+    views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map'],
+    controllers: ['GlobalActions', 'Settings', 'Section', 'Search', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage'],
 
-    models: ['Favourites', 'UserSettings', 'Currency', 'Register','ProductSearch','Itineraries'],
+    models: ['Favourites', 'UserSettings', 'Currency', 'Register', 'ProductSearch', 'Itineraries'],
     stores: ['ProductSearch'],
     icon: {
         57: 'resources/icons/Icon.png',
@@ -65255,12 +65420,50 @@ Ext.application({
             this.onDeviceReady();
         }, this);
         task.delay(3000);
-        
+        // listen for the back button
+        // set up a listener to handle the back button for Android
+        //if (Ext.os.is('Android')) {
+        // }
     },
+    /**
+    *   Controls the back button action for android
+    */
+    onBackBtnPressed: function(e) {
+        //e.preventDefault();
+        var currentSection = escape.utils.AppVars.currentSection;
+        var previousItem = currentSection.getNavigationView().getPreviousItem();
+        if (previousItem) {
+            // the current section has more than one item
+            // navigaite to the last page
+            currentSection.getNavigationView().pop();
+        } else if (currentSection.getId() != 'homeSection') {
+            // the current section no the home page navigatie back to the home page
+            this.getMainView().select('homeSection');
+        } else {
+            // the current section is the home page exit the app
+            navigator.app.exitApp();
+        }
+    },
+    /**
+    *  Cordova has been loaded
+    */
     onDeviceReady: function() {
+        var scopeRef = this;
+        //
         if (!this.deviceReady) {
+
+            // try {
+            //     window.BackButton.override();
+            // } catch (e) {
+            //     console.log('!!! override failed');
+            // }
+            // back
+            document.addEventListener("backbutton", function() {
+                scopeRef.onBackBtnPressed();
+            }, false);
+
             this.deviceReady = true;
-            var scopeRef = this;
+
             escape.utils.DatabaseManager.on('ready', function() {
                 scopeRef.startApp();
             });
@@ -65270,7 +65473,7 @@ Ext.application({
                 fileName: 'DNSWEscapeUser',
                 checkTable: 'Favourites'
             }]);
-            
+
             try {
                 escape.utils.AppVars.childbrowser = ChildBrowser.install();
                 ShareKitPlugin.install();
@@ -65283,8 +65486,8 @@ Ext.application({
         // create the favourites table
         var db = escape.utils.DatabaseManager.getBDConn('user');
         // db.queryDB('DROP TABLE Favourites');
-         db.queryDB('CREATE TABLE IF NOT EXISTS Favourites (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, product_id, name, type, data)');
-         escape.model.Itineraries.setup();
+        db.queryDB('CREATE TABLE IF NOT EXISTS Favourites (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, product_id, name, type, data)');
+        escape.model.Itineraries.setup();
         // Register
         escape.model.Register.check({
             success: function(reg) {},

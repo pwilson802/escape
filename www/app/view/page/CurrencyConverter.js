@@ -9,6 +9,7 @@ Ext.define("escape.view.page.CurrencyConverter", {
         pageTypeId: 4,
         pageTrackingId: 4,
         layout: 'vbox',
+        hasInputs: true,
         scrollable: {
             direction: 'vertical',
             directionLock: true

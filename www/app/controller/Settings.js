@@ -13,12 +13,9 @@ Ext.define('escape.controller.Settings', {
     // clear the proxy cache
     clearCache: function() {
         // will clear all downloaded data
-        console.log('clearCache');
          var localdata =  localStorage.getItem("proxyCache");
-         console.log(localdata);
         localStorage.setItem("proxyCache", '{}');
         localdata =  localStorage.getItem("proxyCache");
-         console.log(localdata);
         
          var addedMsg = Ext.create('Ext.Panel', {
             cls: 'prompt favsAddedMsg',

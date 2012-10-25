@@ -6,8 +6,8 @@ Ext.define("escape.model.Itineraries", {
         // create the required tables for your itineraries
         var db = escape.utils.DatabaseManager.getBDConn('user');
         db.queryDB('CREATE TABLE IF NOT EXISTS itineraries (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name, startDate, endDate)');
-        db.queryDB('CREATE TABLE IF NOT EXISTS itineraryDays (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, itinerary_id, dayNum, notes)');
-        db.queryDB('CREATE TABLE IF NOT EXISTS itineraryProducts (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, itinerary_id, dayNum, orderNum, product_id, type, name, data)');
+        db.queryDB('CREATE TABLE IF NOT EXISTS itineraryDays (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER, dayNum INTEGER, notes)');
+        db.queryDB('CREATE TABLE IF NOT EXISTS itineraryProducts (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER, dayNum INTEGER, orderNum INTEGER, product_id INTEGER, type, name, data)');
     },
     // itineraries
     getItineraries: function(callback, scope) {
@@ -38,7 +38,7 @@ Ext.define("escape.model.Itineraries", {
             selfRef.getItinerary(rs.insertId, callback, scope);
         }, function(t, e) {
             Ext.callback(callback.error, scope, []);
-        }, [name, startDate, endDate]);
+        }, [name, String(startDate), String(endDate)]);
     },
     deleteItinerary: function(id, callback, scope) {
         var selfRef = this;
@@ -77,21 +77,22 @@ Ext.define("escape.model.Itineraries", {
                 Ext.callback(callback.success, scope, [rs.rows]);
             } else {
                 // create the notes if they do not exist
-                selfRef.addItineraryDayNotes(itinerary_id, dayNum, callback, scope);
+                Ext.callback(callback.success, scope, [false]);
+                //selfRef.addItineraryDayNotes(itinerary_id, dayNum, callback, scope);
             }
 
         }, function(t, e) {
-            selfRef.addItineraryDayNotes(itinerary_id, dayNum, callback, scope);
+            Ext.callback(callback.error, scope, [false]);
         }, [itinerary_id, dayNum]);
     },
-    addItineraryDayNotes: function(itinerary_id, dayNum, callback, scope) {
+    addItineraryDayNotes: function(itinerary_id, dayNum, notes, callback, scope) {
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('user');
         db.queryDB('INSERT INTO itineraryDays (itinerary_id, dayNum, notes) VALUES (?,?,?)', function(t, rs) {
-            selfRef.getItineraryDayNotes(itinerary_id, dayNum, callback, scope);
-        }, function(t, e) {
             Ext.callback(callback.success, scope, []);
-        }, [itinerary_id, dayNum, '']);
+        }, function(t, e) {
+            Ext.callback(callback.error, scope, []);
+        }, [itinerary_id, dayNum, notes]);
     },
     updateItineraryDayNotes: function(itinerary_id, dayNum, notes, callback, scope) {
         var selfRef = this;
@@ -99,7 +100,7 @@ Ext.define("escape.model.Itineraries", {
         db.queryDB('UPDATE  itineraryDays SET notes=(?) WHERE itinerary_id = (?) AND dayNum = (?)', function(t, rs) {
             Ext.callback(callback.success, scope, []);
         }, function(t, e) {
-            Ext.callback(callback.success, scope, []);
+            Ext.callback(callback.error, scope, []);
         }, [notes, itinerary_id, dayNum]);
     },
     // itineraries products

@@ -8,8 +8,10 @@ Ext.define("escape.view.page.ItineraryDay", {
         dayNum: 1,
         pageTypeId: 14,
         pageTrackingId: 2,
+        dayId: false,
         padding: '0',
         products: [],
+        hasInputs: true,
         initViewType: 'list',
         items: [{
             xtype: 'loadingDisplay'
@@ -112,13 +114,12 @@ Ext.define("escape.view.page.ItineraryDay", {
                 data: product
             });
         }
-        console.log(intialMarkers);
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
             height: Ext.Viewport.getSize().height - 103,
             interaction: true,
             intialMarkers: intialMarkers
         });
-         this.removeAll(true, true);
+        this.removeAll(true, true);
         this.setItems(mapDisplay);
     },
 
@@ -164,39 +165,45 @@ Ext.define("escape.view.page.ItineraryDay", {
         var selfRef = this;
         escape.model.Itineraries.getItineraryDayNotes(this.getItineraryId(), this.getDayNum(), {
             success: function(itineraryDay) {
-                selfRef.buildNotes(itineraryDay.item(0).notes);
+                if (itineraryDay===false) {
+                    selfRef.setDayId(false);
+                    selfRef.buildNotes('');
+                } else {
+                   selfRef.setDayId(itineraryDay.item(0).id);
+                    selfRef.buildNotes(itineraryDay.item(0).notes);
+                }
             },
             error: function(error) {},
             scope: this
         });
 
     },
+
     buildNotes: function(notes) {
-        this.removeAll(true,true);
+        this.removeAll(true, true);
         this.setItems([{
-            html: '<h2>Notes</h2>',
-            padding:'0 10px'
+            xtype: 'container',
+            layout: 'hbox',
+            padding: '0 10px',
+            items: [{
+                html: '<h2>Notes</h2>',
+                flex: 3
+            }, {
+                xtype: 'button',
+                text: 'Save',
+                action: 'save',
+                cls: 'search',
+                margin:'10px 0 0 0',
+                flex: 1
+            }]
+
         }, {
             xtype: 'textareafield',
-            maxRows: 10,
+            maxRows: 4,
             name: 'notes',
             itemId: 'notesPage',
             value: notes,
             margin: '10px'
-        }, {
-            xtype: 'container',
-            docked: 'bottom',
-            cls: 'btnsArea',
-            padding: '10px',
-            defaults: {
-                margin: '10px 0 0 0'
-            },
-            items: [{
-                xtype: 'button',
-                text: 'Save',
-                action: 'save',
-                cls: 'search'
-            }]
         }]);
     }
 });

@@ -293,6 +293,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
         }
 
         this.moveContainer(offset.x);
+        this.fireEvent('menuOpened');
     },
 
     /**
@@ -327,6 +328,7 @@ Ext.define('Ext.ux.slidenavigation.View', {
      *  Opens the container.  See ``moveContainer`` for more details.
      */
     openContainer: function(duration) {
+        this.fireEvent('menuOpened');
         duration = duration || this.config.slideDuration;
         this.container.addCls('open');
         this.moveContainer(this.config.list.width, duration);

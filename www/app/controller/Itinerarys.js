@@ -218,15 +218,13 @@ Ext.define('escape.controller.Itinerarys', {
         var errors = this.checkItineraryErrors(data);
         var itineraryEditorPage = this.getItineraryEditorPage();
 
+
         if (errors.length === 0) {
             // create the new itinerary
-            escape.model.Itineraries.createItinerary(data.name, data.startDate, data.endDate, {
+            escape.model.Itineraries.createItinerary(data.name, String(data.startDate), String(data.endDate), {
                 success: function(result) {
-                    console.log('success');
-
                     // if a product was sent add it
                     var addProductData = selfRef.getItineraryEditorPage().getProductAddData();
-                    console.log('addProductData: ' + addProductData);
                     if (addProductData !== null) {
                         escape.model.Itineraries.addProduct(result.item(0).id, 1, addProductData.id, addProductData.type, addProductData.name, addProductData.data, {
                             success: function() {
@@ -295,7 +293,7 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     addProductToItineraries: function() {
-
+        console.log('!!! addProductToItineraries');
         var selfRef = this;
         var productId = this.getAddToItineraryPage().getProductId();
         var productType = this.getAddToItineraryPage().getProductType();
@@ -328,16 +326,20 @@ Ext.define('escape.controller.Itinerarys', {
             if (itineraryValues.add) {
                 escape.model.Itineraries.addProduct(itineraryValues.id, itineraryValues.day, productId, productType, productName, productData, {
                     success: function() {
-                        console.log('product added to itinerary');
+                        console.log('!!! product added to itinerary');
+                        selfRef.showAddedMsg();
                         // show success
                     },
-                    error: function(error) {},
+                    error: function(error) {
+                        console.log('!!! error adding');
+                        selfRef.showErrorMsg();
+                    },
                     scope: this
                 });
             }
         }
 
-        selfRef.showAddedMsg();
+
         escape.utils.AppVars.currentSection.getNavigationView().pop();
 
     },
@@ -351,6 +353,35 @@ Ext.define('escape.controller.Itinerarys', {
             centered: true,
             //hideOnMaskTap: true,
             html: 'Added',
+            masked: false,
+            showAnimation: {
+                type: 'popIn',
+                duration: 200,
+                easing: 'ease-out'
+            },
+            hideAnimation: {
+                type: 'popOut',
+                duration: 100,
+                easing: 'ease-out'
+            }
+        });
+
+        Ext.Viewport.add(addedMsg);
+        addedMsg.show();
+
+        var task = new Ext.util.DelayedTask(function() {
+            addedMsg.hide();
+        }, this);
+        task.delay(1000);
+    },
+
+    showErrorMsg: function() {
+        var addedMsg = Ext.create('Ext.Panel', {
+            cls: 'prompt loadError',
+            //modal: true,
+            centered: true,
+            //hideOnMaskTap: true,
+            html: 'Error',
             masked: false,
             showAnimation: {
                 type: 'popIn',

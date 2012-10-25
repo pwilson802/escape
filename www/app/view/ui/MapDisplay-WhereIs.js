@@ -42,7 +42,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             this.setMapId('mapContainier' + Math.random() * 1000000000);
             var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
             this.add({
-                html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"></div>'
+                html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
             });
             // the map logo
             this.add({
@@ -157,7 +157,6 @@ Ext.define("escape.view.ui.MapDisplay", {
             map.markersLayer.addMarker(marker);
             var selfRef = this;
             var markerClick = function(evt) {
-                console.log('!!! markerClick');
                 selfRef.fireEvent('markerSelected', data);
             };
             marker.events.register('click', marker, markerClick);

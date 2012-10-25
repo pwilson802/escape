@@ -54,8 +54,7 @@ Ext.define("escape.view.page.ContentPage", {
                 xtype: 'button',
                 text: 'Share this App',
                 cls: 'shareAppBtn',
-                action: 'shareApp',
-        
+                action: 'shareApp'
             });
             pageItems.push({
                 xtype: 'footer'

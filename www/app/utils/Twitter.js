@@ -121,7 +121,6 @@
              // FOR THE EXAMPLE
              app.done();
          }, function(data) {
-             console.log(data);
              Ext.callback(callback.error, scope, []);
          });
      }

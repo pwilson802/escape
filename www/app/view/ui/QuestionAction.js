@@ -18,9 +18,7 @@ Ext.define("escape.view.ui.QuestionAction", {
             cls:'question',
             html: this.getQuestion()
         });
-        console.log(this.getBtns());
         items=  items.concat(this.getBtns());
-        console.log(items);
         this.setItems(items);
     }
 

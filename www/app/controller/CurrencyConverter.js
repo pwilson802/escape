@@ -8,9 +8,6 @@ Ext.define('escape.controller.CurrencyConverter', {
             convertedField: 'currencyConverterPage numberfield[name=converted]'
         },
         control: {
-            'slidenavigationview': {
-                menuOpened: 'unfousFields'
-            },
             'currencyConverterPage container': {
                 tap: 'unfousFields'
             },
@@ -40,26 +37,7 @@ Ext.define('escape.controller.CurrencyConverter', {
         this.getCurrencyConverterPage().getScrollable().getScroller().on('scrollstart', this.unfousFields);
     },
     unfousFields: function() {
-        console.log('unfousFields');
-        
-        try {
-            this.doConverstion();
-            //this.getOrgField().blur();
-            this.hideKeyboard();
-        } catch (e) {
-            console.log(e);
-        }
-    },
-    hideKeyboard: function() {
-        var activeElement = document.activeElement;
-        activeElement.setAttribute('readonly', 'readonly'); // Force keyboard to hide on input field.
-        activeElement.setAttribute('disabled', 'true'); // Force keyboard to hide on textarea field.
-        Ext.defer(function() {
-            activeElement.blur();
-            // Remove readonly attribute after keyboard is hidden.
-            activeElement.removeAttribute('readonly');
-            activeElement.removeAttribute('disabled');
-        }, 100);
+        escape.utils.AppFuncs.unfousFields();
     },
     createPicker: function() {
         var cm = escape.model.Currency;
@@ -67,7 +45,7 @@ Ext.define('escape.controller.CurrencyConverter', {
         for (var i = cm.currencys.length - 1; i >= 0; i--) {
             currencyItems.push({
                 cls: cm.currencys[i].code.toLowerCase(),
-                text: cm.currencys[i].code+ ' ' +cm.currencys[i].name,
+                text: cm.currencys[i].code + ' ' + cm.currencys[i].name,
                 value: i
             });
         }

@@ -9,5 +9,9 @@
 		{
 			"path": "cordova/ChildBrowser.js"
 		}
+		,
+		{
+			"path": "cordova/share.js"
+		}
 	]
 }

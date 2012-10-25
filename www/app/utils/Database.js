@@ -122,11 +122,7 @@ Ext.define('escape.utils.Database', {
             }
             tx.executeSql(
             sql, (params ? params : []), function(tx, results) {
-                try {
-                    successcallback(tx, results);
-                } catch (e) {
-
-                }
+                //  close the database
                 if (!Ext.os.is.iOS) {
                     // we only need to close an open the database connection on android
                     try {
@@ -135,6 +131,13 @@ Ext.define('escape.utils.Database', {
 
                     }
                 }
+                // call the sucess function
+                try {
+                    successcallback(tx, results);
+                } catch (e) {
+
+                }
+                
             }, function(tx, e) {
                 console.log(sql);
                 console.log(e);

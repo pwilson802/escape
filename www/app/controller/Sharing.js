@@ -37,9 +37,7 @@ Ext.define('escape.controller.Sharing', {
         }
     },
     showSharingOptions: function(btn) {
-        console.log('showSharingOptions');
-        var sharingOptions = Ext.create('escape.view.ui.SharingOptions');
-        var sharingData;
+        // define sharing data
         try {
             sharingData = escape.utils.AppVars.currentPage.getSharingData();
         } catch (e) {
@@ -49,10 +47,29 @@ Ext.define('escape.controller.Sharing', {
         if (!sharingData) {
             sharingData = AppSettings.defualtShareData;
         }
-        this.setSharingData(sharingData);
-        Ext.Viewport.add(sharingOptions);
-        sharingOptions.show();
-        //this.getSharingOptions().showMessageForm('postToFacebook');
+        // set share type
+        if (!window.plugins.share) {
+            // android sharing not  found
+            var sharingOptions = Ext.create('escape.view.ui.SharingOptions');
+            var sharingData;
+
+            this.setSharingData(sharingData);
+            Ext.Viewport.add(sharingOptions);
+            sharingOptions.show();
+
+        } else {
+            // use android share plugin
+            window.plugins.share.show({
+                subject: sharingData.name,
+                text: sharingData.defaultMessage + ' ' + sharingData.link
+            }, function() {
+            }, // Success function
+
+            function() {
+            } // Failure function
+            );
+        }
+
     },
     removeSharingOptions: function() {
         Ext.Viewport.remove(this.getSharingOptions());

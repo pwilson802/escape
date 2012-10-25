@@ -3,14 +3,12 @@ Ext.define('escape.utils.Img', {
     // see if the network level and phone supports the use of a retina img
     retinaAvailable: function() {
         // is the user on IOS
-        if (window.device) {
-            if (device.platform == 'iOS' || device.platform == 'iPhone' || device.platform == 'iPad') {
-                // does that iOS device support retina
-                if (Number(device.version) >= 4) {
-                    return true;
-                }
+        if (window.devicePixelRatio) {
+            if (window.devicePixelRatio > 1) {
+                return true;
+            } else {
+                return false;
             }
-            return false;
         }
         return false;
     },
@@ -50,12 +48,12 @@ Ext.define('escape.utils.Img', {
     getResizeURL: function(url, width) {
         // make sure the image is from our server
         var allowedDomain = false;
-        var imagePath ='';
+        var imagePath = '';
         for (var i = AppSettings.imageResizing.fromURLs.length - 1; i >= 0; i--) {
             fromURL = AppSettings.imageResizing.fromURLs[i];
             if (url.indexOf(fromURL.url) != -1) {
-                if (fromURL.remote){
-                imagePath = '/remote/'+fromURL.url+url.split(fromURL.url)[1];
+                if (fromURL.remote) {
+                    imagePath = '/remote/' + fromURL.url + url.split(fromURL.url)[1];
                 } else {
                     imagePath = url.split(fromURL.url)[1];
                 }
@@ -71,11 +69,10 @@ Ext.define('escape.utils.Img', {
                 ratio = window.devicePixelRatio;
             }
             // don't request high def images if on a low connection
-            if (connectionType=='CELL_2G'){
+            if (connectionType == 'CELL_2G') {
                 ratio = 1;
             }
             //ratio = 0.5;
-
             // scale the width to account for pixel density
             var realWidth = Math.round(width * ratio);
             var returnURL = AppSettings.imageResizing.resizeURL + imagePath + '?width=' + realWidth;

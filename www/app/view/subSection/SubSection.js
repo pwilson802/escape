@@ -12,6 +12,7 @@ Ext.define("escape.view.subSection.SubSection", {
         fullscreen: true,
         pageTitle: '',
         rightBtn: "searchBtn",
+        hasInputs: false,
         cardViewItemId: 0,
         cardView: null,
         listeners: {

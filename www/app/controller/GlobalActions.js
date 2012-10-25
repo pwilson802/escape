@@ -8,6 +8,9 @@ Ext.define('escape.controller.GlobalActions', {
             weatherPage: 'weatherPage'
         },
         control: {
+             'slidenavigationview': {
+                menuOpened: 'menuOpened'
+            },
             'page button[action=showMenu]': {
                 tap: 'showMenu'
             },
@@ -47,9 +50,18 @@ Ext.define('escape.controller.GlobalActions', {
             },
             'section list[action=appList]': {
                 itemsingletap: function(list, index, element, record) {
-                    console.log('other app selected');
                     var data = record.getData();
-                    window.open(data.link);
+                    if (Ext.os.is.iOS) {
+                        window.open(data.link, '_blank');
+                    } else {
+                        try {
+                            cb = window.plugins.childBrowser;
+                            cb.showWebPage(data.link);
+                        } catch (e) {
+                            window.open(data.link, '_blank');
+                        }
+                    }
+                    
                 }
             },
             'section list[action=contactSheet]': {
@@ -105,6 +117,12 @@ Ext.define('escape.controller.GlobalActions', {
             'panel': {
                 hide: 'removePanel'
             }
+        }
+    },
+     menuOpened: function() {
+        if (escape.utils.AppVars.currentPage.getHasInputs()){
+            // only run if the page has input fields
+            escape.utils.AppFuncs.unfousFields();
         }
     },
     removePanel: function(panel) {

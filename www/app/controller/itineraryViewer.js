@@ -57,7 +57,7 @@ Ext.define('escape.controller.ItineraryViewer', {
             }
         }
     },
-   
+
     setUp: function(itinerarySubSection) {
         itinerarySubSection.setCardView(itinerarySubSection.getItems().items[itinerarySubSection.getCardViewItemId()]);
         // set the card view
@@ -106,24 +106,23 @@ Ext.define('escape.controller.ItineraryViewer', {
         Ext.Viewport.add(actionSheet);
         actionSheet.show();
     },
-     removeEditProduct: function() {
+    removeEditProduct: function() {
         var editSheet = this.getEditItineraryProduct();
         Ext.Viewport.remove(editSheet, true);
-        
+
     },
 
     updateProduct: function() {
         var selfRef = this;
         var editSheet = this.getEditItineraryProduct();
         var dayField = editSheet.getComponent('dayField');
-        escape.model.Itineraries.changeProductDay(editSheet.getProductId(),dayField.getValue(), {
+        escape.model.Itineraries.changeProductDay(editSheet.getProductId(), dayField.getValue(), {
             success: function() {
                 var sectionView = selfRef.getItinerarySubSection();
                 var cardView = sectionView.getCardView();
                 cardView.getActiveItem().loadProducts();
             },
-            error: function(error) {
-            },
+            error: function(error) {},
             scope: this
         });
         editSheet.hide();
@@ -137,8 +136,7 @@ Ext.define('escape.controller.ItineraryViewer', {
                 var cardView = sectionView.getCardView();
                 cardView.getActiveItem().loadProducts();
             },
-            error: function(error) {
-            },
+            error: function(error) {},
             scope: this
         });
         editSheet.hide();
@@ -159,12 +157,13 @@ Ext.define('escape.controller.ItineraryViewer', {
             });
         }
     },
-    showList : function(btn){
+    showList: function(btn) {
         this.getItinerarySubSection().setViewType('list');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.showList();
     },
     showNotes: function(btn) {
+        escape.utils.AppFuncs.unfousFields();
         this.getItinerarySubSection().setViewType('notes');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.loadNotes();
@@ -173,31 +172,43 @@ Ext.define('escape.controller.ItineraryViewer', {
         //     itineraryId: dayPage.getItineraryId(),
         //     dayNum: dayPage.getDayNum()
         // });
-    
     },
-    showMap : function(btn){
+    showMap: function(btn) {
         this.getItinerarySubSection().setViewType('map');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.showMap();
     },
-
     saveNotes: function(btn) {
+        escape.utils.AppFuncs.unfousFields();
         var selfRef = this;
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         //var notesPage = btn.parent.parent;
         var itineraryId = dayPage.getItineraryId();
+        var dayId = dayPage.getDayId();
         var dayNum = dayPage.getDayNum();
         var notes = dayPage.getComponent('notesPage').getValue();
+        var update = dayPage.getComponent('notesPage').getValue();
 
+        if (dayId !== false) {
+            // the day row has been created so update the notes
+            escape.model.Itineraries.updateItineraryDayNotes(itineraryId, dayNum, notes, {
+                success: function() {
+                    selfRef.showMessage('Saved');
+                },
+                error: function(error) {},
+                scope: this
+            });
+        } else {
+            // no day row has been created so created it and insert the notes
+            escape.model.Itineraries.addItineraryDayNotes(itineraryId, dayNum, notes, {
+                success: function() {
+                    selfRef.showMessage('Saved');
+                },
+                error: function(error) {},
+                scope: this
+            });
+        }
 
-        escape.model.Itineraries.updateItineraryDayNotes(itineraryId, dayNum, notes, {
-            success: function() {
-                selfRef.showMessage('Saved');
-                //escape.utils.AppVars.currentSection.getNavigationView().pop();
-            },
-            error: function(error) {},
-            scope: this
-        });
     },
     showMessage: function(msg) {
         var addedMsg = Ext.create('Ext.Panel', {
@@ -281,7 +292,7 @@ Ext.define('escape.controller.ItineraryViewer', {
             sectionView.getScrollable().getScroller().scrollTo(0, 0, false);
         }
     },
-    productMarkerSelected: function(productData){
+    productMarkerSelected: function(productData) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'productPage',
             pageTitle: String(productData.type).toProperCase(),

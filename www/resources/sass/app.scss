@@ -100,6 +100,13 @@ p {
 	width:118px;
 	height:118px;
 }
+.inputClearPanel {
+	background:#fff !important;
+	-webkit-box-shadow:none !important;
+	//border:1px solid red;
+	padding:0 !important;
+	font-size:1px !important;
+}
 .loadError,
 .loadingDisplay {
 	//background:#181818 url(../images/preloader_icon.png) center 20px no-repeat !important;
@@ -694,7 +701,7 @@ p {
 
 .x-toolbar.itineraryDayToolbar {
 	.info {
-		width: 100px;
+		//width: 100px;
 		text-align:center;
 		@include border-radius(20px); // border radius
 		@include background-clip(); // prevents bg color from leaking outside the border
@@ -2095,6 +2102,13 @@ p {
 		@include border-radius(8px);
 		@include background-clip(); // prevents bg color from leaking 
 }
+.x-field-select {
+		background: #fff url(../images/arrow_select.png) no-repeat right center;
+		.x-component-outer::after {
+			background-color:transparent;
+			-webkit-mask-image:none;
+		}
+	}
 
 .formPage {
 	padding:0;
@@ -2185,7 +2199,11 @@ p {
 		left:10px;
 		border:none;
 		z-index:1000 !important;
-	}		
+	}	
+	.mapHolder {
+		overflow:hidden;
+		position:relative; 
+	}	
 
 }
 .mapPage,
@@ -2353,7 +2371,7 @@ p {
 	}
 	.x-field-select {
 		border:none;
-		background: #fff;
+		background: #fff url(../images/arrow_select.png) no-repeat right center;
 	}
 	.x-toggle-field {
 		@include border-radius(0);
@@ -2653,12 +2671,12 @@ p {
 ///////////////////////
 // PIXEL RATIO IMAGES
 ///////////////////////
-// @media (-webkit-min-device-pixel-ratio: 1.5), /* Webkit */
-//        (min-resolution: 100dpi),           /* Everyone else */
-//        (min-resolution: 1.5dppx)              /* The Future */ {
+@media (-webkit-min-device-pixel-ratio: 1.2), /* Webkit */
+       (min-resolution: 85dpi),           /* Everyone else */
+       (min-resolution: 1.2dppx)              /* The Future */ {
 	body {
 		background-image: url(../images/Splash_Portrait@2x.png);
-		-webkit-background-size: 320px 460px; 
+		-webkit-background-size: 400px 460px; 
 	}
 	.weatherBtn {
 		-webkit-background-size: 32px 76px !important;
@@ -3285,5 +3303,10 @@ p {
 		}
 	}
 
-//}
+	.x-field-select {
+		background-image:url(../images/arrow_select@2x.png);
+		-webkit-background-size: 29px 13px; 
+	}
+
+}
 

@@ -10,7 +10,8 @@ Ext.define("escape.view.page.Search", {
         layout: 'hbox',
         items: [],
         pageTypeId: 11,
-        pageTrackingId: 1
+        pageTrackingId: 1,
+        hasInputs: true
     },
     reOpenView: function() {
         this.openView();

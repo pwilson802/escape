@@ -16,6 +16,48 @@ Ext.define('escape.utils.AppFuncs', {
             productType: type
         });
     },
+    unfousFields: function() {
+        // samll hack to unfous text fields on android
+        if (!Ext.os.is.iOS) {
+            // var field = document.createElement('input');
+            // field.setAttribute('type', 'text');
+            // field.setAttribute('style', 'font-size:1px');
+            // document.body.appendChild(field);
+            // setTimeout(function() {
+            //     field.focus();
+            //     setTimeout(function() {
+            //         field.setAttribute('style', 'display:none;font-size:1px;');
+            //     }, 50);
+            // }, 50);
+
+
+            var inputClearPanel = Ext.create('Ext.Panel', {
+                cls: 'inputClearPanel',
+                itemId: 'inputClearPanel',
+                top: 0,
+                right: 55,
+                width: 25,
+                items: [{
+                    xtype: 'textfield',
+                    itemId: 'inputClear'
+                }]
+            });
+
+            Ext.Viewport.add(inputClearPanel);
+            var input = inputClearPanel.getComponent('inputClear');
+            //addedMsg.show();
+            setTimeout(function() {
+                input.focus();
+                setTimeout(function() {
+                    input.setStyle('display:none');
+                    setTimeout(function() {
+                        Ext.Viewport.remove(inputClearPanel);
+                    }, 1000);
+                }, 20);
+            }, 20);
+        }
+
+    },
     parseCMSText: function(description) {
         var linksStartBreakdown = description.split('<a href="');
         var output = '';
@@ -35,19 +77,19 @@ Ext.define('escape.utils.AppFuncs', {
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
-                    if (type =='restaurants'){
+                    if (type == 'restaurants') {
                         type = 'restaurant';
                     }
-                     for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
+                    for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
                         if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
                             allowedLink = true;
                             break;
                         }
                     }
-                    if (allowedLink){
-                         output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                    if (allowedLink) {
+                        output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
                     }
-                   
+
                 }
                 if (!allowedLink) {
                     // the link is an external link make sure it opens in a child browser

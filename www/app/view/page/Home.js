@@ -36,7 +36,6 @@ Ext.define("escape.view.page.Home", {
 
     openView: function() {
         if (!this.getHomeBuilt()) {
-            console.log('build home page');
             this.setHomeBuilt(true);
             var screenWidth = Ext.Viewport.getSize().width;
 

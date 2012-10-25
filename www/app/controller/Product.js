@@ -43,7 +43,6 @@ Ext.define('escape.controller.Product', {
         var productName = productData.Name;
         escape.model.Favourites.add(productId, productType, productName, productData, {
             success: function(result) {
-                console.log('added to favouries');
                 productPage.addedToFavouries();
             },
             error: function(error) {

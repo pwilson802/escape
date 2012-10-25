@@ -11,7 +11,6 @@ AppSettings.appAddress = {
     state: 'nsw',
     suburb: 'sydney'
 };
-
 AppSettings.bounds = {
     "left": 150.55337081542,
     "bottom": -36.119202120384,
@@ -29,6 +28,13 @@ AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;29
 // The smartphone cms section
 AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
+// Caching
+AppSettings.caching = {
+
+    cmsCacheLength :(60 * 60 * 24 * 14),
+    searchCacheLength : (60 * 60 * 24 * 14),
+    productCacheLength : (60 * 60 * 24 * 14)
+};
 // Image resizing
 AppSettings.imageResizing = {
     resizeURL: 'http://m.img.getconnected.dnsw.com.au/',
@@ -50,8 +56,8 @@ AppSettings.imageResizing = {
 AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' Guide',
     defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide app on the app store',
-    description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
-    emailBody:'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in Sydney.',
+    description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName+'.',
+    emailBody:'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName+'.',
     link: AppSettings.websiteURL,
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
@@ -76,11 +82,11 @@ AppSettings.sensis = {
 };
 // TWITTER settings
 AppSettings.twitter = {
-    consumerKey: 'z04Kkl1zVF3HilGKLre4w',
+    consumerKey: '6TRaloNDL4sZWQxPRfFw',
     // REPLACE WITH YOUR CONSUMER_KEY
-    consumerSecret: 'Cu5Qs3Kg2PUIAYqFfVg8VNHEZmzweEdFjphVo82HGA',
+    consumerSecret: 'C0TmFAYUYZEw6zopz1sxLKCSEyddFqeu9YO00MX1PA',
     // Replace with your thankyou URL
-    callbackUrl: "http://www.visitnsw.com/"
+    callbackUrl: "http://www.sydney.com/"
     // YOUR URL
 };
 AppSettings.getSMPSectionURL = function() {
@@ -382,7 +388,7 @@ AppSettings.mainMenu = [{
     id: 'otherAppsSection',
     firstPage: {
         title: 'Other DNSW apps',
-        xtype: 'contentPage',
+        xtype: 'otherAppsPage',
         contentPath: AppSettings.getSMPSectionURL() + '/other-dnsw-apps'
     }
 }, {

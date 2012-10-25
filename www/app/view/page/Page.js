@@ -14,6 +14,7 @@ Ext.define("escape.view.page.Page", {
         pageTypeId: 0,
         pageTrackingId: 0,
         addToItemId: -1,
+        hasInputs: false,
         itemsToAdd: [],
         listeners: {
             activate: function() {
@@ -31,7 +32,6 @@ Ext.define("escape.view.page.Page", {
             } catch (e) {
             }
         }
-
     },
 
     viewCreated: function() {
@@ -65,6 +65,10 @@ Ext.define("escape.view.page.Page", {
     },
     openView: function() {},
     viewClose: function() {
+         if (this.getHasInputs()){
+            // only run if the page has input fields
+            escape.utils.AppFuncs.unfousFields();
+        }
         this.fireEvent('closeView', this);
         this.closeView();
     },
