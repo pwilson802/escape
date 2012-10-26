@@ -101,6 +101,12 @@ Ext.define('escape.controller.ContentPage', {
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
+                    if (type == 'restaurants') {
+                        type = 'restaurant';
+                    }
+                    if (type == 'tours') {
+                        type = 'tour';
+                    }
 
                     if (type !== null && productId !== null) {
 

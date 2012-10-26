@@ -24,7 +24,7 @@ Ext.define("escape.view.page.Product", {
         this.setPageTrackingId(this.getProductType().toLowerCase() + '/' + this.getProductId());
         if (this.getProductData() === null) {
             // load the product data
-            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details');
+            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + Ext.String.trim(this.getProductType().toLowerCase()) + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
                     this.setProductData(product.raw);
@@ -111,7 +111,7 @@ Ext.define("escape.view.page.Product", {
             name: product.Name,
             defaultMessage: 'Having a great time at ' + product.Name,
             description: 'Check out ' + product.Name + ' at '+ AppSettings.displayWebsiteURL,
-            emailBody: 'Hi, I saw ' + product.Name + ' on the Sydney Guide app from '+AppSettings.displayWebsiteURL+' and thought you might like to check it out. '+AppSettings.websiteURL + product['Full Path'],
+            emailBody: 'Hi, I saw ' + product.Name + ' on the Sydney App from '+AppSettings.displayWebsiteURL+' and thought you might like to check it out. '+AppSettings.websiteURL + product['Full Path'],
             link: AppSettings.websiteURL + product['Full Path'],
             picture: imageURL
         };

@@ -16,6 +16,13 @@ Ext.define('escape.utils.AppFuncs', {
             productType: type
         });
     },
+    openCMSPage: function(title, contentPath) {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            pageTitle: title,
+            xtype: 'contentPage',
+            contentPath: contentPath
+        });
+    },
     unfousFields: function() {
         // samll hack to unfous text fields on android
         if (!Ext.os.is.iOS) {
@@ -29,7 +36,6 @@ Ext.define('escape.utils.AppFuncs', {
             //         field.setAttribute('style', 'display:none;font-size:1px;');
             //     }, 50);
             // }, 50);
-
 
             var inputClearPanel = Ext.create('Ext.Panel', {
                 cls: 'inputClearPanel',
@@ -69,10 +75,12 @@ Ext.define('escape.utils.AppFuncs', {
                 var link = linkParts[0];
                 var linkText = linkParts[1];
                 var allowedLink = false;
-                if (link.indexOf('www.sydney.com') > 0 || link.indexOf('www.visitnsw.com') > 0) {
+                if (link.indexOf('www.sydney.com') > 0 || link.indexOf('www.visitnsw.com') > 0 || link.indexOf('www.destinationnsw.com.au') > 0) {
                     var pathBreakdown = link.split('/');
                     // the link is a product link
                     var productId = Ext.String.trim(pathBreakdown[pathBreakdown.length - 1]);
+                    // check to see if the app is a valid product link
+                    var allowedProduct = false;
                     var type = Ext.String.trim(pathBreakdown[pathBreakdown.length - 2]);
                     if (type == 'attractions') {
                         type = 'attraction';
@@ -82,12 +90,18 @@ Ext.define('escape.utils.AppFuncs', {
                     }
                     for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
                         if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
-                            allowedLink = true;
+                            allowedProduct = true;
                             break;
                         }
                     }
-                    if (allowedLink) {
+                    if (allowedProduct) {
+                        allowedLink = true;
                         output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                    }
+                    // check to see if the link is an internal smartphone cms link
+                    if (link.indexOf('smartphoneapps') != -1) {
+                        allowedLink = true;
+                        output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openCMSPage(\'' + linkText + '\',\'' + link + '\')">' + linkText + '</a>';
                     }
 
                 }

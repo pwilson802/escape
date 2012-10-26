@@ -1891,16 +1891,22 @@ p {
 
 .expandableInfo {
 	margin:10px;
+	word-wrap:break-word;
+	overflow:visible;
+	.x-inner {
+		word-wrap:break-word;
+		overflow:visible;
+	}
 	.text {
+		margin: 0 0 10px 0;
+		word-wrap:break-word;
+		overflow:visible;
+		p {
 			margin: 0 0 10px 0;
 			word-wrap:break-word;
 			overflow:visible;
-			p {
-				margin: 0 0 10px 0;
-				word-wrap:break-word;
-				overflow:visible;
-			}
 		}
+	}
 
 	&.border {
 		border-bottom: 2px solid $lightGray;
@@ -2098,6 +2104,7 @@ p {
 			background:transparent;
 			font-weight: normal;
 			color: #4c4c4c;
+			padding-right:0 !important; 
 			span {
 				font-weight: normal;
 				color: #4c4c4c;

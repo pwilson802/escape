@@ -16,3 +16,4 @@ MathExt.prototype.roundNumber = function(num, dec) {
 	var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 	return result;
 }
+mathExt = new MathExt();

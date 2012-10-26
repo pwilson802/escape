@@ -67,7 +67,7 @@ Ext.define("escape.view.page.Home", {
                 cls: 'btnsContainer',
                 items: [{
                     xtype: 'button',
-                    html: "<span class='icon'></span><span>Accomodation</span>",
+                    html: "<span class='icon'></span><span>Accommodation</span>",
                     cls: 'accomHome',
                     action: 'changeSection',
                     sectionId: 'accommodationSection'

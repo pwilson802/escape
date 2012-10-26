@@ -21,7 +21,7 @@ Ext.define("escape.model.MapFiles", {
     loadEMS: function(callback, scope) {
         var selfRef = this;
         //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-        var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=8348923927920532480';
+        var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token='+AppSettings.whereis.token;
         LazyLoad.js([url], function() {
              selfRef.loadTouchControls(callback, scope);
         });

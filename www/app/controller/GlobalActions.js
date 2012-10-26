@@ -147,9 +147,9 @@ Ext.define('escape.controller.GlobalActions', {
 
     showSelectFieldOptions: function() {},
     showMapTerms: function() {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'mapTerms'
-        });
+        // escape.utils.AppVars.currentSection.getNavigationView().push({
+        //     xtype: 'mapTerms'
+        // });
     },
     scrollTopTop: function() {
         var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();

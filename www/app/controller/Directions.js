@@ -4,7 +4,8 @@ Ext.define('escape.controller.Directions', {
     config: {
         transportType: 'car',
         refs: {
-            directionsPage: 'directionsPage'
+            directionsPage: 'directionsPage',
+            routeForm: 'directionsPage formpanel'
         },
         control: {
             'directionsPage button[action=route]': {
@@ -109,9 +110,9 @@ Ext.define('escape.controller.Directions', {
         //     },
         //     failure: function() {}
         // });
-
-
-        // this.getRouteList({
+        var data = this.getRouteForm().getValues();
+        console.log(data);
+        // this.getRouteList(data,{
         //     success: function(routeList) {
         //         escape.model.Directions.getRoute(routeList);
         //     },
@@ -119,8 +120,8 @@ Ext.define('escape.controller.Directions', {
         //     }
         // });
     },
-    getRouteList: function(callback, scope) {
-        this.getStartLocation(callback, scope);
+    getRouteList: function(data, callback, scope) {
+        this.getStartLocation(data, callback, scope);
     },
     getLocation: function(callback, scope) {
         var selfRef = this;
@@ -133,8 +134,35 @@ Ext.define('escape.controller.Directions', {
             }
         }, this);
     },
-    getStartLocation: function(callback, scope) {
+    getStartLocation: function(data, callback, scope) {
         var selfRef = this;
+        var startAddress = data.startLocation;
+        if (startAddress.toLowerCase() == 'current location') {
+            //
+            var directionPage = getDirectionsPage();
+            var address = directionPage.getAddress();
+            // search via current location
+            var locationObj = {
+                "coordinates": {
+                    "latitude": directionPage.getLatlon()[0],
+                    "longitude": directionPage.getLatlon()[1]
+                },
+                "postcode": address.Postcode,
+                "state": address.State,
+                "street": {
+                    "directionalPrefix": "",
+                    "directionalSuffix": "",
+                    "fullName": address.Street,
+                    "name": "",
+                    "type": ""
+                },
+                "streetNumber": "Manly",
+                "suburb": address.Suburb
+            };
+        }
+
+
+
         escape.model.Directions.geocodeAddress('Manly NSW', {
             success: function(startAddress) {
                 selfRef.getEndLocation(startAddress.address, callback, scope);
@@ -144,7 +172,7 @@ Ext.define('escape.controller.Directions', {
             }
         });
     },
-    getEndLocation: function(startAddress, callback, scope) {
+    getEndLocation: function(data, startAddress, callback, scope) {
         var selfRef = this;
         escape.model.Directions.geocodeAddress('Narrabeen NSW', {
             success: function(endAddress) {

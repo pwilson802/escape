@@ -71,7 +71,6 @@ Ext.define("escape.view.ui.MapDisplay", {
                 selfRef.setupMap(map);
             }
         });
-        console.log(map);
         this.setMap(map);
 
         //  Center the map
@@ -105,7 +104,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         // add zoom controls
         if (this.getInteraction()) {
             try {
-                //if (device.platform == 'Android') {
+                if (!Ext.os.is.iOS) {
                     this.add({
                         xtype: 'button',
                         cls: 'zoomIn',
@@ -126,7 +125,7 @@ Ext.define("escape.view.ui.MapDisplay", {
                         width: 40,
                         zIndex: 1000
                     });
-                //}
+                }
             } catch (e) {
 
             }

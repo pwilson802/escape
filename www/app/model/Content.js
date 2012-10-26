@@ -10,7 +10,7 @@ Ext.define("escape.model.Content", {
             if (content.children.length > 0) {
                 for (var c = 0; c < content.children.length; c++) {
                     var childLink = content.children[c];
-                    if (childLink.Url.indexOf('must-do-links') != -1 || childLink.Name.indexOf('Must Do Links') != -1) {
+                    if (childLink.Url.indexOf('must-do') != -1 || childLink.Name.indexOf('Must Do Links') != -1) {
                         content.productLists.push({
                             name: 'Must do',
                             url: childLink.Url,

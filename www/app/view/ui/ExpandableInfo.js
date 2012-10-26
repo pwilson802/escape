@@ -61,6 +61,7 @@ Ext.define("escape.view.ui.ExpandableInfo", {
         }
         var width = Ext.Viewport.getSize().width - 20;
         output = output.split('<p>').join('<p style="width:' + width + 'px">');
+        output = output.split('<div').join('<div style="width:' + width + 'px" ');
 
         this.getComponent('text').setWidth(width);
         this.getComponent('text').setHtml(output);

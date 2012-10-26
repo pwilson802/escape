@@ -222,12 +222,9 @@ Ext.define('escape.controller.Search', {
 
     getSearchParams: function() {
         var params = {};
-          
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
         this.setCollectionType(collectionType);
-
-
         if (collectionType === 'restaurants') {
             params.collection = 'restaurants'; //'prototype-dnsw-' +
             params.form = 'mobile-restaurant-json';

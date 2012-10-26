@@ -19,7 +19,7 @@ AppSettings.bounds = {
 };
 // The detinations to perform all funnel back serches within
 AppSettings.destinationWebpath = '/sydney/';
-AppSettings.appSubDestination = ["Sydney City","Sydney North","Sydney West","Sydney South","Sydney East","Inner Sydney"];
+AppSettings.appSubDestination = ["Sydney City", "Sydney North", "Sydney West", "Sydney South", "Sydney East", "Inner Sydney"];
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 AppSettings.EventCalName = 'SYDNEY EVENTS CALENDAR';
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
@@ -31,33 +31,33 @@ AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 // Caching
 AppSettings.caching = {
 
-    cmsCacheLength :(60 * 60 * 24 * 14),
-    searchCacheLength : (60 * 60 * 24 * 14),
-    productCacheLength : (60 * 60 * 24 * 14)
+    cmsCacheLength: (60 * 60 * 24 * 14),
+    searchCacheLength: (60 * 60 * 24 * 14),
+    productCacheLength: (60 * 60 * 24 * 14)
 };
 // Image resizing
 AppSettings.imageResizing = {
     resizeURL: 'http://m.img.getconnected.dnsw.com.au/',
     fromURLs: [{
         url: "getconnected.dnsw.com.au/",
-        remote:false
+        remote: false
     }, {
         url: "destinationnsw.com.au/",
-         remote:true
+        remote: true
     }, {
         url: "sydney.com/",
-         remote:true
+        remote: true
     }, {
         url: "visitnsw.com",
-         remote:true
+        remote: true
     }]
 };
 // SHARING
 AppSettings.defualtShareData = {
-    name: AppSettings.appAreaName + ' Guide',
-    defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide app on the app store',
-    description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName+'.',
-    emailBody:'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName+'.',
+    name: AppSettings.appAreaName + ' App',
+    defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
+    description: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
+    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName + '.',
     link: AppSettings.websiteURL,
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
@@ -77,8 +77,11 @@ AppSettings.facebook = {
 };
 // SENSIS
 AppSettings.sensis = {
-    ApiKey: 'd396z769m8qgchnqk5ra44a8',
+    ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
     url: 'http://api.sensis.com.au/ob-20110511/prod/search'
+};
+AppSettings.whereis = {
+    token: '8348923927920532480'
 };
 // TWITTER settings
 AppSettings.twitter = {
@@ -192,7 +195,7 @@ AppSettings.homeImgs = [{
     altText: 'View of Sydney Harbour from Bradley\'s Head, Mosman by Hamilton Lund'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
-AppSettings.attractionCats = [ {
+AppSettings.attractionCats = [{
     title: 'Beach Lifestyle',
     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_e.png',
@@ -219,7 +222,7 @@ AppSettings.attractionCats = [ {
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_a.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
-},{
+}, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_f.png',
@@ -388,8 +391,7 @@ AppSettings.mainMenu = [{
     id: 'otherAppsSection',
     firstPage: {
         title: 'Other DNSW apps',
-        xtype: 'otherAppsPage',
-        contentPath: AppSettings.getSMPSectionURL() + '/other-dnsw-apps'
+        xtype: 'otherAppsPage'
     }
 }, {
     title: 'Settings',

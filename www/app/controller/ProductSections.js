@@ -33,7 +33,7 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadProduct: function(productListItem) {
         var data = productListItem.getData();
-        escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
+        escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + Ext.String.trim(data.type.toLowerCase()) + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
                 var data = productListItem.getData();
@@ -138,7 +138,6 @@ Ext.define('escape.controller.ProductSections', {
             productSubSection.getCardView().getComponent('contents').setItems(loadingDislay);
         }
         if (btn.config.type == 'mustDo') {
-
             this.loadMustDos(btn.config.url, productSubSection);
         }
         if (btn.config.type == 'productList') {
@@ -180,6 +179,9 @@ Ext.define('escape.controller.ProductSections', {
                     }
                     if (type == 'restaurants') {
                         type = 'restaurant';
+                    }
+                    if (type == 'tours') {
+                        type = 'tour';
                     }
                     if (type !== null && productId !== null) {
 
