@@ -77,6 +77,13 @@ p {
 	line-height:150%;
 	
 }
+// Fix for missing padding on iPhone and iPad
+.x-phone,
+.x-tablet {
+    .x-input-search {
+        padding: 0.2em 15px !important;
+    }
+}
 .x-button {
 	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 }
@@ -2077,6 +2084,15 @@ p {
 // Directions
 ///////////////////////
 .directionsPage {
+	.loadingDisplay {
+		margin: 0;
+		@include border-radius(0); // border radius
+		background-color:#CBCCCE !important;
+		padding:30px 0 0 0;
+		width:100%;
+		opacity: 1;
+		height: 100px;
+	}
 	.x-form {
 		background: #cbccce;
 		.switchDirection {

@@ -37,9 +37,14 @@ Ext.define('escape.controller.ProductSections', {
         escape.model.Product.load(data.productId, {
             success: function(product) {
                 var data = productListItem.getData();
-                if (product.raw.Contact.Address.Suburb) {
-                    data.suburb = product.raw.Contact.Address.Suburb;
+                try {
+                    if (product.raw.Contact.Address.Suburb) {
+                        data.suburb = product.raw.Contact.Address.Suburb;
+                    }
+                } catch (e) {
+
                 }
+
                 if (product.raw.Images) {
                     if (product.raw.Images.length > 0) {
                         data.imagePath = escape.utils.Img.getResizeURL(product.raw.Images[0]['Full Size'], Ext.Viewport.getSize().width - 20);

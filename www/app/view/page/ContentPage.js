@@ -29,17 +29,21 @@ Ext.define("escape.view.page.ContentPage", {
                     allowMultiple: false,
                     allowDepress: false,
                     docked: 'top',
+                    defaults: {
+                        flex: 1
+                    },
                     items: [{
                         text: 'About',
                         type: 'about',
                         action: 'aboat',
-                        pressed: true,
-                        flex: 1
+                        pressed: true
+
                     }, {
                         text: 'Must do',
                         type: 'mustDo',
                         action: 'mustDo',
-                        flex: 1
+                        flex: 1,
+                        url: productList.url
                     }]
                 });
                 break;
@@ -60,7 +64,7 @@ Ext.define("escape.view.page.ContentPage", {
                     googlePlayURL = link.Url;
                 }
             }
-            var appLink = (Ext.os.is.iOS)  ? appStoreURL : googlePlayURL;
+            var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
             AppSettings.defualtShareData.link = appLink;
             pageItems.pop();
             pageItems.push({

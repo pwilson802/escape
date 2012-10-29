@@ -15,7 +15,7 @@ Ext.define("escape.view.page.Directions", {
             State: 'NSW',
             Postcode: 2094
         },
-        latlon: [-33.947763, 151.09972],
+        latlon: [-33.7979467, 151.2770658],
         pageTypeId: 15,
         pageTrackingId: 15
     },
@@ -34,6 +34,9 @@ Ext.define("escape.view.page.Directions", {
         this.setMapDisplay(mapDisplay);
 
         this.setItems([{
+            xtype: 'loadingDisplay',
+            hidden:true
+        }, {
             xtype: 'formpanel',
             layout: 'hbox',
             scrollable: false,
@@ -86,6 +89,7 @@ Ext.define("escape.view.page.Directions", {
                     action: 'route',
                     cls: 'search',
                     text: 'Route',
+                    disabled: true,
                     height: 41
                 }]
             }]
@@ -122,12 +126,13 @@ Ext.define("escape.view.page.Directions", {
             xtype: 'container',
             padding: '10px 10px 60px 10px',
             itemId: 'listDisplay',
-            cls:'directionsList',
+            cls: 'directionsList',
             html: '<h1>No route created</h1>',
             scrollable: {
                 direction: 'vertical',
                 directionLock: true
             }
         });
+
     }
 });

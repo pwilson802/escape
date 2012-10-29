@@ -13,7 +13,6 @@ Ext.define('escape.controller.Map', {
     },
     // zoomIn
     zoomIn: function(btn) {
-
         var mapDisplay = btn.parent;
         var map = mapDisplay.getMap();
         var zoomLevel = map.zoom;
@@ -24,7 +23,6 @@ Ext.define('escape.controller.Map', {
     },
     // zoomOut
     zoomOut: function(btn) {
-        console.log('zoomOut');
         var mapDisplay = btn.parent;
         var map = mapDisplay.getMap();
         var currentZoom = map.zoom;

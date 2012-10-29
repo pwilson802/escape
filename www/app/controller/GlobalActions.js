@@ -138,7 +138,7 @@ Ext.define('escape.controller.GlobalActions', {
     showLargeMap: function(data) {
         escape.utils.Tracking.trackEventOnCurrent(5);
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'mapPage',
+            xtype: 'directionsPage',
             latlon: data.latlon,
             address: data.address
         });
@@ -167,7 +167,7 @@ Ext.define('escape.controller.GlobalActions', {
     },
     showDirections: function(address, latlon) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'mapPage',
+            xtype: 'directionsPage',
             //xtype: 'directionsPage',
             address: address,
             latlon: latlon

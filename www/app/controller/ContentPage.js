@@ -50,7 +50,6 @@ Ext.define('escape.controller.ContentPage', {
         });
     },
     switchType: function(container, btn, pressed) {
-        
         var contentPage = container.parent;
         this.setCurrentSection(btn.config.type);
         var cardView = contentPage.getComponent('cardView');

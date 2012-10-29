@@ -113,8 +113,9 @@ Ext.define("escape.view.page.Home", {
     },
     showWeather: function() {
         var currenctSection = escape.utils.AppVars.currentSection;
+        var currentPage = escape.utils.AppVars.currentPage;
         // make sure we are in the home section
-        if (currenctSection.getId() == 'homeSection') {
+        if (currentPage.config.xtype == 'homePage') {
             // get the weather btn
             var weatherBtn = currenctSection.getComponent('weatherBtn');
             // if does not exist so create it

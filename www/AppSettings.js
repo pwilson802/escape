@@ -67,7 +67,7 @@ AppSettings.facebook = {
     // FACEBOOK APP ID
     secret: "9079d25a28945c3d9e6ac6ec880b6197",
     // FACEBOOK APP SECRET
-    redirectUrl: "https://apps.facebook.com/sydneyguideapp/",
+    redirectUrl: "http://www.sydney.com/",
     // CHANGE THIS THE USER WILL SEE IT AFTER THEY LOGIN
     type: "user_agent",
     // LEAVE THIS
@@ -82,6 +82,9 @@ AppSettings.sensis = {
 };
 AppSettings.whereis = {
     token: '8348923927920532480'
+};
+AppSettings.bing = {
+    key : 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
 };
 // TWITTER settings
 AppSettings.twitter = {
@@ -356,6 +359,14 @@ AppSettings.mainMenu = [{
     firstPage: {
         title: 'Currency Converter',
         xtype: 'currencyConverterPage'
+    }
+}, {
+    title: 'Alerts',
+    group: 'Group 4',
+    id: 'alertsSection',
+    firstPage: {
+        title: 'Alerts',
+        xtype: 'alertsPage'
     }
 }, {
     title: 'Transport Info',

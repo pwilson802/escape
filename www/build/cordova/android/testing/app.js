@@ -27957,6 +27957,13 @@ Ext.define('escape.utils.AppFuncs', {
             productType: type
         });
     },
+    openCMSPage: function(title, contentPath) {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            pageTitle: title,
+            xtype: 'contentPage',
+            contentPath: contentPath
+        });
+    },
     unfousFields: function() {
         // samll hack to unfous text fields on android
         if (!Ext.os.is.iOS) {
@@ -27970,7 +27977,6 @@ Ext.define('escape.utils.AppFuncs', {
             //         field.setAttribute('style', 'display:none;font-size:1px;');
             //     }, 50);
             // }, 50);
-
 
             var inputClearPanel = Ext.create('Ext.Panel', {
                 cls: 'inputClearPanel',
@@ -28010,10 +28016,12 @@ Ext.define('escape.utils.AppFuncs', {
                 var link = linkParts[0];
                 var linkText = linkParts[1];
                 var allowedLink = false;
-                if (link.indexOf('www.sydney.com') > 0 || link.indexOf('www.visitnsw.com') > 0) {
+                if (link.indexOf('www.sydney.com') > 0 || link.indexOf('www.visitnsw.com') > 0 || link.indexOf('www.destinationnsw.com.au') > 0) {
                     var pathBreakdown = link.split('/');
                     // the link is a product link
                     var productId = Ext.String.trim(pathBreakdown[pathBreakdown.length - 1]);
+                    // check to see if the app is a valid product link
+                    var allowedProduct = false;
                     var type = Ext.String.trim(pathBreakdown[pathBreakdown.length - 2]);
                     if (type == 'attractions') {
                         type = 'attraction';
@@ -28023,12 +28031,18 @@ Ext.define('escape.utils.AppFuncs', {
                     }
                     for (var t = escape.utils.AppVars.collectionMapping.length - 1; t >= 0; t--) {
                         if (type == escape.utils.AppVars.collectionMapping[t].matrix) {
-                            allowedLink = true;
+                            allowedProduct = true;
                             break;
                         }
                     }
-                    if (allowedLink) {
+                    if (allowedProduct) {
+                        allowedLink = true;
                         output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                    }
+                    // check to see if the link is an internal smartphone cms link
+                    if (link.indexOf('smartphoneapps') != -1) {
+                        allowedLink = true;
+                        output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openCMSPage(\'' + linkText + '\',\'' + link + '\')">' + linkText + '</a>';
                     }
 
                 }
@@ -29046,6 +29060,44 @@ Ext.define("escape.view.ui.Footer", {
         }]
     }
 });
+Ext.define('escape.controller.Map', {
+    extend: 'Ext.app.Controller',
+    config: {
+        refs: {},
+        control: {
+            'mapDisplay button[action=zoomIn]': {
+                tap: 'zoomIn'
+            },
+            'mapDisplay button[action=zoomOut]': {
+                tap: 'zoomOut'
+            }
+        }
+    },
+    // zoomIn
+    zoomIn: function(btn) {
+
+        var mapDisplay = btn.parent;
+        var map = mapDisplay.getMap();
+        var zoomLevel = map.zoom;
+        if (zoomLevel < 16) {
+            zoomLevel++;
+        }
+        map.zoomTo(zoomLevel);
+    },
+    // zoomOut
+    zoomOut: function(btn) {
+        console.log('zoomOut');
+        var mapDisplay = btn.parent;
+        var map = mapDisplay.getMap();
+        var currentZoom = map.zoom;
+        var zoomLevel = map.zoom;
+        if (zoomLevel > 0) {
+            zoomLevel--;
+        }
+        map.zoomTo(zoomLevel);
+    }
+
+});
 Ext.define('escape.controller.Settings', {
     extend: 'Ext.app.Controller',
     config: {
@@ -29466,6 +29518,7 @@ Ext.define("escape.view.ui.ExpandableInfo", {
         }
         var width = Ext.Viewport.getSize().width - 20;
         output = output.split('<p>').join('<p style="width:' + width + 'px">');
+        output = output.split('<div').join('<div style="width:' + width + 'px" ');
 
         this.getComponent('text').setWidth(width);
         this.getComponent('text').setHtml(output);
@@ -30993,6 +31046,7 @@ Ext.define('Ext.util.Geolocation', {
          }
      },
      getAccessToken: function(fbCode, callback, scope) {
+        console.log('!!! getAccessToken');
          var selfRef = this;
          var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + AppSettings.facebook.clientId + '&client_secret=' +AppSettings.facebook.secret + '&code=' + fbCode + '&redirect_uri=' + AppSettings.facebook.redirectUrl;
          Ext.Ajax.request({
@@ -31000,10 +31054,13 @@ Ext.define('Ext.util.Geolocation', {
              method: "POST",
              success: function(response) {
                  var accessToken = response.responseText.split("=")[1];
+                  console.log('!!! accessToken success: ' + accessToken);
                  selfRef.saveAccessToken(accessToken, callback, scope);
                  window.plugins.childBrowser.close();
              },
              failure: function(response, opts) {
+                 console.log('!!! accessToken failure');
+                 console.log(response);
                  window.plugins.childBrowser.close();
                  Ext.callback(callback.success, scope, [false]);
              }
@@ -31024,6 +31081,7 @@ Ext.define('Ext.util.Geolocation', {
      // FACEBOOK SHARING
      /////////////////////////////////////////////////////
      postMessage: function(fbType, extraParams,callback, scope) {
+        console.log('!!! postMessage: ' + this.accessToken);
          var url = 'https://graph.facebook.com/me/' + fbType + '?access_token=' + this.accessToken;
          for (var key in extraParams) {
              if (key == "message") {
@@ -31037,9 +31095,13 @@ Ext.define('Ext.util.Geolocation', {
              url: url,
              method: "POST",
              success: function(response) {
+                console.log('!!! postMessage success');
+                console.log(response);
                  Ext.callback(callback.success, scope, []);
              },
              failure: function(response, opts) {
+                 console.log('!!! postMessage error');
+                console.log(response);
                 Ext.callback(callback.error, scope, []);
              }
          });
@@ -31199,7 +31261,7 @@ Ext.define("escape.model.Content", {
             if (content.children.length > 0) {
                 for (var c = 0; c < content.children.length; c++) {
                     var childLink = content.children[c];
-                    if (childLink.Url.indexOf('must-do-links') != -1 || childLink.Name.indexOf('Must Do Links') != -1) {
+                    if (childLink.Url.indexOf('must-do') != -1 || childLink.Name.indexOf('Must Do Links') != -1) {
                         content.productLists.push({
                             name: 'Must do',
                             url: childLink.Url,
@@ -31327,6 +31389,47 @@ Ext.define("escape.view.ui.ProductListItem", {
     config: {
         cls: 'productListItem',
         tpl: '<h3>{name}</h3><h4>{suburb}</h4><div class="productImg" style="background-image:url({imagePath});"></div>'
+    }
+});
+Ext.define("escape.model.Directions", {
+    requires: [],
+    singleton: true,
+    geocoder: null,
+    routeManager: null,
+    map: null,
+    setup: function(map) {
+        this.map = map;
+        this.geocoder = new EMS.Services.Geocoder();
+        this.routeManager = new EMS.Services.RouteManager(map);
+    },
+    // given an address will return a latlon via the  processAddress return func
+    geocodeAddress: function(addressStr, callback, scope) {
+        var selfRef = this;
+        this.geocoder.findGeocodedAddress(addressStr, function(addresses) {
+            selfRef.processAddress(addresses, callback);
+        });
+    },
+    processAddress: function(addresses, callback, scope) {
+        if (addresses.results.length > 0) {
+            Ext.callback(callback.success, scope, [addresses.results[0]]);
+        } else {
+            Ext.callback(callback.error, scope, []);
+        }
+    },
+    clearRoute: function() {
+        this.routeManager.clearRoute();
+        this.map.markersLayer.clearMarkers();
+    },
+    getRoute: function(routeList, transportType, callback, scope) {
+        var useTransportType = "ALL_VEHICLES";
+        if (transportType == 'walk') {
+            useTransportType = "PEDESTRIAN";
+        }
+        this.routeManager.route(routeList, true, true, useTransportType, this.map.vlayer, {
+            onComplete: function(routeResult) {
+                Ext.callback(callback.success, scope, [routeResult]);
+            }
+        });
     }
 });
 /**
@@ -31557,41 +31660,67 @@ Ext.define('escape.utils.Maps', {
         return pointsList;
     }
 });
-Ext.define("escape.model.Directions", {
-    requires: [],
+Ext.define("escape.model.MapFiles", {
+    loaded: false,
     singleton: true,
-    geocoder: null,
-    routeManager: null,
-    map: null,
-    setup: function(map) {
-        this.map = map;
-        this.geocoder = new EMS.Services.Geocoder();
-        this.routeManager = new EMS.Services.RouteManager(map);
-    },
-    // given an address will return a latlon via the  processAddress return func
-    geocodeAddress: function(addressStr, callback, scope) {
-        var selfRef = this;
-        this.geocoder.findGeocodedAddress(addressStr, function(addresses) {
-            selfRef.processAddress(addresses, callback);
-        });
-    },
-    processAddress: function(addresses, callback, scope) {
-        if (addresses.results.length > 0) {
-            Ext.callback(callback.success, scope, [addresses.results[0]]);
+    config: {},
+    loadRequiredFiles: function(callback, scope) {
+        if (this.loaded) {
+            Ext.callback(callback.success, scope, []);
         } else {
-            Ext.callback(callback.error, scope, []);
+            this.loadOpenLayers(callback, scope);
         }
     },
-    clearRoute: function() {
-        this.routeManager.clearRoute();
-        this.map.markersLayer.clearMarkers();
-    },
-    getRoute: function(routeList) {
-        this.routeManager.route(routeList, true, true, "ALL_VEHICLES", this.map.vlayer, {
-            onComplete: function(routeResult) {
-            }
+
+    loadOpenLayers: function(callback, scope) {
+        var selfRef = this;
+        //'resources/js/OpenLayers.js' 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'
+        LazyLoad.js(['http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'], function() {
+            selfRef.loadEMS(callback, scope);
         });
+    },
+
+    loadEMS: function(callback, scope) {
+        var selfRef = this;
+        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+        var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token='+AppSettings.whereis.token;
+        LazyLoad.js([url], function() {
+             selfRef.loadTouchControls(callback, scope);
+        });
+
+    },
+    loadTouchControls: function(callback, scope) {
+        this.loaded = true;
+        var selfRef = this;
+        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+        var url = 'resources/js/IPhoneDefaults.js';
+        LazyLoad.js([url], function() {
+             Ext.callback(callback.success, scope, []);
+        });
+
     }
+
+    // loadMootTools: function(callback, scope) {
+    //     this.loaded = true;
+    //     var selfRef = this;
+    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+    //     var url = 'resources/js/MootTools.js';
+    //     LazyLoad.js([url], function() {
+    //         selfRef.loadTablet(callback, scope);
+    //     });
+
+    // },
+
+    // loadTablet: function(callback, scope) {
+    //     this.loaded = true;
+    //     var selfRef = this;
+    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
+    //     var url = 'resources/js/WhereIsMobileUI.js';
+    //     LazyLoad.js([url], function() {
+    //         Ext.callback(callback.success, scope, []);
+    //     });
+
+    // }
 });
 /**
  * @aside guide forms
@@ -32497,68 +32626,6 @@ Ext.define('Ext.form.FieldSet', {
     }
 });
 
-Ext.define("escape.model.MapFiles", {
-    loaded: false,
-    singleton: true,
-    config: {},
-    loadRequiredFiles: function(callback, scope) {
-        if (this.loaded) {
-            Ext.callback(callback.success, scope, []);
-        } else {
-            this.loadOpenLayers(callback, scope);
-        }
-    },
-
-    loadOpenLayers: function(callback, scope) {
-        var selfRef = this;
-        //'resources/js/OpenLayers.js' 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'
-        LazyLoad.js(['http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'], function() {
-            selfRef.loadEMS(callback, scope);
-        });
-    },
-
-    loadEMS: function(callback, scope) {
-        var selfRef = this;
-        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-        var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=8348923927920532480';
-        LazyLoad.js([url], function() {
-             selfRef.loadTouchControls(callback, scope);
-        });
-
-    },
-    loadTouchControls: function(callback, scope) {
-        this.loaded = true;
-        var selfRef = this;
-        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-        var url = 'resources/js/IPhoneDefaults.js';
-        LazyLoad.js([url], function() {
-             Ext.callback(callback.success, scope, []);
-        });
-
-    }
-
-    // loadMootTools: function(callback, scope) {
-    //     this.loaded = true;
-    //     var selfRef = this;
-    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-    //     var url = 'resources/js/MootTools.js';
-    //     LazyLoad.js([url], function() {
-    //         selfRef.loadTablet(callback, scope);
-    //     });
-
-    // },
-
-    // loadTablet: function(callback, scope) {
-    //     this.loaded = true;
-    //     var selfRef = this;
-    //     //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-    //     var url = 'resources/js/WhereIsMobileUI.js';
-    //     LazyLoad.js([url], function() {
-    //         Ext.callback(callback.success, scope, []);
-    //     });
-
-    // }
-});
 /**
  * @author Ed Spencer
  *
@@ -39011,7 +39078,7 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadProduct: function(productListItem) {
         var data = productListItem.getData();
-        escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + data.type.toLowerCase() + '-details');
+        escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + Ext.String.trim(data.type.toLowerCase()) + '-details');
         escape.model.Product.load(data.productId, {
             success: function(product) {
                 var data = productListItem.getData();
@@ -39116,7 +39183,6 @@ Ext.define('escape.controller.ProductSections', {
             productSubSection.getCardView().getComponent('contents').setItems(loadingDislay);
         }
         if (btn.config.type == 'mustDo') {
-
             this.loadMustDos(btn.config.url, productSubSection);
         }
         if (btn.config.type == 'productList') {
@@ -39158,6 +39224,9 @@ Ext.define('escape.controller.ProductSections', {
                     }
                     if (type == 'restaurants') {
                         type = 'restaurant';
+                    }
+                    if (type == 'tours') {
+                        type = 'tour';
                     }
                     if (type !== null && productId !== null) {
 
@@ -39319,6 +39388,195 @@ Ext.define('escape.controller.Weather', {
     }
 });
 
+Ext.define('escape.controller.Directions', {
+    extend: 'Ext.app.Controller',
+    requires: ['escape.model.Directions'],
+    config: {
+        transportType: 'car',
+        refs: {
+            directionsPage: 'directionsPage',
+            routeForm: 'directionsPage formpanel'
+        },
+        control: {
+            'directionsPage button[action=route]': {
+                tap: 'createRoute'
+            },
+            'directionsPage segmentedbutton': {
+                toggle: 'switchType'
+            },
+            'directionsPage button[action=switchTranport]': {
+                tap: 'switchTranport'
+            }
+        }
+    },
+    switchTranport: function(btn) {
+        if (this.getTransportType() == 'car') {
+            this.setTransportType('walk');
+            btn.setCls('walk');
+        } else {
+            this.setTransportType('car');
+            btn.setCls('car');
+        }
+    },
+    switchType: function(container, btn, pressed) {
+        if (btn.config.type == 'map') {
+            this.getDirectionsPage().getComponent('cardLayout').setActiveItem(0);
+        } else {
+            this.getDirectionsPage().getComponent('cardLayout').setActiveItem(1);
+        }
+    },
+    createRoute: function(btn) {
+        var selfRef = this;
+        console.log('createRoute');
+        var map = this.getDirectionsPage().getMapDisplay().getMap();
+        escape.model.Directions.setup(map);
+        var routeList = [{
+            "coordinates": {
+                "latitude": -37.81081,
+                "longitude": 144.96051
+            },
+            "postcode": "",
+            "state": "NSW",
+            "street": {
+                "directionalPrefix": "",
+                "directionalSuffix": "",
+                "fullName": "",
+                "name": "",
+                "type": ""
+            },
+            "streetNumber": "Manly",
+            "suburb": ""
+        }, {
+            "coordinates": {
+                "latitude": -33.7164264,
+                "longitude": 151.2974117
+            },
+            "postcode": "",
+            "state": "NSW",
+            "street": {
+                "directionalPrefix": "",
+                "directionalSuffix": "",
+                "fullName": "",
+                "name": "",
+                "type": ""
+            },
+            "streetNumber": "",
+            "suburb": "Narrabeen"
+        }];
+
+        // escape.model.Directions.getRoute(routeList, this.getTransportType(), {
+        //     success: function(routeResult) {
+        //         console.log('route created');
+        //         console.log(routeResult);
+        //         map.zoomToExtent(new EMS.Bounds(routeResult.boundingBox.left, routeResult.boundingBox.bottom, routeResult.boundingBox.right, routeResult.boundingBox.top));
+        //         // write out directions
+        //         var instructions = "";
+        //         for (var routeNum = 0; routeNum < routeResult.routes.length; routeNum++) {
+        //             myNum = routeNum + 1;
+        //             route = routeResult.routes[routeNum];
+        //             for (var i = 0; i < route.routeSegments.length; i++) {
+        //                 seg = route.routeSegments[i];
+        //                 var travelDistance;
+        //                 if (seg.metres > 1000) {
+        //                     travelDistance = mathExt.roundNumber((seg.metres / 1000), 2) + ' km';
+        //                 } else {
+        //                     travelDistance = mathExt.roundNumber(seg.metres, 2) + ' m';
+        //                 }
+        //                 var travelTime;
+        //                 if (seg.travelTime > 59) {
+        //                     travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' hrs';
+        //                 } else {
+        //                     travelTime = mathExt.roundNumber(seg.travelTime, 2) + ' mins';
+        //                 }
+        //                 instructions += "<div class='segment'>";
+        //                 instructions += "<h2>" + seg.routeDirection + "</h2>";
+        //                 instructions += "<h3 class='distance'>" + travelDistance + "</h3>";
+        //                 instructions += "<h3 class='time'>" + travelTime + "</h3>";
+        //                 instructions += "<p>" + seg.textualInstruction.split('_').join('') + "</p>";
+        //                 instructions += "</div>";
+        //             }
+        //         }
+        //         selfRef.getDirectionsPage().getComponent('cardLayout').getComponent('listDisplay').setHtml(instructions);
+        //     },
+        //     failure: function() {}
+        // });
+        var data = this.getRouteForm().getValues();
+        console.log(data);
+        // this.getRouteList(data,{
+        //     success: function(routeList) {
+        //         escape.model.Directions.getRoute(routeList);
+        //     },
+        //     failure: function() {
+        //     }
+        // });
+    },
+    getRouteList: function(data, callback, scope) {
+        this.getStartLocation(data, callback, scope);
+    },
+    getLocation: function(callback, scope) {
+        var selfRef = this;
+        Ext.device.Geolocation.getCurrentPosition({
+            success: function(position) {
+                selfRef.getEndLocation(position.coords, callback, scope);
+            },
+            failure: function() {
+                Ext.callback(callback.error, scope);
+            }
+        }, this);
+    },
+    getStartLocation: function(data, callback, scope) {
+        var selfRef = this;
+        var startAddress = data.startLocation;
+        if (startAddress.toLowerCase() == 'current location') {
+            //
+            var directionPage = getDirectionsPage();
+            var address = directionPage.getAddress();
+            // search via current location
+            var locationObj = {
+                "coordinates": {
+                    "latitude": directionPage.getLatlon()[0],
+                    "longitude": directionPage.getLatlon()[1]
+                },
+                "postcode": address.Postcode,
+                "state": address.State,
+                "street": {
+                    "directionalPrefix": "",
+                    "directionalSuffix": "",
+                    "fullName": address.Street,
+                    "name": "",
+                    "type": ""
+                },
+                "streetNumber": "Manly",
+                "suburb": address.Suburb
+            };
+        }
+
+
+
+        escape.model.Directions.geocodeAddress('Manly NSW', {
+            success: function(startAddress) {
+                selfRef.getEndLocation(startAddress.address, callback, scope);
+            },
+            failure: function() {
+                Ext.callback(callback.error, scope);
+            }
+        });
+    },
+    getEndLocation: function(data, startAddress, callback, scope) {
+        var selfRef = this;
+        escape.model.Directions.geocodeAddress('Narrabeen NSW', {
+            success: function(endAddress) {
+                Ext.callback(callback.success, scope, [
+                    [startAddress, endAddress.address]
+                ]);
+            },
+            failure: function() {
+                Ext.callback(callback.error, scope);
+            }
+        });
+
+    }
+});
 Ext.define("escape.view.ui.MenuBtnFloating", {
     extend: 'escape.view.ui.MenuBtn',
     xtype: 'menuBtnFloating',
@@ -39405,6 +39663,49 @@ Ext.define("escape.view.page.Page", {
     },
     closeView: function() {}
    
+});
+Ext.define("escape.view.page.OtherApps", {
+    extend: 'escape.view.page.Page',
+    xtype: 'otherAppsPage',
+    requires: [],
+    config: {
+        rightBtn: '',
+        scrollable: {
+            direction: 'vertical',
+            directionLock: true
+        }
+    },
+    openView: function(content) {
+        var otherApps = [{
+            "name": "Sydney 悉尼",
+            "description": "The app features exciting things to do, interactive maps, great food and wine and tips on customs and transport for Chinese travellers to Sydney. Available in 3 languages, English, simplified Chinese and Traditional Chinese.",
+            "appleAppStrore": "https://itunes.apple.com/au/app/sydney-xi-ni/id559654518?mt=8",
+            "googlePlay": "https://play.google.com/store/apps/details?id=com.sydney.dnswchina&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5zeWRuZXkuZG5zd2NoaW5hIl0",
+            "imgPath": "http://www.destinationnsw.com.au/__data/assets/image/0009/148788/chinaIcon-72@2x.png"
+        }];
+
+        for (var i = otherApps.length - 1; i >= 0; i--) {
+            otherApps[i].link = (!Ext.os.is.iOS) ? otherApps[i].googlePlay : otherApps[i].appleAppStrore;
+        }
+
+        var viewText = 'View on the App Store';
+        if (!Ext.os.is.iOS) {
+            viewText = 'View on Google Play';
+        }
+
+        this.setItems([{
+            xtype: 'list',
+            itemTpl: '<img src="{imgPath}" witdh="72" height="72" /><b>{name}</b><br>{description}<br><b>' + viewText + '</b>',
+            scrollable: false,
+            cls: 'selectionList appList',
+            margin: 10,
+            action: 'appList',
+            disableSelection: true,
+            data: otherApps
+        }, {
+            xtype: 'footer'
+        }]);
+    }
 });
 Ext.define("escape.view.page.FeaturedList", {
     extend: 'escape.view.page.Page',
@@ -40546,7 +40847,7 @@ Ext.define('Ext.carousel.Carousel', {
 
 Ext.define("escape.view.ui.MapDisplay", {
     extend: 'Ext.Container',
-    requires: ['escape.utils.Maps', 'escape.model.Directions'],
+    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
     xtype: 'mapDisplay',
     config: {
         cls: 'mapDisplay',
@@ -40555,18 +40856,14 @@ Ext.define("escape.view.ui.MapDisplay", {
         width: '100%',
         built: false,
         intialMarkers: [],
-        height: 140,
-        zoomLevel: 15,
+        height: 150,
+        zoomLevel: 12,
         lat: -33.873651,
         lon: 151.2068896,
         address: null,
         markerAtCenter: false,
         interaction: true,
-        routeStyle: {
-            strokeColor: '#0000ff',
-            strokeOpacity: 0.5,
-            strokeWidth: 5
-        },
+        zoomToBounds: true,
         listeners: {
             initialize: 'initialize',
             painted: 'loadLibaries'
@@ -40574,106 +40871,70 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     initialize: function() {},
     loadLibaries: function() {
-        var loadFiles = false;
-        try {
-            new OpenLayers.Map();
-        } catch (e) {
-            loadFiles = true;
+        if (this.getHeight() > 200) {
+            this.addCls('mapLarge');
         }
-
-        if (loadFiles) {
-            var selfRef = this;
-            LazyLoad.js(['resources/js/OpenLayers.js'], function() {
+        this.setMapId('mapContainier' + Math.random() * 1000000000);
+        var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
+        this.add({
+            html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
+        });
+        var selfRef = this;
+        escape.model.MapFiles.loadRequiredFiles({
+            success: function(results) {
+                EMS.Util.getDomain = function() {
+                    return "destinationnsw.com.au";
+                };
                 selfRef.createMapElement();
-            });
-        } else {
-            this.createMapElement();
-        }
-
+            },
+            error: function(error) {},
+            scope: this
+        });
     },
-
-
     createMapElement: function() {
         if (!this.getBuilt()) {
-            this.setMapId('mapContainier' + Math.random() * 1000000000);
-            var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
-            this.add({
-                html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';" class="mapHolder"></div>'
-            });
-            this.add({
-                html: '<div id="bing-map" style="width:0; height:0;"></div>'
-            });
+            EMS.Services.communicationMode = "CrossDomain";
+
+            // the map logo
             this.add({
                 xtype: 'button',
-                cls: 'bing-logo',
-                action: 'openBingTerms',
+                cls: 'map-provider-logo',
+                action: 'openMapTerms',
                 bottom: 10,
                 left: 10,
                 width: 100,
                 zIndex: 1000
             });
-            this.buildMap();
+
+            this.createWhereIsMap();
         }
-
-
     },
-    buildMap: function() {
-        var bingMapsAPIKey = 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB';
-        map = new OpenLayers.Map(this.getMapId(), {
-            controls: []
+    createWhereIsMap: function() {
+        var selfRef = this;
+        var controls = [];
+        map = new EMS.Services.Map(this.getMapId(), {
+            controls: [],
+            onInit: function() {
+                selfRef.setupMap(map);
+            }
         });
         this.setMap(map);
-        if (this.getInteraction()) {
-            map.addControl(new OpenLayers.Control.TouchNavigation());
-            try {
-                if (device.platform == 'Android') {
-                    if (Number(device.version.split('.')[0]) < 4) {
-                        map.addControl(new OpenLayers.Control.Zoom());
-                    }
-                }
-            } catch (e) {
 
-            }
-
-
-        }
-
-        var options = {
-            name: "Road",
-            key: bingMapsAPIKey,
-            type: "Road"
-        };
-
-        // add map layer
-        var mapLayer = new OpenLayers.Layer.Bing(options);
-        // var mapLayer = new OpenLayers.Layer.OSM();
-        map.addLayer(mapLayer);
-        // create a point
-        var lonLat = escape.utils.Maps.getLatLon(this.getLat(), this.getLon());
-        // add the directions layer
-        var directionsLayer = new OpenLayers.Layer.Vector("DirectionsLayer");
-        map.addLayer(directionsLayer);
-        // add a markers layer
-        var markers = new OpenLayers.Layer.Markers("Markers");
-        map.addLayer(markers);
-
+        //  Center the map
+        lonlat = new EMS.LonLat(this.getLon(), this.getLat());
+        map.setCenter(lonlat, this.getZoomLevel());
         this.setBuilt(true);
-        // terms layer
-        // add a markers layer
+
         // add any intial markers
         var intialMarkers = this.getIntialMarkers();
-        if (intialMarkers.length > 0) {
-
-            // make sure the makers are added in the right order
-            intialMarkers = intialMarkers.sort(function(obj1, obj2) {
-                return Number(obj2.lat) - Number(obj1.lat);
-            });
-            for (var m = 0; m < intialMarkers.length; m++) {
-                var marker = intialMarkers[m];
-                this.addMarker(marker.lat, marker.lon, marker.data);
-            }
+        // make sure the makers are added in the right order
+        intialMarkers = intialMarkers.sort(function(obj1, obj2) {
+            return Number(obj2.lat) - Number(obj1.lat);
+        });
+        for (var m = 0; m < intialMarkers.length; m++) {
+            var marker = intialMarkers[m];
+            this.addMarker(marker.lat, marker.lon, marker.data);
         }
-
 
         if (this.getMarkerAtCenter()) {
             var markerData = {
@@ -40682,29 +40943,72 @@ Ext.define("escape.view.ui.MapDisplay", {
             };
             this.addMarker(this.getLat(), this.getLon(), markerData);
         }
-        // position the map
-        map.setCenter(lonLat, this.getZoomLevel());
-        // show direction
-        //this.getDirections('Sydney, Australia', 'Manly');
-        //this.getOpenDirections();
-        //this.getBingDirections();
-        //this.addMarker(this.getLat(), this.getLon());
-        if (intialMarkers.length > 0) {
-            map.zoomToExtent(markers.getDataExtent());
+
+        if (intialMarkers.length >= 1 && this.getZoomToBounds()) {
+            map.zoomToExtent(map.markersLayer.getDataExtent());
             this.setIntialMarkers([]);
         }
-        mapLayer.updateAttribution();
+        // add zoom controls
+        if (this.getInteraction()) {
+            try {
+                if (!Ext.os.is.iOS) {
+                    this.add({
+                        xtype: 'button',
+                        cls: 'zoomIn',
+                        action: 'zoomIn',
+                        top: 10,
+                        right: 10,
+                        height: 40,
+                        width: 40,
+                        zIndex: 1000
+                    });
+                    this.add({
+                        xtype: 'button',
+                        cls: 'zoomOut',
+                        action: 'zoomOut',
+                        top: 50,
+                        right: 10,
+                        height: 40,
+                        width: 40,
+                        zIndex: 1000
+                    });
+                }
+            } catch (e) {
+
+            }
+        }
+
+    },
+    setupMap: function() {
+        var map = this.getMap();
+        if (this.getInteraction()) {
+            if (hasTouch) {
+                var iphoneControls = new EMS.Control.IPhoneDefaults({
+                    supportsScale3d: true
+                });
+                map.iphoneControls = iphoneControls;
+                map.addControl(iphoneControls);
+            } else { //PC
+                map.addControl(new OpenLayers.Control.KeyboardDefaults());
+                map.addControl(new EMS.Control.MouseDefaults());
+            }
+        }
+
+    },
+    clearMarkers: function() {
+        this.getMap().getLayersByName("Markers").destory();
+        var markers = new OpenLayers.Layer.Markers("Markers");
+        this.getMap().addLayer(markers);
+    },
+    zoomToMarkers: function() {
+        var map = this.getMap();
+        map.zoomToExtent(map.markersLayer.getDataExtent());
+        this.setIntialMarkers([]);
     },
     addMarker: function(lat, lon, data) {
         if (this.getBuilt()) {
-            var lonLat = escape.utils.Maps.getLatLon(lat, lon);
-            var size = new OpenLayers.Size(45, 38);
-
-            var imgPath = 'resources/images/pin_red.png';
-            if (escape.utils.Img.useRetinaImg) {
-                imgPath = 'resources/images/pin_red@2x.png';
-            }
-
+            var map = this.getMap();
+            var icon;
             var useIcon = true;
             try {
                 var d = data.iconText;
@@ -40715,6 +41019,19 @@ Ext.define("escape.view.ui.MapDisplay", {
                 useIcon = false;
             }
 
+
+
+            // pin icon
+            var imgPath = 'resources/images/pin_red.png';
+            if (escape.utils.Img.useRetinaImg) {
+                imgPath = 'resources/images/pin_red@2x.png';
+            }
+            var size = new OpenLayers.Size(45, 38);
+            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+
+
+
+
             if (useIcon) {
                 size = new OpenLayers.Size(50, 42);
                 var iconNumber = (Number(data.iconText));
@@ -40723,28 +41040,32 @@ Ext.define("escape.view.ui.MapDisplay", {
                 if (window.devicePixelRatio > 1.2) {
                     imgSize = '@2x';
                 }
-                imgPath = 'resources/images/markers/marker_' + iconNumber +''+imgSize+'.png';
+                imgPath = 'resources/images/markers/marker_' + iconNumber + '' + imgSize + '.png';
             }
 
-            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
 
 
+            icon = new OpenLayers.Icon(imgPath, size, offset);
 
-            var icon = new OpenLayers.Icon(imgPath, size, offset);
-            var marker = new OpenLayers.Marker(lonLat, icon);
-            this.getMap().getLayersByName("Markers")[0].addMarker(marker);
+
+            var lonlat = new EMS.LonLat(lon, lat);
+            var marker = new OpenLayers.Marker(lonlat, icon);
+
+            // custom marker
+            map.markersLayer.addMarker(marker);
             var selfRef = this;
             var markerClick = function(evt) {
-                    evt.preventDefault();
                     selfRef.fireEvent('markerSelected', data);
                 };
-            if (Ext.feature.has.Touch) {
-                marker.events.register('touchend', marker, markerClick);
-            } else {
-                marker.events.register('mousedown', marker, markerClick);
-            }
-
-
+            marker.events.register('click', marker, markerClick);
+            // marker.events.register('mousedown', marker, markerClick);
+            // marker.events.register('touchend', marker, markerClick);
+            // marker.events.register("touchstart", marker, function(e) {
+            // });
+            icon.imageDiv.addEventListener('touchend', function() {
+                console.log('!!!! marker div click');
+                selfRef.fireEvent('markerSelected', data);
+            });
         } else {
             this.getIntialMarkers().push({
                 data: data,
@@ -40753,18 +41074,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             });
         }
 
-    },
-    zoomToMarkers: function() {
-        var map = this.getMap();
-        var markers = map.getLayersByName("Markers")[0];
-        map.zoomToExtent(markers.getDataExtent());
-    },
-    clearMarkers: function() {
-        this.getMap().getLayersByName("Markers")[0].destory();
-        var markers = new OpenLayers.Layer.Markers("Markers");
-        this.getMap().addLayer(markers);
     }
-
 });
 Ext.define("escape.view.subSection.MapList", {
     extend: 'escape.view.subSection.SubSection',
@@ -41012,11 +41322,19 @@ Ext.define("escape.view.page.Directions", {
     requires: ['escape.view.ui.MapDisplay'],
     config: {
         pageTitle: 'Directions',
+        cls: 'directionsPage',
         rightBtn: '',
-        address: null,
-        latlon: null,
+        layout: 'vbox',
+        hasInputs: true,
         mapDisplay: null,
-         pageTypeId: 15,
+        address: {
+            Street: '21 Margaret Street',
+            Suburb: 'Fairlight',
+            State: 'NSW',
+            Postcode: 2094
+        },
+        latlon: [-33.947763, 151.09972],
+        pageTypeId: 15,
         pageTrackingId: 15
     },
     openView: function() {
@@ -41024,6 +41342,7 @@ Ext.define("escape.view.page.Directions", {
         var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
 
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
+            itemId: 'mapDisplay',
             height: Ext.Viewport.getSize().height - 143,
             lat: Number(this.getLatlon()[0]),
             lon: Number(this.getLatlon()[1]),
@@ -41035,49 +41354,99 @@ Ext.define("escape.view.page.Directions", {
         this.setItems([{
             xtype: 'formpanel',
             layout: 'hbox',
+            scrollable: false,
             height: 100,
-            padding: 0,
+            padding: 6,
             items: [{
                 xtype: 'container',
+
                 layout: 'vbox',
-                flex: 1,
+                width: 45,
                 items: [{
                     xtype: 'button',
+                    cls: 'switchDirection',
                     action: 'switchDirection',
-                    flex: 1
+                    width: 41,
+                    height: 41,
+                    margin: '20px 0 0 0'
                 }]
             }, {
                 xtype: 'container',
-                layout: 'vbox',
+                padding: '0 6px',
                 flex: 6,
                 items: [{
                     xtype: 'textfield',
                     name: 'startLocation',
                     value: 'Current Location',
-                    flex: 1
+                    label: 'Start:',
+                    margin: '0 0 6px 0',
+                    labelWidth: 55,
+                    height: 41
                 }, {
                     xtype: 'textfield',
                     name: 'endLocation',
                     value: addressString,
-                    flex: 1
+                    labelWidth: 55,
+                    label: 'End:',
+                    height: 41
                 }]
             }, {
                 xtype: 'container',
-                layout: 'vbox',
-                flex: 2,
+                width: 75,
                 items: [{
                     xtype: 'button',
                     action: 'switchTranport',
-                    flex: 1
+                    cls: 'car',
+                    height: 41,
+                    margin: '0 0 6px 0'
                 }, {
                     xtype: 'button',
                     action: 'route',
-                    flex: 1
+                    cls: 'search',
+                    text: 'Route',
+                    height: 41
                 }]
             }]
+        }, {
+            xtype: 'segmentedbutton',
+            layout: 'hbox',
+            allowMultiple: false,
+            allowDepress: false,
+            bottom: 10,
+            right: 10,
+            width: 80,
+            height: 41,
+            zIndex: 1000,
+            items: [{
+                cls: 'mapBtn',
+                type: 'map',
+                pressed: true,
+                flex: 1
+            }, {
+                cls: 'listBtn',
+                type: 'list',
+                flex: 1
+            }]
+        }, {
+            xtype: 'container',
+            layout: 'card',
+            itemId: 'cardLayout',
+            flex: 1
+
         }]);
 
-        this.add(mapDisplay);
+        this.getComponent('cardLayout').add(mapDisplay);
+        this.getComponent('cardLayout').add({
+            xtype: 'container',
+            padding: '10px 10px 60px 10px',
+            itemId: 'listDisplay',
+            cls:'directionsList',
+            html: '<h1>No route created</h1>',
+            scrollable: {
+                direction: 'vertical',
+                directionLock: true
+            }
+        });
     }
 });
 Ext.define("escape.view.page.MapTerms", {
@@ -48666,7 +49035,7 @@ Ext.define("escape.view.page.Home", {
                 cls: 'btnsContainer',
                 items: [{
                     xtype: 'button',
-                    html: "<span class='icon'></span><span>Accomodation</span>",
+                    html: "<span class='icon'></span><span>Accommodation</span>",
                     cls: 'accomHome',
                     action: 'changeSection',
                     sectionId: 'accommodationSection'
@@ -56702,10 +57071,24 @@ Ext.define("escape.view.page.ContentPage", {
         }
         var pageItems = escape.model.Content.buildItems(content);
         // add share this app button
-        if (this.getContentPath().indexOf('about-destination-nsw') != -1) {
+        var urlBreakdown = this.getContentPath().split('/');
+        if (urlBreakdown[urlBreakdown.length - 1].indexOf('about-destination-nsw') != -1) {
+            var appStoreURL;
+            var googlePlayURL;
+            for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
+                var link = content.page['External-Links'][l];
+                if (link.Name.indexOf("Apple App Store")) {
+                    appStoreURL = link.Url;
+                }
+                if (link.Name.indexOf("Google Play")) {
+                    googlePlayURL = link.Url;
+                }
+            }
+            var appLink = (Ext.os.is.iOS)  ? appStoreURL : googlePlayURL;
+            AppSettings.defualtShareData.link = appLink;
             pageItems.pop();
             pageItems.push({
-                margin:10,
+                margin: 10,
                 xtype: 'button',
                 text: 'Share this App',
                 cls: 'shareAppBtn',
@@ -56753,39 +57136,6 @@ Ext.define("escape.view.page.ContentPage", {
         }
         this.setItems(items);
         this.fireEvent('built');
-    }
-});
-Ext.define("escape.view.page.OtherApps", {
-    extend: 'escape.view.page.ContentPage',
-    xtype: 'otherAppsPage',
-    requires: [],
-    config: {
-        rightBtn: '',
-        scrollable: {
-            direction: 'vertical',
-            directionLock: true
-        }
-    },
-    buildPage: function(content) {
-        content.description = '<div id="content_div_134035">[{"name":"Sydney 悉尼","description":"This chinese language app is designed to help you plan your trip to Sydney and help you easily get around once you arrive.","appleAppStrore":"https://itunes.apple.com/au/app/sydney-xi-ni/id559654518?mt=8","googlePlay":"https://play.google.com/store/apps/details?id=com.sydney.dnswchina&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5zeWRuZXkuZG5zd2NoaW5hIl0","imgPath": "resources/images/chinaIcon-72@2x.png"}]</div>';
-
-        var otherApps = JSON.parse(content.description.split('>')[1].split('<')[0]);
-        for (var i = otherApps.length - 1; i >= 0; i--) {
-            otherApps[i].link = (!Ext.os.is.iOS) ?  otherApps[i].googlePlay : otherApps[i].appleAppStrore;
-        }
-
-        this.setItems([{
-            xtype: 'list',
-            itemTpl: '<img src="{imgPath}" witdh="72" height="72" /><b>{name}</b><br>{description}<br><b>View on the App Store</b>',
-            scrollable: false,
-            cls: 'selectionList appList',
-            margin: 10,
-            action: 'appList',
-            disableSelection: true,
-            data: otherApps
-        }, {
-            xtype: 'footer'
-        }]);
     }
 });
 Ext.define("escape.view.page.ThingsToDoType", {
@@ -56956,6 +57306,12 @@ Ext.define('escape.controller.ContentPage', {
                     if (type == 'attractions') {
                         type = 'attraction';
                     }
+                    if (type == 'restaurants') {
+                        type = 'restaurant';
+                    }
+                    if (type == 'tours') {
+                        type = 'tour';
+                    }
 
                     if (type !== null && productId !== null) {
 
@@ -57051,7 +57407,7 @@ Ext.define("escape.view.page.Product", {
         this.setPageTrackingId(this.getProductType().toLowerCase() + '/' + this.getProductId());
         if (this.getProductData() === null) {
             // load the product data
-            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + this.getProductType().toLowerCase() + '-details');
+            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + Ext.String.trim(this.getProductType().toLowerCase()) + '-details');
             escape.model.Product.load(this.getProductId(), {
                 success: function(product) {
                     this.setProductData(product.raw);
@@ -57138,7 +57494,7 @@ Ext.define("escape.view.page.Product", {
             name: product.Name,
             defaultMessage: 'Having a great time at ' + product.Name,
             description: 'Check out ' + product.Name + ' at '+ AppSettings.displayWebsiteURL,
-            emailBody: 'Hi, I saw ' + product.Name + ' on the Sydney Guide app from '+AppSettings.displayWebsiteURL+' and thought you might like to check it out. '+AppSettings.websiteURL + product['Full Path'],
+            emailBody: 'Hi,/r/n/r/n I saw ' + product.Name + ' on the Sydney App from '+AppSettings.displayWebsiteURL+' and thought you might like to check it out./r/n '+AppSettings.websiteURL + product['Full Path'],
             link: AppSettings.websiteURL + product['Full Path'],
             picture: imageURL
         };
@@ -57707,12 +58063,9 @@ Ext.define('escape.controller.Search', {
 
     getSearchParams: function() {
         var params = {};
-          
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
         this.setCollectionType(collectionType);
-
-
         if (collectionType === 'restaurants') {
             params.collection = 'restaurants'; //'prototype-dnsw-' +
             params.form = 'mobile-restaurant-json';
@@ -63507,9 +63860,9 @@ Ext.define('escape.controller.GlobalActions', {
 
     showSelectFieldOptions: function() {},
     showMapTerms: function() {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'mapTerms'
-        });
+        // escape.utils.AppVars.currentSection.getNavigationView().push({
+        //     xtype: 'mapTerms'
+        // });
     },
     scrollTopTop: function() {
         var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
@@ -65397,7 +65750,7 @@ Ext.application({
     name: 'escape',
     requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars'],
     views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map'],
-    controllers: ['GlobalActions', 'Settings', 'Section', 'Search', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage'],
+    controllers: ['Map','GlobalActions', 'Settings', 'Section', 'Search', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage','Directions'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register', 'ProductSearch', 'Itineraries'],
     stores: ['ProductSearch'],

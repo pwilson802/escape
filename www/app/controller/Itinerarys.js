@@ -293,7 +293,6 @@ Ext.define('escape.controller.Itinerarys', {
     },
 
     addProductToItineraries: function() {
-        console.log('!!! addProductToItineraries');
         var selfRef = this;
         var productId = this.getAddToItineraryPage().getProductId();
         var productType = this.getAddToItineraryPage().getProductType();
@@ -326,7 +325,6 @@ Ext.define('escape.controller.Itinerarys', {
             if (itineraryValues.add) {
                 escape.model.Itineraries.addProduct(itineraryValues.id, itineraryValues.day, productId, productType, productName, productData, {
                     success: function() {
-                        console.log('!!! product added to itinerary');
                         selfRef.showAddedMsg();
                         // show success
                     },

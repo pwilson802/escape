@@ -62,11 +62,9 @@ Ext.define('escape.controller.Sharing', {
             window.plugins.share.show({
                 subject: sharingData.name,
                 text: sharingData.defaultMessage + ' ' + sharingData.link
-            }, function() {
-            }, // Success function
+            }, function() {}, // Success function
 
-            function() {
-            } // Failure function
+            function() {} // Failure function
             );
         }
 

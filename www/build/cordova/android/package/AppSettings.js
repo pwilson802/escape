@@ -67,7 +67,7 @@ AppSettings.facebook = {
     // FACEBOOK APP ID
     secret: "9079d25a28945c3d9e6ac6ec880b6197",
     // FACEBOOK APP SECRET
-    redirectUrl: "https://apps.facebook.com/sydneyguideapp/",
+    redirectUrl: "http://www.sydney.com/",
     // CHANGE THIS THE USER WILL SEE IT AFTER THEY LOGIN
     type: "user_agent",
     // LEAVE THIS
@@ -401,4 +401,4 @@ AppSettings.mainMenu = [{
         title: 'Settings',
         xtype: 'settingsPage'
     }
-}]
+}];

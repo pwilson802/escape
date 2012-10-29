@@ -5,6 +5,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     config: {
         cls: 'mapDisplay',
         map: null,
+        created: false,
         mapId: 0,
         width: '100%',
         built: false,
@@ -24,14 +25,20 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     initialize: function() {},
     loadLibaries: function() {
-        if (this.getHeight() > 200) {
-            this.addCls('mapLarge');
+        if (!this.getCreated()) {
+            this.setCreated(true);
+            if (this.getHeight() > 200) {
+                this.addCls('mapLarge');
+            } else {
+                this.removeCls('mapLarge');
+            }
+            this.setMapId('mapContainier' + Math.random() * 1000000000);
+            var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
+            this.add({
+                html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
+            });
         }
-        this.setMapId('mapContainier' + Math.random() * 1000000000);
-        var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
-        this.add({
-            html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
-        });
+
         var selfRef = this;
         escape.model.MapFiles.loadRequiredFiles({
             success: function(results) {
@@ -72,7 +79,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             }
         });
         this.setMap(map);
-
+        this.fireEvent('mapCreated', this);
         //  Center the map
         lonlat = new EMS.LonLat(this.getLon(), this.getLat());
         map.setCenter(lonlat, this.getZoomLevel());
@@ -149,9 +156,7 @@ Ext.define("escape.view.ui.MapDisplay", {
 
     },
     clearMarkers: function() {
-        this.getMap().getLayersByName("Markers").destory();
-        var markers = new OpenLayers.Layer.Markers("Markers");
-        this.getMap().addLayer(markers);
+        this.getMap().markersLayer.clearMarkers();
     },
     zoomToMarkers: function() {
         var map = this.getMap();
@@ -216,7 +221,6 @@ Ext.define("escape.view.ui.MapDisplay", {
             // marker.events.register("touchstart", marker, function(e) {
             // });
             icon.imageDiv.addEventListener('touchend', function() {
-                console.log('!!!! marker div click');
                 selfRef.fireEvent('markerSelected', data);
             });
         } else {
