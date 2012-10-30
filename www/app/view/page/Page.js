@@ -65,6 +65,7 @@ Ext.define("escape.view.page.Page", {
     },
     openView: function() {},
     viewClose: function() {
+        console.log('viewClose');
          if (this.getHasInputs()){
             // only run if the page has input fields
             escape.utils.AppFuncs.unfousFields();

@@ -19,7 +19,10 @@ Ext.define('escape.controller.Weather', {
             'settingsPage selectField': {
                 change: 'stationChanges'
             },
-            'section button[cls="refreshBtn iconBtn"]': {
+            '#currentWeather button[cls="refreshBtn iconBtn"]': {
+                tap: 'showSearch'
+            },
+            '#homeSection button[cls="refreshBtn iconBtn"]': {
                 tap: 'showSearch'
             }
         }

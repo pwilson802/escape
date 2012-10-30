@@ -77,6 +77,20 @@ p {
 	line-height:150%;
 	
 }
+.dataTable {
+	table {
+		th {
+			font-weight: bold;
+			font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
+			width:45%;
+		}
+		td,
+		th, {
+			padding:5px;
+			vertical-align: top;
+		}
+	}
+}
 // Fix for missing padding on iPhone and iPad
 .x-phone,
 .x-tablet {
@@ -1779,6 +1793,13 @@ p {
 	width: 56;
     height: 43;
 }
+.refreshBtn {
+	background-image: url('../images/btn_refresh.png') !important;
+}
+.x-button.x-button-pressed.refreshBtn,
+.x-button.x-button-pressing.refreshBtn {
+	background-position:0 -37px;
+}
 
 .editBtn {
 	background-image: url('../images/btn_edit.png');
@@ -2963,6 +2984,9 @@ p {
 	}
 	.shareBtn {
 		background-image: url('../images/btn_share@2x.png');
+	}
+	.refreshBtn {
+		background-image: url('../images/btn_refresh@2x.png');
 	}
 	.shareAppBtn {
 		.x-button-label {
