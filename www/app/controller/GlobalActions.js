@@ -8,7 +8,7 @@ Ext.define('escape.controller.GlobalActions', {
             weatherPage: 'weatherPage'
         },
         control: {
-             'slidenavigationview': {
+            'slidenavigationview': {
                 menuOpened: 'menuOpened'
             },
             'page button[action=showMenu]': {
@@ -61,7 +61,7 @@ Ext.define('escape.controller.GlobalActions', {
                             window.open(data.link, '_blank');
                         }
                     }
-                    
+
                 }
             },
             'section list[action=contactSheet]': {
@@ -119,8 +119,8 @@ Ext.define('escape.controller.GlobalActions', {
             }
         }
     },
-     menuOpened: function() {
-        if (escape.utils.AppVars.currentPage.getHasInputs()){
+    menuOpened: function() {
+        if (escape.utils.AppVars.currentPage.getHasInputs()) {
             // only run if the page has input fields
             escape.utils.AppFuncs.unfousFields();
         }
@@ -138,7 +138,8 @@ Ext.define('escape.controller.GlobalActions', {
     showLargeMap: function(data) {
         escape.utils.Tracking.trackEventOnCurrent(5);
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage',
+            xtype: 'mapPage',
+            //directionsPage',
             latlon: data.latlon,
             address: data.address
         });
@@ -167,8 +168,8 @@ Ext.define('escape.controller.GlobalActions', {
     },
     showDirections: function(address, latlon) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage',
-            //xtype: 'directionsPage',
+            xtype: 'mapPage',
+            //directionsPage',
             address: address,
             latlon: latlon
         });

@@ -361,14 +361,6 @@ AppSettings.mainMenu = [{
         xtype: 'currencyConverterPage'
     }
 }, {
-    title: 'Alerts',
-    group: 'Group 4',
-    id: 'alertsSection',
-    firstPage: {
-        title: 'Alerts',
-        xtype: 'alertsPage'
-    }
-}, {
     title: 'Transport Info',
     group: 'Group 4',
     id: 'tranportSection',
@@ -413,3 +405,13 @@ AppSettings.mainMenu = [{
         xtype: 'settingsPage'
     }
 }];
+
+// , {
+//     title: 'Alerts',
+//     group: 'Group 4',
+//     id: 'alertsSection',
+//     firstPage: {
+//         title: 'Alerts',
+//         xtype: 'alertsPage'
+//     }
+// }

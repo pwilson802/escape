@@ -33,7 +33,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.tiltandco.dnsw.smp.sydney</string>
+	<string>au.com.dnsw.spp.sydney</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

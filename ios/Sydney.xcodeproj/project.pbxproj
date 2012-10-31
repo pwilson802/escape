@@ -554,8 +554,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution:  Destination NSW";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution:  Destination NSW";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -566,8 +566,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "0842C6EC-5F30-4782-ABFD-90B210458C76";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0842C6EC-5F30-4782-ABFD-90B210458C76";
+				PROVISIONING_PROFILE = "0A6120E5-21EB-4318-9FDC-5479F2D3207F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0A6120E5-21EB-4318-9FDC-5479F2D3207F";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -577,8 +577,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution:  Destination NSW";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution:  Destination NSW";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Sydney-Prefix.pch";
@@ -587,8 +587,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "0842C6EC-5F30-4782-ABFD-90B210458C76";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0842C6EC-5F30-4782-ABFD-90B210458C76";
+				PROVISIONING_PROFILE = "0A6120E5-21EB-4318-9FDC-5479F2D3207F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0A6120E5-21EB-4318-9FDC-5479F2D3207F";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

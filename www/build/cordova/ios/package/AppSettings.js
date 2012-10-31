@@ -83,6 +83,9 @@ AppSettings.sensis = {
 AppSettings.whereis = {
     token: '8348923927920532480'
 };
+AppSettings.bing = {
+    key : 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
+};
 // TWITTER settings
 AppSettings.twitter = {
     consumerKey: '6TRaloNDL4sZWQxPRfFw',
@@ -402,3 +405,13 @@ AppSettings.mainMenu = [{
         xtype: 'settingsPage'
     }
 }];
+
+// , {
+//     title: 'Alerts',
+//     group: 'Group 4',
+//     id: 'alertsSection',
+//     firstPage: {
+//         title: 'Alerts',
+//         xtype: 'alertsPage'
+//     }
+// }
