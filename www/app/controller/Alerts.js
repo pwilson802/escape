@@ -37,7 +37,6 @@ Ext.define('escape.controller.Alerts', {
         }
     },
     feedOptionsChange: function() {
-        console.log('feedOptionsChange');
         var data = this.getSettingsForm().getValues();
         var feedOptions = [];
         for(var key in data){
@@ -54,7 +53,6 @@ Ext.define('escape.controller.Alerts', {
             // load the feeds
             escape.model.UserSettings.getSetting('alertsFeeds', {
                 success: function(feeds) {
-                    console.log(feeds);
                     if (!feeds) {
                         selfRef.setFeeds([{
                             label: 'Incidents',
@@ -89,7 +87,6 @@ Ext.define('escape.controller.Alerts', {
     },
     // called when degrees is updated
     updateFeeds: function(newValue, oldValue) {
-        console.log('updateFeeds');
         escape.model.UserSettings.setSetting('alertsFeeds', JSON.stringify(newValue), {
             success: function(isDegrees) {},
             error: function(error) {},
@@ -194,18 +191,14 @@ Ext.define('escape.controller.Alerts', {
         cardView.setActiveItem(list);
     },
     alertSelected: function(list, record) {
-        console.log('alertSelected');
-        console.log(record.getData());
         this.showAlert(record.getData());
     },
 
     markerSelected: function(marker) {
-        console.log('markerSelected');
         this.showAlert(marker);
     },
 
     showAlert: function(data) {
-        console.log('showAlert');
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: 'Alert Details',
             xtype: 'alertDetailsPage',

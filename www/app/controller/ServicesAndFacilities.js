@@ -49,7 +49,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
             resultsData: record.getData()
         });
     },
-     markerSelected: function(data) {
+    markerSelected: function(data) {
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'servicesAndFacilitiesDetails',
             resultsData: data
@@ -98,6 +98,13 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         });
     },
     loadMore: function() {
+        var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
+        var resultsContainer = cardView.getActiveItem();
+        var optionsArea = resultsContainer.getComponent('optionsArea');
+        var loadMore = optionsArea.getComponent('loadMore');
+        var loading = optionsArea.getComponent('loadingDisplay');
+        loadMore.hide();
+        loading.show();
         escape.model.WhereIsPOI.loadMore(this.getResultsPage());
         // set the results to the next page
         this.setResultsPage(this.getResultsPage() + 1);
@@ -107,6 +114,9 @@ Ext.define('escape.controller.ServicesAndFacilities', {
     },
     resultsLoaded: function(data) {
         var moreResults = ((data.offset + data.results.length) < data.total) ? true : false;
+        if (data.results.length === 0) {
+            moreResults = false;
+        }
         this.getSevicesAndFacilitiesResultsPage().buildPage(moreResults);
         var results = data.results;
 
@@ -124,6 +134,24 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         }
         // set the results to the next page
         this.setResultsPage(this.getResultsPage() + 1);
+        //
+
+        if (this.getListShowing()) {
+            if (this.getResultsPage() > 1) {
+                var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
+                var resultsContainer = cardView.getActiveItem();
+                var optionsArea = resultsContainer.getComponent('optionsArea');
+                if (moreResults) {
+                    var loadMore = optionsArea.getComponent('loadMore');
+                    var loading = optionsArea.getComponent('loadingDisplay');
+                    loadMore.show();
+                    loading.hide();
+                } else {
+                    optionsArea.hide();
+                }
+            }
+
+        }
 
     },
     toggleView: function(container, btn, pressed) {
@@ -138,11 +166,11 @@ Ext.define('escape.controller.ServicesAndFacilities', {
             var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
             cardView.removeAll(true, true);
             var itemTPL = '<span>{resultNum}</span> {name}';
-            
 
-            
-            
-             var container = new Ext.Container({
+
+
+
+            var container = new Ext.Container({
                 scrollable: {
                     direction: 'vertical',
                     directionLock: true
@@ -166,7 +194,14 @@ Ext.define('escape.controller.ServicesAndFacilities', {
                         xtype: 'button',
                         text: 'Load More Results',
                         action: 'loadMore',
-                        cls: 'loadMore search'
+                        cls: 'loadMore search',
+                        itemId: 'loadMore'
+                    }, {
+                        xtype: 'component',
+                        cls: 'loadingDisplay',
+                        html: '<div class="x-loading-spinner"></div>',
+                        hidden: true,
+                        itemId: 'loadingDisplay'
                     }]
                 }]
 

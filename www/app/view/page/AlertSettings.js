@@ -14,13 +14,10 @@ Ext.define("escape.view.page.AlertSettings", {
         layout: 'hbox'
     },
     openView: function() {
-        console.log('openView');
-        console.log(this.getFeeds());
         // build the list of feed options
         var options = [];
         for (var i = 0; i < this.getFeeds().length; i++) {
             var feed = this.getFeeds()[i];
-            console.log(feed.load);
             options.push({
                 label: feed.label,
                 name: feed.label,
@@ -29,7 +26,6 @@ Ext.define("escape.view.page.AlertSettings", {
                 value: (Boolean(feed.load)) ? 0 : 1
             });
         }
-        console.log(options);
         // create the page items
         items = {
             xtype: 'formpanel',

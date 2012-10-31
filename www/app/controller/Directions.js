@@ -39,7 +39,6 @@ Ext.define('escape.controller.Directions', {
         var transportBtn = this.getTransportBtn();
         escape.model.UserSettings.getSetting('transportType', {
             success: function(transportType) {
-                console.log('transportType: ' + transportType);
                 if (!transportType) {
                     transportType = 'car';
                 }
@@ -60,8 +59,6 @@ Ext.define('escape.controller.Directions', {
         var data = this.getRouteForm().getValues();
         var startLoc = data.startLocation;
         var endLoc = data.endLocation;
-        console.log('startLoc: ' + startLoc);
-        console.log('endLoc: ' + endLoc);
         this.getStartLocation().setValue(endLoc);
         this.getEndLocation().setValue(startLoc);
     },
@@ -87,7 +84,6 @@ Ext.define('escape.controller.Directions', {
         this.getRouteForm().hide();
         //
         var selfRef = this;
-        console.log('createRoute');
         var data = this.getRouteForm().getValues();
         this.getRouteList(data, {
             success: function(routeList) {
@@ -95,7 +91,6 @@ Ext.define('escape.controller.Directions', {
                 selfRef.createRouteFromList(routeList);
             },
             failure: function() {
-                console.log('route list failure');
                 this.getLoadingDisplay().hide();
                 this.getRouteForm().show();
             }
@@ -115,8 +110,6 @@ Ext.define('escape.controller.Directions', {
 
         escape.model.Directions.getRoute(routeList, this.getTransportType(), {
             success: function(routeResult) {
-                console.log('route created');
-                console.log(routeResult);
                 map.zoomToExtent(new EMS.Bounds(routeResult.boundingBox.left, routeResult.boundingBox.bottom, routeResult.boundingBox.right, routeResult.boundingBox.top));
                 // write out directions
                 var instructions = "";
@@ -162,14 +155,10 @@ Ext.define('escape.controller.Directions', {
         // find your start location
         this.getLocation(data.startLocation, {
             success: function(locationObj) {
-                console.log('start location found');
-                console.log(locationObj);
                 routeList.push(locationObj);
                 // find your end location
                 this.getLocation(data.endLocation, {
                     success: function(locationObj) {
-                        console.log('end location found');
-                        console.log(locationObj)
                         routeList.push(locationObj);
                         //
                         Ext.callback(callback.success, scope, [routeList]);

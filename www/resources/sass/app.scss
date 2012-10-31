@@ -395,6 +395,14 @@ p {
 		 @include border-radius(10px);
 		 padding:15px 10px;
 	}
+	.loadingDisplay {
+		width:auto;
+		height: auto;
+		padding:2px;
+		background-color:#2a364c;
+		@include background-image(linear-gradient(#354461,#1f2738));
+		@include box-shadow(inset 0px 1px 1px 0px #212a3c,0px 1px 1px 0px #fff);
+	}
 	.x-button.search,
 	.bookingBtnLarge {
 		.x-button-label {

@@ -37,6 +37,7 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
                 items: [{
                     xtype: 'selectField',
                     label: 'Around me',
+                    labelWidth: '50%',
                     name: 'distance',
                     options: [{
                         text: 'Off',

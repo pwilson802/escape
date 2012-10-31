@@ -14,7 +14,9 @@ Ext.define("escape.view.page.Search", {
         hasInputs: true
     },
     reOpenView: function() {
+
         this.openView();
+         this.fireEvent('openView', this);
     },
     closeView: function() {
         this.setItems([]);

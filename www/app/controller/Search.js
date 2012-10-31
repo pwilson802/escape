@@ -15,6 +15,9 @@ Ext.define('escape.controller.Search', {
             searchPage: 'searchPage',
             searchForm: 'searchPage formpanel',
             searchResultsPage: 'searchResultsPage',
+            optionsArea: 'searchResultsPage optionsArea',
+            loadMore: 'searchResultsPage optionsArea button[action=loadMore]',
+            loadingMore: 'searchResultsPage optionsArea loadingDisplay',
             resultsMap: 'searchResultsPage mapDisplay'
         },
         control: {
@@ -48,6 +51,7 @@ Ext.define('escape.controller.Search', {
     },
 
     loadOptions: function() {
+
         // check to see if dates need to be added
         var collectionType = this.getSearchPage().getCollectionType();
         if (collectionType == 'event') {
@@ -131,20 +135,20 @@ Ext.define('escape.controller.Search', {
         //     this.addOption('Destinations', newDesList);
         // }
         var collectionType = this.getCollectionType();
-        
+
         if (options.type) {
             this.addOption('Type', options.type);
         }
-        if (options.features  && collectionType!='deals') {
+        if (options.features && collectionType != 'deals') {
             this.addOption('Features', options.features);
         }
-        if (options.experiences && collectionType!='deals') {
+        if (options.experiences && collectionType != 'deals') {
             this.addOption('Experience', options.experiences);
         }
-        if (options.activities && collectionType!='deals') {
+        if (options.activities && collectionType != 'deals') {
             this.addOption('Activities', options.activities);
         }
-        if (options.starRating && collectionType!='deals') {
+        if (options.starRating && collectionType != 'deals') {
             this.addOption('Star Rating', options.starRating);
         }
 
@@ -273,7 +277,7 @@ Ext.define('escape.controller.Search', {
             // limit the serch to the users destination
             params.meta_D_phrase_sand = values.destination;
         }
-        
+
         // check to see if extra options are selected
         params = this.checkOption(params, values.destinations, 'r');
         params = this.checkOption(params, values.features, 'f');
@@ -311,7 +315,15 @@ Ext.define('escape.controller.Search', {
 
 
     requestResults: function() {
-
+        if (this.getResultsPage() > 1) {
+            var cardView = this.getSearchResultsPage().getItems().items[1];
+            var resultsContainer = cardView.getActiveItem();
+            var optionsArea = resultsContainer.getComponent('optionsArea');
+            var loadMore = optionsArea.getComponent('loadMore');
+            var loading = optionsArea.getComponent('loadingDisplay');
+            loadMore.hide();
+            loading.show();
+        }
         var selfRef = this;
         this.getSearchStore().loadPage(this.getResultsPage(), {
             callback: function(records, operation, success) {
@@ -339,7 +351,7 @@ Ext.define('escape.controller.Search', {
         // make the results page build itself ready for results
         var moreResults = (Number(records.getData().endIndex) < Number(records.getData().total.split(',').join(''))) ? true : false;
 
-        this.getSearchResultsPage().buildPage(moreResults,records.getData().total);
+        this.getSearchResultsPage().buildPage(moreResults, records.getData().total);
         this.setMoreResults(moreResults);
         // update the store
         var storeData = this.getResultsStore().getData();
@@ -351,8 +363,28 @@ Ext.define('escape.controller.Search', {
             // the map is showing add the extra results markers
             this.addResultsToTheMap();
         }
+        //
         // set the results to the next page
         this.setResultsPage(this.getResultsPage() + 1);
+        //
+        if (this.getListShowing()) {
+            if (this.getResultsPage() > 1) {
+                var cardView = this.getSearchResultsPage().getItems().items[1];
+                var resultsContainer = cardView.getActiveItem();
+                var optionsArea = resultsContainer.getComponent('optionsArea');
+
+                if (moreResults) {
+                    var loadMore = optionsArea.getComponent('loadMore');
+                    var loading = optionsArea.getComponent('loadingDisplay');
+                    loadMore.show();
+                    loading.hide();
+                } else {
+                    optionsArea.hide();
+                }
+            }
+
+        }
+        
     },
 
     buildResultsPage: function() {
@@ -368,12 +400,12 @@ Ext.define('escape.controller.Search', {
     showListResults: function() {
         if (!this.getListShowing()) {
             var cardView = this.getSearchResultsPage().getItems().items[1];
-            try{
+            try {
                 cardView.removeAll(true, true);
-            } catch(e){
+            } catch (e) {
 
             }
-            
+
             var collectionType = this.getSearchPage().getCollectionType();
             var itemTPL = (collectionType == 'restaurants' || collectionType == 'event' || collectionType == 'tour' || collectionType == 'deals' || collectionType === null) ? '{Title}' : '{Name}';
             var fullTPL = '{resultIndex} ' + itemTPL;
@@ -382,6 +414,7 @@ Ext.define('escape.controller.Search', {
             //cardView.add(list);
             //
             var container = new Ext.Container({
+                itemId: 'resultsContainer',
                 scrollable: {
                     direction: 'vertical',
                     directionLock: true
@@ -409,7 +442,14 @@ Ext.define('escape.controller.Search', {
                         xtype: 'button',
                         text: 'Load More Results',
                         action: 'loadMore',
-                        cls: 'loadMore search'
+                        cls: 'loadMore search',
+                        itemId: 'loadMore'
+                    }, {
+                        xtype: 'component',
+                        cls: 'loadingDisplay',
+                        html: '<div class="x-loading-spinner"></div>',
+                        hidden: true,
+                        itemId: 'loadingDisplay'
                     }]
                 });
             }
@@ -419,6 +459,7 @@ Ext.define('escape.controller.Search', {
             cardView.setActiveItem(container);
         }
         this.setListShowing(true);
+
 
     },
 

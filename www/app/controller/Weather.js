@@ -20,12 +20,16 @@ Ext.define('escape.controller.Weather', {
                 change: 'stationChanges'
             },
             '#currentWeather button[cls="refreshBtn iconBtn"]': {
-                tap: 'showSearch'
+                tap: 'reloadWeather'
             },
             '#homeSection button[cls="refreshBtn iconBtn"]': {
-                tap: 'showSearch'
+                tap: 'reloadWeather'
             }
         }
+    },
+    reloadWeather: function(){
+       this.getWeatherPage().getTheWeather(true);
+
     },
     // a language has been selected
     tempChanges: function() {

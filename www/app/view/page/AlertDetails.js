@@ -14,8 +14,6 @@ Ext.define("escape.view.page.AlertDetails", {
         layout: 'vbox'
     },
     openView: function() {
-        console.log('open details');
-        console.log(this.getAlertData());
         var data = this.getAlertData();
         var items = [];
         // map
