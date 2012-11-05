@@ -6,7 +6,7 @@ Ext.define("escape.model.UserSettings", {
     // if the users table has not been created then create it values are stored as key value pairs
     createTable: function() {
         var db = escape.utils.DatabaseManager.getBDConn('user');
-        //db.queryDB('DROP TABLE UserSettings');
+        db.queryDB('DROP TABLE UserSettings');
         db.queryDB('CREATE TABLE IF NOT EXISTS UserSettings (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, key, value)');
     },
 

@@ -3,7 +3,7 @@ Ext.define("escape.view.page.AlertSettings", {
     xtype: 'alertSettingsPage',
     config: {
         pageTitle: 'Alerts',
-        cls: 'alertsPage',
+        cls: 'alertSettingsPage',
         rightBtn: '',
         scrollable: false,
         padding: 0,
@@ -23,6 +23,7 @@ Ext.define("escape.view.page.AlertSettings", {
                 name: feed.label,
                 xtype: 'togglefield',
                 labelWidth: '60%',
+                cls: feed.label.split(' ').join('').toLowerCase(),
                 value: (Boolean(feed.load)) ? 0 : 1
             });
         }

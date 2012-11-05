@@ -2108,11 +2108,79 @@ p {
 	 }
 }
 
+///////////////////////
+// Alerts
+///////////////////////
+.alertSettingsPage {
+	.x-toggle {
+		background-color:$active-color;
+		background-image: url(../images/alert_toggle.png);
+		background-position: 0px 10px;
+	}
+	.x-component-outer {
+		padding:8px;
+	}
+	.x-form-label {
+		padding: 10px 0px 10px 60px;
+		background-image: url(../images/alerts_marker_incidents.png);
+		background-repeat: no-repeat;
+		background-position:0 7px;
+	}
+	.incidents {
+		.x-form-label {
+			background-image: url(../images/alerts_marker_incidents.png);
+		}
+	}
+	.roadworks {
+		.x-form-label {
+			background-image: url(../images/alerts_marker_roadworks.png);
+		}
+	}
+	.alpineconditions {
+		.x-form-label {
+			background-image: url(../images/alerts_marker_alpine.png);
+		}
+	}
+	.majorevents {
+		.x-form-label {
+			background-image: url(../images/alerts_marker_events.png);
+		}
+	}
+	.floods {
+		.x-form-label {
+			background-image: url(../images/alerts_marker_flood.png);
+		}
+	}
+	.fire {
+		.x-form-label {
+			background-image: url(../images/alerts_marker_fire.png);
+		}
+	}
+}
+.alerts {
+	.icon {
+		float: left;
+		width: 60px;
+		height: 54px;
+	}
+	.incidents {
+		background: url(../images/alerts_ico_incidents.png) no-repeat;
+	}
+	.infoArea {
+		margin-left: 60px;
+	}
+}
+
+
 
 ///////////////////////
 // Directions
 ///////////////////////
+.addressPicker {
+		padding:0 !important;
+	}
 .directionsPage {
+
 	.loadingDisplay {
 		margin: 0;
 		@include border-radius(0); // border radius
@@ -3326,6 +3394,12 @@ p {
 	.x-toggle {
 		background-image: url(../images/we_temp@2x.png);
 		-webkit-background-size: 57px 15px;
+	}
+	.alertSettingsPage {
+		.x-toggle {
+			-webkit-background-size: 100px 14px;
+			background-image: url(../images/alert_toggle@2x.png);
+		}
 	}
 	.noFavourites {
 		background-image: url(../images/favs_no_badge@2x.png);

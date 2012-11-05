@@ -1,6 +1,6 @@
 Ext.define('escape.controller.Directions', {
     extend: 'Ext.app.Controller',
-    requires: ['escape.model.Directions'],
+    requires: ['escape.model.Directions', 'Ext.Panel'],
     config: {
         transportType: 'car',
         refs: {
@@ -257,32 +257,115 @@ Ext.define('escape.controller.Directions', {
                 searchAddress += ' NSW';
             }
             if (searchAddress.indexOf('Australia') == -1) {
-                searchAddress += ' Australia';
+                //searchAddress += ' Australia';
             }
             console.log('searchAddress: ' + searchAddress);
             // the user has entered their own custom address look that up
             escape.model.Directions.geocodeAddress(searchAddress, {
                 success: function(addresses) {
-                    console.log(addresses[0]);
-                    var locationObj = {
-                        "coordinates": {
-                            "latitude": Number(addresses[0].lat),
-                            "longitude": Number(addresses[0].lon)
-                        },
-                        "postcode": "",
-                        "state": "",
-                        "street": {
-                            "directionalPrefix": "",
-                            "directionalSuffix": "",
-                            "fullName": "",
-                            "name": "",
-                            "type": ""
-                        },
-                        "streetNumber": "",
-                        "suburb": ""
-                    };
-                    // return the location object
-                    Ext.callback(callback.success, scope, [locationObj]);
+                    if (addresses.length == 1) {
+                        // only one address returned use it for the search
+                        var addressLoc = addresses[0].geocodedAddress;
+                        var locationObj = {
+                            "coordinates": {
+                                "latitude": Number(addressLoc.centrePoint.lat),
+                                "longitude": Number(addressLoc.centrePoint.lon)
+                            },
+                            "postcode": "",
+                            "state": "",
+                            "street": {
+                                "directionalPrefix": "",
+                                "directionalSuffix": "",
+                                "fullName": "",
+                                "name": "",
+                                "type": ""
+                            },
+                            "streetNumber": "",
+                            "suburb": ""
+                        };
+                        // return the location object
+                        Ext.callback(callback.success, scope, [locationObj]);
+                    } else if (addresses.length > 1) {
+                        // multiable addresses returened ask the user which one they would like to use
+                        var addressList = [];
+                        for (var i = 0; i < addresses.length; i++) {
+                            var addressDeatils = addresses[i].geocodedAddress;
+                            var displayName = '';
+                            if (addressDeatils.address.number !== '') {
+                                displayName += addressDeatils.address.number + ' ';
+                            }
+                            if (addressDeatils.address.street.name !== '') {
+                                displayName += addressDeatils.address.street.name + ' ';
+                            }
+                            if (addressDeatils.address.street.type !== '') {
+                                displayName += addressDeatils.address.street.type + ' ';
+                            }
+                            if (addressDeatils.address.suburb !== '') {
+                                displayName += addressDeatils.address.suburb + ' ';
+                            }
+                            if (addressDeatils.address.postcode !== '') {
+                                displayName += addressDeatils.address.postcode + ' ';
+                            }
+                            // push the address into the list
+                            addressList.push({
+                                id: i,
+                                displayName: displayName
+                            });
+                        }
+                        // build the pop ups
+                        var viewportsize = Ext.Viewport.getSize();
+                        var addressListDisplay = Ext.create('Ext.List', {
+                            itemTpl: '{displayName}',
+                            data: addressList,
+                            height: viewportsize.height - 80 - 43
+                        });
+                        // build the panel
+                        var listPanel = Ext.create('Ext.Panel', {
+                            modal: true,
+                            centered: true,
+                            cls:'addressPicker',
+                            hideOnMaskTap: false,
+                            width: viewportsize.width - 80,
+                            height: viewportsize.height - 80,
+                            items: [{
+                                xtype: 'toolbar',
+                                title: 'Did you mean?'
+                            }]
+                        });
+                        listPanel.add(addressListDisplay);
+                        // add listeners
+                        addressListDisplay.on('select', function(list, record) {
+                            console.log('select');
+                            console.log(record);
+                            console.log(record.getData().id);
+                            var addressLoc = addresses[record.getData().id].geocodedAddress;
+                            var locationObj = {
+                                "coordinates": {
+                                    "latitude": Number(addressLoc.centrePoint.lat),
+                                    "longitude": Number(addressLoc.centrePoint.lon)
+                                },
+                                "postcode": "",
+                                "state": "",
+                                "street": {
+                                    "directionalPrefix": "",
+                                    "directionalSuffix": "",
+                                    "fullName": "",
+                                    "name": "",
+                                    "type": ""
+                                },
+                                "streetNumber": "",
+                                "suburb": ""
+                            };
+                            Ext.callback(callback.success, scope, [locationObj]);
+                            Ext.Viewport.remove(listPanel);
+
+                        });
+                        // add panel
+                        Ext.Viewport.add(listPanel);
+                    } else {
+                        // no address found
+                        Ext.callback(callback.error, scope);
+                    }
                 },
                 failure: function() {
                     Ext.callback(callback.error, scope);

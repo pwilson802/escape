@@ -55,6 +55,7 @@
 		B7E63E4E161BC7B300A8569E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E63E4D161BC7B300A8569E /* Default-568h@2x.png */; };
 		B7EE2855161EAAD400D480E8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE2854161EAAD400D480E8 /* Default.png */; };
 		B7EE2857161EAADD00D480E8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE2856161EAADD00D480E8 /* Default@2x.png */; };
+		B7EF9DC21640D58400BA3EFE /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF9DC11640D58400BA3EFE /* icon-72@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +149,7 @@
 		B7E63E4D161BC7B300A8569E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B7EE2854161EAAD400D480E8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B7EE2856161EAADD00D480E8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		B7EF9DC11640D58400BA3EFE /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72@2x.png"; path = "../icons/icon-72@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B7EF9DC11640D58400BA3EFE /* icon-72@2x.png */,
 				B7EE2856161EAADD00D480E8 /* Default@2x.png */,
 				B7EE2854161EAAD400D480E8 /* Default.png */,
 				B7E63E4D161BC7B300A8569E /* Default-568h@2x.png */,
@@ -465,6 +468,7 @@
 				B7E63E4E161BC7B300A8569E /* Default-568h@2x.png in Resources */,
 				B7EE2855161EAAD400D480E8 /* Default.png in Resources */,
 				B7EE2857161EAADD00D480E8 /* Default@2x.png in Resources */,
+				B7EF9DC21640D58400BA3EFE /* icon-72@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,7 +571,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Sydney;
 				PROVISIONING_PROFILE = "0842C6EC-5F30-4782-ABFD-90B210458C76";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0842C6EC-5F30-4782-ABFD-90B210458C76";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EC3B9487-4DC0-4D09-A811-9C3E9E380305";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -588,7 +592,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Sydney;
 				PROVISIONING_PROFILE = "0842C6EC-5F30-4782-ABFD-90B210458C76";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7FC15268-0B8F-46ED-805A-D2FB82EB3EF8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EC3B9487-4DC0-4D09-A811-9C3E9E380305";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

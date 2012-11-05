@@ -53,24 +53,50 @@ Ext.define("escape.model.Directions", {
         //     }
         // });
 
+        // Ext.Ajax.request({
+        //     url: 'http://open.mapquestapi.com/nominatim/v1/search',
+        //     method: 'GET',
+        //     params: {
+        //         format: 'json',
+        //         q: addressStr
+        //     },
+        //     success: function(response) {
+        //         console.log(response);
+        //         var addresess = JSON.parse(response.responseText);
+        //         console.log(addresess);
+        //         Ext.callback(callback.success, scope, [addresess]);
+        //         // process server response here
+        //     },
+        //     failure: function() {
+        //         Ext.callback(callback.error, scope, [response]);
+        //     }
+        // });
+
+
         Ext.Ajax.request({
-            url: 'http://open.mapquestapi.com/nominatim/v1/search',
-            method: 'GET',
-            params: {
-                format: 'json',
-                q: addressStr
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token':AppSettings.whereis.token,
+                'X-Auth-Password':AppSettings.whereis.password
+            },
+            url: ' http://ems.whereis.com/v1/service/geocode/unstructured',
+            method: "POST",
+            jsonData: {
+                "address": {"freeFormAddress": addressStr}
             },
             success: function(response) {
                 console.log(response);
                 var addresess = JSON.parse(response.responseText);
                 console.log(addresess);
-                Ext.callback(callback.success, scope, [addresess]);
+                 Ext.callback(callback.success, scope, [addresess]);
+
                 // process server response here
             },
-            failure: function() {
-                Ext.callback(callback.error, scope, [response]);
+            failure: function(response, opts) {
+                Ext.callback(callback.error, scope);
             }
         });
+    
     },
     processAddress: function(addresses, callback, scope) {
         if (addresses.results.length > 0) {

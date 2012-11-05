@@ -16,6 +16,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         lon: 151.2068896,
         address: null,
         markerAtCenter: false,
+        locationMarker: null,
         interaction: true,
         zoomToBounds: true,
         listeners: {
@@ -93,7 +94,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         });
         for (var m = 0; m < intialMarkers.length; m++) {
             var marker = intialMarkers[m];
-            this.addMarker(marker.lat, marker.lon, marker.data);
+            this.addMarker(marker.lat, marker.lon, marker.data, marker.iconPath, marker.iconSize);
         }
 
         if (this.getMarkerAtCenter()) {
@@ -108,8 +109,11 @@ Ext.define("escape.view.ui.MapDisplay", {
             map.zoomToExtent(map.markersLayer.getDataExtent());
             this.setIntialMarkers([]);
         }
-        // add zoom controls
+
         if (this.getInteraction()) {
+            // show users location
+            this.showUsersLoction();
+            // add zoom controls
             try {
                 if (!Ext.os.is.iOS) {
                     this.add({
@@ -139,6 +143,39 @@ Ext.define("escape.view.ui.MapDisplay", {
         }
 
     },
+    showUsersLoction: function() {
+        var selfRef = this;
+        // get the user location
+        Ext.device.Geolocation.getCurrentPosition({
+            success: function(position) {
+                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, 'resources/images/markers/marker_yourlocation.png', [17, 16], true);
+                console.log(yourlocation);
+                selfRef.setLocationMarker(yourlocation);
+                selfRef.showUsersDirection();
+            },
+            failure: function() {
+                Ext.callback(callback.error, scope);
+            }
+        }, this);
+    },
+    showUsersDirection: function() {
+        var selfRef = this;
+        try {
+            navigator.compass.getCurrentHeading(function(heading) {
+                console.log('heading: ' + heading);
+
+            }, function() {
+                console.log('error getthing the users diection');
+            });
+        } catch (e) {
+
+        }
+        var yourlocationMarker = selfRef.getLocationMarker();
+        var origin = new OpenLayers.Geometry.Point(yourlocationMarker.lonlat);
+       new  OpenLayers.Feature(yourlocationMarker).geometry.rotate(90, origin);
+
+
+    },
     setupMap: function() {
         var map = this.getMap();
         if (this.getInteraction()) {
@@ -163,7 +200,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         map.zoomToExtent(map.markersLayer.getDataExtent());
         this.setIntialMarkers([]);
     },
-    addMarker: function(lat, lon, data) {
+    addMarker: function(lat, lon, data, imgPath, iconSize, centre) {
         if (this.getBuilt()) {
             var map = this.getMap();
             var icon;
@@ -177,17 +214,28 @@ Ext.define("escape.view.ui.MapDisplay", {
                 useIcon = false;
             }
 
-
-
-            // pin icon
-            var imgPath = 'resources/images/pin_red.png';
-            if (escape.utils.Img.useRetinaImg) {
-                imgPath = 'resources/images/pin_red@2x.png';
+            if (imgPath) {
+                if (escape.utils.Img.useRetinaImg) {
+                    // use 2x icon if needed
+                    imgPath = imgPath.split('.png')[0] + '@2x.png';
+                }
+            } else {
+                // use default icon
+                imgPath = 'resources/images/pin_red.png';
+                if (escape.utils.Img.useRetinaImg) {
+                    imgPath = 'resources/images/pin_red@2x.png';
+                }
             }
+            // pin icon
             var size = new OpenLayers.Size(45, 38);
+            if (iconSize) {
+                size = new OpenLayers.Size(iconSize[0], iconSize[1]);
+
+            }
             var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-
-
+            if (centre) {
+                offset = new OpenLayers.Pixel(-(size.w / 2), -(size.h / 2));
+            }
 
 
             if (useIcon) {
@@ -200,12 +248,9 @@ Ext.define("escape.view.ui.MapDisplay", {
                 }
                 imgPath = 'resources/images/markers/marker_' + iconNumber + '' + imgSize + '.png';
             }
-
-
-
+            //
             icon = new OpenLayers.Icon(imgPath, size, offset);
-
-
+            //
             var lonlat = new EMS.LonLat(lon, lat);
             var marker = new OpenLayers.Marker(lonlat, icon);
 
@@ -223,6 +268,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             icon.imageDiv.addEventListener('touchend', function() {
                 selfRef.fireEvent('markerSelected', data);
             });
+            return marker;
         } else {
             this.getIntialMarkers().push({
                 data: data,

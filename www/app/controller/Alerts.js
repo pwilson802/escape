@@ -61,7 +61,7 @@ Ext.define('escape.controller.Alerts', {
                             label: 'Road Works',
                             load: true
                         }, {
-                            label: 'Alpine Events',
+                            label: 'Alpine Conditions',
                             load: true
                         }, {
                             label: 'Major Events',
@@ -123,6 +123,7 @@ Ext.define('escape.controller.Alerts', {
             var feature = alerts.raw.features[i];
             var result = {};
             result.displayName = feature.properties.displayName;
+            result.mainCategory = feature.properties.mainCategory;
             result.created = new Date(feature.properties.created);
             result.lastUpdated = new Date(feature.properties.lastUpdated);
             result.isMajor = feature.properties.isMajor;
@@ -183,7 +184,8 @@ Ext.define('escape.controller.Alerts', {
         }
         var list = new Ext.List({
             flex: 1,
-            itemTpl: '<b>{suburb}</b> {road},<br>{displayName}',
+            cls:'alerts',
+            itemTpl: '<div class="icon incidents"></div><div class="infoArea"><b>{suburb}</b> {road},<br>{displayName}</div>',
             store: this.getAlertsStore()
         });
         // add load more button
@@ -218,7 +220,9 @@ Ext.define('escape.controller.Alerts', {
             intialMarkers.push({
                 lat: marker.lat,
                 lon: marker.lon,
-                data: marker
+                data: marker,
+                iconPath : 'resources/images/alerts_marker_incidents.png',
+                iconSize : [57,37]
             });
         }
         var cardView = this.getAlertsPage().getItems().items[1];

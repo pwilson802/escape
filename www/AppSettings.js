@@ -81,7 +81,8 @@ AppSettings.sensis = {
     url: 'http://api.sensis.com.au/ob-20110511/prod/search'
 };
 AppSettings.whereis = {
-    token: '8348923927920532480'
+    token: '8348923927920532480',
+    password: '2121133n!s!w828'
 };
 AppSettings.bing = {
     key : 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
@@ -353,6 +354,14 @@ AppSettings.mainMenu = [{
         xtype: 'weatherPage'
     }
 }, {
+    title: 'Alerts',
+    group: 'Group 4',
+    id: 'alertsSection',
+    firstPage: {
+        title: 'Alerts',
+        xtype: 'alertsPage'
+    }
+}, {
     title: 'Currency Converter',
     group: 'Group 4',
     id: 'currencyConverter',
@@ -406,12 +415,3 @@ AppSettings.mainMenu = [{
     }
 }];
 
-// , {
-//     title: 'Alerts',
-//     group: 'Group 4',
-//     id: 'alertsSection',
-//     firstPage: {
-//         title: 'Alerts',
-//         xtype: 'alertsPage'
-//     }
-// }
