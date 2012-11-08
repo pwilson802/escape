@@ -11,18 +11,23 @@ Ext.define("escape.view.page.Search", {
         items: [],
         pageTypeId: 11,
         pageTrackingId: 1,
+        searchValues: null,
         hasInputs: true
     },
     reOpenView: function() {
 
         this.openView();
-         this.fireEvent('openView', this);
+        this.fireEvent('openView', this);
     },
     closeView: function() {
         this.setItems([]);
     },
     openView: function() {
-        // build destination options
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+             this.setItems([{xtype:'offlineMessage'}]);
+        } else {
+            // build destination options
         var destinationOptions = [{
             text: 'All',
             value: AppSettings.destinationWebpath
@@ -34,6 +39,11 @@ Ext.define("escape.view.page.Search", {
             });
         }
         //
+        var savedValues =  this.getSearchValues();
+        console.log(savedValues);
+        var seachString = (savedValues) ? savedValues.search : '';
+        var aroundMeValue = (savedValues) ? savedValues.distance : -1;
+        var destinationValue = (savedValues) ? savedValues.destination : 'all';
         this.setItems([{
             xtype: 'formpanel',
             layout: 'hbox',
@@ -47,6 +57,7 @@ Ext.define("escape.view.page.Search", {
                 items: [{
                     xtype: 'searchfield',
                     name: 'search',
+                    value: seachString,
                     flex: 1
                 }]
             }, {
@@ -63,38 +74,39 @@ Ext.define("escape.view.page.Search", {
                     label: 'Around me',
                     labelWidth: '50%',
                     name: 'distance',
+                    value : aroundMeValue,
                     options: [{
                         text: 'Off',
                         value: -1
                     },{
-                        text: '1Km',
+                        text: '1 km',
                         value: 5
                     }, {
-                        text: '5Km',
+                        text: '5 km',
                         value: 5
                     }, {
-                        text: '10Km',
+                        text: '10 km',
                         value: 10
                     }, {
-                        text: '15Km',
+                        text: '15 km',
                         value: 15
                     }, {
-                        text: '25Km',
+                        text: '25 km',
                         value: 25
                     }, {
-                        text: '50Km',
+                        text: '50 km',
                         value: 50
                     }, {
-                        text: '75Km',
+                        text: '75 km',
                         value: 75
                     }, {
-                        text: '100Km',
+                        text: '100 km',
                         value: 100
                     }, {
-                        text: '150Km',
+                        text: '150 km',
                         value: 150
                     }, {
-                        text: '200Km',
+                        text: '200 km',
                         value: 200
                     }]
                 }, {
@@ -102,7 +114,8 @@ Ext.define("escape.view.page.Search", {
                     label: 'Destination',
                     name: 'destination',
                     labelWidth: '50%',
-                    options: destinationOptions
+                    options: destinationOptions,
+                    value: destinationValue
                 }]
 
             }, {
@@ -121,5 +134,7 @@ Ext.define("escape.view.page.Search", {
                 }]
             }]
         }]);
+        }
+        
     }
 });

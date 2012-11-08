@@ -153,6 +153,14 @@ Ext.define('escape.controller.ServicesAndFacilities', {
 
         }
 
+        if (Number(data.total)===0) {
+            this.getSevicesAndFacilitiesResultsPage().removeAll(true,true);
+            this.getSevicesAndFacilitiesResultsPage().setItems({
+                cls:'noResults'
+            });
+            this.getSevicesAndFacilitiesResultsPage().addCls('bgTexture');
+        }
+
     },
     toggleView: function(container, btn, pressed) {
         if (btn.config.type == 'map') {

@@ -39,6 +39,7 @@
 		30A0434914DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		30E1352710E2C1420031B30D /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30E1352610E2C1420031B30D /* Cordova.plist */; };
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B7334332164A301C008228A2 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = B7334331164A301C008228A2 /* cmsPages.db */; };
 		B73840BF160C29EB008B16F7 /* TwitterPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = B73840BE160C29EB008B16F7 /* TwitterPlugin.m */; };
 		B73840C1160C2A5B008B16F7 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73840C0160C2A5B008B16F7 /* Twitter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		B73840C3160C2A83008B16F7 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73840C2160C2A83008B16F7 /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -128,6 +129,7 @@
 		30E5649113A7FCAF007403D8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* Sydney-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sydney-Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Sydney-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Sydney-Info.plist"; path = "../Sydney-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		B7334331164A301C008228A2 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../cmsPages.db; sourceTree = "<group>"; };
 		B73840BD160C29EB008B16F7 /* TwitterPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterPlugin.h; path = ../../../plugins/ios/TwitterPlugin.h; sourceTree = "<group>"; };
 		B73840BE160C29EB008B16F7 /* TwitterPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterPlugin.m; path = ../../../plugins/ios/TwitterPlugin.m; sourceTree = "<group>"; };
 		B73840C0160C2A5B008B16F7 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -257,6 +259,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B7334331164A301C008228A2 /* cmsPages.db */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
 				1F766FDB13BBADB100FB74C0 /* en.lproj */,
@@ -469,6 +472,7 @@
 				B7EE2855161EAAD400D480E8 /* Default.png in Resources */,
 				B7EE2857161EAADD00D480E8 /* Default@2x.png in Resources */,
 				B7EF9DC21640D58400BA3EFE /* icon-72@2x.png in Resources */,
+				B7334332164A301C008228A2 /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

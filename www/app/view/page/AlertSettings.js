@@ -22,8 +22,9 @@ Ext.define("escape.view.page.AlertSettings", {
                 label: feed.label,
                 name: feed.label,
                 xtype: 'togglefield',
+
                 labelWidth: '60%',
-                cls: feed.label.split(' ').join('').toLowerCase(),
+                cls: 'switchOnOff ' +feed.label.split(' ').join('').toLowerCase(),
                 value: (Boolean(feed.load)) ? 0 : 1
             });
         }

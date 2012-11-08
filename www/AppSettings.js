@@ -30,7 +30,6 @@ AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 // Caching
 AppSettings.caching = {
-
     cmsCacheLength: (60 * 60 * 24 * 14),
     searchCacheLength: (60 * 60 * 24 * 14),
     productCacheLength: (60 * 60 * 24 * 14)
@@ -354,14 +353,6 @@ AppSettings.mainMenu = [{
         xtype: 'weatherPage'
     }
 }, {
-    title: 'Alerts',
-    group: 'Group 4',
-    id: 'alertsSection',
-    firstPage: {
-        title: 'Alerts',
-        xtype: 'alertsPage'
-    }
-}, {
     title: 'Currency Converter',
     group: 'Group 4',
     id: 'currencyConverter',
@@ -414,4 +405,14 @@ AppSettings.mainMenu = [{
         xtype: 'settingsPage'
     }
 }];
+
+// , {
+//     title: 'Alerts',
+//     group: 'Group 4',
+//     id: 'alertsSection',
+//     firstPage: {
+//         title: 'Alerts',
+//         xtype: 'alertsPage'
+//     }
+// }
 

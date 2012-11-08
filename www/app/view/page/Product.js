@@ -24,19 +24,39 @@ Ext.define("escape.view.page.Product", {
         this.setPageTrackingId(this.getProductType().toLowerCase() + '/' + this.getProductId());
         if (this.getProductData() === null) {
             // load the product data
-            escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + Ext.String.trim(this.getProductType().toLowerCase()) + '-details');
-            escape.model.Product.load(this.getProductId(), {
-                success: function(product) {
-                    this.setProductData(product.raw);
-                    this.buildPage();
-                },
-                error: function(error) {
-                    this.setItems({
-                        xtype: 'loadError'
-                    });
-                },
-                scope: this
-            });
+            try {
+                escape.model.Product.getProxy().setUrl(AppSettings.smartphoneURL + 'product-details/' + Ext.String.trim(this.getProductType().toLowerCase()) + '-details');
+                escape.model.Product.load(this.getProductId(), {
+                    success: function(product) {
+                        console.log('success');
+                        this.setProductData(product.raw);
+                        this.buildPage();
+                    },
+                    failure: function(error) {
+                        console.log('failure');
+                        if (!Ext.device.Connection.isOnline()) {
+                            // show offline messgae
+                            this.setItems([{
+                                xtype: 'offlineMessage'
+                            }]);
+                        } else {
+                            this.setItems({
+                                xtype: 'loadError'
+                            });
+                        }
+
+
+                    },
+                    callback: function(record, operation) {
+                        console.log('callback');
+                    },
+                    scope: this
+                });
+            } catch (e) {
+                console.log('js error');
+                console.log(e);
+            }
+
         } else {
             this.buildPage();
         }
@@ -110,8 +130,8 @@ Ext.define("escape.view.page.Product", {
         sharingData = {
             name: product.Name,
             defaultMessage: 'Having a great time at ' + product.Name,
-            description: 'Check out ' + product.Name + ' at '+ AppSettings.displayWebsiteURL,
-            emailBody: 'Hi, I saw ' + product.Name + ' on the Sydney App from '+AppSettings.displayWebsiteURL+' and thought you might like to check it out. '+AppSettings.websiteURL + product['Full Path'],
+            description: 'Check out ' + product.Name + ' at ' + AppSettings.displayWebsiteURL,
+            emailBody: 'Hi, I saw ' + product.Name + ' on the Sydney App from ' + AppSettings.displayWebsiteURL + ' and thought you might like to check it out. ' + AppSettings.websiteURL + product['Full Path'],
             link: AppSettings.websiteURL + product['Full Path'],
             picture: imageURL
         };
@@ -280,7 +300,7 @@ Ext.define("escape.view.page.Product", {
 
 
         var imageItems = [];
-        if (product.Images){
+        if (product.Images) {
             // add the product images to the page
             for (var i = 0; i < product.Images.length; i++) {
                 var imageData = product.Images[i];
@@ -292,7 +312,7 @@ Ext.define("escape.view.page.Product", {
                 });
             }
         }
-        
+
 
         var indicator = (imageItems.length > 1) ? true : false;
         items.push({
@@ -420,7 +440,7 @@ Ext.define("escape.view.page.Product", {
                 var room = product.Rooms[r];
                 rooms += '<li><h3>' + room.Name + '</h3>';
                 rooms += '<p>From: $' + room['Price From'] + ' to $' + room['Price To'] + '<br>';
-                rooms +=  room.Details + '</p>';
+                rooms += room.Details + '</p>';
 
             }
             rooms += '</ul>';

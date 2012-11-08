@@ -1,6 +1,180 @@
 Ext.define("escape.model.Content", {
     singleton: true,
-    config: {},
+    config: {
+         useOffline: true
+    },
+    // called when useOffline is updated
+    updateUseOffline: function(newValue, oldValue) {
+         escape.model.UserSettings.setSetting('useOffline', String(newValue), {
+            success: function(newValue) {
+                console.log('success');
+                console.log(newValue);
+            },
+            error: function(error) {
+                console.log('error');
+                console.log(error);
+            },
+            scope: this
+        });
+    },
+   
+    checkOfflineSettings: function(callback, scope) {
+        // Check to see if the user has picked a useOffline setting
+        var selfRef = this;
+        escape.model.UserSettings.getSetting('useOffline', {
+            success: function(useOffline) {
+                if (useOffline === null) {
+                    // no user isDegrees has been selected
+                    selfRef.setUseOffline(true);
+                } else {
+                    var setting = true;
+                    if (useOffline == 'false') {
+                        setting = false;
+                    }
+                    if (useOffline === 0) {
+                        setting = false;
+                    }
+                    selfRef.setUseOffline(setting);
+                }
+            },
+            error: function(error) {
+                // no user temp has been selected
+                selfRef.setIsDegrees(true);
+            },
+            scope: this
+        });
+    },
+    // based on the users setting and connectivity will return the local page data
+    getContentPageData: function(url, callback, scope) {
+        var loadLocal = true;
+        if (Ext.device.Connection.isOnline()) {
+            if (!this.getUseOffline()) {
+                loadLocal = false;
+            }
+        }
+        if (loadLocal) {
+            // the device is not online load local content
+            this.loadLocalContent(url, callback, scope);
+        } else {
+            // load the content from the remote server
+            this.loadRemoteContent(url, callback, scope);
+        }
+
+    },
+    loadRemoteContent: function(url, callback, scope, localData) {
+        // load the content data
+        escape.model.ContentPage.getProxy().setUrl(url);
+        escape.model.ContentPage.load(0, {
+            success: function(content) {
+                Ext.callback(callback.success, scope, [content]);
+                this.saveRemoteContent(url, content);
+            },
+            error: function(error) {},
+            scope: this
+        });
+    },
+    saveRemoteContent: function(url, content) {
+        var updateTime = new Date().getTime();
+        var selfRef = this;
+        var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
+        if (content) {
+            db.queryDB('UPDATE Pages SET name=(?), date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
+                // the content was updated succeesfully
+            }, function(t, e) {
+            }, [content.title, updateTime, JSON.stringify(content.raw), url]);
+        } else {
+            // error updating the content try insertint it
+            db.queryDB('INSERT INTO Pages (name,url,date_modified,JSON_data) VALUES (?,?,?,?)', function(t, rs) {
+                // the content was updated succeesfully
+            }, function(t, e) {
+                // error updating the content try insertint it
+            }, [content.title, url, updateTime, JSON.stringify(content.raw)]);
+        }
+    },
+    loadLocalContent: function(url, callback, scope) {
+        var selfRef = this;
+        var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
+        db.queryDB('SELECT * FROM Pages WHERE url = (?)', function(t, rs) {
+            // make sure the product is not database
+            var page = rs.rows.item(0);
+            // build and map page data
+            var jsonData = JSON.parse(page.JSON_data);
+            // make sure the page is uptodate
+            var dateNow = new Date();
+            var diff = dateNow.getTime() - page.date_modified;
+            // check to see if the content is out of date
+            var useLocal = true;
+            if (diff > (AppSettings.caching.cmsCacheLength*1000)) {
+                useLocal = false;
+                // make sure the user has a strong enough connection
+                var connectionType = Ext.device.Connection.getType();
+                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
+                    useLocal = true;
+                }
+            }
+            //
+            if (useLocal) {
+                var pageData = {};
+                pageData.title = jsonData.Page.Title;
+                pageData.description = jsonData.Page.Content;
+                pageData.images = jsonData.Page.Images;
+                pageData.geolocation = jsonData.Page.Geolocation;
+                pageData.children = jsonData.Children;
+                pageData.externalLinks = jsonData.Page['External-Links'];
+                pageData.page = jsonData.Page;
+                // place data into a model
+                var localImagesList = page.images.split(',');
+                if (localImagesList.length > 0 && page.images.length > 0) {
+                    // load the images
+                    selfRef.loadLocalImages(localImagesList, pageData, callback, scope);
+                } else {
+                    // return the data
+                    selfRef.returnLocalData(pageData, callback, scope);
+                }
+            } else {
+                // load remote data instead
+                selfRef.loadRemoteContent(url, callback, scope, page);
+            }
+            // return the content
+        }, function(t, e) {
+            // error try loading the remote data
+            selfRef.loadRemoteContent(url, callback, scope);
+        }, [url]);
+    },
+    loadLocalImages: function(ids, pageData, callback, scope) {
+        var selfRef = this;
+        var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
+
+        var SQL = 'SELECT * FROM Images WHERE';
+        for (var i = ids.length - 1; i >= 0; i--) {
+            SQL += '  id = ' + ids[i];
+            if (i > 0) {
+                SQL += ' OR';
+            }
+        }
+        db.queryDB(SQL, function(t, rs) {
+            var imagesList = [];
+            // process the images
+            for (var i = 0; i < rs.rows.length; i++) {
+                var image = rs.rows.item(i);
+                imagesList.push({
+                    "Full Size": 'resources/images/cms/' + image.image_name,
+                    "Alt": image.alt_text
+                });
+            }
+            pageData.images = imagesList;
+            // return the data
+            selfRef.returnLocalData(pageData, callback, scope);
+        }, function(e) {
+            // on error return the data without images
+            selfRef.returnLocalData(pageData, callback, scope);
+        }, []);
+    },
+    returnLocalData: function(pageData, callback, scope) {
+        var modelData = Ext.create('escape.model.ContentPage');
+        modelData.setData(pageData);
+        Ext.callback(callback.success, scope, [modelData]);
+    },
     process: function(content) {
         // parse over the content
         content.productLists = [];
@@ -62,7 +236,7 @@ Ext.define("escape.model.Content", {
                     xtype: 'contentImg',
                     width: screenWidth,
                     height: 200,
-                    imagePath: escape.utils.Img.getResizeURL(content.images[i]['Full Size'],screenWidth),
+                    imagePath: escape.utils.Img.getResizeURL(content.images[i]['Full Size'], screenWidth),
                     altText: content.images[i]['Alt']
                 });
             }

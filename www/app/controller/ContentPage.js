@@ -31,23 +31,20 @@ Ext.define('escape.controller.ContentPage', {
     },
     loadContent: function(contentPage) {
         var linkbreakDown = contentPage.getContentPath().split('smartphoneapps');
-        contentPage.setPageTrackingId('smartphoneapps'+linkbreakDown[linkbreakDown.length-1]);
+        contentPage.setPageTrackingId('smartphoneapps' + linkbreakDown[linkbreakDown.length - 1]);
         contentPage.setItems({
             xtype: 'loadingDisplay'
         });
         var selfRef = this;
-        // load the content data
-        escape.model.ContentPage.getProxy().setUrl(contentPage.getContentPath());
-        escape.model.ContentPage.load(0, {
+        escape.model.Content.getContentPageData(contentPage.getContentPath(), {
             success: function(content) {
                 var processedContent = escape.model.Content.process(content.getData());
-
                 contentPage.buildPage(processedContent);
-
             },
             error: function(error) {},
             scope: this
         });
+
     },
     switchType: function(container, btn, pressed) {
         var contentPage = container.parent;
@@ -70,10 +67,9 @@ Ext.define('escape.controller.ContentPage', {
     },
     loadMustDos: function(url, contentPage) {
         var selfRef = this;
-        escape.model.ContentPage.getProxy().setUrl(url);
-        escape.model.ContentPage.load(0, {
+         escape.model.Content.getContentPageData(contentPage.getContentPath(), {
             success: function(content) {
-                selfRef.mustDosLoaded(content.getData(), contentPage);
+                 selfRef.mustDosLoaded(content.getData(), contentPage);
             },
             error: function(error) {},
             scope: this
@@ -135,7 +131,7 @@ Ext.define('escape.controller.ContentPage', {
                 margin: '20px 0 0 0',
                 xtype: 'footer'
             });
-             var cardView = contentPage.getComponent('cardView');
+            var cardView = contentPage.getComponent('cardView');
             var contentArea = cardView.getComponent('contents');
             contentArea.setPadding(0);
             contentArea.setItems(mustDoItems);

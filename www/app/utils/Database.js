@@ -62,6 +62,7 @@ Ext.define('escape.utils.Database', {
     },
     // create web database
     createWebSql: function() {
+        console.log('createWebSql: ' + this.getPrePopulate());
         if (this.getPrePopulate()) {
             var selfRef = this;
             Ext.Ajax.request({

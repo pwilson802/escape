@@ -10,7 +10,7 @@ Ext.application({
     },
     name: 'escape',
     requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars'],
-    views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.Alerts', 'page.AlertDetails','page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map'],
+    views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.Alerts', 'page.AlertDetails','page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map','ui.OfflineMessage'],
     controllers: ['Map','GlobalActions', 'Settings', 'Section', 'Search', 'Alerts', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage','Directions'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register', 'ProductSearch', 'Itineraries'],
@@ -86,6 +86,12 @@ Ext.application({
                 name: 'user',
                 fileName: 'DNSWEscapeUser',
                 checkTable: 'Favourites'
+            },{
+                name: 'cmsPages',
+                fileName: 'cmsPages',
+                checkTable: 'Images',
+                prePopulate: true,
+                reImport: false
             }]);
 
             try {
@@ -99,6 +105,7 @@ Ext.application({
     startApp: function() {
         // create the favourites table
         var db = escape.utils.DatabaseManager.getBDConn('user');
+        escape.model.Content.checkOfflineSettings();
         // db.queryDB('DROP TABLE Favourites');
         db.queryDB('CREATE TABLE IF NOT EXISTS Favourites (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, product_id, name, type, data)');
         escape.model.Itineraries.setup();

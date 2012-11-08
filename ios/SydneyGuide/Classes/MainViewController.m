@@ -115,6 +115,20 @@
      
      // Black base color for background matches the native apps
      theWebView.backgroundColor = [UIColor blackColor];
+    
+    // Tilt and Co Databases copy
+    NSString *dbNameCMS = @"cmsPages.db";
+    NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *cmsFile = [documentsDir stringByAppendingPathComponent:dbNameCMS];    
+    BOOL success;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    success = [fileManager fileExistsAtPath:cmsFile];
+    if(!success) {
+        NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:dbNameCMS];
+        [fileManager copyItemAtPath:databasePathFromApp toPath:cmsFile error:nil];
+    }
+    [fileManager release];
+    // end copy Databases
 
 	return [super webViewDidFinishLoad:theWebView];
 }

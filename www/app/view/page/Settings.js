@@ -37,7 +37,8 @@ Ext.define("escape.view.page.Settings", {
             });
         }
         // Tempuature
-        var toggleValue = (escape.model.Weather.getIsDegrees()) ? 1 : 0;
+        var tempToggleValue = (escape.model.Weather.getIsDegrees()) ? 1 : 0;
+        var offlineToggleValue = (escape.model.Content.getUseOffline()) ? 1 : 0;
         items.push({
             xtype: 'container',
             cls: 'options',
@@ -49,7 +50,8 @@ Ext.define("escape.view.page.Settings", {
                     label: 'Temperature',
                     labelWidth: '60%',
                     xtype: 'togglefield',
-                    value: toggleValue
+                    itemId:'tempToggle',
+                    value: tempToggleValue
                 }, {
                     xtype: 'selectField',
                     labelWidth: '50%',
@@ -60,9 +62,16 @@ Ext.define("escape.view.page.Settings", {
                 }]
             }, {
                 xtype: 'fieldset',
-                title: 'Cache',
-                instructions: 'Clear downloaded browsing data ',
+                title: 'Offline content',
+                cls:'switchOnOff',
+                instructions: 'Controls the use off content saved to your phone',
                 items: [{
+                    label: 'Use offline content',
+                    labelWidth: '60%',
+                    xtype: 'togglefield',
+                    itemId:'offlineContent',
+                    value: offlineToggleValue
+                },{
                     text: 'Clear Cache',
                     cls:'reset',
                     xtype: 'button',

@@ -7,7 +7,19 @@ Ext.define('escape.controller.Settings', {
         control: {
             'settingsPage button[action=clearCache]': {
                 tap: 'clearCache'
+            },
+            'settingsPage #offlineContent': {
+                change: 'switchUseOffline'
             }
+        }
+    },
+    // swich use offline
+    switchUseOffline: function(){
+        console.log('switchUseOffline');
+        if (escape.model.Content.getUseOffline()) {
+            escape.model.Content.setUseOffline(false);
+        } else {
+            escape.model.Content.setUseOffline(true);
         }
     },
     // clear the proxy cache

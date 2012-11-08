@@ -150,6 +150,26 @@ p {
 	padding:105px 0 0 0;
 	background:#181818 url(../images/error_icon.png) center 20px no-repeat !important;
 }
+.offlineMessage {
+	background: url(../images/linen_bg.png);
+	width:100%;
+	.x-innerhtml  {
+		background: url(../images/no_internet_badge.png) no-repeat 0 20px;
+		width:107px;
+		height:166px;
+		margin: 0 auto;
+	}
+}
+.noResults {
+	background: url(../images/linen_bg.png);
+	width:100%;
+	.x-innerhtml  {
+		background: url(../images/no_results_badge.png) no-repeat 0 20px;
+		width:107px;
+		height:166px;
+		margin: 0 auto;
+	}
+}
 .actionHeader {
 	background-color:$mediumGrey;
 	color:#fff;
@@ -2111,12 +2131,15 @@ p {
 ///////////////////////
 // Alerts
 ///////////////////////
-.alertSettingsPage {
+.switchOnOff {
 	.x-toggle {
 		background-color:$active-color;
 		background-image: url(../images/alert_toggle.png);
 		background-position: 0px 10px;
 	}
+}
+.alertSettingsPage {
+	
 	.x-component-outer {
 		padding:8px;
 	}
@@ -3395,12 +3418,14 @@ p {
 		background-image: url(../images/we_temp@2x.png);
 		-webkit-background-size: 57px 15px;
 	}
-	.alertSettingsPage {
+	.switchOnOff {
 		.x-toggle {
 			-webkit-background-size: 100px 14px;
 			background-image: url(../images/alert_toggle@2x.png);
 		}
+
 	}
+		
 	.noFavourites {
 		background-image: url(../images/favs_no_badge@2x.png);
 		-webkit-background-size: 107px 146px;
@@ -3538,12 +3563,31 @@ p {
 		&.mapLarge {
 			.mapHolder {
 				background-image: url(../images/map_loading_badge@2x.png);
-				-webkit-background-size: 107px 135px; 
+				
 			}
 		}
 
 	}
-	
+	.offlineMessage {
+		background-image: url(../images/linen_bg@2x.png);
+		-webkit-background-size: 333px 500px; 
+		.x-innerhtml  {
+			background-image: url(../images/no_internet_badge@2x.png) no-repeat 0 20px;
+
+		}
+	}
+	.noResults {
+		background-image: url(../images/linen_bg@2x.png);
+		-webkit-background-size: 333px 500px; 
+		.x-innerhtml  {
+			background-image: url(../images/no_results_badge@2x.png) no-repeat 0 20px;
+			-webkit-background-size: 107px 146px; 
+		}
+	}
+	.refreshBtn {
+		background-image: url('../images/btn_refresh@2x.png');
+		-webkit-background-size: 43px 73px; 
+	}
 		
 
 

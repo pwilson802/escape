@@ -70,10 +70,9 @@ Ext.define('escape.controller.ProductSections', {
     loadContent: function(productSubSection) {
         var selfRef = this;
         // load the content data
-        escape.model.ContentPage.getProxy().setUrl(productSubSection.getContentPath());
-        escape.model.ContentPage.load(0, {
+        escape.model.Content.getContentPageData(productSubSection.getContentPath(), {
             success: function(content) {
-                selfRef.buildSubSection(productSubSection, content.getData());
+                 selfRef.buildSubSection(productSubSection, content.getData());
             },
             error: function(error) {},
             scope: this
@@ -153,10 +152,9 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadMustDos: function(url, productSubSection) {
         var selfRef = this;
-        escape.model.ContentPage.getProxy().setUrl(url);
-        escape.model.ContentPage.load(0, {
+        escape.model.Content.getContentPageData(url, {
             success: function(content) {
-                selfRef.mustDosLoaded(content.getData(), productSubSection);
+                 selfRef.mustDosLoaded(content.getData(), productSubSection);
             },
             error: function(error) {},
             scope: this

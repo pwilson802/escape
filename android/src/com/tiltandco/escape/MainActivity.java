@@ -17,9 +17,9 @@ public class MainActivity extends DroidGap {
     	
     	try 
         {
-            File dbFile = getDatabasePath("EscapeStaticData.db");
+            File dbFile = getDatabasePath("cmsPages.db");
             if(!dbFile.exists()){
-                this.copy("EscapeStaticData.db",dbFile.getAbsolutePath());
+                this.copy("cmsPages.db",dbFile.getAbsolutePath());
             }
          } 
          catch (Exception e)

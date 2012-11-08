@@ -51,76 +51,78 @@ Ext.define('escape.controller.Search', {
     },
 
     loadOptions: function() {
-
-        // check to see if dates need to be added
-        var collectionType = this.getSearchPage().getCollectionType();
-        if (collectionType == 'event') {
-            var todaysDate = new Date();
-            var maxDate = new Date();
-            maxDate.setFullYear(maxDate.getFullYear() + 2);
-            var items = [{
-                xtype: 'datepickerfield',
-                label: 'From',
-                name: 'fromDate',
-                dateFormat: 'd/m/Y',
-                value: new Date(),
-                picker: {
-                    yearFrom: todaysDate.getFullYear(),
-                    yearTo: maxDate.getFullYear()
-                },
-                listeners: {
-                    element: 'label',
-                    tap: function() {
-                        this.getPicker().show();
+        if (Ext.device.Connection.isOnline()) {
+            // check to see if dates need to be added
+            var collectionType = this.getSearchPage().getCollectionType();
+            if (collectionType == 'event') {
+                var todaysDate = new Date();
+                var maxDate = new Date();
+                maxDate.setFullYear(maxDate.getFullYear() + 2);
+                var items = [{
+                    xtype: 'datepickerfield',
+                    label: 'From',
+                    name: 'fromDate',
+                    dateFormat: 'd/m/Y',
+                    value: new Date(),
+                    picker: {
+                        yearFrom: todaysDate.getFullYear(),
+                        yearTo: maxDate.getFullYear()
+                    },
+                    listeners: {
+                        element: 'label',
+                        tap: function() {
+                            this.getPicker().show();
+                        }
                     }
-                }
-            }, {
-                xtype: 'datepickerfield',
-                label: 'To',
-                name: 'toDate',
-                dateFormat: 'd/m/Y',
-                value: new Date(),
-                picker: {
-                    yearFrom: todaysDate.getFullYear(),
-                    yearTo: maxDate.getFullYear()
-                },
-                listeners: {
-                    element: 'label',
-                    tap: function() {
-                        this.getPicker().show();
+                }, {
+                    xtype: 'datepickerfield',
+                    label: 'To',
+                    name: 'toDate',
+                    dateFormat: 'd/m/Y',
+                    value: new Date(),
+                    picker: {
+                        yearFrom: todaysDate.getFullYear(),
+                        yearTo: maxDate.getFullYear()
+                    },
+                    listeners: {
+                        element: 'label',
+                        tap: function() {
+                            this.getPicker().show();
+                        }
                     }
-                }
-            }];
-            this.getSearchForm().getComponent('searchOptions').add(items);
+                }];
+                this.getSearchForm().getComponent('searchOptions').add(items);
+            }
+            // request the aviabile options by loading one results set
+            var params = this.getSearchParams();
+            params.query = '';
+            // perform the seach
+            var optionsSearch = Ext.create('escape.store.ProductSearch');
+            // add the extra paramaters to the search
+            optionsSearch.getProxy().setExtraParams(params);
+            // only request one result
+            optionsSearch.setPageSize(1);
+            // request results
+            var selfRef = this;
+            optionsSearch.loadPage(1, {
+                callback: function(records, operation, success) {
+                    // the operation object contains all of the details of the load operation
+                    if (success) {
+                        selfRef.buildOptions(records[0].getData());
+                    } else {
+                        // fails silently
+                    }
+                },
+                scope: this
+            });
         }
-        // request the aviabile options by loading one results set
-        var params = this.getSearchParams();
-        params.query = '';
-        // perform the seach
-        var optionsSearch = Ext.create('escape.store.ProductSearch');
-        // add the extra paramaters to the search
-        optionsSearch.getProxy().setExtraParams(params);
-        // only request one result
-        optionsSearch.setPageSize(1);
-        // request results
-        var selfRef = this;
-        optionsSearch.loadPage(1, {
-            callback: function(records, operation, success) {
-                // the operation object contains all of the details of the load operation
-                if (success) {
-                    selfRef.buildOptions(records[0].getData());
-                } else {
-                    // fails silently
-                }
-            },
-            scope: this
-        });
-
     },
     /***
      * Build the return optins for this search type
      */
     buildOptions: function(options) {
+        console.log('buildOptions');
+        console.log(this.getSearchValues());
         // if (options.destinations) {
         //     var newDesList = {};
         //     for (var key in options.destinations) {
@@ -157,10 +159,13 @@ Ext.define('escape.controller.Search', {
     addOption: function(name, options) {
         var choices = [];
         for (var key in options) {
-            choices.push({
-                text: key,
-                value: key
-            });
+            if (key !== '__NULL__') {
+                choices.push({
+                    text: key,
+                    value: key
+                });
+            }
+
         }
         choices.sort(function(a, b) {
             var nameA = a.text.toLowerCase();
@@ -180,6 +185,16 @@ Ext.define('escape.controller.Search', {
         });
         choices.reverse();
 
+        var lastValues = this.getSearchValues();
+        var presetValue = 'all';
+        if (lastValues) {
+            try {
+                presetValue = lastValues[name.toLowerCase()];
+            } catch (e) {
+                presetValue = 'all';
+            }
+        }
+
         if (choices.length > 2) {
             // add a destinations
             var selectfield = {
@@ -187,7 +202,8 @@ Ext.define('escape.controller.Search', {
                 label: name,
                 labelWidth: '50%',
                 name: name.toLowerCase(),
-                options: choices
+                options: choices,
+                value: presetValue
             };
             this.getSearchForm().getComponent('searchOptions').add(selectfield);
         }
@@ -200,8 +216,13 @@ Ext.define('escape.controller.Search', {
         });
     },
     saveValues: function() {
-        var values = this.getSearchForm().getValues();
-        this.setSearchValues(values);
+        try {
+            var values = this.getSearchForm().getValues();
+            this.getSearchPage().setSearchValues(values);
+            this.setSearchValues(values);
+        } catch (e) {
+
+        }
     },
     resultsOpened: function() {
         var values = this.getSearchValues();
@@ -384,7 +405,7 @@ Ext.define('escape.controller.Search', {
             }
 
         }
-        
+
     },
 
     buildResultsPage: function() {
