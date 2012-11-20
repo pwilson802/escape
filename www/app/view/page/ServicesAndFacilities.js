@@ -11,7 +11,41 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
         pageTrackingId: 1
     },
     openView: function() {
+         Ext.define('POIModel', {
+            extend: 'Ext.data.Model',
+            config: {
+                fields: [{
+                    name: 'label',
+                    type: 'string'
+                }, {
+                    name: 'keyword',
+                    type: 'string'
+                }]
+            }
+        });
+        var store = Ext.create("Ext.data.Store", {
+            model: "POIModel",
+            storeId: "generalStore",
+            data: AppSettings.poi.general
+        });
         var items = [{
+            xtype: 'segmentedbutton',
+            layout: 'hbox',
+            allowMultiple: false,
+
+            allowDepress: false,
+            docked: 'top',
+            items: [{
+                text: 'General',
+                type: 'general',
+                pressed: true,
+                flex: 1
+            }, {
+                text: 'Businesses',
+                type: 'businesses',
+                flex: 1
+            }]
+        }, {
             xtype: 'formpanel',
             layout: 'vbox',
             scrollable: false,
@@ -83,7 +117,7 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
                     scrollable: false,
                     flex: 1,
                     itemTpl: '{label}',
-                    data: AppSettings.pointsOfInterests
+                    store : store
                 }]
             }, {
                 xtype: 'container',

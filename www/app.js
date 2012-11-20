@@ -92,6 +92,11 @@ Ext.application({
                 checkTable: 'Images',
                 prePopulate: true,
                 reImport: false
+            },{
+                name: 'offlineMap',
+                fileName: 'SydneyMap',
+                checkTable: 'Images',
+                extention: 'mbtiles'
             }]);
 
             try {
@@ -115,6 +120,9 @@ Ext.application({
             error: function(error) {},
             scope: this
         });
+        // create the map tiles database
+        escape.model.MapFiles.createMapTilesDB();
+        // add the main view
         Ext.Viewport.add(Ext.create('escape.view.Main'));
     },
 

@@ -9,7 +9,8 @@ Ext.define('escape.utils.Database', {
         name: null,
         DBConn: null,
         reImport: false,
-        prePopulate: false
+        prePopulate: false,
+        extention: 'db'
     },
     dbConn: this,
 
@@ -22,7 +23,9 @@ Ext.define('escape.utils.Database', {
         var db;
         try {
             // we are running on a phone
-            var dbName = selfRef.getFileName() + '.db';
+            var dbName = selfRef.getFileName() + '.' + selfRef.getExtention();
+            console.log('dbName: ' + dbName);
+            //console.log()
             this.dbConn = window.sqlitePlugin.openDatabase(dbName, selfRef.getVersion(), selfRef.getName(), selfRef.getSize());
             if (this.dbConn) {
                 selfRef.fireEvent('ready');

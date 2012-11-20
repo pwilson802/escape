@@ -1,6 +1,6 @@
 Ext.define("escape.view.page.Product", {
     extend: 'escape.view.page.Page',
-    requires: ['Ext.Map', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.view.ui.MapDisplay', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
+    requires: ['Ext.Map', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.view.ui.MapDisplay','escape.view.ui.MapDisplayOffline', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
     xtype: 'productPage',
     config: {
         title: '',
@@ -159,7 +159,7 @@ Ext.define("escape.view.page.Product", {
                 title: product.Contact.Address.Street + '</br>' + product.Contact.Address.Suburb + '</br>' + product.Contact.Address.State + ' ' + product.Contact.Address.Postcode,
                 action: 'getDirections',
                 data: {
-                    latlog: [product.Contact.Latitude, product.Contact.Longitude],
+                    latlon: [product.Contact.Latitude, product.Contact.Longitude],
                     address: product.Contact.Address
                 },
                 itemCls: 'directionsIcon'

@@ -69,7 +69,7 @@ Ext.define('escape.controller.GlobalActions', {
                     var data = record.getData();
                     switch (data.action) {
                     case 'getDirections':
-                        this.showDirections(data.data.address, data.data.latlog);
+                        this.showDirections(data.data.address, data.data.latlon);
                         break;
                     case 'sendEmail':
                         this.sendEmail(data.data);

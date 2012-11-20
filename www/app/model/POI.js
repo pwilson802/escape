@@ -3,8 +3,14 @@ Ext.define("escape.model.POI", {
     config: {
         fields: [{
             name: 'ID'
+        },{
+            name: 'id'
         }, {
             name: 'address'
+        }, {
+            name: 'primaryAddress'
+        }, {
+            name: 'primaryContacts'
         }, {
             name: 'description'
         }, {
@@ -15,6 +21,8 @@ Ext.define("escape.model.POI", {
             name: 'type'
         }, {
             name: 'resultNum'
+        },{
+            name: 'reportingId'
         }]
     }
 });

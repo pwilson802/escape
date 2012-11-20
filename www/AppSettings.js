@@ -77,14 +77,15 @@ AppSettings.facebook = {
 // SENSIS
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
-    url: 'http://api.sensis.com.au/ob-20110511/prod/search'
+    url: 'http://api.sensis.com.au/ob-20110511/prod/search',
+    location : "Greater Sydney NSW"
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
     password: '2121133n!s!w828'
 };
 AppSettings.bing = {
-    key : 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
+    key: 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
 };
 // TWITTER settings
 AppSettings.twitter = {
@@ -98,36 +99,63 @@ AppSettings.twitter = {
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };
-// Points of Interests
-AppSettings.pointsOfInterests = [{
-    label: 'Hospitals',
-    keyword: 'Hospitals',
-    sensis: false
-}, {
-    label: 'Police',
-    keyword: 'Police',
-    sensis: false
-}, {
-    label: 'Service Stations',
-    keyword: 'Service Stations',
-    sensis: false
-}, {
-    label: 'Post Office',
-    keyword: 'Post Office',
-    sensis: false
-}, {
-    label: 'Beaches',
-    keyword: 'Beaches',
-    sensis: false
-}, {
-    label: 'Lookouts',
-    keyword: 'Lookouts',
-    sensis: false
-}, {
-    label: 'Toilets',
-    keyword: 'toilet',
-    sensis: false
-}];
+// servive and facilities list
+AppSettings.poi = {
+    // general used for the where is search
+    general: [{
+        label: 'Hospitals',
+        keyword: 'Hospitals'
+    }, {
+        label: 'Police',
+        keyword: 'Police'
+    }, {
+        label: 'Service Stations',
+        keyword: 'Service Stations'
+    }, {
+        label: 'Post Office',
+        keyword: 'Post Office'
+    }, {
+        label: 'Beaches',
+        keyword: 'Beaches'
+    }, {
+        label: 'Lookouts',
+        keyword: 'Lookouts'
+    }, {
+        label: 'Toilets',
+        keyword: 'toilet'
+    }],
+    // business used for the sensis search
+    businesses: [{
+        label: 'Doctors',
+        keyword: 'Doctors'
+    },{
+        label: 'Dentist',
+        keyword: 'Dentist'
+    },{
+        label: 'Optometrist',
+        keyword: 'Optometrist'
+    },{
+        label: 'Veterinarian',
+        keyword: 'Veterinarian'
+    },{
+        label: 'Supermarket',
+        keyword: 'Supermarket'
+    },{
+        label: 'Hairdressers',
+        keyword: 'Hairdressers'
+    },{
+        label: 'Electrician',
+        keyword: 'Electrician'
+    },{
+        label: 'Plumber',
+        keyword: 'Plumber'
+    },{
+        label: 'Florist',
+        keyword: 'florist'
+    }]
+};
+
+
 // Weather
 AppSettings.weatherStations = [{
     stationId: 517,
@@ -415,4 +443,3 @@ AppSettings.mainMenu = [{
 //         xtype: 'alertsPage'
 //     }
 // }
-

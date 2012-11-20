@@ -585,6 +585,10 @@ p {
 	}	
 }
 
+.suggestionPanel {
+		padding:0 !important;
+}
+
 .x-field-search .x-field-input::before {
 	background: url('../images/icon_search_sml.png') no-repeat 0px 0px;
 	width: 14px;
@@ -722,7 +726,22 @@ p {
 	}
 }
 
-
+.suggestionList {
+	.x-item-selected {
+		.x-list-disclosure {
+			background-color:transparent;
+		}
+	}
+	.x-list-disclosure {
+		width:40px;
+		height:40px;
+		background-color:transparent;;
+		-webkit-mask:none;
+		background-image:url('../images/icon_suggestion_arrow.png');
+		background-repeat:no-repeat;
+		background-position: right 5px;
+	}
+}
 ///////////////////////
 // TOOLBARS
 ///////////////////////
@@ -3587,6 +3606,12 @@ p {
 	.refreshBtn {
 		background-image: url('../images/btn_refresh@2x.png');
 		-webkit-background-size: 43px 73px; 
+	}
+	.suggestionList {
+		.x-list-disclosure {
+			background-image:url('../images/icon_suggestion_arrow@2x.png');
+			-webkit-background-size: 40px 40px; 
+		}
 	}
 		
 

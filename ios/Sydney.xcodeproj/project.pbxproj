@@ -45,6 +45,8 @@
 		B73840C3160C2A83008B16F7 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73840C2160C2A83008B16F7 /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		B73840C9160C42E9008B16F7 /* EmailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = B73840C8160C42E9008B16F7 /* EmailComposer.m */; };
 		B73840CB160C4313008B16F7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73840CA160C4313008B16F7 /* MessageUI.framework */; };
+		B77EB0C01655F26B00339090 /* SydneyMap.mbtiles in Resources */ = {isa = PBXBuildFile; fileRef = B77EB0BF1655F26B00339090 /* SydneyMap.mbtiles */; };
+		B77EB0CD1656053000339090 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = B77EB0CC1656053000339090 /* NSData+Base64.m */; };
 		B792CC41160805CB00BD25D7 /* ChildBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B792CC37160805CB00BD25D7 /* ChildBrowser.bundle */; };
 		B792CC42160805CB00BD25D7 /* ChildBrowserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B792CC39160805CB00BD25D7 /* ChildBrowserCommand.m */; };
 		B792CC43160805CB00BD25D7 /* ChildBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B792CC3B160805CB00BD25D7 /* ChildBrowserViewController.m */; };
@@ -137,6 +139,9 @@
 		B73840C7160C42E9008B16F7 /* EmailComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailComposer.h; sourceTree = "<group>"; };
 		B73840C8160C42E9008B16F7 /* EmailComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailComposer.m; sourceTree = "<group>"; };
 		B73840CA160C4313008B16F7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		B77EB0BF1655F26B00339090 /* SydneyMap.mbtiles */ = {isa = PBXFileReference; lastKnownFileType = file; name = SydneyMap.mbtiles; path = ../../../SydneyMap.mbtiles; sourceTree = "<group>"; };
+		B77EB0CB1656053000339090 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "../../../plugins/ios/NSData+Base64.h"; sourceTree = "<group>"; };
+		B77EB0CC1656053000339090 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "../../../plugins/ios/NSData+Base64.m"; sourceTree = "<group>"; };
 		B792CC37160805CB00BD25D7 /* ChildBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ChildBrowser.bundle; path = ../../../plugins/ios/ChildBrowser.bundle; sourceTree = "<group>"; };
 		B792CC38160805CB00BD25D7 /* ChildBrowserCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChildBrowserCommand.h; path = ../../../plugins/ios/ChildBrowserCommand.h; sourceTree = "<group>"; };
 		B792CC39160805CB00BD25D7 /* ChildBrowserCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChildBrowserCommand.m; path = ../../../plugins/ios/ChildBrowserCommand.m; sourceTree = "<group>"; };
@@ -259,6 +264,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B77EB0BF1655F26B00339090 /* SydneyMap.mbtiles */,
 				B7334331164A301C008228A2 /* cmsPages.db */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
@@ -311,6 +317,8 @@
 			isa = PBXGroup;
 			children = (
 				B73840C7160C42E9008B16F7 /* EmailComposer.h */,
+				B77EB0CB1656053000339090 /* NSData+Base64.h */,
+				B77EB0CC1656053000339090 /* NSData+Base64.m */,
 				B73840C8160C42E9008B16F7 /* EmailComposer.m */,
 				B73840BD160C29EB008B16F7 /* TwitterPlugin.h */,
 				B73840BE160C29EB008B16F7 /* TwitterPlugin.m */,
@@ -473,6 +481,7 @@
 				B7EE2857161EAADD00D480E8 /* Default@2x.png in Resources */,
 				B7EF9DC21640D58400BA3EFE /* icon-72@2x.png in Resources */,
 				B7334332164A301C008228A2 /* cmsPages.db in Resources */,
+				B77EB0C01655F26B00339090 /* SydneyMap.mbtiles in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +517,7 @@
 				B792CC46160805CB00BD25D7 /* SQLitePlugin.m in Sources */,
 				B73840BF160C29EB008B16F7 /* TwitterPlugin.m in Sources */,
 				B73840C9160C42E9008B16F7 /* EmailComposer.m in Sources */,
+				B77EB0CD1656053000339090 /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

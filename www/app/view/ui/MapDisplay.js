@@ -67,10 +67,10 @@ Ext.define("escape.view.ui.MapDisplay", {
                 zIndex: 1000
             });
 
-            this.createWhereIsMap();
+            this.createMap();
         }
     },
-    createWhereIsMap: function() {
+    createMap: function() {
         var selfRef = this;
         var controls = [];
         map = new EMS.Services.Map(this.getMapId(), {
@@ -85,6 +85,13 @@ Ext.define("escape.view.ui.MapDisplay", {
         lonlat = new EMS.LonLat(this.getLon(), this.getLat());
         map.setCenter(lonlat, this.getZoomLevel());
         this.setBuilt(true);
+        //
+        this.defineMap();
+
+    },
+    defineMap: function(){
+        var map = this.getMap();
+        
 
         // add any intial markers
         var intialMarkers = this.getIntialMarkers();
@@ -110,6 +117,9 @@ Ext.define("escape.view.ui.MapDisplay", {
             this.setIntialMarkers([]);
         }
 
+        this.addControls();
+    },
+    addControls: function(){
         if (this.getInteraction()) {
             // show users location
             this.showUsersLoction();
@@ -141,7 +151,6 @@ Ext.define("escape.view.ui.MapDisplay", {
 
             }
         }
-
     },
     showUsersLoction: function() {
         var selfRef = this;

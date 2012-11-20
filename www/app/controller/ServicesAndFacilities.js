@@ -1,22 +1,30 @@
 Ext.define('escape.controller.ServicesAndFacilities', {
     extend: 'Ext.app.Controller',
-    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.model.POI', 'escape.model.WhereIsPOI', 'escape.view.page.ServicesAndFacilitiesDetails'],
+    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.view.page.ServicesAndFacilitiesBusinessDetails', 'escape.model.POI', 'escape.model.WhereIsPOI', 'escape.model.SensisPOI', 'escape.view.page.ServicesAndFacilitiesDetails'],
     config: {
         searchValues: null,
         resultsPage: 1,
         resultsStore: null,
         listShowing: false,
+        searchType: 'general',
         refs: {
             searchForm: 'servicesAndFacilitiesPage formpanel',
             servicesAndFacilitiesPage: 'servicesAndFacilitiesPage',
             sevicesAndFacilitiesResultsPage: 'sevicesAndFacilitiesResultsPage',
             keywordField: 'servicesAndFacilitiesPage searchfield',
-            resultsMap: 'sevicesAndFacilitiesResultsPage mapDisplay'
+            resultsMap: 'sevicesAndFacilitiesResultsPage mapDisplay',
+            optionsList: 'servicesAndFacilitiesPage list[action=selectKeyword]',
+            servicesAndFacilitiesBusinessDetails: 'servicesAndFacilitiesBusinessDetails'
         },
         control: {
             'servicesAndFacilitiesPage': {
+                openView: 'setUp',
                 closeView: 'saveValues'
             },
+            'servicesAndFacilitiesPage segmentedbutton': {
+                toggle: 'switchType'
+            },
+
             'servicesAndFacilitiesPage list[action=selectKeyword]': {
                 select: 'selectKeyword'
             },
@@ -37,21 +45,65 @@ Ext.define('escape.controller.ServicesAndFacilities', {
             },
             'sevicesAndFacilitiesResultsPage mapDisplay': {
                 markerSelected: 'markerSelected'
+            },
+            'servicesAndFacilitiesBusinessDetails list[action=contactSheet]': {
+                itemsingletap: function(list, index, element, record) {
+                    var data = record.getData();
+                    var pageData = this.getServicesAndFacilitiesBusinessDetails().getResultsData();
+                    switch (data.action) {
+                    case 'getDirections':
+                        escape.model.SensisPOI.reportEvent(pageData.reportingId,'getDirections');
+                        break;
+                    case 'sendEmail':
+                        escape.model.SensisPOI.reportEvent(pageData.reportingId,'sendEmail',data.data);
+                        break;
+                    case 'makePhoneCall':
+                       escape.model.SensisPOI.reportEvent(pageData.reportingId,'dial',data.data);
+                        break;
+                    case 'goToLink':
+                         escape.model.SensisPOI.reportEvent(pageData.reportingId,'viewWebsite',data.data);
+                        break;
+                    }
+                }
             }
         }
     },
+    setUp: function() {
+        console.log('setUp');
+        escape.model.WhereIsPOI.on('resultsLoaded', this.resultsLoaded, this);
+        escape.model.SensisPOI.on('resultsLoaded', this.resultsLoaded, this);
+    },
+    switchType: function(container, btn, pressed) {
+        this.setSearchType(btn.config.type);
+        if (btn.config.type == 'general') {
+            this.showGeneral();
+        } else {
+            this.showBusinesses();
+        }
+    },
+    showGeneral: function() {
+
+        this.getOptionsList().getStore().setData(AppSettings.poi.general);
+    },
+    showBusinesses: function() {
+
+        this.getOptionsList().getStore().setData(AppSettings.poi.businesses);
+    },
+
     selectKeyword: function(list, record) {
         this.getKeywordField().setValue(record.getData().keyword);
     },
     showDetails: function(list, record) {
+        var pageType = (this.getSearchType() == 'general') ? 'servicesAndFacilitiesDetails' : 'servicesAndFacilitiesBusinessDetails';
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'servicesAndFacilitiesDetails',
+            xtype: pageType,
             resultsData: record.getData()
         });
     },
     markerSelected: function(data) {
+        var pageType = (this.getSearchType() == 'general') ? 'servicesAndFacilitiesDetails' : 'servicesAndFacilitiesBusinessDetails';
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'servicesAndFacilitiesDetails',
+            xtype: pageType,
             resultsData: data
         });
     },
@@ -78,7 +130,8 @@ Ext.define('escape.controller.ServicesAndFacilities', {
 
     },
     resultsOpened: function() {
-        escape.model.WhereIsPOI.on('resultsLoaded', this.resultsLoaded, this);
+
+
         if (this.getSearchValues().distance != -1) {
             this.getLocation();
         } else {
@@ -105,14 +158,27 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         var loading = optionsArea.getComponent('loadingDisplay');
         loadMore.hide();
         loading.show();
-        escape.model.WhereIsPOI.loadMore(this.getResultsPage());
+        if (this.getSearchType() == 'general') {
+            escape.model.WhereIsPOI.loadMore(this.getResultsPage());
+        } else {
+            escape.model.SensisPOI.loadMore(this.getResultsPage());
+        }
+
         // set the results to the next page
         this.setResultsPage(this.getResultsPage() + 1);
     },
     performSearch: function(geoLocation) {
-        escape.model.WhereIsPOI.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+        if (this.getSearchType() == 'general') {
+            // search where is
+            escape.model.WhereIsPOI.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+        } else {
+            // search sensis
+            escape.model.SensisPOI.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+        }
+
     },
     resultsLoaded: function(data) {
+        console.log(data);
         var moreResults = ((data.offset + data.results.length) < data.total) ? true : false;
         if (data.results.length === 0) {
             moreResults = false;
@@ -124,6 +190,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         for (var i = 0; i < results.length; i++) {
             results[i].resultNum = startIndex + (i + 1);
         }
+
         this.getResultsStore().add(results);
         if (this.getResultsPage() == 1) {
             // build the list page if the results have been return for the first time
@@ -135,7 +202,6 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         // set the results to the next page
         this.setResultsPage(this.getResultsPage() + 1);
         //
-
         if (this.getListShowing()) {
             if (this.getResultsPage() > 1) {
                 var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
@@ -153,15 +219,16 @@ Ext.define('escape.controller.ServicesAndFacilities', {
 
         }
 
-        if (Number(data.total)===0) {
-            this.getSevicesAndFacilitiesResultsPage().removeAll(true,true);
+        if (Number(data.total) === 0) {
+            this.getSevicesAndFacilitiesResultsPage().removeAll(true, true);
             this.getSevicesAndFacilitiesResultsPage().setItems({
-                cls:'noResults'
+                cls: 'noResults'
             });
             this.getSevicesAndFacilitiesResultsPage().addCls('bgTexture');
         }
 
     },
+
     toggleView: function(container, btn, pressed) {
         if (btn.config.type == 'map') {
             this.showMapResults();
@@ -231,11 +298,27 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         for (var i = resultsList.length - 1; i >= 0; i--) {
             var marker = resultsList[i].getData();
             marker.iconText = i + 1;
-            intialMarkers.push({
-                lat: marker.address.coordinates.latitude,
-                lon: marker.address.coordinates.longitude,
-                data: marker
-            });
+
+            if (this.getSearchType() == 'general') {
+                intialMarkers.push({
+                    lat: marker.address.coordinates.latitude,
+                    lon: marker.address.coordinates.longitude,
+                    data: marker
+                });
+            } else {
+                if (marker.primaryAddress.latitude) {
+                    intialMarkers.push({
+                        lat: marker.primaryAddress.latitude,
+                        lon: marker.primaryAddress.longitude,
+                        data: marker
+                    });
+                }
+
+
+            }
+
+
+
         }
 
         var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];

@@ -30,7 +30,6 @@ AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 // Caching
 AppSettings.caching = {
-
     cmsCacheLength: (60 * 60 * 24 * 14),
     searchCacheLength: (60 * 60 * 24 * 14),
     productCacheLength: (60 * 60 * 24 * 14)
@@ -81,7 +80,11 @@ AppSettings.sensis = {
     url: 'http://api.sensis.com.au/ob-20110511/prod/search'
 };
 AppSettings.whereis = {
-    token: '8348923927920532480'
+    token: '8348923927920532480',
+    password: '2121133n!s!w828'
+};
+AppSettings.bing = {
+    key : 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
 };
 // TWITTER settings
 AppSettings.twitter = {
@@ -402,3 +405,14 @@ AppSettings.mainMenu = [{
         xtype: 'settingsPage'
     }
 }];
+
+// , {
+//     title: 'Alerts',
+//     group: 'Group 4',
+//     id: 'alertsSection',
+//     firstPage: {
+//         title: 'Alerts',
+//         xtype: 'alertsPage'
+//     }
+// }
+
