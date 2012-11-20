@@ -152,6 +152,15 @@ AppSettings.poi = {
     },{
         label: 'Florist',
         keyword: 'florist'
+    },{
+        label: 'Chemists',
+        keyword: 'Chemists'
+    },{
+        label: 'Mechanics',
+        keyword: 'Mechanics'
+    },{
+        label: 'Auto Electrictian',
+        keyword: 'Auto Electrictian'
     }]
 };
 

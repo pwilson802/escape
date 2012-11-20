@@ -60,6 +60,7 @@ Ext.define('escape.controller.Section', {
         page.viewOpened();
     },
     activeItemChange: function(navView, page, oldPage) {
+        console.log('activeItemChange');
         // close the old page
         if (oldPage){
             oldPage.viewClose();
