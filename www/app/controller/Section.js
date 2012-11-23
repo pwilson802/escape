@@ -33,11 +33,14 @@ Ext.define('escape.controller.Section', {
         // add the scroll to top button
         var navView = section.getItems().items[section.getNavViewItemId()];
         section.setNavigationView(navView);
+        // scroll to to btn
         var scrollTopTopBtn = section.add({
             xtype: 'scrollTopTopBtn',
             width: Math.round(Ext.Viewport.getSize().width - 120)
         });
         section.setTopText(scrollTopTopBtn.getComponent('topBtn'));
+        // add close mask
+
         // define menu btns
         var menuBtn = section.getComponent('menuBtn'); //Ext.ComponentQuery.query('#' + section.id + ' menuBtn')[0]; // get a referance to the menu button
         var rightBtn = section.getComponent('rightBtn'); //Ext.ComponentQuery.query('#' + section.id + ' button[action="rightBtn"]')[0]; // get a referance to the menu button
@@ -60,7 +63,6 @@ Ext.define('escape.controller.Section', {
         page.viewOpened();
     },
     activeItemChange: function(navView, page, oldPage) {
-        console.log('activeItemChange');
         // close the old page
         if (oldPage){
             oldPage.viewClose();
@@ -70,16 +72,16 @@ Ext.define('escape.controller.Section', {
         // get references to the view
         escape.utils.AppVars.currentPage = page;
         // control which buttons are shown and hiiden
-        var menuBtn = this.getMenuBtn();
         var rightBtn = this.getRightBtn();
         rightBtn.setCls(page.getRightBtn() + ' iconBtn');
         var itemIndex = navView.items.indexOf(page); // The index of the page
-        if (itemIndex > 1) {
-            // hide the menu button
-            menuBtn.hide();
-        } else {
+        if (itemIndex === 2) {
+            // hide the men1u button
+            this.getMenuBtn().hide();
+        }
+        if (itemIndex===1) {
             // show the menu btn we are on the first page
-            menuBtn.show();
+            this.getMenuBtn().show();
         }
     },
     itemHidden: function(hiddenPage) {

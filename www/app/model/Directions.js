@@ -5,7 +5,6 @@ Ext.define("escape.model.Directions", {
     routeManager: null,
     map: null,
     setup: function(map) {
-        console.log('set up');
         this.map = map;
         this.geocoder = new EMS.Services.Geocoder();
         this.routeManager = new EMS.Services.RouteManager(map);
@@ -22,7 +21,6 @@ Ext.define("escape.model.Directions", {
     // given an address will return a latlon via the  processAddress return func
     geocodeAddress: function(addressStr, callback, scope) {
         var selfRef = this;
-        console.log(addressStr);
         // this.geocoder.findGeocodedAddress(addressStr, function(addresses) {
         //     console.log(addresses);
         //     //selfRef.processAddress(addresses, callback);
@@ -85,9 +83,7 @@ Ext.define("escape.model.Directions", {
                 "address": {"freeFormAddress": addressStr}
             },
             success: function(response) {
-                console.log(response);
                 var addresess = JSON.parse(response.responseText);
-                console.log(addresess);
                  Ext.callback(callback.success, scope, [addresess]);
 
                 // process server response here
@@ -106,7 +102,6 @@ Ext.define("escape.model.Directions", {
         }
     },
     clearRoute: function() {
-        console.log("!!! clearRoute");
         try {
             this.routeManager.clearRoute();
             this.map.markersLayer.clearMarkers();
@@ -117,7 +112,6 @@ Ext.define("escape.model.Directions", {
 
     },
     getRoute: function(routeList, transportType, callback, scope) {
-        console.log('transportType: ' + transportType);
         var useTransportType = "ALL_VEHICLES";
         if (transportType == 'walk') {
             useTransportType = "PEDESTRIAN";

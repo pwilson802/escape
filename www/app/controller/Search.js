@@ -14,6 +14,7 @@ Ext.define('escape.controller.Search', {
         queryDelay: null,
         suggestionsPanel: null,
         suggestionsStore: null,
+        searchBuilt: false,
         refs: {
             searchPage: 'searchPage',
             searchField: 'searchPage searchfield',
@@ -64,18 +65,14 @@ Ext.define('escape.controller.Search', {
     },
 
     querySeclected: function(list, record) {
-        console.log('select');
         var newquery = record.getData().suggestion;
-        console.log('querySeclected: ' + newquery);
         this.getSearchField().setValue(newquery);
         this.hideSuggestions();
         // runn the search
         this.search();
     },
     queryDisclose: function(list, record, node, index, event, eOpts) {
-        console.log('disclose');
         var newquery = record.getData().suggestion;
-        console.log('queryDisclose: ' + newquery);
         this.getSearchField().setValue(newquery + ' ');
         event.stopEvent();
         //this.hideSuggestions();
@@ -112,7 +109,6 @@ Ext.define('escape.controller.Search', {
             if (this.getSearchField()) {
                 var query = this.getSearchField().getValue();
                 var searchParams = this.getSearchParams();
-                console.log('searchParams.collection: ' + searchParams.collection);
                 Ext.Ajax.request({
                     url: 'http://tnsw-search02.squiz.net/s/suggest.json',
                     params: {
@@ -127,7 +123,6 @@ Ext.define('escape.controller.Search', {
                     success: function(response) {
                         var text = response.responseText;
                         var suggestionsList = JSON.parse(text);
-                        console.log(suggestionsList);
                         selfRef.queryCompetionLoaded(suggestionsList);
                     }
                 });
@@ -188,9 +183,7 @@ Ext.define('escape.controller.Search', {
     },
 
     setUpQueryCompletion: function() {
-        console.log('setUpQueryCompletion');
             if (!this.getSuggestionsPanel()) {
-                  console.log('do set up');
                 var selfRef = this;
                 var suggestionsStore = Ext.create('Ext.data.Store', {
                     model: 'escape.model.QueryCompletion'
@@ -228,7 +221,9 @@ Ext.define('escape.controller.Search', {
     },
     loadOptions: function() {
         var selfRef = this;
-        if (Ext.device.Connection.isOnline()) {
+        if (!this.getSearchBuilt()){
+            this.getSearchBuilt(true);
+            if (Ext.device.Connection.isOnline()) {
             // check to see if dates need to be added
             var collectionType = this.getSearchPage().getCollectionType();
             if (collectionType == 'event') {
@@ -292,6 +287,8 @@ Ext.define('escape.controller.Search', {
                 scope: this
             });
         }
+        }
+        
     },
     /***
      * Build the return optins for this search type
@@ -378,6 +375,7 @@ Ext.define('escape.controller.Search', {
         });
     },
     closeSearch: function() {
+        this.setSearchBuilt(false);
         this.saveValues();
         this.hideSuggestions();
     },

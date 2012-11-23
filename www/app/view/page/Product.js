@@ -1,6 +1,6 @@
 Ext.define("escape.view.page.Product", {
     extend: 'escape.view.page.Page',
-    requires: ['Ext.Map', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.view.ui.MapDisplay','escape.view.ui.MapDisplayOffline', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
+    requires: ['Ext.Map', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.view.ui.MapDisplay', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
     xtype: 'productPage',
     config: {
         title: '',
@@ -322,16 +322,16 @@ Ext.define("escape.view.page.Product", {
             indicator: indicator
         });
 
-        if (Ext.device.Connection.isOnline()) {
-            items.push({
-                xtype: 'mapDisplay',
-                lat: Number(product.Contact.Latitude),
-                lon: Number(product.Contact.Longitude),
-                address: product.Contact.Address,
-                interaction: false,
-                markerAtCenter: true
-            });
-        }
+
+        items.push({
+            xtype: 'mapDisplay',
+            lat: Number(product.Contact.Latitude),
+            lon: Number(product.Contact.Longitude),
+            address: product.Contact.Address,
+            interaction: false,
+            markerAtCenter: true
+        });
+
 
 
         items.push({

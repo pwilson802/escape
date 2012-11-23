@@ -15,7 +15,6 @@ Ext.define('escape.controller.Settings', {
     },
     // swich use offline
     switchUseOffline: function(){
-        console.log('switchUseOffline');
         if (escape.model.Content.getUseOffline()) {
             escape.model.Content.setUseOffline(false);
         } else {

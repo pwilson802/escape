@@ -6,30 +6,42 @@ Ext.define("escape.view.page.Map", {
         pageTitle: 'Map',
         rightBtn: '',
         address: null,
-        latlon: null,
+        latlon: AppSettings.center,
         mapDisplay: null,
         pageTypeId: 6,
         pageTrackingId: 6,
-        cls:'mapPage'
+        zoomLevel:13,
+        cls: 'mapPage'
     },
     openView: function() {
         var address = this.getAddress();
-        var addressString = address.Street + '</br>' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
+
+        var mapHeight = Ext.Viewport.getSize().height - 43;
+         if (address) {
+            mapHeight = Ext.Viewport.getSize().height - 163;
+         }
+
 
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
-            height: Ext.Viewport.getSize().height - 163,
+            height: mapHeight,
             lat: Number(this.getLatlon()[0]),
             lon: Number(this.getLatlon()[1]),
+            zoomLevel: this.getZoomLevel(),
             interaction: true,
             markerAtCenter: true
         });
         this.setMapDisplay(mapDisplay);
         this.setItems(mapDisplay);
-        this.add({
-            xtype: 'container',
-            height: 120,
-            cls: 'mapAddress',
-            html: addressString
-        });
+
+        if (address) {
+            var addressString = address.Street + '</br>' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
+            this.add({
+                xtype: 'container',
+                height: 120,
+                cls: 'mapAddress',
+                html: addressString
+            });
+        }
+
     }
 });

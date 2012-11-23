@@ -11,6 +11,7 @@ AppSettings.appAddress = {
     state: 'nsw',
     suburb: 'sydney'
 };
+AppSettings.center = [-33.8674869, 151.2069902];
 AppSettings.bounds = {
     "left": 150.55337081542,
     "bottom": -36.119202120384,
@@ -78,7 +79,7 @@ AppSettings.facebook = {
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
     url: 'http://api.sensis.com.au/ob-20110511/prod/search',
-    location : "Greater Sydney NSW"
+    location: "Greater Sydney NSW"
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
@@ -100,69 +101,46 @@ AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };
 // servive and facilities list
-AppSettings.poi = {
-    // general used for the where is search
-    general: [{
-        label: 'Hospitals',
-        keyword: 'Hospitals'
-    }, {
-        label: 'Police',
-        keyword: 'Police'
-    }, {
-        label: 'Service Stations',
-        keyword: 'Service Stations'
-    }, {
-        label: 'Post Office',
-        keyword: 'Post Office'
-    }, {
-        label: 'Beaches',
-        keyword: 'Beaches'
-    }, {
-        label: 'Lookouts',
-        keyword: 'Lookouts'
-    }, {
-        label: 'Toilets',
-        keyword: 'toilet'
-    }],
-    // business used for the sensis search
-    businesses: [{
-        label: 'Doctors',
-        keyword: 'Doctors'
-    },{
-        label: 'Dentist',
-        keyword: 'Dentist'
-    },{
-        label: 'Optometrist',
-        keyword: 'Optometrist'
-    },{
-        label: 'Veterinarian',
-        keyword: 'Veterinarian'
-    },{
-        label: 'Supermarket',
-        keyword: 'Supermarket'
-    },{
-        label: 'Hairdressers',
-        keyword: 'Hairdressers'
-    },{
-        label: 'Electrician',
-        keyword: 'Electrician'
-    },{
-        label: 'Plumber',
-        keyword: 'Plumber'
-    },{
-        label: 'Florist',
-        keyword: 'florist'
-    },{
-        label: 'Chemists',
-        keyword: 'Chemists'
-    },{
-        label: 'Mechanics',
-        keyword: 'Mechanics'
-    },{
-        label: 'Auto Electrictian',
-        keyword: 'Auto Electrictian'
-    }]
-};
+AppSettings.poi = [{
+    label: 'Hospitals'
+}, {
+    label: 'Police'
+}, {
+    label: 'Doctors'
+}, {
+    label: 'Dentist'
+}, {
+    label: 'Optometrist'
+}, {
+    label: 'Chemists'
+}, {
+    label: 'Service Stations'
+}, {
+    label: 'Veterinarian'
+}, {
+    label: 'Post Office'
+}, {
+    label: 'Beaches'
+}, {
+    label: 'Lookouts'
+}, {
+    label: 'Toilets'
+}, {
+    label: 'Supermarket'
+}, {
+    label: 'Hairdressers'
+}, {
+    label: 'Electrician'
+}, {
+    label: 'Plumber'
+}, {
+    label: 'Florist'
+}, {
+    label: 'Mechanics'
+}, {
+    label: 'Auto Electrictian'
+}];
+
 
 
 // Weather
@@ -382,11 +360,20 @@ AppSettings.mainMenu = [{
     }
 
 }, {
-    title: 'Current ' + AppSettings.appAreaName + ' Weather',
+    title: 'Map',
+    group: 'Group 4',
+    id: 'areaMap',
+    firstPage: {
+        title: 'Map',
+        xtype: 'mapPage',
+        zoomLevel: 11
+    }
+}, {
+    title: 'Weather',
     group: 'Group 4',
     id: 'currentWeather',
     firstPage: {
-        title: AppSettings.appAreaName + ' Weather',
+        title: 'Weather',
         xtype: 'weatherPage'
     }
 }, {
@@ -399,7 +386,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'Transport Info',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'tranportSection',
     firstPage: {
         title: 'Transport Info',
@@ -409,7 +396,7 @@ AppSettings.mainMenu = [{
 
 }, {
     title: 'Visitor Information Centres',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'visitorInoSection',
     firstPage: {
         title: 'Visitor Information Centres',
@@ -418,7 +405,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'About Destination NSW',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'aboutDNSWSection',
     firstPage: {
         title: 'About Destination NSW',
@@ -427,7 +414,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'Other NSW Apps',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'otherAppsSection',
     firstPage: {
         title: 'Other DNSW apps',
@@ -435,7 +422,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'Settings',
-    group: 'Group 5',
+    group: 'Group 6',
     id: 'settingsSection',
     firstPage: {
         title: 'Settings',

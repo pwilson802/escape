@@ -1,7 +1,8 @@
 Ext.define("escape.model.Currency", {
     requires: ['Ext.DateExtras', 'escape.model.UserSettings'],
     singleton: true,
-    reloadIn: 3 * 60 * 60 * 1000,
+    reloadIn: 6 * 60 * 60 * 1000,
+    // set to 6 hrs
     currencys: [],
     converstions: {},
     lastUpdated: null,
@@ -17,24 +18,49 @@ Ext.define("escape.model.Currency", {
     },
     // call the setup if need the perform the required callback
     loadDefaults: function(callback, scope) {
-        if (!this.lastUpdatedDate) {
-            this.loadCurrencyList(callback, scope);
-        } else {
-            var dateNow = new Date();
-            var diff = dateNow - this.lastUpdated;
-            if (diff > this.reloadIn || this.currencys.length === 0) {
-                // reload the current data is old or does not exist
-                this.loadCurrencyList(callback, scope);
-            } else {
-                // do not reload use the current data
-                if (this.getOrginalCurrency() === null) {
-                    this.checkOrginalCurrency(callback, scope);
+
+        var selfRef = this;
+        escape.model.UserSettings.getSetting('currencyCodeList', {
+            success: function(currencyCodeList) {
+                if (currencyCodeList) {
+                    currencyCodeList = JSON.parse(currencyCodeList);
+                    selfRef.lastUpdated = new Date(currencyCodeList.lastUpdated);
+                    selfRef.currencys = currencyCodeList.list;
+
+                    if (!Ext.device.Connection.isOnline()) {
+                        // if we are not online return what we have
+                        Ext.callback(callback.success, scope);
+                    } else {
+                        // check to see if we need to reload the weather
+                        var dateNow = new Date();
+                        var diff = dateNow - selfRef.lastUpdated;
+
+                        if (diff > selfRef.reloadIn || selfRef.currencys.length === 0) {
+                            // reload the current data is old or does not exist
+                            selfRef.loadCurrencyList(callback, scope);
+                        } else {
+                            // do not reload use the current data
+                            if (selfRef.getOrginalCurrency() === null) {
+                                selfRef.checkOrginalCurrency(callback, scope);
+                            } else {
+                                Ext.callback(callback.success, scope);
+                            }
+
+                        }
+                    }
                 } else {
-                    Ext.callback(callback.success, scope);
+                    // the currecy list has never been saved before
+                    selfRef.loadCurrencyList(callback, scope);
                 }
 
-            }
-        }
+
+            },
+            error: function(error) {
+                // the currecy list has never been saved before
+                selfRef.loadCurrencyList(callback, scope);
+            },
+            scope: this
+        });
     },
     // Load the list of currencys
     loadCurrencyList: function(callback, scope) {
@@ -74,7 +100,16 @@ Ext.define("escape.model.Currency", {
                     };
                 }
                 selfRef.currencys = currencyCodeList.reverse();
-                //
+                // save the currency list
+                escape.model.UserSettings.setSetting('currencyCodeList', Ext.JSON.encode({
+                    lastUpdated: selfRef.lastUpdated.getTime(),
+                    list: selfRef.currencys
+                }), {
+                    success: function(newValue) {},
+                    error: function(error) {},
+                    scope: this
+                });
+                // check the orginal currency has been laoded
                 selfRef.checkOrginalCurrency(callback, scope);
             },
             failure: function(response, opts) {
@@ -105,8 +140,8 @@ Ext.define("escape.model.Currency", {
     },
     // Check to see if the user has picked a convertedCurrency
     checkConvertedCurrency: function(callback, scope) {
-         var selfRef = this;
-       
+        var selfRef = this;
+
         escape.model.UserSettings.getSetting('convertedCurrency', {
             success: function(convertedCurrency) {
                 if (convertedCurrency === null || convertedCurrency === undefined) {

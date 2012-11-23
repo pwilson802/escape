@@ -24,8 +24,6 @@ Ext.define('escape.utils.Database', {
         try {
             // we are running on a phone
             var dbName = selfRef.getFileName() + '.' + selfRef.getExtention();
-            console.log('dbName: ' + dbName);
-            //console.log()
             this.dbConn = window.sqlitePlugin.openDatabase(dbName, selfRef.getVersion(), selfRef.getName(), selfRef.getSize());
             if (this.dbConn) {
                 selfRef.fireEvent('ready');
@@ -65,7 +63,6 @@ Ext.define('escape.utils.Database', {
     },
     // create web database
     createWebSql: function() {
-        console.log('createWebSql: ' + this.getPrePopulate());
         if (this.getPrePopulate()) {
             var selfRef = this;
             Ext.Ajax.request({

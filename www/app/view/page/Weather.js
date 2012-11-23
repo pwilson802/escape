@@ -61,7 +61,6 @@ Ext.define("escape.view.page.Weather", {
             });
         }
         var forcastItems = [];
-
         for (var f = 1; f < 8; f++) {
             var dayData = this.buildDayWeather(f);
             if (dayData) {
@@ -117,7 +116,6 @@ Ext.define("escape.view.page.Weather", {
                 items: forcastItems
             }]
         }];
-
         this.setItems(items);
         this.tempMeasureChange();
     },
@@ -149,7 +147,6 @@ Ext.define("escape.view.page.Weather", {
                 // day.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
                 day.addCls('icon_' + dayData.icon);
             }
-
         }
     },
     // build day weather

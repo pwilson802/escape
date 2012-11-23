@@ -54,7 +54,6 @@
          }
      },
      getAccessToken: function(fbCode, callback, scope) {
-        console.log('!!! getAccessToken');
          var selfRef = this;
          var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + AppSettings.facebook.clientId + '&client_secret=' +AppSettings.facebook.secret + '&code=' + fbCode + '&redirect_uri=' + AppSettings.facebook.redirectUrl;
          Ext.Ajax.request({
@@ -62,13 +61,10 @@
              method: "POST",
              success: function(response) {
                  var accessToken = response.responseText.split("=")[1];
-                  console.log('!!! accessToken success: ' + accessToken);
                  selfRef.saveAccessToken(accessToken, callback, scope);
                  window.plugins.childBrowser.close();
              },
              failure: function(response, opts) {
-                 console.log('!!! accessToken failure');
-                 console.log(response);
                  window.plugins.childBrowser.close();
                  Ext.callback(callback.success, scope, [false]);
              }
@@ -89,7 +85,6 @@
      // FACEBOOK SHARING
      /////////////////////////////////////////////////////
      postMessage: function(fbType, extraParams,callback, scope) {
-        console.log('!!! postMessage: ' + this.accessToken);
          var url = 'https://graph.facebook.com/me/' + fbType + '?access_token=' + this.accessToken;
          for (var key in extraParams) {
              if (key == "message") {
@@ -103,13 +98,9 @@
              url: url,
              method: "POST",
              success: function(response) {
-                console.log('!!! postMessage success');
-                console.log(response);
                  Ext.callback(callback.success, scope, []);
              },
              failure: function(response, opts) {
-                 console.log('!!! postMessage error');
-                console.log(response);
                 Ext.callback(callback.error, scope, []);
              }
          });

@@ -62,7 +62,7 @@
 
 -(void) onOpenInSafari
 {
-    NSString* jsCallback = [NSString stringWithFormat:@"window.plugins.childBrowser.onOpenExternal();",@""];
+    NSString* jsCallback = [NSString stringWithFormat:@"window.plugins.childBrowser.onOpenExternal();", @""];
     [self.webView stringByEvaluatingJavaScriptFromString:jsCallback];
 }
 

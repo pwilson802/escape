@@ -7,12 +7,8 @@ Ext.define("escape.model.Content", {
     updateUseOffline: function(newValue, oldValue) {
          escape.model.UserSettings.setSetting('useOffline', String(newValue), {
             success: function(newValue) {
-                console.log('success');
-                console.log(newValue);
             },
             error: function(error) {
-                console.log('error');
-                console.log(error);
             },
             scope: this
         });
@@ -108,7 +104,7 @@ Ext.define("escape.model.Content", {
                 useLocal = false;
                 // make sure the user has a strong enough connection
                 var connectionType = Ext.device.Connection.getType();
-                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
+                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G || !Ext.device.Connection.isOnline()) {
                     useLocal = true;
                 }
             }

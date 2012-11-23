@@ -1,5 +1,5 @@
 Ext.define("escape.model.WhereIsPOI", {
-    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
+    requires: ['escape.utils.Maps', 'escape.model.Map'],
     mixins: ['Ext.mixin.Observable'],
     singleton: true,
     query: null,
@@ -14,7 +14,7 @@ Ext.define("escape.model.WhereIsPOI", {
     },
     loadLibaries: function() {
         var selfRef = this;
-        escape.model.MapFiles.loadRequiredFiles({
+        escape.model.Map.loadRequiredFiles({
             success: function(results) {
                 EMS.Util.getDomain = function() {
                     return "destinationnsw.com.au";

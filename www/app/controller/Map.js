@@ -8,6 +8,12 @@ Ext.define('escape.controller.Map', {
             },
             'mapDisplay button[action=zoomOut]': {
                 tap: 'zoomOut'
+            },
+             'mapDisplayOffline button[action=zoomIn]': {
+                tap: 'zoomIn'
+            },
+            'mapDisplayOffline button[action=zoomOut]': {
+                tap: 'zoomOut'
             }
         }
     },

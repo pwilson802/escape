@@ -16,11 +16,11 @@ Ext.define("escape.view.page.Search", {
     },
     reOpenView: function() {
 
-        this.openView();
-        this.fireEvent('openView', this);
     },
     closeView: function() {
+
         this.setItems([]);
+        this.setIsBuilt(false);
     },
     openView: function() {
         if (!Ext.device.Connection.isOnline()){

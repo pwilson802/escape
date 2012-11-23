@@ -75,10 +75,9 @@
     "extras": [
         "resources/images",
         "resources/icons",
-        "resources/loading",
         "resources/fonts",
-        "resources/json",
         "resources/js",
+        "resources/maptiles",
         "config.xml",
         "AppSettings.js"
     ],

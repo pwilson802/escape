@@ -3,6 +3,7 @@ Ext.define("escape.view.page.Home", {
     xtype: 'homePage',
     requires: ['Ext.Img', 'Ext.carousel.Carousel', 'escape.view.ui.AppImage', 'escape.view.ui.WeatherBtn'],
     config: {
+        cls:'homePage',
         addToItemId: 1,
         rightBtn: 'searchBtn',
         title: AppSettings.appAreaName,
@@ -26,12 +27,12 @@ Ext.define("escape.view.page.Home", {
         this.openView();
     },
     closeView: function() {
-        this.removeAll(true,true);
+       // this.setHomeBuilt(false);
+       // this.removeAll(true,true);
         this.removeWeatherBtn();
     },
     reOpenView: function() {
-        this.setHomeBuilt(false);
-        this.openView();
+        this.showWeather();
     },
 
     openView: function() {
@@ -45,8 +46,6 @@ Ext.define("escape.view.page.Home", {
                 cat.number = i + 1;
                 thingsToDoCats.push(cat);
             }
-
-
             this.setItems([{
                 xtype: 'carousel',
                 height: 200,
@@ -93,7 +92,7 @@ Ext.define("escape.view.page.Home", {
             }, {
                 xtype: 'list',
                 itemId: 'thingsToDoList',
-                itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
+                itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div>', //<div class="img" style="background-image:url({imgPath})"></div>
                 cls: 'imgList numberedList homeList',
                 scrollable: false,
                 data: thingsToDoCats
@@ -116,41 +115,33 @@ Ext.define("escape.view.page.Home", {
         var currentPage = escape.utils.AppVars.currentPage;
         // make sure we are in the home section
         if (currentPage.config.xtype == 'homePage') {
-            // get the weather btn
-            var weatherBtn = currenctSection.getComponent('weatherBtn');
-            // if does not exist so create it
-            if (!weatherBtn) {
-                weatherBtn = currenctSection.add({
-                    xtype: 'button',
-                    cls: 'weatherBtn iconBtn',
-                    action: 'showWeather',
-                    itemId: 'weatherBtn',
-                    top: -2,
-                    right: 36,
-                    width: 40,
-                    zIndex: 10
-                });
-            }
-            // set the icon
             var wm = escape.model.Weather;
             var today = wm.forcatsByDay[0];
-            var imagaeName = 'we_ico_' + today.icon + '_sml';
-            if (escape.utils.Img.retinaAvailable()) {
-                imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+            if (today) {
+                // get the weather btn
+                var weatherBtn = currenctSection.getComponent('weatherBtn');
+                // if does not exist so create it
+                if (!weatherBtn) {
+                    weatherBtn = currenctSection.add({
+                        xtype: 'button',
+                        cls: 'weatherBtn iconBtn',
+                        action: 'showWeather',
+                        itemId: 'weatherBtn',
+                        top: -2,
+                        right: 36,
+                        width: 40,
+                        zIndex: 10
+                    });
+                }
+                // set the icon
+                var imagaeName = 'we_ico_' + today.icon + '_sml';
+                if (escape.utils.Img.retinaAvailable()) {
+                    imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+                }
+                weatherBtn.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
             }
-            weatherBtn.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+
         }
-        // var wm = escape.model.Weather;
-        // var btnsHomeContainer = this.getComponent('btnsHomeContainer');
-        // var todaysWeather = btnsHomeContainer.getComponent('weatherHome');
-        // var today = wm.forcatsByDay[0];
-        // var imagaeName = 'we_ico_' + today.icon + '_sml';
-        // if (escape.utils.Img.retinaAvailable()) {
-        //     imagaeName = 'we_ico_' + today.icon + '_sml@2x';
-        // }
-        // //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
-        // todaysWeather.addCls('icon_' + today.icon);
-        // todaysWeather.setText('<h2>' + wm.convertTempature(wm.currentTemp) + '&deg;</h2><h4>' + today.forecast + '</h4>');
     },
     removeWeatherBtn: function() {
         var currenctSection = escape.utils.AppVars.currentSection;

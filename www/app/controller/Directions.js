@@ -87,7 +87,6 @@ Ext.define('escape.controller.Directions', {
         var data = this.getRouteForm().getValues();
         this.getRouteList(data, {
             success: function(routeList) {
-                console.log('route list created');
                 selfRef.createRouteFromList(routeList);
             },
             failure: function() {
@@ -150,7 +149,6 @@ Ext.define('escape.controller.Directions', {
 
 
     getRouteList: function(data, callback, scope) {
-        console.log('getRouteList');
         var routeList = [];
         // find your start location
         this.getLocation(data.startLocation, {
@@ -165,18 +163,15 @@ Ext.define('escape.controller.Directions', {
                     },
                     failure: function() {
                         Ext.callback(callback.error, scope);
-                        console.log('could not find your end location');
                     }
                 }, this);
             },
             failure: function() {
                 Ext.callback(callback.error, scope);
-                console.log('could not find your start location');
             }
         }, this);
     },
     getCurrentLocation: function(callback, scope) {
-        console.log('getCurrentLocation');
         var selfRef = this;
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
@@ -190,7 +185,6 @@ Ext.define('escape.controller.Directions', {
         }, this);
     },
     getLocation: function(searchAddress, callback, scope) {
-        console.log('getLocation: ' + searchAddress);
         var selfRef = this;
         var directionPage = this.getDirectionsPage();
         var address = directionPage.getAddress();
@@ -200,8 +194,6 @@ Ext.define('escape.controller.Directions', {
             // find the usesr current locatio
             this.getCurrentLocation({
                 success: function(position) {
-                    console.log('current location found');
-                    console.log(position);
                     var locationObj = {
                         "coordinates": {
                             "latitude": Number(position.coords.latitude),
@@ -335,9 +327,6 @@ Ext.define('escape.controller.Directions', {
                         listPanel.add(addressListDisplay);
                         // add listeners
                         addressListDisplay.on('select', function(list, record) {
-                            console.log('select');
-                            console.log(record);
-                            console.log(record.getData().id);
                             var addressLoc = addresses[record.getData().id].geocodedAddress;
                             var locationObj = {
                                 "coordinates": {

@@ -28124,8 +28124,6 @@ Ext.define('escape.utils.Database', {
         try {
             // we are running on a phone
             var dbName = selfRef.getFileName() + '.' + selfRef.getExtention();
-            console.log('dbName: ' + dbName);
-            //console.log()
             this.dbConn = window.sqlitePlugin.openDatabase(dbName, selfRef.getVersion(), selfRef.getName(), selfRef.getSize());
             if (this.dbConn) {
                 selfRef.fireEvent('ready');
@@ -28165,7 +28163,6 @@ Ext.define('escape.utils.Database', {
     },
     // create web database
     createWebSql: function() {
-        console.log('createWebSql: ' + this.getPrePopulate());
         if (this.getPrePopulate()) {
             var selfRef = this;
             Ext.Ajax.request({
@@ -28615,7 +28612,8 @@ Ext.define("escape.model.Favourites", {
 Ext.define("escape.model.Currency", {
     requires: ['Ext.DateExtras', 'escape.model.UserSettings'],
     singleton: true,
-    reloadIn: 3 * 60 * 60 * 1000,
+    reloadIn: 6 * 60 * 60 * 1000,
+    // set to 6 hrs
     currencys: [],
     converstions: {},
     lastUpdated: null,
@@ -28631,24 +28629,49 @@ Ext.define("escape.model.Currency", {
     },
     // call the setup if need the perform the required callback
     loadDefaults: function(callback, scope) {
-        if (!this.lastUpdatedDate) {
-            this.loadCurrencyList(callback, scope);
-        } else {
-            var dateNow = new Date();
-            var diff = dateNow - this.lastUpdated;
-            if (diff > this.reloadIn || this.currencys.length === 0) {
-                // reload the current data is old or does not exist
-                this.loadCurrencyList(callback, scope);
-            } else {
-                // do not reload use the current data
-                if (this.getOrginalCurrency() === null) {
-                    this.checkOrginalCurrency(callback, scope);
+
+        var selfRef = this;
+        escape.model.UserSettings.getSetting('currencyCodeList', {
+            success: function(currencyCodeList) {
+                if (currencyCodeList) {
+                    currencyCodeList = JSON.parse(currencyCodeList);
+                    selfRef.lastUpdated = new Date(currencyCodeList.lastUpdated);
+                    selfRef.currencys = currencyCodeList.list;
+
+                    if (!Ext.device.Connection.isOnline()) {
+                        // if we are not online return what we have
+                        Ext.callback(callback.success, scope);
+                    } else {
+                        // check to see if we need to reload the weather
+                        var dateNow = new Date();
+                        var diff = dateNow - selfRef.lastUpdated;
+
+                        if (diff > selfRef.reloadIn || selfRef.currencys.length === 0) {
+                            // reload the current data is old or does not exist
+                            selfRef.loadCurrencyList(callback, scope);
+                        } else {
+                            // do not reload use the current data
+                            if (selfRef.getOrginalCurrency() === null) {
+                                selfRef.checkOrginalCurrency(callback, scope);
+                            } else {
+                                Ext.callback(callback.success, scope);
+                            }
+
+                        }
+                    }
                 } else {
-                    Ext.callback(callback.success, scope);
+                    // the currecy list has never been saved before
+                    selfRef.loadCurrencyList(callback, scope);
                 }
 
-            }
-        }
+
+            },
+            error: function(error) {
+                // the currecy list has never been saved before
+                selfRef.loadCurrencyList(callback, scope);
+            },
+            scope: this
+        });
     },
     // Load the list of currencys
     loadCurrencyList: function(callback, scope) {
@@ -28688,7 +28711,16 @@ Ext.define("escape.model.Currency", {
                     };
                 }
                 selfRef.currencys = currencyCodeList.reverse();
-                //
+                // save the currency list
+                escape.model.UserSettings.setSetting('currencyCodeList', Ext.JSON.encode({
+                    lastUpdated: selfRef.lastUpdated.getTime(),
+                    list: selfRef.currencys
+                }), {
+                    success: function(newValue) {},
+                    error: function(error) {},
+                    scope: this
+                });
+                // check the orginal currency has been laoded
                 selfRef.checkOrginalCurrency(callback, scope);
             },
             failure: function(response, opts) {
@@ -28719,8 +28751,8 @@ Ext.define("escape.model.Currency", {
     },
     // Check to see if the user has picked a convertedCurrency
     checkConvertedCurrency: function(callback, scope) {
-         var selfRef = this;
-       
+        var selfRef = this;
+
         escape.model.UserSettings.getSetting('convertedCurrency', {
             success: function(convertedCurrency) {
                 if (convertedCurrency === null || convertedCurrency === undefined) {
@@ -29082,6 +29114,12 @@ Ext.define('escape.controller.Map', {
             },
             'mapDisplay button[action=zoomOut]': {
                 tap: 'zoomOut'
+            },
+             'mapDisplayOffline button[action=zoomIn]': {
+                tap: 'zoomIn'
+            },
+            'mapDisplayOffline button[action=zoomOut]': {
+                tap: 'zoomOut'
             }
         }
     },
@@ -29125,7 +29163,6 @@ Ext.define('escape.controller.Settings', {
     },
     // swich use offline
     switchUseOffline: function(){
-        console.log('switchUseOffline');
         if (escape.model.Content.getUseOffline()) {
             escape.model.Content.setUseOffline(false);
         } else {
@@ -30124,7 +30161,7 @@ Ext.define("escape.model.Weather", {
     },
     // check to see if the weather needs to be loaded
     getFullWeather: function(refresh, callback, scope) {
-
+        console.log('getFullWeather');
         var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
@@ -30137,26 +30174,73 @@ Ext.define("escape.model.Weather", {
                 },
                 scope: this
             });
+        } else if (Ext.device.Connection.isOnline() && refresh) {
+            // we are online and a focus refresh has been passed
+            this.checkLocation(callback, scope);
         } else {
-            // load the full weather
-            if (this.loadedDate === null || refresh) {
-                this.checkLocation(callback, scope);
-            } else {
-                var dateNow = new Date();
-                var diff = dateNow - this.lastUpdatedDate;
-                if (diff > this.reloadIn || this.forcatsByDay.length <= 1) {
-                    // reload the current data is old or the fullweather has not been loaded
-                    this.checkLocation(callback, scope);
-
-                } else {
-                    // do not reload use the current data
-                    Ext.callback(callback.success, scope);
-                }
-            }
+            // load the saved weather and check it is valid and uptodate
+            this.checkedSavedWeather(callback, scope);
         }
+    },
 
+    checkedSavedWeather: function(callback, scope) {
+        console.log('checkedSavedWeather');
+        var selfRef = this;
+        // get the saved weather and check that is vaild
+        escape.model.UserSettings.getSetting('fullWeather', {
+
+            success: function(fullWeather) {
+                console.log('db returned fullWeather');
+                if (fullWeather) {
+                    console.log('fullWeather has a value');
+                    fullWeather = JSON.parse(fullWeather);
+                    selfRef.lastUpdatedDate = new Date(fullWeather.lastUpdated);
+                    selfRef.forcatsByDay = fullWeather.forcatsByDay;
+                    selfRef.weatherData = fullWeather.weatherData;
+                    if (!Ext.device.Connection.isOnline()) {
+                         console.log('not online');
+                        // if we are not online return what we have
+                        Ext.callback(callback.success, scope);
+                    } else {
+                        // check to see if the station ids are the same
+                        console.log('fullWeather.stationId: ' + fullWeather.stationId);
+                        console.log('getStationId: ' + selfRef.getStationId());
+                        if (Number(fullWeather.stationId) != Number(selfRef.getStationId())) {
+                              console.log('different station id reload the data');
+                            // different station id reload the data
+                            selfRef.checkLocation(callback, scope);
+                        }
+                        // check to see if we need to reload the weather
+                        var dateNow = new Date();
+                        var diff = dateNow - selfRef.lastUpdated;
+
+                        if (diff > selfRef.reloadIn || selfRef.forcatsByDay.length <= 1 ||  !selfRef.weatherData) {
+                             console.log('reload the current data is old or the fullweather has not been loaded');
+                            /// reload the current data is old or the fullweather has not been loaded
+                            selfRef.checkLocation(callback, scope);
+                        } else {
+                            // do not reload use the current data
+                            console.log('1 do not reload use the current data');
+                            console.log(callback);
+                            Ext.callback(callback.success, scope);
+                        }
+                    }
+                } else {
+                    console.log('fullWeather has no a value');
+                    // laod the fullweather as it has not been loaded before
+                    selfRef.checkLocation(callback, scope);
+                }
+            },
+            error: function(error) {
+                console.log('error returning fullweather');
+                // laod the fullweather as it has not been loaded before
+                selfRef.checkLocation(callback, scope);
+            },
+            scope: this
+        });
     },
     checkLocation: function(callback, scope) {
+        console.log('checkLocation');
         var selfRef = this;
         if (this.getStationId() === 0) {
             Ext.device.Geolocation.getCurrentPosition({
@@ -30211,6 +30295,9 @@ Ext.define("escape.model.Weather", {
     },
 
     fullWeatherLoaded: function(weatherData, callback, scope) {
+        console.log('fullWeatherLoaded');
+        console.log(weatherData);
+        var selfRef = this;
         this.weatherData = weatherData;
         this.todaysDate = new Date(parseInt(weatherData.Date.substr(6)));
         this.currentTemp = weatherData.TempCurrent;
@@ -30225,6 +30312,18 @@ Ext.define("escape.model.Weather", {
         }
         this.forcatsByDay = forcasts;
         this.lastUpdatedDate = new Date();
+        // save the full weather
+        escape.model.UserSettings.setSetting('fullWeather', Ext.JSON.encode({
+            stationId: selfRef.getStationId(),
+            lastUpdated: selfRef.lastUpdatedDate.getTime(),
+            forcatsByDay: selfRef.forcatsByDay,
+            weatherData : selfRef.weatherData
+        }), {
+            success: function(newValue) {},
+            error: function(error) {},
+            scope: this
+        });
+
         Ext.callback(callback.success, scope);
     },
 
@@ -30234,7 +30333,6 @@ Ext.define("escape.model.Weather", {
         var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
-            var selfRef = this;
             this.setUp({
                 success: function() {
                     selfRef.getBriefWeather(callback, scope);
@@ -31425,7 +31523,6 @@ Ext.define('Ext.plugin.PullRefresh', {
          }
      },
      getAccessToken: function(fbCode, callback, scope) {
-        console.log('!!! getAccessToken');
          var selfRef = this;
          var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + AppSettings.facebook.clientId + '&client_secret=' +AppSettings.facebook.secret + '&code=' + fbCode + '&redirect_uri=' + AppSettings.facebook.redirectUrl;
          Ext.Ajax.request({
@@ -31433,13 +31530,10 @@ Ext.define('Ext.plugin.PullRefresh', {
              method: "POST",
              success: function(response) {
                  var accessToken = response.responseText.split("=")[1];
-                  console.log('!!! accessToken success: ' + accessToken);
                  selfRef.saveAccessToken(accessToken, callback, scope);
                  window.plugins.childBrowser.close();
              },
              failure: function(response, opts) {
-                 console.log('!!! accessToken failure');
-                 console.log(response);
                  window.plugins.childBrowser.close();
                  Ext.callback(callback.success, scope, [false]);
              }
@@ -31460,7 +31554,6 @@ Ext.define('Ext.plugin.PullRefresh', {
      // FACEBOOK SHARING
      /////////////////////////////////////////////////////
      postMessage: function(fbType, extraParams,callback, scope) {
-        console.log('!!! postMessage: ' + this.accessToken);
          var url = 'https://graph.facebook.com/me/' + fbType + '?access_token=' + this.accessToken;
          for (var key in extraParams) {
              if (key == "message") {
@@ -31474,13 +31567,9 @@ Ext.define('Ext.plugin.PullRefresh', {
              url: url,
              method: "POST",
              success: function(response) {
-                console.log('!!! postMessage success');
-                console.log(response);
                  Ext.callback(callback.success, scope, []);
              },
              failure: function(response, opts) {
-                 console.log('!!! postMessage error');
-                console.log(response);
                 Ext.callback(callback.error, scope, []);
              }
          });
@@ -31637,12 +31726,8 @@ Ext.define("escape.model.Content", {
     updateUseOffline: function(newValue, oldValue) {
          escape.model.UserSettings.setSetting('useOffline', String(newValue), {
             success: function(newValue) {
-                console.log('success');
-                console.log(newValue);
             },
             error: function(error) {
-                console.log('error');
-                console.log(error);
             },
             scope: this
         });
@@ -31738,7 +31823,7 @@ Ext.define("escape.model.Content", {
                 useLocal = false;
                 // make sure the user has a strong enough connection
                 var connectionType = Ext.device.Connection.getType();
-                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
+                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G || !Ext.device.Connection.isOnline()) {
                     useLocal = true;
                 }
             }
@@ -31951,7 +32036,6 @@ Ext.define("escape.model.Directions", {
     routeManager: null,
     map: null,
     setup: function(map) {
-        console.log('set up');
         this.map = map;
         this.geocoder = new EMS.Services.Geocoder();
         this.routeManager = new EMS.Services.RouteManager(map);
@@ -31968,7 +32052,6 @@ Ext.define("escape.model.Directions", {
     // given an address will return a latlon via the  processAddress return func
     geocodeAddress: function(addressStr, callback, scope) {
         var selfRef = this;
-        console.log(addressStr);
         // this.geocoder.findGeocodedAddress(addressStr, function(addresses) {
         //     console.log(addresses);
         //     //selfRef.processAddress(addresses, callback);
@@ -32031,9 +32114,7 @@ Ext.define("escape.model.Directions", {
                 "address": {"freeFormAddress": addressStr}
             },
             success: function(response) {
-                console.log(response);
                 var addresess = JSON.parse(response.responseText);
-                console.log(addresess);
                  Ext.callback(callback.success, scope, [addresess]);
 
                 // process server response here
@@ -32052,7 +32133,6 @@ Ext.define("escape.model.Directions", {
         }
     },
     clearRoute: function() {
-        console.log("!!! clearRoute");
         try {
             this.routeManager.clearRoute();
             this.map.markersLayer.clearMarkers();
@@ -32063,7 +32143,6 @@ Ext.define("escape.model.Directions", {
 
     },
     getRoute: function(routeList, transportType, callback, scope) {
-        console.log('transportType: ' + transportType);
         var useTransportType = "ALL_VEHICLES";
         if (transportType == 'walk') {
             useTransportType = "PEDESTRIAN";
@@ -32304,50 +32383,62 @@ Ext.define('escape.utils.Maps', {
         return pointsList;
     }
 });
-Ext.define("escape.model.MapFiles", {
+Ext.define("escape.model.Map", {
     loaded: false,
-    offlineFilesLoaded : false,
+    offlineFilesLoaded: false,
     singleton: true,
     config: {},
-    createMapTilesDB: function() {
-        console.log('createMapTilesDB');
+    checkOfflineSettings: function(callback, scope) {
+        // Check to see if the user has picked a useOffline setting
+        var selfRef = this;
+        escape.model.UserSettings.getSetting('useOfflineMap', {
+            success: function(useOffline) {
+                if (useOffline === null) {
+                    // no user isDegrees has been selected
+                    selfRef.setUseOffline(true);
+                } else {
+                    var setting = true;
+                    if (useOffline == 'false') {
+                        setting = false;
+                    }
+                    if (useOffline === 0) {
+                        setting = false;
+                    }
+                    selfRef.setUseOffline(setting);
+                }
+            },
+            error: function(error) {
+                // no user temp has been selected
+                selfRef.setIsDegrees(true);
+            },
+            scope: this
+        });
     },
+
+    loadFiles: function(online,callback, scope){
+        if (online){
+            this.loadRequiredFiles(callback, scope);
+        } else {
+            this.loadOfflineRequiredFiles(callback, scope);
+        }
+    },
+
     loadRequiredFiles: function(callback, scope) {
         if (this.loaded) {
             Ext.callback(callback.success, scope, []);
         } else {
-            this.loadOpenLayers(callback, scope);
+            var selfRef = this;
+           //'resources/js/OpenLayers.js' 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'
+            var whereIsOpenLayers = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js';
+            var ems = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=' + AppSettings.whereis.token;
+            var iPhoneDefaults = 'resources/js/IPhoneDefaults.js';
+            LazyLoad.js([whereIsOpenLayers, ems, iPhoneDefaults], function() {
+                selfRef.loaded = true;
+                Ext.callback(callback.success, scope, []);
+            });
         }
     },
-
-    loadOpenLayers: function(callback, scope) {
-        var selfRef = this;
-        //'resources/js/OpenLayers.js' 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'
-        LazyLoad.js(['http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ol/OpenLayers.js'], function() {
-            selfRef.loadEMS(callback, scope);
-        });
-    },
-
-    loadEMS: function(callback, scope) {
-        var selfRef = this;
-        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-        var url = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=' + AppSettings.whereis.token;
-        LazyLoad.js([url], function() {
-            selfRef.loadTouchControls(callback, scope);
-        });
-
-    },
-    loadTouchControls: function(callback, scope) {
-        this.loaded = true;
-        var selfRef = this;
-        //var url = 'http://www.tiltandco.com/staging/dnsw/escapechina/EMS.js';
-        var url = 'resources/js/IPhoneDefaults.js';
-        LazyLoad.js([url], function() {
-            Ext.callback(callback.success, scope, []);
-        });
-
-    },
-/***
+    /***
     /*  load offline files
     **/
     loadOfflineRequiredFiles: function(callback, scope) {
@@ -32355,9 +32446,9 @@ Ext.define("escape.model.MapFiles", {
         if (this.offlineFilesLoaded) {
             Ext.callback(callback.success, scope, []);
         } else {
-            var styles = 'resources/js/css/theme/default/style.css';
+            //var styles = 'resources/js/theme/default/style.css';
             var js = 'resources/js/OpenLayers.js';
-            LazyLoad.js([styles,js], function() {
+            LazyLoad.js([js], function() {
                 selfRef.offlineFilesLoaded = true;
                 Ext.callback(callback.success, scope, []);
             });
@@ -33069,226 +33160,6 @@ Ext.define("escape.view.ui.ItinerayBtn", {
         height: 50,
         zIndex:751
     }
-});
-Ext.define("escape.view.ui.MapDisplayOffline", {
-    extend: 'Ext.Container',
-    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
-    xtype: 'mapDisplayOffline',
-    config: {
-        cls: 'mapDisplay',
-        map: null,
-        created: false,
-        mapId: 0,
-        width: '100%',
-        built: false,
-        intialMarkers: [],
-        height: 150,
-        zoomLevel: 13,
-        lat: -33.873651,
-        lon: 151.2068896,
-        address: null,
-        markerAtCenter: false,
-        locationMarker: null,
-        interaction: true,
-        zoomToBounds: true,
-        listeners: {
-            initialize: 'initialize',
-            painted: 'loadLibaries'
-        }
-    },
-    initialize: function() {},
-    loadLibaries: function() {
-        if (!this.getCreated()) {
-            this.setCreated(true);
-            if (this.getHeight() > 200) {
-                this.addCls('mapLarge');
-            } else {
-                this.removeCls('mapLarge');
-            }
-            this.setMapId('mapContainier' + Math.random() * 1000000000);
-            var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
-            this.add({
-                html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
-            });
-        }
-
-        var selfRef = this;
-        escape.model.MapFiles.loadOfflineRequiredFiles({
-            success: function(results) {
-                selfRef.buildMap();
-            },
-            error: function(error) {},
-            scope: this
-        });
-
-    },
-
-
-
-    buildMap: function() {
-        if (!this.getBuilt()) {
-            var options = {
-                projection: "EPSG:900913",
-                controls: []
-            };
-            map = new OpenLayers.Map(this.getMapId(), options);
-            this.setMap(map);
-            // if (this.getInteraction()) {
-            //     map.addControl(new OpenLayers.Control.TouchNavigation());
-            //     try {
-            //         if (device.platform == 'Android') {
-            //             if (Number(device.version.split('.')[0]) < 4) {
-            //                 map.addControl(new OpenLayers.Control.Zoom());
-            //             }
-            //         }
-            //     } catch (e) {
-            //     }
-            // }
-            map.addControl(new OpenLayers.Control.Zoom());
-            // create the offline layer
-            var mapLayer = new OpenLayers.Layer.TMS("offlineMaps", "", {
-                getURL: this.getMbtilesURL,
-                isBaseLayer: true
-            });
-            map.addLayer(mapLayer);
-            // create a point
-            var lonLat = escape.utils.Maps.getLatLon(this.getLat(), this.getLon());
-            // add a markers layer
-            var markers = new OpenLayers.Layer.Markers("Markers");
-            map.addLayer(markers);
-
-            this.setBuilt(true);
-            // add any intial markers
-            var intialMarkers = this.getIntialMarkers();
-            if (intialMarkers.length > 0) {
-                // make sure the makers are added in the right order
-                intialMarkers = intialMarkers.sort(function(obj1, obj2) {
-                    return Number(obj2.lat) - Number(obj1.lat);
-                });
-                for (var m = 0; m < intialMarkers.length; m++) {
-                    var marker = intialMarkers[m];
-                    this.addMarker(marker.lat, marker.lon, marker.data);
-                }
-            }
-            // add marker at the center
-            if (this.getMarkerAtCenter()) {
-                var markerData = {
-                    latlon: [this.getLat(), this.getLon()],
-                    address: this.getAddress()
-                };
-                this.addMarker(this.getLat(), this.getLon(), markerData);
-            }
-            // position the map
-            map.setCenter(lonLat, this.getZoomLevel());
-            if (intialMarkers.length > 0) {
-                map.zoomToExtent(markers.getDataExtent());
-                this.setIntialMarkers([]);
-            }
-        }
-    },
-    getMbtilesURL: function(bounds) {
-        var map = this.map;
-        //return 'http://b.tile.openstreetmap.org/12/3754/2499.png';
-        var dbName = "SydneyMap.mbtiles";
-        var res = this.map.getResolution();
-        var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-        var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-        var z = this.map.getZoom();
-        // Deal with Bing layers zoom difference...
-        if (this.map.baseLayer.CLASS_NAME == 'OpenLayers.Layer.VirtualEarth' || this.map.baseLayer.CLASS_NAME == 'OpenLayers.Layer.Bing') {
-            z = z + 1;
-        }
-        // var url = 'http://localhost/escape/mbtiles.php' + "?db=" + dbName + "&z=" + z + "&x=" + x + "&y=" + ((1 << z) - y - 1);
-        // look up the tile layer in the database
-        var db = escape.utils.DatabaseManager.getBDConn('offlineMap');
-        db.queryDB("SELECT tile_data FROM images INNER JOIN map ON images.tile_id = map.tile_id WHERE zoom_level = ? AND tile_column = ? AND tile_row = ?", function(t, rs) {
-            // a result was found
-            console.log('success selecting tiles');
-            if (rs.rows.length > 0) {
-                console.log('tile row found');
-                // tile found
-                return 'data:image/gif;base64,' + rs.rows.item(0)['tile_data'];
-            } else {
-                // no row found
-                console.log('NO tile row found');
-                return '';
-            }
-        }, function(t, e) {
-            // select error
-            console.log('error selecting tiles');
-            return '';
-        }, [z, x, y]);
-    },
-    addMarker: function(lat, lon, data) {
-        if (this.getBuilt()) {
-            var lonLat = escape.utils.Maps.getLatLon(lat, lon);
-            var size = new OpenLayers.Size(45, 38);
-
-            var imgPath = 'resources/images/pin_red.png';
-            if (escape.utils.Img.useRetinaImg) {
-                imgPath = 'resources/images/pin_red@2x.png';
-            }
-
-            var useIcon = true;
-            try {
-                var d = data.iconText;
-                if (!d) {
-                    useIcon = false;
-                }
-            } catch (e) {
-                useIcon = false;
-            }
-
-            if (useIcon) {
-                size = new OpenLayers.Size(50, 42);
-                var iconNumber = (Number(data.iconText));
-                iconNumber = (iconNumber > 99) ? 'star' : iconNumber;
-                var imgSize = '';
-                if (window.devicePixelRatio > 1.2) {
-                    imgSize = '@2x';
-                }
-                imgPath = 'resources/images/markers/marker_' + iconNumber + '' + imgSize + '.png';
-            }
-
-            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-
-
-
-            var icon = new OpenLayers.Icon(imgPath, size, offset);
-            var marker = new OpenLayers.Marker(lonLat, icon);
-            this.getMap().getLayersByName("Markers")[0].addMarker(marker);
-            var selfRef = this;
-            var markerClick = function(evt) {
-                    evt.preventDefault();
-                    selfRef.fireEvent('markerSelected', data);
-                };
-            if (Ext.feature.has.Touch) {
-                marker.events.register('touchend', marker, markerClick);
-            } else {
-                marker.events.register('mousedown', marker, markerClick);
-            }
-
-
-        } else {
-            this.getIntialMarkers().push({
-                data: data,
-                lat: lat,
-                lon: lon
-            });
-        }
-
-    },
-    zoomToMarkers: function() {
-        var map = this.getMap();
-        var markers = map.getLayersByName("Markers")[0];
-        map.zoomToExtent(markers.getDataExtent());
-    },
-    clearMarkers: function() {
-        this.getMap().getLayersByName("Markers")[0].destory();
-        var markers = new OpenLayers.Layer.Markers("Markers");
-        this.getMap().addLayer(markers);
-    }
-
 });
 Ext.define("escape.view.ui.LoadingDisplay", {
     extend: 'Ext.Component',
@@ -39190,6 +39061,26 @@ Ext.define('Ext.data.ResultSet', {
         this.setCount(records.length);
     }
 });
+Ext.define('escape.controller.Page', {
+    extend: 'Ext.app.Controller',
+    requires: ['Ext.util.DelayedTask'],
+    config: {
+        control: {
+            
+            'page': {
+                activate: 'pageActivated',
+                show: 'showPage'
+            }
+
+        }
+    },
+    pageActivated: function(page) {
+        page.viewCreated();
+    },
+    showPage: function(page) {
+        page.refreshPage();
+    }
+});
 Ext.define('escape.controller.Section', {
     extend: 'Ext.app.Controller',
     requires: ['Ext.util.DelayedTask'],
@@ -39225,11 +39116,14 @@ Ext.define('escape.controller.Section', {
         // add the scroll to top button
         var navView = section.getItems().items[section.getNavViewItemId()];
         section.setNavigationView(navView);
+        // scroll to to btn
         var scrollTopTopBtn = section.add({
             xtype: 'scrollTopTopBtn',
             width: Math.round(Ext.Viewport.getSize().width - 120)
         });
         section.setTopText(scrollTopTopBtn.getComponent('topBtn'));
+        // add close mask
+
         // define menu btns
         var menuBtn = section.getComponent('menuBtn'); //Ext.ComponentQuery.query('#' + section.id + ' menuBtn')[0]; // get a referance to the menu button
         var rightBtn = section.getComponent('rightBtn'); //Ext.ComponentQuery.query('#' + section.id + ' button[action="rightBtn"]')[0]; // get a referance to the menu button
@@ -39261,16 +39155,16 @@ Ext.define('escape.controller.Section', {
         // get references to the view
         escape.utils.AppVars.currentPage = page;
         // control which buttons are shown and hiiden
-        var menuBtn = this.getMenuBtn();
         var rightBtn = this.getRightBtn();
         rightBtn.setCls(page.getRightBtn() + ' iconBtn');
         var itemIndex = navView.items.indexOf(page); // The index of the page
-        if (itemIndex > 1) {
-            // hide the menu button
-            menuBtn.hide();
-        } else {
+        if (itemIndex === 2) {
+            // hide the men1u button
+            this.getMenuBtn().hide();
+        }
+        if (itemIndex===1) {
             // show the menu btn we are on the first page
-            menuBtn.show();
+            this.getMenuBtn().show();
         }
     },
     itemHidden: function(hiddenPage) {
@@ -40350,7 +40244,6 @@ Ext.define('escape.controller.Directions', {
         var data = this.getRouteForm().getValues();
         this.getRouteList(data, {
             success: function(routeList) {
-                console.log('route list created');
                 selfRef.createRouteFromList(routeList);
             },
             failure: function() {
@@ -40413,7 +40306,6 @@ Ext.define('escape.controller.Directions', {
 
 
     getRouteList: function(data, callback, scope) {
-        console.log('getRouteList');
         var routeList = [];
         // find your start location
         this.getLocation(data.startLocation, {
@@ -40428,18 +40320,15 @@ Ext.define('escape.controller.Directions', {
                     },
                     failure: function() {
                         Ext.callback(callback.error, scope);
-                        console.log('could not find your end location');
                     }
                 }, this);
             },
             failure: function() {
                 Ext.callback(callback.error, scope);
-                console.log('could not find your start location');
             }
         }, this);
     },
     getCurrentLocation: function(callback, scope) {
-        console.log('getCurrentLocation');
         var selfRef = this;
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
@@ -40453,7 +40342,6 @@ Ext.define('escape.controller.Directions', {
         }, this);
     },
     getLocation: function(searchAddress, callback, scope) {
-        console.log('getLocation: ' + searchAddress);
         var selfRef = this;
         var directionPage = this.getDirectionsPage();
         var address = directionPage.getAddress();
@@ -40463,8 +40351,6 @@ Ext.define('escape.controller.Directions', {
             // find the usesr current locatio
             this.getCurrentLocation({
                 success: function(position) {
-                    console.log('current location found');
-                    console.log(position);
                     var locationObj = {
                         "coordinates": {
                             "latitude": Number(position.coords.latitude),
@@ -40598,9 +40484,6 @@ Ext.define('escape.controller.Directions', {
                         listPanel.add(addressListDisplay);
                         // add listeners
                         addressListDisplay.on('select', function(list, record) {
-                            console.log('select');
-                            console.log(record);
-                            console.log(record.getData().id);
                             var addressLoc = addresses[record.getData().id].geocodedAddress;
                             var locationObj = {
                                 "coordinates": {
@@ -40666,15 +40549,7 @@ Ext.define("escape.view.page.Page", {
         pageTrackingId: 0,
         addToItemId: -1,
         hasInputs: false,
-        itemsToAdd: [],
-        listeners: {
-            activate: function() {
-                this.viewCreated();
-            },
-            show: function() {
-                this.refreshPage();
-            }
-        }
+        itemsToAdd: []
     },
     setNavTitle: function(title) {
         if (title) {
@@ -41108,8 +40983,25 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
         layout: 'vbox',
         pageTypeId: 5,
         pageTrackingId: 1
-    },
+       },
     openView: function() {
+         Ext.define('POIModel', {
+            extend: 'Ext.data.Model',
+            config: {
+                fields: [{
+                    name: 'label',
+                    type: 'string'
+                }, {
+                    name: 'keyword',
+                    type: 'string'
+                }]
+            }
+        });
+        var store = Ext.create("Ext.data.Store", {
+            model: "POIModel",
+            storeId: "generalStore",
+            data: AppSettings.poi
+        });
         var items = [{
             xtype: 'formpanel',
             layout: 'vbox',
@@ -41182,7 +41074,7 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
                     scrollable: false,
                     flex: 1,
                     itemTpl: '{label}',
-                    data: AppSettings.pointsOfInterests
+                    store : store
                 }]
             }, {
                 xtype: 'container',
@@ -42057,10 +41949,11 @@ Ext.define('Ext.carousel.Carousel', {
 
 Ext.define("escape.view.ui.MapDisplay", {
     extend: 'Ext.Container',
-    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
+    requires: ['escape.utils.Maps', 'escape.model.Map'],
     xtype: 'mapDisplay',
     config: {
         cls: 'mapDisplay',
+        useOnlineMaps: true,
         map: null,
         created: false,
         mapId: 0,
@@ -42068,7 +41961,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         built: false,
         intialMarkers: [],
         height: 150,
-        zoomLevel: 12,
+        zoomLevel: 13,
         lat: -33.873651,
         lon: 151.2068896,
         address: null,
@@ -42077,12 +41970,10 @@ Ext.define("escape.view.ui.MapDisplay", {
         interaction: true,
         zoomToBounds: true,
         listeners: {
-            initialize: 'initialize',
-            painted: 'loadLibaries'
+            painted: 'createMapDom'
         }
     },
-    initialize: function() {},
-    loadLibaries: function() {
+    createMapDom : function(){
         if (!this.getCreated()) {
             this.setCreated(true);
             if (this.getHeight() > 200) {
@@ -42096,23 +41987,55 @@ Ext.define("escape.view.ui.MapDisplay", {
                 html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
             });
         }
-
+        this.loadLibaries();
+    },
+    loadLibaries: function() {
+        // check to see if the user is online or not
+        if (Ext.device.Connection.isOnline()) {
+            this.setUseOnlineMaps(true);
+        } else {
+             this.setUseOnlineMaps(false);
+        }
         var selfRef = this;
-        escape.model.MapFiles.loadRequiredFiles({
+        escape.model.Map.loadFiles(
+        this.getUseOnlineMaps(), {
             success: function(results) {
-                EMS.Util.getDomain = function() {
-                    return "destinationnsw.com.au";
-                };
-                selfRef.createMapElement();
+                // if using online set up online maps
+                if (selfRef.getUseOnlineMaps()) {
+                    selfRef.buildWhereIsMap();
+                } else {
+                    selfRef.buildOfflineMap();
+                }
+
+
             },
             error: function(error) {},
             scope: this
         });
     },
-    createMapElement: function() {
-        if (!this.getBuilt()) {
-            EMS.Services.communicationMode = "CrossDomain";
+    getMarkerLayer: function() {
+        var map = this.getMap();
+        if (this.getUseOnlineMaps()) {
+            return map.markersLayer;
+        } else {
+            return map.getLayersByName("Markers")[0];
+        }
 
+    },
+    getLatLon: function(lat, lon) {
+        if (this.getUseOnlineMaps()) {
+            return new EMS.LonLat(lon, lat);
+        } else {
+            return escape.utils.Maps.getLatLon(lat, lon);
+        }
+    },
+    buildWhereIsMap: function() {
+        if (!this.getBuilt()) {
+            var selfRef = this;
+            EMS.Util.getDomain = function() {
+                return "destinationnsw.com.au";
+            };
+            EMS.Services.communicationMode = "CrossDomain";
             // the map logo
             this.add({
                 xtype: 'button',
@@ -42124,32 +42047,78 @@ Ext.define("escape.view.ui.MapDisplay", {
                 zIndex: 1000
             });
 
-            this.createMap();
+
+            var controls = [];
+            map = new EMS.Services.Map(this.getMapId(), {
+                controls: [],
+                onInit: function() {
+                    selfRef.setUpWhereIsMap(map);
+                }
+            });
+            this.setMap(map);
+            //  Center the map
+            lonlat = this.getLatLon(this.getLat(), this.getLon());
+            map.setCenter(lonlat, this.getZoomLevel());
+            this.setBuilt(true);
+            this.defineMap();
+            this.fireEvent('mapCreated', this);
         }
     },
-    createMap: function() {
-        var selfRef = this;
-        var controls = [];
-        map = new EMS.Services.Map(this.getMapId(), {
-            controls: [],
-            onInit: function() {
-                selfRef.setupMap(map);
+    buildOfflineMap: function() {
+        console.log('buildOfflieMaps: ' + this.getBuilt());
+        if (!this.getBuilt()) {
+            //
+            var options = {
+                projection: "EPSG:900913",
+                controls: []
+            };
+            //
+            map = new OpenLayers.Map(this.getMapId(), options);
+
+            if (this.getInteraction()) {
+                map.addControl(new OpenLayers.Control.TouchNavigation());
             }
-        });
-        this.setMap(map);
-        this.fireEvent('mapCreated', this);
-        //  Center the map
-        lonlat = new EMS.LonLat(this.getLon(), this.getLat());
-        map.setCenter(lonlat, this.getZoomLevel());
-        this.setBuilt(true);
-        //
-        this.defineMap();
+
+
+            this.setMap(map);
+            // create the offline layer
+            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", "resources/maptiles/${z}/${x}/${y}.png", {
+                numZoomLevels: 14,
+                alpha: true,
+                isBaseLayer: true
+            });
+            map.addLayer(mapLayer);
+            // create a point
+            var lonLat = escape.utils.Maps.getLatLon(this.getLat(), this.getLon());
+            // add a markers layer
+            var markers = new OpenLayers.Layer.Markers("Markers");
+            map.addLayer(markers);
+
+            this.setBuilt(true);
+             // position the map
+            map.setCenter(lonLat, this.getZoomLevel());
+            this.defineMap();
+            this.fireEvent('mapCreated', this);
+        }
+    },
+    setUpWhereIsMap: function() {
+        var map = this.getMap();
+        if (this.getInteraction()) {
+            if (hasTouch) {
+                var iphoneControls = new EMS.Control.IPhoneDefaults({
+                    supportsScale3d: true
+                });
+                map.iphoneControls = iphoneControls;
+                map.addControl(iphoneControls);
+            } else { //PC
+                map.addControl(new OpenLayers.Control.KeyboardDefaults());
+                map.addControl(new EMS.Control.MouseDefaults());
+            }
+        }
 
     },
-    defineMap: function(){
+    defineMap: function() {
         var map = this.getMap();
-        
-
         // add any intial markers
         var intialMarkers = this.getIntialMarkers();
         // make sure the makers are added in the right order
@@ -42176,7 +42145,7 @@ Ext.define("escape.view.ui.MapDisplay", {
 
         this.addControls();
     },
-    addControls: function(){
+    addControls: function() {
         if (this.getInteraction()) {
             // show users location
             this.showUsersLoction();
@@ -42215,7 +42184,6 @@ Ext.define("escape.view.ui.MapDisplay", {
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
                 var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, 'resources/images/markers/marker_yourlocation.png', [17, 16], true);
-                console.log(yourlocation);
                 selfRef.setLocationMarker(yourlocation);
                 selfRef.showUsersDirection();
             },
@@ -42225,45 +42193,32 @@ Ext.define("escape.view.ui.MapDisplay", {
         }, this);
     },
     showUsersDirection: function() {
-        var selfRef = this;
-        try {
-            navigator.compass.getCurrentHeading(function(heading) {
-                console.log('heading: ' + heading);
-
-            }, function() {
-                console.log('error getthing the users diection');
-            });
-        } catch (e) {
-
-        }
-        var yourlocationMarker = selfRef.getLocationMarker();
-        var origin = new OpenLayers.Geometry.Point(yourlocationMarker.lonlat);
-       new  OpenLayers.Feature(yourlocationMarker).geometry.rotate(90, origin);
-
-
+        //  var selfRef = this;
+        //  try {
+        //      navigator.compass.getCurrentHeading(function(heading) {
+        //          console.log('heading: ' + heading);
+        //      }, function() {
+        //          console.log('error getthing the users diection');
+        //      });
+        //  } catch (e) {
+        //  }
+        //  var yourlocationMarker = selfRef.getLocationMarker();
+        //  var origin = new OpenLayers.Geometry.Point(yourlocationMarker.lonlat);
+        // new  OpenLayers.Feature(yourlocationMarker).geometry.rotate(90, origin);
     },
-    setupMap: function() {
-        var map = this.getMap();
-        if (this.getInteraction()) {
-            if (hasTouch) {
-                var iphoneControls = new EMS.Control.IPhoneDefaults({
-                    supportsScale3d: true
-                });
-                map.iphoneControls = iphoneControls;
-                map.addControl(iphoneControls);
-            } else { //PC
-                map.addControl(new OpenLayers.Control.KeyboardDefaults());
-                map.addControl(new EMS.Control.MouseDefaults());
-            }
-        }
 
-    },
     clearMarkers: function() {
-        this.getMap().markersLayer.clearMarkers();
+        if (this.getUseOnlineMaps()) {
+            this.getMarkerLayer().clearMarkers();
+        } else {
+            this.getMap().getLayersByName("Markers")[0].destory();
+            var markers = new OpenLayers.Layer.Markers("Markers");
+            this.getMap().addLayer(markers);
+        }
     },
     zoomToMarkers: function() {
         var map = this.getMap();
-        map.zoomToExtent(map.markersLayer.getDataExtent());
+        map.zoomToExtent(this.getMarkerLayer().getDataExtent());
         this.setIntialMarkers([]);
     },
     addMarker: function(lat, lon, data, imgPath, iconSize, centre) {
@@ -42317,11 +42272,11 @@ Ext.define("escape.view.ui.MapDisplay", {
             //
             icon = new OpenLayers.Icon(imgPath, size, offset);
             //
-            var lonlat = new EMS.LonLat(lon, lat);
+            var lonlat = this.getLatLon(lat, lon);
             var marker = new OpenLayers.Marker(lonlat, icon);
 
             // custom marker
-            map.markersLayer.addMarker(marker);
+            this.getMarkerLayer().addMarker(marker);
             var selfRef = this;
             var markerClick = function(evt) {
                     selfRef.fireEvent('markerSelected', data);
@@ -42421,31 +42376,43 @@ Ext.define("escape.view.page.Map", {
         pageTitle: 'Map',
         rightBtn: '',
         address: null,
-        latlon: null,
+        latlon: AppSettings.center,
         mapDisplay: null,
         pageTypeId: 6,
         pageTrackingId: 6,
-        cls:'mapPage'
+        zoomLevel:13,
+        cls: 'mapPage'
     },
     openView: function() {
         var address = this.getAddress();
-        var addressString = address.Street + '</br>' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
+
+        var mapHeight = Ext.Viewport.getSize().height - 43;
+         if (address) {
+            mapHeight = Ext.Viewport.getSize().height - 163;
+         }
+
 
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
-            height: Ext.Viewport.getSize().height - 163,
+            height: mapHeight,
             lat: Number(this.getLatlon()[0]),
             lon: Number(this.getLatlon()[1]),
+            zoomLevel: this.getZoomLevel(),
             interaction: true,
             markerAtCenter: true
         });
         this.setMapDisplay(mapDisplay);
         this.setItems(mapDisplay);
-        this.add({
-            xtype: 'container',
-            height: 120,
-            cls: 'mapAddress',
-            html: addressString
-        });
+
+        if (address) {
+            var addressString = address.Street + '</br>' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
+            this.add({
+                xtype: 'container',
+                height: 120,
+                cls: 'mapAddress',
+                html: addressString
+            });
+        }
+
     }
 });
 /**
@@ -42609,8 +42576,10 @@ Ext.define("escape.view.page.Directions", {
     openView: function() {
         var address = this.getAddress();
         var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
+        console.log(address);
+        console.log(this.getLatlon());
 
-        var mapDisplay = Ext.create('escape.view.ui.MapDisplayOffline', {
+        var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
             itemId: 'mapDisplay',
             height: Ext.Viewport.getSize().height - 143,
             lat: Number(this.getLatlon()[0]),
@@ -43041,7 +43010,7 @@ Ext.define("escape.view.page.SevicesAndFacilitiesResults", {
     }
 });
 Ext.define("escape.model.WhereIsPOI", {
-    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
+    requires: ['escape.utils.Maps', 'escape.model.Map'],
     mixins: ['Ext.mixin.Observable'],
     singleton: true,
     query: null,
@@ -43056,7 +43025,7 @@ Ext.define("escape.model.WhereIsPOI", {
     },
     loadLibaries: function() {
         var selfRef = this;
-        escape.model.MapFiles.loadRequiredFiles({
+        escape.model.Map.loadRequiredFiles({
             success: function(results) {
                 EMS.Util.getDomain = function() {
                     return "destinationnsw.com.au";
@@ -43123,6 +43092,88 @@ Ext.define("escape.model.WhereIsPOI", {
     },
     resultsLoaded: function(poiResults) {
         this.fireEvent('resultsLoaded', poiResults);
+    }
+});
+Ext.define("escape.model.SensisPOI", {
+    requires: ['escape.utils.Maps'],
+    mixins: ['Ext.mixin.Observable'],
+    singleton: true,
+    query: null,
+    distance: -1,
+    geoLocation: false,
+    pageSize: 50,
+    search: function($query, $distance, $geoLocation, $page) {
+        this.query = $query;
+        this.distance = $distance;
+        this.geoLocation = $geoLocation;
+        //
+        // Check to see if the user has picked a temp measurement
+        var selfRef = this;
+        var location = ($geoLocation) ? $geoLocation.latitude + "," + $geoLocation.longitude : AppSettings.sensis.location;
+
+        var params = {
+            "key": AppSettings.sensis.ApiKey,
+            "query": this.query,
+            "rows": 1000,
+            "location": location
+        };
+
+        if ($distance!=-1) {
+            params.radius = $distance;
+        }
+        if ($page) {
+            params.page = $page;
+        }
+        Ext.Ajax.request({
+            url: 'http://api.sensis.com.au/ob-20110511/prod/search',
+            method: "GET",
+
+            params: params,
+            success: function(response) {
+                var results = JSON.parse(response.responseText);
+                // map values to whereis format
+                var poiResults = {
+                    offset: results.currentPage - 1 * results.count,
+                    total: results.count * results.totalPages,
+                    results: results.results
+                };
+                selfRef.fireEvent('resultsLoaded', poiResults);
+            },
+            failure: function(response, opts) {
+                Ext.callback(callback.error, scope);
+            }
+        });
+    },
+    loadMore: function(page) {
+        this.search(this.query, this.distance, this.geoLocation, page);
+    },
+    reportEvent: function(id,event,content){
+        var userIp = 99999999999;
+        try {
+            userIp = device.uuid;
+        } catch (e) {
+            userIp = 99999999999;
+        }
+        var params = {
+            "key": AppSettings.sensis.ApiKey,
+            "userIp": userIp,
+            "id": id,
+            "userAgent": Ext.os.name + Ext.os.version,
+            "userSessionId" : userIp
+        };
+        if (content){
+            params.content = content;
+        }
+        Ext.Ajax.request({
+            url: 'http://api.sensis.com.au/ob-20110511/prod/report/'+event,
+            method: "GET",
+            params: params,
+            success: function(response) {
+                var results = JSON.parse(response.responseText);
+            },
+            failure: function(response, opts) {
+            }
+        });
     }
 });
 /**
@@ -45645,6 +45696,7 @@ Ext.define("escape.view.section.Section", {
     config: {
         isBuilt: false,
         navViewItemId: 0,
+        cls:'sectionContainer',
         navigationView: null,
         collectionType: null,
         topText : null,
@@ -50322,11 +50374,11 @@ Ext.define("escape.view.page.Home", {
         this.openView();
     },
     closeView: function() {
+        this.setHomeBuilt(false);
         this.removeAll(true,true);
         this.removeWeatherBtn();
     },
     reOpenView: function() {
-        this.setHomeBuilt(false);
         this.openView();
     },
 
@@ -50341,8 +50393,6 @@ Ext.define("escape.view.page.Home", {
                 cat.number = i + 1;
                 thingsToDoCats.push(cat);
             }
-
-
             this.setItems([{
                 xtype: 'carousel',
                 height: 200,
@@ -58309,8 +58359,14 @@ Ext.define("escape.model.POI", {
     config: {
         fields: [{
             name: 'ID'
+        },{
+            name: 'id'
         }, {
             name: 'address'
+        }, {
+            name: 'primaryAddress'
+        }, {
+            name: 'primaryContacts'
         }, {
             name: 'description'
         }, {
@@ -58321,6 +58377,8 @@ Ext.define("escape.model.POI", {
             name: 'type'
         }, {
             name: 'resultNum'
+        },{
+            name: 'reportingId'
         }]
     }
 });
@@ -58972,7 +59030,7 @@ Ext.define("escape.model.Product", {
 });
 Ext.define("escape.view.page.Product", {
     extend: 'escape.view.page.Page',
-    requires: ['Ext.Map', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.view.ui.MapDisplay','escape.view.ui.MapDisplayOffline', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
+    requires: ['Ext.Map', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.view.ui.MapDisplay', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
     xtype: 'productPage',
     config: {
         title: '',
@@ -59131,7 +59189,7 @@ Ext.define("escape.view.page.Product", {
                 title: product.Contact.Address.Street + '</br>' + product.Contact.Address.Suburb + '</br>' + product.Contact.Address.State + ' ' + product.Contact.Address.Postcode,
                 action: 'getDirections',
                 data: {
-                    latlog: [product.Contact.Latitude, product.Contact.Longitude],
+                    latlon: [product.Contact.Latitude, product.Contact.Longitude],
                     address: product.Contact.Address
                 },
                 itemCls: 'directionsIcon'
@@ -59294,16 +59352,16 @@ Ext.define("escape.view.page.Product", {
             indicator: indicator
         });
 
-        if (Ext.device.Connection.isOnline()) {
-            items.push({
-                xtype: 'mapDisplayOffline',
-                lat: Number(product.Contact.Latitude),
-                lon: Number(product.Contact.Longitude),
-                address: product.Contact.Address,
-                interaction: false,
-                markerAtCenter: true
-            });
-        }
+
+        items.push({
+            xtype: 'mapDisplay',
+            lat: Number(product.Contact.Latitude),
+            lon: Number(product.Contact.Longitude),
+            address: product.Contact.Address,
+            interaction: false,
+            markerAtCenter: true
+        });
+
 
 
         items.push({
@@ -59464,6 +59522,7 @@ Ext.define('escape.controller.Search', {
         queryDelay: null,
         suggestionsPanel: null,
         suggestionsStore: null,
+        searchBuilt: false,
         refs: {
             searchPage: 'searchPage',
             searchField: 'searchPage searchfield',
@@ -59514,18 +59573,14 @@ Ext.define('escape.controller.Search', {
     },
 
     querySeclected: function(list, record) {
-        console.log('select');
         var newquery = record.getData().suggestion;
-        console.log('querySeclected: ' + newquery);
         this.getSearchField().setValue(newquery);
         this.hideSuggestions();
         // runn the search
         this.search();
     },
     queryDisclose: function(list, record, node, index, event, eOpts) {
-        console.log('disclose');
         var newquery = record.getData().suggestion;
-        console.log('queryDisclose: ' + newquery);
         this.getSearchField().setValue(newquery + ' ');
         event.stopEvent();
         //this.hideSuggestions();
@@ -59562,7 +59617,6 @@ Ext.define('escape.controller.Search', {
             if (this.getSearchField()) {
                 var query = this.getSearchField().getValue();
                 var searchParams = this.getSearchParams();
-                console.log('searchParams.collection: ' + searchParams.collection);
                 Ext.Ajax.request({
                     url: 'http://tnsw-search02.squiz.net/s/suggest.json',
                     params: {
@@ -59577,7 +59631,6 @@ Ext.define('escape.controller.Search', {
                     success: function(response) {
                         var text = response.responseText;
                         var suggestionsList = JSON.parse(text);
-                        console.log(suggestionsList);
                         selfRef.queryCompetionLoaded(suggestionsList);
                     }
                 });
@@ -59638,9 +59691,7 @@ Ext.define('escape.controller.Search', {
     },
 
     setUpQueryCompletion: function() {
-        console.log('setUpQueryCompletion');
             if (!this.getSuggestionsPanel()) {
-                  console.log('do set up');
                 var selfRef = this;
                 var suggestionsStore = Ext.create('Ext.data.Store', {
                     model: 'escape.model.QueryCompletion'
@@ -59678,7 +59729,9 @@ Ext.define('escape.controller.Search', {
     },
     loadOptions: function() {
         var selfRef = this;
-        if (Ext.device.Connection.isOnline()) {
+        if (!this.getSearchBuilt()){
+            this.getSearchBuilt(true);
+            if (Ext.device.Connection.isOnline()) {
             // check to see if dates need to be added
             var collectionType = this.getSearchPage().getCollectionType();
             if (collectionType == 'event') {
@@ -59742,6 +59795,8 @@ Ext.define('escape.controller.Search', {
                 scope: this
             });
         }
+        }
+        
     },
     /***
      * Build the return optins for this search type
@@ -59828,6 +59883,7 @@ Ext.define('escape.controller.Search', {
         });
     },
     closeSearch: function() {
+        this.setSearchBuilt(false);
         this.saveValues();
         this.hideSuggestions();
     },
@@ -60372,6 +60428,131 @@ Ext.define('escape.controller.MyFavourites', {
     }
 
 });
+Ext.define("escape.view.page.ServicesAndFacilitiesBusinessDetails", {
+    extend: 'escape.view.page.Page',
+    requires: ['Ext.Map', 'escape.view.ui.MapDisplay', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
+    xtype: 'servicesAndFacilitiesBusinessDetails',
+    config: {
+        resultsData: null,
+        pageTitle: 'Services & Facilities',
+        title: '',
+        rightBtn: "hide",
+        pageTypeId: 5,
+        pageTrackingId: 3,
+        scrollable: {
+            direction: 'vertical',
+            directionLock: true
+        },
+        items: [{
+            xtype: 'loadingDisplay'
+        }]
+    },
+    openView: function() {
+        var selfRef = this;
+        this.build();
+
+    },
+    build: function() {
+        var viewportSize = Ext.Viewport.getSize();
+        var screenWidth = viewportSize.width;
+
+        var data = this.getResultsData();
+        // report event with sensis
+        escape.model.SensisPOI.reportEvent(data.reportingId, 'appearance');
+
+        console.log(data);
+        contactList = [];
+        var addressLines = [];
+        if (data.primaryAddress.addressLine) {
+            addressLines.push(data.primaryAddress.addressLine + '</br>');
+        }
+        if (data.primaryAddress.suburb) {
+            addressLines.push(data.primaryAddress.suburb + '</br>');
+        }
+        if (data.primaryAddress.state) {
+            addressLines.push(data.primaryAddress.state + ' ');
+        }
+        if (data.primaryAddress.postcode) {
+            addressLines.push(data.primaryAddress.postcode);
+        }
+
+
+        contactList.push({
+            title: addressLines.join(''),
+            action: 'getDirections',
+            data: {
+                latlon: [data.primaryAddress.latitude, data.primaryAddress.longitude],
+                address: {
+                    Street: data.primaryAddress.addressLine,
+                    Suburb: data.primaryAddress.suburb,
+                    State: data.primaryAddress.state,
+                    PostCode: data.primaryAddress.postcode
+                }
+            },
+            itemCls: 'directionsIcon'
+        });
+
+
+        for (var i = 0; i < data.primaryContacts.length; i++) {
+            var contact = data.primaryContacts[i];
+            if (contact.type == 'PHONE') {
+                contactList.push({
+                    title: '<a href="tel:' + contact.value + '">' + contact.value + '</a>',
+                    action: 'makePhoneCall',
+                    data:  contact.value,
+                    itemCls: 'callIcon'
+                });
+            }
+            if (contact.type == 'EMAIL') {
+                contactList.push({
+                    title: contact.value,
+                    action: 'sendEmail',
+                    data: contact.value,
+                    itemCls: 'emailIcon'
+                });
+            }
+            if (contact.type == 'URL') {
+                contactList.push({
+                    title: contact.value,
+                    action: 'goToLink',
+                    data: contact.value,
+                    itemCls: 'linkIcon'
+                });
+            }
+        }
+
+
+
+
+        this.setItems([{
+            xtype: 'mapDisplay',
+            lat: Number(data.primaryAddress.latitude),
+            lon: Number(data.primaryAddress.longitude),
+            address: {
+                Street: data.primaryAddress.addressLine,
+                Suburb: data.primaryAddress.suburb,
+                State: data.primaryAddress.state,
+                PostCode: data.primaryAddress.postcode
+            },
+            interaction: false,
+            markerAtCenter: true
+        }, {
+            html: '<h2>' + data.name + '</h2>',
+            margin: '10 10 10 10'
+        }, {
+            xtype: 'list',
+            margin: '10 10 10 10',
+            width: viewportSize.width - 20,
+            itemTpl: '<div class="{itemCls}">{title}</div>',
+            cls: 'contactList',
+            itemCls: 'iconItem',
+            action: 'contactSheet',
+            scrollable: false,
+            disableSelection: true,
+            data: contactList
+        }]);
+    }
+});
 Ext.define("escape.view.page.ServicesAndFacilitiesDetails", {
     extend: 'escape.view.page.Page',
     requires: ['Ext.Map', 'escape.view.ui.MapDisplay', 'escape.view.ui.FavoriteBtn', 'escape.view.ui.ItinerayBtn', 'escape.model.Product', 'escape.view.ui.LoadingDisplay', 'escape.view.ui.LoadError'],
@@ -60485,23 +60666,33 @@ Ext.define("escape.view.page.ServicesAndFacilitiesDetails", {
 });
 Ext.define('escape.controller.ServicesAndFacilities', {
     extend: 'Ext.app.Controller',
-    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.model.POI', 'escape.model.WhereIsPOI', 'escape.view.page.ServicesAndFacilitiesDetails'],
+    requires: ['escape.view.page.SevicesAndFacilitiesResults', 'escape.view.page.ServicesAndFacilitiesBusinessDetails', 'escape.model.POI', 'escape.model.WhereIsPOI', 'escape.model.SensisPOI', 'escape.view.page.ServicesAndFacilitiesDetails'],
     config: {
         searchValues: null,
         resultsPage: 1,
         resultsStore: null,
         listShowing: false,
+        isWhereIsSearch: true,
+        searchType: 'general',
+        whereIsKeyWords: ['airports', 'transport', 'aeroplane', 'air port', 'flight', 'plane', 'air', 'airfield', 'ambulance', 'essential services', 'emergency', 'ambulance service', 'ambulance station', 'ambo', 'help', 'attraction', 'tourism', 'tourist', 'tourist attraction', 'barbecues', 'recreation', 'public amenity', 'bbq', 'barbecue', 'beach','beaches', 'water', 'attraction', 'tourism', 'sea', 'ocean', 'surf', 'bay', 'boat ramps', 'recreation', 'water', 'boat launch', 'boating', 'boating', 'wharves', 'marinas', 'water', 'recreation', 'dock', 'ferry', 'bowling', 'recreation', 'sport', 'club', 'bowls', 'bowling', 'camping', 'campervan', 'accommodation', 'camping ground', 'camp site', 'campsite', 'caravans', 'travel', 'campervan', 'camping', 'accommodation', 'caravan park', 'camper van', 'mobile home', 'carparks', 'car', 'car park', 'parking', 'cemeteries', 'dead', 'grave yards', 'crematorium', 'crypt', 'cremate', 'cemetery', 'coach terminals', 'bus', 'transport', 'public transport', 'community', 'community centre', 'neighbourhood service', 'rsl club', 'council', 'government', 'council', 'town hall', 'councils', 'local government', 'government office', 'municipal', 'courts', 'government', 'law', 'courthouse', 'court house', 'justice,croquet', 'recreation', 'croquet lawn', 'embassies', 'government', 'refugee information', 'passport', 'law', 'consular office', 'consulate,express post boxes', 'mail', 'po box', 'letters', 'post office', 'gpo', 'australia post,fire', 'emergency', 'fire department', 'fire station', 'essential service', 'help', 'fire', 'fireman', 'fire fighter', 'fire engine,golf', 'sport', 'recreation', 'golf course', 'golf club', 'driving range,government', 'council', 'commonwealth', 'government office,guides', 'girl guide', 'clubs,halls', 'community', 'public', 'function,hospitals', 'essential services', 'medical', 'health', 'medical centre', , 'help', 'education', 'kinder', 'infants', 'kindy', 'community', 'archives', 'books', 'information', 'borrow', 'loan', 'lending library', 'licensing', 'vehicle', 'motor', 'government', 'traffic', 'inspection', 'licence', 'motor registry', 'lookouts', 'tourism', 'tourist', 'view points', 'attraction', 'viewing platform', 'masonic', 'community', 'halls', 'function rooms', 'masonic centre', 'lodge', 'motoring', 'travel', 'car', 'motor club', 'rac', 'racv', 'racq', 'raa', 'nrma', 'towing', 'breakdown', 'driving', 'parks', 'recreation', 'public amenity', 'oval', 'reserve', 'car', 'travel', 'picnic', 'recreation', 'picnic site', 'spot', 'play', 'playground', 'play equipment', 'parks', 'children', 'kids', 'police', 'essential service', 'emergency', 'cops', 'security', 'law', 'police station', 'enforcement', 'help,post', 'post office', 'mail', 'po box', 'letters', 'gpo', 'australia post,racing', 'sport', 'horse', 'equestrian', 'recreation', 'betting', 'bookies', 'race course', 'sporting venue', 'racecourse', 'trotting', 'track', 'trots', 'red light', 'red light camera', 'traffic lights', 'transport', 'travel', 'car', 'trap,retirement', 'nursing home', 'community', 'old peoples home', 'aged', 'residential care,schools', 'courses', 'education', 'college,scouts', 'community', 'boy scouts', 'clubs,shopping', 'shopping complex', 'shops', 'shopping centre', 'mall', 'skating rinks', 'recreation', 'skateboard', 'skate park', 'speed cameras', 'traffic', 'transport', 'speed trap', 'speed camera', 'speed', 'sport', 'sporting venue', 'recreation', 'play', 'training', 'coaching', 'swimming pool', 'recreation', 'swimming', 'diving', 'aquatic', 'water', 'telephones', 'public telephone', 'phone box', 'phone booth', 'telstra wifi hotspots', 'wireless', 'internet', 'web', 'wi-fi', 'tenpin bowling', 'recreation', 'ten pin', 'skittles', 'tertiary', 'courses', 'university', 'education', 'campus', 'faculty', 'college', 'theatres', 'movies', 'cinema', 'theatre', 'entertainment', 'toilets ', 'public amenity', 'dunny', 'loo', 'wc,tourist information', 'tourist', 'tourism', 'information', 'information centre', 'information booth', 'train stations', 'train', 'railway station', 'public transport', 'railway', 'waste disposal', 'dump', 'public amenity', 'tip', 'rubbish', 'garbage', 'weighbridges', 'travel', 'bridges,wineries', 'tourist', 'tourism', 'wine', 'vineyard', 'worship', 'church', 'pray', 'prayer', 'chapel', 'religion', 'service', 'youth', 'youth club', 'community'],
         refs: {
             searchForm: 'servicesAndFacilitiesPage formpanel',
             servicesAndFacilitiesPage: 'servicesAndFacilitiesPage',
             sevicesAndFacilitiesResultsPage: 'sevicesAndFacilitiesResultsPage',
             keywordField: 'servicesAndFacilitiesPage searchfield',
-            resultsMap: 'sevicesAndFacilitiesResultsPage mapDisplay'
+            resultsMap: 'sevicesAndFacilitiesResultsPage mapDisplay',
+            optionsList: 'servicesAndFacilitiesPage list[action=selectKeyword]',
+            servicesAndFacilitiesBusinessDetails: 'servicesAndFacilitiesBusinessDetails'
         },
         control: {
             'servicesAndFacilitiesPage': {
+                openView: 'setUp',
                 closeView: 'saveValues'
             },
+            'servicesAndFacilitiesPage segmentedbutton': {
+                toggle: 'switchType'
+            },
+
             'servicesAndFacilitiesPage list[action=selectKeyword]': {
                 select: 'selectKeyword'
             },
@@ -60522,21 +60713,63 @@ Ext.define('escape.controller.ServicesAndFacilities', {
             },
             'sevicesAndFacilitiesResultsPage mapDisplay': {
                 markerSelected: 'markerSelected'
+            },
+            'servicesAndFacilitiesBusinessDetails list[action=contactSheet]': {
+                itemsingletap: function(list, index, element, record) {
+                    var data = record.getData();
+                    var pageData = this.getServicesAndFacilitiesBusinessDetails().getResultsData();
+                    switch (data.action) {
+                    case 'getDirections':
+                        escape.model.SensisPOI.reportEvent(pageData.reportingId, 'getDirections');
+                        break;
+                    case 'sendEmail':
+                        escape.model.SensisPOI.reportEvent(pageData.reportingId, 'sendEmail', data.data);
+                        break;
+                    case 'makePhoneCall':
+                        escape.model.SensisPOI.reportEvent(pageData.reportingId, 'dial', data.data);
+                        break;
+                    case 'goToLink':
+                        escape.model.SensisPOI.reportEvent(pageData.reportingId, 'viewWebsite', data.data);
+                        break;
+                    }
+                }
             }
         }
     },
+    setUp: function() {
+        escape.model.WhereIsPOI.on('resultsLoaded', this.resultsLoaded, this);
+        escape.model.SensisPOI.on('resultsLoaded', this.resultsLoaded, this);
+    },
+    switchType: function(container, btn, pressed) {
+        this.setSearchType(btn.config.type);
+        if (btn.config.type == 'general') {
+            this.showGeneral();
+        } else {
+            this.showBusinesses();
+        }
+    },
+    showGeneral: function() {
+        //this.getOptionsList().getStore().setData(AppSettings.poi.general);
+    },
+    showBusinesses: function() {
+
+        // this.getOptionsList().getStore().setData(AppSettings.poi.businesses);
+    },
+
     selectKeyword: function(list, record) {
-        this.getKeywordField().setValue(record.getData().keyword);
+        this.getKeywordField().setValue(record.getData().label);
     },
     showDetails: function(list, record) {
+        var pageType = (this.getIsWhereIsSearch()) ? 'servicesAndFacilitiesDetails' : 'servicesAndFacilitiesBusinessDetails';
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'servicesAndFacilitiesDetails',
+            xtype: pageType,
             resultsData: record.getData()
         });
     },
     markerSelected: function(data) {
+        var pageType = (this.getIsWhereIsSearch()) ? 'servicesAndFacilitiesDetails' : 'servicesAndFacilitiesBusinessDetails';
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'servicesAndFacilitiesDetails',
+            xtype: pageType,
             resultsData: data
         });
     },
@@ -60563,7 +60796,8 @@ Ext.define('escape.controller.ServicesAndFacilities', {
 
     },
     resultsOpened: function() {
-        escape.model.WhereIsPOI.on('resultsLoaded', this.resultsLoaded, this);
+
+
         if (this.getSearchValues().distance != -1) {
             this.getLocation();
         } else {
@@ -60590,12 +60824,39 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         var loading = optionsArea.getComponent('loadingDisplay');
         loadMore.hide();
         loading.show();
-        escape.model.WhereIsPOI.loadMore(this.getResultsPage());
+        if (this.getIsWhereIsSearch()) {
+            escape.model.WhereIsPOI.loadMore(this.getResultsPage());
+        } else {
+            escape.model.SensisPOI.loadMore(this.getResultsPage());
+        }
+
         // set the results to the next page
         this.setResultsPage(this.getResultsPage() + 1);
     },
+    useWhereIs: function(keyword) {
+        var whereIsList = this.getWhereIsKeyWords();
+        keyword = keyword.toLowerCase();
+        for (var i = whereIsList.length - 1; i >= 0; i--) {
+            if (whereIsList[i] === keyword) {
+                return true;
+            }
+        }
+        return false;
+    },
     performSearch: function(geoLocation) {
-        escape.model.WhereIsPOI.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+        //if (this.getSearchType() == 'general') {
+        if (this.useWhereIs(this.getSearchValues().keyword)) {
+            // search where is
+            this.setIsWhereIsSearch(true);
+            console.log('use WhereIs');
+            escape.model.WhereIsPOI.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+        } else {
+            // search sensis
+            this.setIsWhereIsSearch(false);
+            console.log('use Sensis');
+            escape.model.SensisPOI.search(this.getSearchValues().keyword, this.getSearchValues().distance, geoLocation);
+        }
+
     },
     resultsLoaded: function(data) {
         var moreResults = ((data.offset + data.results.length) < data.total) ? true : false;
@@ -60609,6 +60870,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         for (var i = 0; i < results.length; i++) {
             results[i].resultNum = startIndex + (i + 1);
         }
+
         this.getResultsStore().add(results);
         if (this.getResultsPage() == 1) {
             // build the list page if the results have been return for the first time
@@ -60620,7 +60882,6 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         // set the results to the next page
         this.setResultsPage(this.getResultsPage() + 1);
         //
-
         if (this.getListShowing()) {
             if (this.getResultsPage() > 1) {
                 var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
@@ -60638,15 +60899,16 @@ Ext.define('escape.controller.ServicesAndFacilities', {
 
         }
 
-        if (Number(data.total)===0) {
-            this.getSevicesAndFacilitiesResultsPage().removeAll(true,true);
+        if (Number(data.total) === 0) {
+            this.getSevicesAndFacilitiesResultsPage().removeAll(true, true);
             this.getSevicesAndFacilitiesResultsPage().setItems({
-                cls:'noResults'
+                cls: 'noResults'
             });
             this.getSevicesAndFacilitiesResultsPage().addCls('bgTexture');
         }
 
     },
+
     toggleView: function(container, btn, pressed) {
         if (btn.config.type == 'map') {
             this.showMapResults();
@@ -60716,11 +60978,28 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         for (var i = resultsList.length - 1; i >= 0; i--) {
             var marker = resultsList[i].getData();
             marker.iconText = i + 1;
-            intialMarkers.push({
-                lat: marker.address.coordinates.latitude,
-                lon: marker.address.coordinates.longitude,
-                data: marker
-            });
+            if (this.getIsWhereIsSearch()) {
+                intialMarkers.push({
+                    lat: marker.address.coordinates.latitude,
+                    lon: marker.address.coordinates.longitude,
+                    data: marker
+                });
+            } else {
+                if (marker.primaryAddress) {
+                    if (marker.primaryAddress.latitude) {
+                        intialMarkers.push({
+                            lat: marker.primaryAddress.latitude,
+                            lon: marker.primaryAddress.longitude,
+                            data: marker
+                        });
+                    }
+                }
+
+
+            }
+
+
+
         }
 
         var cardView = this.getSevicesAndFacilitiesResultsPage().getItems().items[1];
@@ -65310,6 +65589,7 @@ Ext.define("escape.view.page.Weather", {
         var selfRef = this;
         escape.model.Weather.getFullWeather(refresh, {
             success: function() {
+                console.log('get weather success');
                 selfRef.build();
             },
             error: function(error) {
@@ -65325,6 +65605,8 @@ Ext.define("escape.view.page.Weather", {
         // get the weather model
         var wm = escape.model.Weather;
         var stationId = wm.getStationId();
+        console.log('stationId: ' + stationId);
+        console.log('stationId: ' + stationId);
         var initStationValue = -1;
         // build the weather locations
         var closesName = 'Closest';
@@ -65499,11 +65781,11 @@ Ext.define("escape.view.page.Search", {
     },
     reOpenView: function() {
 
-        this.openView();
-        this.fireEvent('openView', this);
     },
     closeView: function() {
+
         this.setItems([]);
+        this.setIsBuilt(false);
     },
     openView: function() {
         if (!Ext.device.Connection.isOnline()){
@@ -65632,7 +65914,11 @@ Ext.define('escape.controller.GlobalActions', {
         },
         control: {
             'slidenavigationview': {
-                menuOpened: 'menuOpened'
+                menuOpened: 'menuOpened',
+                menuClosed: 'menuClosed'
+            },
+            'section mask': {
+                tap: 'closeMenu'
             },
             'page button[action=showMenu]': {
                 tap: 'showMenu'
@@ -65692,7 +65978,7 @@ Ext.define('escape.controller.GlobalActions', {
                     var data = record.getData();
                     switch (data.action) {
                     case 'getDirections':
-                        this.showDirections(data.data.address, data.data.latlog);
+                        this.showDirections(data.data.address, data.data.latlon);
                         break;
                     case 'sendEmail':
                         this.sendEmail(data.data);
@@ -65716,6 +66002,7 @@ Ext.define('escape.controller.GlobalActions', {
             'section button[cls="weatherBtn iconBtn"]': {
                 tap: 'showWeather'
             },
+
             'page button[action="showWeather"]': {
                 tap: 'showWeather'
             },
@@ -65747,6 +66034,11 @@ Ext.define('escape.controller.GlobalActions', {
             // only run if the page has input fields
             escape.utils.AppFuncs.unfousFields();
         }
+        // add a close panel
+        escape.utils.AppVars.currentSection.setMasked(true);
+    },
+    menuClosed: function(){
+        escape.utils.AppVars.currentSection.setMasked(false);
     },
     removePanel: function(panel) {
         var baseCls = panel.getBaseCls();
@@ -65760,8 +66052,9 @@ Ext.define('escape.controller.GlobalActions', {
     },
     showLargeMap: function(data) {
         escape.utils.Tracking.trackEventOnCurrent(5);
+         var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage',
+            xtype: pageXtype,
             latlon: data.latlon,
             address: data.address
         });
@@ -65789,8 +66082,9 @@ Ext.define('escape.controller.GlobalActions', {
         });
     },
     showDirections: function(address, latlon) {
+       var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage',
+            xtype: pageXtype,
             address: address,
             latlon: latlon
         });
@@ -65839,6 +66133,9 @@ Ext.define('escape.controller.GlobalActions', {
         this.getMainView().select(sectionId, options);
     },
     showMenu: function() {
+        this.getMainView().openContainer();
+    },
+    closeMenu: function(){
         this.getMainView().toggleContainer();
     },
     showWeather: function() {
@@ -67656,8 +67953,8 @@ Ext.application({
     },
     name: 'escape',
     requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars'],
-    views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.Alerts', 'page.AlertDetails','page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map','ui.OfflineMessage'],
-    controllers: ['Map','GlobalActions', 'Settings', 'Section', 'Search', 'Alerts', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage','Directions'],
+    views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.Alerts', 'page.AlertDetails', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map', 'ui.OfflineMessage'],
+    controllers: ['Map', 'GlobalActions', 'Settings','Page', 'Section', 'Search', 'Alerts', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage', 'Directions'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register', 'ProductSearch', 'Itineraries'],
     stores: ['ProductSearch'],
@@ -67686,8 +67983,8 @@ Ext.application({
         // }
     },
     /**
-    *   Controls the back button action for android
-    */
+     *   Controls the back button action for android
+     */
     onBackBtnPressed: function(e) {
         //e.preventDefault();
         var currentSection = escape.utils.AppVars.currentSection;
@@ -67705,8 +68002,8 @@ Ext.application({
         }
     },
     /**
-    *  Cordova has been loaded
-    */
+     *  Cordova has been loaded
+     */
     onDeviceReady: function() {
         var scopeRef = this;
         //
@@ -67732,17 +68029,12 @@ Ext.application({
                 name: 'user',
                 fileName: 'DNSWEscapeUser',
                 checkTable: 'Favourites'
-            },{
+            }, {
                 name: 'cmsPages',
                 fileName: 'cmsPages',
                 checkTable: 'Images',
                 prePopulate: true,
                 reImport: false
-            },{
-                name: 'offlineMap',
-                fileName: 'SydneyMap',
-                checkTable: 'Images',
-                extention: 'mbtiles'
             }]);
 
             try {
@@ -67766,8 +68058,6 @@ Ext.application({
             error: function(error) {},
             scope: this
         });
-        // create the map tiles database
-        escape.model.MapFiles.createMapTilesDB();
         // add the main view
         Ext.Viewport.add(Ext.create('escape.view.Main'));
     },

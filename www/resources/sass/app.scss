@@ -115,6 +115,12 @@ p {
 .x-scroll-scroller {
 	background-color:$page-bg-color;
 }
+
+.sectionContainer {
+	.x-mask {
+		background:transparent;
+	}
+}
 .badge {
 	background-image: url(../images/badge_home_syd.png);
 	background-repeat: no-repeat;
@@ -170,6 +176,7 @@ p {
 		margin: 0 auto;
 	}
 }
+
 .actionHeader {
 	background-color:$mediumGrey;
 	color:#fff;
@@ -307,6 +314,13 @@ p {
 		background:url(../images/footer_logo.png) center center no-repeat;
 		width:100%;
 		height:120px;
+	}
+}
+.homePage {
+	.footer {
+		.border {
+			background-position:0 -10px;
+		}
 	}
 }
 
@@ -1149,6 +1163,16 @@ p {
 		background-position: right 35px;
 		background-repeat: no-repeat;
 		background-image: url(../images/btn_arrow_table_o.png);
+	}
+}
+.homePage {
+	.imgList {
+		.x-list-item:first-child .x-list-item-label {
+			border-top:1px solid #f9f7f3 !important;	
+		}
+		.x-list-item-label {
+			border-top:1px solid $lightGray !important;
+		}
 	}
 }
 
@@ -2363,7 +2387,7 @@ p {
 		}
 	}
 	.x-form-label {
-		background:#fff;
+		background:#f7f7f7;
 		color:$xDarkGray;
 	}
 	.x-toolbar {
@@ -2377,14 +2401,14 @@ p {
 		border:1px solid #a5abb2;
 		@include border-radius(8px);
 		.x-form-label {
-			@include border-radius(8px);
+			@include border-radius(8px 0 0 8px);
 		}
 	}
 	.x-field-select {
 		border:1px solid #a5abb2;
 		@include border-radius(8px);
 		.x-form-label {
-			@include border-radius(8px);
+			@include border-radius(8px 0 0 8px);
 		}
 		.x-form-field {
 			text-align:right;
@@ -2415,6 +2439,9 @@ p {
 ///////////////////////
 // MAPPING
 ///////////////////////
+.olImageLoadError {
+	display:none;
+}
 .mapDisplay {
 	.zoomIn {
 		border: 1px solid #bbbdbd; // stroke
@@ -3105,6 +3132,7 @@ p {
 	}
 	.refreshBtn {
 		background-image: url('../images/btn_refresh@2x.png');
+		-webkit-background-size: 43px 73px; 
 	}
 	.shareAppBtn {
 		.x-button-label {
@@ -3582,6 +3610,7 @@ p {
 		&.mapLarge {
 			.mapHolder {
 				background-image: url(../images/map_loading_badge@2x.png);
+				-webkit-background-size: 107px 146px; 
 				
 			}
 		}
@@ -3592,6 +3621,7 @@ p {
 		-webkit-background-size: 333px 500px; 
 		.x-innerhtml  {
 			background-image: url(../images/no_internet_badge@2x.png) no-repeat 0 20px;
+			-webkit-background-size: 107px 146px; 
 
 		}
 	}

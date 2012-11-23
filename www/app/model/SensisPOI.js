@@ -1,5 +1,5 @@
 Ext.define("escape.model.SensisPOI", {
-    requires: ['escape.utils.Maps', 'escape.model.MapFiles'],
+    requires: ['escape.utils.Maps'],
     mixins: ['Ext.mixin.Observable'],
     singleton: true,
     query: null,
@@ -35,12 +35,6 @@ Ext.define("escape.model.SensisPOI", {
             params: params,
             success: function(response) {
                 var results = JSON.parse(response.responseText);
-                console.log(results);
-                // if (){
-
-                // } else {
-
-                // }
                 // map values to whereis format
                 var poiResults = {
                     offset: results.currentPage - 1 * results.count,
@@ -74,14 +68,12 @@ Ext.define("escape.model.SensisPOI", {
         if (content){
             params.content = content;
         }
-        console.log(params);
         Ext.Ajax.request({
             url: 'http://api.sensis.com.au/ob-20110511/prod/report/'+event,
             method: "GET",
             params: params,
             success: function(response) {
                 var results = JSON.parse(response.responseText);
-                console.log(results);
             },
             failure: function(response, opts) {
             }

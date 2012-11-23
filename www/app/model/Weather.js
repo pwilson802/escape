@@ -162,7 +162,6 @@ Ext.define("escape.model.Weather", {
     },
     // check to see if the weather needs to be loaded
     getFullWeather: function(refresh, callback, scope) {
-
         var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
@@ -175,24 +174,58 @@ Ext.define("escape.model.Weather", {
                 },
                 scope: this
             });
+        } else if (Ext.device.Connection.isOnline() && refresh) {
+            // we are online and a focus refresh has been passed
+            this.checkLocation(callback, scope);
         } else {
-            // load the full weather
-            if (this.loadedDate === null || refresh) {
-                this.checkLocation(callback, scope);
-            } else {
-                var dateNow = new Date();
-                var diff = dateNow - this.lastUpdatedDate;
-                if (diff > this.reloadIn || this.forcatsByDay.length <= 1) {
-                    // reload the current data is old or the fullweather has not been loaded
-                    this.checkLocation(callback, scope);
-
-                } else {
-                    // do not reload use the current data
-                    Ext.callback(callback.success, scope);
-                }
-            }
+            // load the saved weather and check it is valid and uptodate
+            this.checkedSavedWeather(callback, scope);
         }
+    },
 
+    checkedSavedWeather: function(callback, scope) {
+        var selfRef = this;
+        // get the saved weather and check that is vaild
+        escape.model.UserSettings.getSetting('fullWeather', {
+
+            success: function(fullWeather) {
+                if (fullWeather) {
+                    fullWeather = JSON.parse(fullWeather);
+                    selfRef.lastUpdatedDate = new Date(fullWeather.lastUpdated);
+                    selfRef.forcatsByDay = fullWeather.forcatsByDay;
+                    selfRef.weatherData = fullWeather.weatherData;
+                    selfRef.todaysDate = new Date(fullWeather.todaysDate);
+                    if (!Ext.device.Connection.isOnline()) {
+                        // if we are not online return what we have
+                        Ext.callback(callback.success, scope);
+                    } else {
+                        // check to see if the station ids are the same
+                        if (Number(fullWeather.stationId) != Number(selfRef.getStationId())) {
+                            // different station id reload the data
+                            selfRef.checkLocation(callback, scope);
+                        }
+                        // check to see if we need to reload the weather
+                        var dateNow = new Date();
+                        var diff = dateNow - selfRef.lastUpdated;
+                        if (diff > selfRef.reloadIn || selfRef.forcatsByDay.length <= 1 ||  !selfRef.weatherData) {
+                            /// reload the current data is old or the fullweather has not been loaded
+                            selfRef.checkLocation(callback, scope);
+                        } else {
+                            // do not reload use the current data
+                            Ext.callback(callback.success, scope);
+                        }
+                    }
+                } else {
+                    // laod the fullweather as it has not been loaded before
+                    selfRef.checkLocation(callback, scope);
+                }
+            },
+            error: function(error) {
+                // laod the fullweather as it has not been loaded before
+                selfRef.checkLocation(callback, scope);
+            },
+            scope: this
+        });
     },
     checkLocation: function(callback, scope) {
         var selfRef = this;
@@ -249,6 +282,7 @@ Ext.define("escape.model.Weather", {
     },
 
     fullWeatherLoaded: function(weatherData, callback, scope) {
+        var selfRef = this;
         this.weatherData = weatherData;
         this.todaysDate = new Date(parseInt(weatherData.Date.substr(6)));
         this.currentTemp = weatherData.TempCurrent;
@@ -263,6 +297,19 @@ Ext.define("escape.model.Weather", {
         }
         this.forcatsByDay = forcasts;
         this.lastUpdatedDate = new Date();
+        // save the full weather
+        escape.model.UserSettings.setSetting('fullWeather', Ext.JSON.encode({
+            stationId: selfRef.getStationId(),
+            lastUpdated: selfRef.lastUpdatedDate.getTime(),
+            forcatsByDay: selfRef.forcatsByDay,
+            weatherData : selfRef.weatherData,
+            todaysDate : selfRef.todaysDate.getTime()
+        }), {
+            success: function(newValue) {},
+            error: function(error) {},
+            scope: this
+        });
+
         Ext.callback(callback.success, scope);
     },
 
@@ -272,7 +319,6 @@ Ext.define("escape.model.Weather", {
         var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
-            var selfRef = this;
             this.setUp({
                 success: function() {
                     selfRef.getBriefWeather(callback, scope);

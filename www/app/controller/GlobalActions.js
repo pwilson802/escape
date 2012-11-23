@@ -9,7 +9,11 @@ Ext.define('escape.controller.GlobalActions', {
         },
         control: {
             'slidenavigationview': {
-                menuOpened: 'menuOpened'
+                menuOpened: 'menuOpened',
+                menuClosed: 'menuClosed'
+            },
+            'section mask': {
+                tap: 'closeMenu'
             },
             'page button[action=showMenu]': {
                 tap: 'showMenu'
@@ -93,6 +97,7 @@ Ext.define('escape.controller.GlobalActions', {
             'section button[cls="weatherBtn iconBtn"]': {
                 tap: 'showWeather'
             },
+
             'page button[action="showWeather"]': {
                 tap: 'showWeather'
             },
@@ -124,6 +129,11 @@ Ext.define('escape.controller.GlobalActions', {
             // only run if the page has input fields
             escape.utils.AppFuncs.unfousFields();
         }
+        // add a close panel
+        escape.utils.AppVars.currentSection.setMasked(true);
+    },
+    menuClosed: function(){
+        escape.utils.AppVars.currentSection.setMasked(false);
     },
     removePanel: function(panel) {
         var baseCls = panel.getBaseCls();
@@ -137,8 +147,9 @@ Ext.define('escape.controller.GlobalActions', {
     },
     showLargeMap: function(data) {
         escape.utils.Tracking.trackEventOnCurrent(5);
+         var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage',
+            xtype: pageXtype,
             latlon: data.latlon,
             address: data.address
         });
@@ -166,8 +177,9 @@ Ext.define('escape.controller.GlobalActions', {
         });
     },
     showDirections: function(address, latlon) {
+       var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
         escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'directionsPage',
+            xtype: pageXtype,
             address: address,
             latlon: latlon
         });
@@ -216,6 +228,9 @@ Ext.define('escape.controller.GlobalActions', {
         this.getMainView().select(sectionId, options);
     },
     showMenu: function() {
+        this.getMainView().openContainer();
+    },
+    closeMenu: function(){
         this.getMainView().toggleContainer();
     },
     showWeather: function() {

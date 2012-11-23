@@ -15,15 +15,7 @@ Ext.define("escape.view.page.Page", {
         pageTrackingId: 0,
         addToItemId: -1,
         hasInputs: false,
-        itemsToAdd: [],
-        listeners: {
-            activate: function() {
-                this.viewCreated();
-            },
-            show: function() {
-                this.refreshPage();
-            }
-        }
+        itemsToAdd: []
     },
     setNavTitle: function(title) {
         if (title) {

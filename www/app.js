@@ -10,8 +10,8 @@ Ext.application({
     },
     name: 'escape',
     requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars'],
-    views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.Alerts', 'page.AlertDetails','page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map','ui.OfflineMessage'],
-    controllers: ['Map','GlobalActions', 'Settings', 'Section', 'Search', 'Alerts', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage','Directions'],
+    views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.Alerts', 'page.AlertDetails', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map', 'ui.OfflineMessage'],
+    controllers: ['Map', 'GlobalActions', 'Settings','Page', 'Section', 'Search', 'Alerts', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage', 'Directions'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register', 'ProductSearch', 'Itineraries'],
     stores: ['ProductSearch'],
@@ -40,8 +40,8 @@ Ext.application({
         // }
     },
     /**
-    *   Controls the back button action for android
-    */
+     *   Controls the back button action for android
+     */
     onBackBtnPressed: function(e) {
         //e.preventDefault();
         var currentSection = escape.utils.AppVars.currentSection;
@@ -59,8 +59,8 @@ Ext.application({
         }
     },
     /**
-    *  Cordova has been loaded
-    */
+     *  Cordova has been loaded
+     */
     onDeviceReady: function() {
         var scopeRef = this;
         //
@@ -86,17 +86,12 @@ Ext.application({
                 name: 'user',
                 fileName: 'DNSWEscapeUser',
                 checkTable: 'Favourites'
-            },{
+            }, {
                 name: 'cmsPages',
                 fileName: 'cmsPages',
                 checkTable: 'Images',
                 prePopulate: true,
                 reImport: false
-            },{
-                name: 'offlineMap',
-                fileName: 'SydneyMap',
-                checkTable: 'Images',
-                extention: 'mbtiles'
             }]);
 
             try {
@@ -120,8 +115,6 @@ Ext.application({
             error: function(error) {},
             scope: this
         });
-        // create the map tiles database
-        escape.model.MapFiles.createMapTilesDB();
         // add the main view
         Ext.Viewport.add(Ext.create('escape.view.Main'));
     },

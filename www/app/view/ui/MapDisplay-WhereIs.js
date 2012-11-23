@@ -25,7 +25,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     initialize: function() {},
     loadLibaries: function() {
         var selfRef = this;
-        escape.model.MapFiles.loadRequiredFiles({
+        escape.model.Map.loadRequiredFiles({
             success: function(results) {
                 EMS.Util.getDomain = function() {
                     return "destinationnsw.com.au";

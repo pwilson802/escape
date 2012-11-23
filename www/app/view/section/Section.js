@@ -10,6 +10,7 @@ Ext.define("escape.view.section.Section", {
     config: {
         isBuilt: false,
         navViewItemId: 0,
+        cls:'sectionContainer',
         navigationView: null,
         collectionType: null,
         topText : null,

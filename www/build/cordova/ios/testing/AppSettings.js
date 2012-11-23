@@ -11,6 +11,7 @@ AppSettings.appAddress = {
     state: 'nsw',
     suburb: 'sydney'
 };
+AppSettings.center = [-33.8674869, 151.2069902];
 AppSettings.bounds = {
     "left": 150.55337081542,
     "bottom": -36.119202120384,
@@ -77,14 +78,15 @@ AppSettings.facebook = {
 // SENSIS
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
-    url: 'http://api.sensis.com.au/ob-20110511/prod/search'
+    url: 'http://api.sensis.com.au/ob-20110511/prod/search',
+    location: "Greater Sydney NSW"
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
     password: '2121133n!s!w828'
 };
 AppSettings.bing = {
-    key : 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
+    key: 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
 };
 // TWITTER settings
 AppSettings.twitter = {
@@ -98,36 +100,49 @@ AppSettings.twitter = {
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };
-// Points of Interests
-AppSettings.pointsOfInterests = [{
-    label: 'Hospitals',
-    keyword: 'Hospitals',
-    sensis: false
+// servive and facilities list
+AppSettings.poi = [{
+    label: 'Hospitals'
 }, {
-    label: 'Police',
-    keyword: 'Police',
-    sensis: false
+    label: 'Police'
 }, {
-    label: 'Service Stations',
-    keyword: 'Service Stations',
-    sensis: false
+    label: 'Doctors'
 }, {
-    label: 'Post Office',
-    keyword: 'Post Office',
-    sensis: false
+    label: 'Dentist'
 }, {
-    label: 'Beaches',
-    keyword: 'Beaches',
-    sensis: false
+    label: 'Optometrist'
 }, {
-    label: 'Lookouts',
-    keyword: 'Lookouts',
-    sensis: false
+    label: 'Chemists'
 }, {
-    label: 'Toilets',
-    keyword: 'toilet',
-    sensis: false
+    label: 'Service Stations'
+}, {
+    label: 'Veterinarian'
+}, {
+    label: 'Post Office'
+}, {
+    label: 'Beaches'
+}, {
+    label: 'Lookouts'
+}, {
+    label: 'Toilets'
+}, {
+    label: 'Supermarket'
+}, {
+    label: 'Hairdressers'
+}, {
+    label: 'Electrician'
+}, {
+    label: 'Plumber'
+}, {
+    label: 'Florist'
+}, {
+    label: 'Mechanics'
+}, {
+    label: 'Auto Electrictian'
 }];
+
+
+
 // Weather
 AppSettings.weatherStations = [{
     stationId: 517,
@@ -345,11 +360,20 @@ AppSettings.mainMenu = [{
     }
 
 }, {
-    title: 'Current ' + AppSettings.appAreaName + ' Weather',
+    title: 'Map',
+    group: 'Group 4',
+    id: 'areaMap',
+    firstPage: {
+        title: 'Map',
+        xtype: 'mapPage',
+        zoomLevel: 11
+    }
+}, {
+    title: 'Weather',
     group: 'Group 4',
     id: 'currentWeather',
     firstPage: {
-        title: AppSettings.appAreaName + ' Weather',
+        title: 'Weather',
         xtype: 'weatherPage'
     }
 }, {
@@ -362,7 +386,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'Transport Info',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'tranportSection',
     firstPage: {
         title: 'Transport Info',
@@ -372,7 +396,7 @@ AppSettings.mainMenu = [{
 
 }, {
     title: 'Visitor Information Centres',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'visitorInoSection',
     firstPage: {
         title: 'Visitor Information Centres',
@@ -381,7 +405,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'About Destination NSW',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'aboutDNSWSection',
     firstPage: {
         title: 'About Destination NSW',
@@ -390,7 +414,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'Other NSW Apps',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'otherAppsSection',
     firstPage: {
         title: 'Other DNSW apps',
@@ -398,7 +422,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'Settings',
-    group: 'Group 5',
+    group: 'Group 6',
     id: 'settingsSection',
     firstPage: {
         title: 'Settings',
@@ -415,4 +439,3 @@ AppSettings.mainMenu = [{
 //         xtype: 'alertsPage'
 //     }
 // }
-
