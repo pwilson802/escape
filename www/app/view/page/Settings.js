@@ -39,6 +39,7 @@ Ext.define("escape.view.page.Settings", {
         // Tempuature
         var tempToggleValue = (escape.model.Weather.getIsDegrees()) ? 1 : 0;
         var offlineToggleValue = (escape.model.Content.getUseOffline()) ? 1 : 0;
+        var offlineMapsToggleValue = (escape.model.Map.getUseOffline()) ? 0 : 1;
         items.push({
             xtype: 'container',
             cls: 'options',
@@ -64,7 +65,7 @@ Ext.define("escape.view.page.Settings", {
                 xtype: 'fieldset',
                 title: 'Offline content',
                 cls:'switchOnOff',
-                instructions: 'Controls the use off content saved to your phone',
+                instructions: 'Controls the use offline content',
                 items: [{
                     label: 'Use offline content',
                     labelWidth: '60%',
@@ -72,6 +73,17 @@ Ext.define("escape.view.page.Settings", {
                     itemId:'offlineContent',
                     value: offlineToggleValue
                 },{
+                    label: 'Online Maps',
+                    labelWidth: '60%',
+                    xtype: 'togglefield',
+                    itemId:'offlineMap',
+                    value: offlineMapsToggleValue
+                }]
+            }, {
+                xtype: 'fieldset',
+                title: 'Cache',
+                instructions: 'Controls the use of content saved to your phone as you browse the app',
+                items: [{
                     text: 'Clear Cache',
                     cls:'reset',
                     xtype: 'button',

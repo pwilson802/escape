@@ -106,6 +106,7 @@ Ext.application({
         // create the favourites table
         var db = escape.utils.DatabaseManager.getBDConn('user');
         escape.model.Content.checkOfflineSettings();
+        escape.model.Map.checkOfflineSettings();
         // db.queryDB('DROP TABLE Favourites');
         db.queryDB('CREATE TABLE IF NOT EXISTS Favourites (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, product_id, name, type, data)');
         escape.model.Itineraries.setup();

@@ -206,7 +206,7 @@ Ext.define("escape.model.Weather", {
                         }
                         // check to see if we need to reload the weather
                         var dateNow = new Date();
-                        var diff = dateNow - selfRef.lastUpdated;
+                        var diff = dateNow - selfRef.lastUpdatedDate;
                         if (diff > selfRef.reloadIn || selfRef.forcatsByDay.length <= 1 ||  !selfRef.weatherData) {
                             /// reload the current data is old or the fullweather has not been loaded
                             selfRef.checkLocation(callback, scope);

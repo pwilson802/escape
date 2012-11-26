@@ -34,8 +34,7 @@ Ext.define("escape.model.Content", {
                 }
             },
             error: function(error) {
-                // no user temp has been selected
-                selfRef.setIsDegrees(true);
+                selfRef.setUseOffline(true);
             },
             scope: this
         });
@@ -58,6 +57,7 @@ Ext.define("escape.model.Content", {
 
     },
     loadRemoteContent: function(url, callback, scope, localData) {
+        var loadLocal = true;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(url);
         escape.model.ContentPage.load(0, {
@@ -65,7 +65,9 @@ Ext.define("escape.model.Content", {
                 Ext.callback(callback.success, scope, [content]);
                 this.saveRemoteContent(url, content);
             },
-            error: function(error) {},
+            error: function(error) {
+                selfRef.processLocalData(localData);
+            },
             scope: this
         });
     },
@@ -103,39 +105,43 @@ Ext.define("escape.model.Content", {
             if (diff > (AppSettings.caching.cmsCacheLength*1000)) {
                 useLocal = false;
                 // make sure the user has a strong enough connection
+                var networkState = navigator.connection.type;
                 var connectionType = Ext.device.Connection.getType();
-                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G || !Ext.device.Connection.isOnline()) {
+                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G ||  !Ext.device.Connection.isOnline()) {
                     useLocal = true;
                 }
             }
             //
             if (useLocal) {
-                var pageData = {};
-                pageData.title = jsonData.Page.Title;
-                pageData.description = jsonData.Page.Content;
-                pageData.images = jsonData.Page.Images;
-                pageData.geolocation = jsonData.Page.Geolocation;
-                pageData.children = jsonData.Children;
-                pageData.externalLinks = jsonData.Page['External-Links'];
-                pageData.page = jsonData.Page;
-                // place data into a model
-                var localImagesList = page.images.split(',');
-                if (localImagesList.length > 0 && page.images.length > 0) {
-                    // load the images
-                    selfRef.loadLocalImages(localImagesList, pageData, callback, scope);
-                } else {
-                    // return the data
-                    selfRef.returnLocalData(pageData, callback, scope);
-                }
+                selfRef.processLocalData(jsonData);
             } else {
                 // load remote data instead
-                selfRef.loadRemoteContent(url, callback, scope, page);
+                selfRef.loadRemoteContent(url, callback, scope, jsonData);
             }
             // return the content
         }, function(t, e) {
             // error try loading the remote data
             selfRef.loadRemoteContent(url, callback, scope);
         }, [url]);
+    },
+    processLocalData: function(localData){
+        var pageData = {};
+        pageData.title = localData.Page.Title;
+        pageData.description = localData.Page.Content;
+        pageData.images = localData.Page.Images;
+        pageData.geolocation = localData.Page.Geolocation;
+        pageData.children = localData.Children;
+        pageData.externalLinks = localData.Page['External-Links'];
+        pageData.page = localData.Page;
+        // place data into a model
+        var localImagesList = page.images.split(',');
+        if (localImagesList.length > 0 && page.images.length > 0) {
+            // load the images
+            this.loadLocalImages(localImagesList, pageData, callback, scope);
+        } else {
+            // return the data
+            this.returnLocalData(pageData, callback, scope);
+        }
     },
     loadLocalImages: function(ids, pageData, callback, scope) {
         var selfRef = this;

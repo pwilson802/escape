@@ -1,16 +1,28 @@
 Ext.define("escape.model.Map", {
-    loaded: false,
+    onlineFilesLoaded: false,
     offlineFilesLoaded: false,
     singleton: true,
-    config: {},
+     config: {
+         useOffline: true
+    },
+     // called when useOffline is updated
+    updateUseOffline: function(newValue, oldValue) {
+         escape.model.UserSettings.setSetting('useOfflineMap', String(newValue), {
+            success: function(newValue) {
+            },
+            error: function(error) {
+            },
+            scope: this
+        });
+    },
     checkOfflineSettings: function(callback, scope) {
         // Check to see if the user has picked a useOffline setting
         var selfRef = this;
         escape.model.UserSettings.getSetting('useOfflineMap', {
             success: function(useOffline) {
-                if (useOffline === null) {
-                    // no user isDegrees has been selected
-                    selfRef.setUseOffline(true);
+                if (useOffline === null || useOffline === undefined) {
+                    // no user offline has been selected
+                    selfRef.setUseOffline(false);
                 } else {
                     var setting = true;
                     if (useOffline == 'false') {
@@ -24,7 +36,7 @@ Ext.define("escape.model.Map", {
             },
             error: function(error) {
                 // no user temp has been selected
-                selfRef.setIsDegrees(true);
+                selfRef.setUseOffline(false);
             },
             scope: this
         });
@@ -39,7 +51,7 @@ Ext.define("escape.model.Map", {
     },
 
     loadRequiredFiles: function(callback, scope) {
-        if (this.loaded) {
+        if (this.onlineFilesLoaded) {
             Ext.callback(callback.success, scope, []);
         } else {
             var selfRef = this;
@@ -48,7 +60,8 @@ Ext.define("escape.model.Map", {
             var ems = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=' + AppSettings.whereis.token;
             var iPhoneDefaults = 'resources/js/IPhoneDefaults.js';
             LazyLoad.js([whereIsOpenLayers, ems, iPhoneDefaults], function() {
-                selfRef.loaded = true;
+                selfRef.onlineFilesLoaded = true;
+                selfRef.offlineFilesLoaded = false;
                 Ext.callback(callback.success, scope, []);
             });
         }
@@ -65,6 +78,7 @@ Ext.define("escape.model.Map", {
             var js = 'resources/js/OpenLayers.js';
             LazyLoad.js([js], function() {
                 selfRef.offlineFilesLoaded = true;
+                 selfRef.onlineFilesLoaded = false;
                 Ext.callback(callback.success, scope, []);
             });
         }

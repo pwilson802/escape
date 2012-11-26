@@ -116,7 +116,11 @@ Ext.define("escape.model.Directions", {
         if (transportType == 'walk') {
             useTransportType = "PEDESTRIAN";
         }
-        this.routeManager.clearRoute();
+        try {
+            this.routeManager.clearRoute();
+        } catch (e) {
+
+        }
         this.routeManager.route(routeList, true, true, useTransportType, this.map.vlayer, {
             onComplete: function(routeResult) {
                 Ext.callback(callback.success, scope, [routeResult]);

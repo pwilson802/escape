@@ -5,6 +5,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     config: {
         cls: 'mapDisplay',
         useOnlineMaps: true,
+        forceUseOffline:false,
         map: null,
         created: false,
         mapId: 0,
@@ -42,7 +43,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     loadLibaries: function() {
         // check to see if the user is online or not
-        if (Ext.device.Connection.isOnline()) {
+        if (Ext.device.Connection.isOnline() && !escape.model.Map.getUseOffline() || this.getForceUseOffline()) {
             this.setUseOnlineMaps(true);
         } else {
              this.setUseOnlineMaps(false);
@@ -116,7 +117,6 @@ Ext.define("escape.view.ui.MapDisplay", {
         }
     },
     buildOfflineMap: function() {
-        console.log('buildOfflieMaps: ' + this.getBuilt());
         if (!this.getBuilt()) {
             //
             var options = {
@@ -262,7 +262,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         if (this.getUseOnlineMaps()) {
             this.getMarkerLayer().clearMarkers();
         } else {
-            this.getMap().getLayersByName("Markers")[0].destory();
+            this.getMap().getLayersByName("Markers")[0].destroy();
             var markers = new OpenLayers.Layer.Markers("Markers");
             this.getMap().addLayer(markers);
         }

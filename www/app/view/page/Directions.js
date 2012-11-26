@@ -22,11 +22,10 @@ Ext.define("escape.view.page.Directions", {
     openView: function() {
         var address = this.getAddress();
         var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
-        console.log(address);
-        console.log(this.getLatlon());
 
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
             itemId: 'mapDisplay',
+            forceUseOffline: true,
             height: Ext.Viewport.getSize().height - 143,
             lat: Number(this.getLatlon()[0]),
             lon: Number(this.getLatlon()[1]),

@@ -30,11 +30,23 @@ Ext.define('escape.controller.Directions', {
             }
         }
     },
+    loadLibaries: function(map) {
+        var selfRef = this;
+        escape.model.Map.loadFiles(
+        true, {
+            success: function() {
+                console.log('map files loaded');
+                 escape.model.Directions.setup(map);
+            },
+            error: function() {},
+            scope: this
+        });
+    },
     mapCreated: function() {
         var selfRef = this;
         this.setTransportType('car');
         var map = this.getDirectionsPage().getMapDisplay().getMap();
-        escape.model.Directions.setup(map);
+        this.loadLibaries(map);
         this.getRouteBtn().enable();
         var transportBtn = this.getTransportBtn();
         escape.model.UserSettings.getSetting('transportType', {
@@ -315,7 +327,7 @@ Ext.define('escape.controller.Directions', {
                         var listPanel = Ext.create('Ext.Panel', {
                             modal: true,
                             centered: true,
-                            cls:'addressPicker',
+                            cls: 'addressPicker',
                             hideOnMaskTap: false,
                             width: viewportsize.width - 80,
                             height: viewportsize.height - 80,

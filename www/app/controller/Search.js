@@ -34,7 +34,7 @@ Ext.define('escape.controller.Search', {
             'searchPage searchfield': {
                 keyup: 'queryChange',
                 change: 'hideSuggestions',
-                blur: 'hideSuggestions'
+                blur: 'hideSuggestionsDelay'
             },
             'searchResultsPage': {
                 openView: 'resultsOpened'
@@ -67,7 +67,7 @@ Ext.define('escape.controller.Search', {
     querySeclected: function(list, record) {
         var newquery = record.getData().suggestion;
         this.getSearchField().setValue(newquery);
-        this.hideSuggestions();
+        this.hideSuggestionsDelay();
         // runn the search
         this.search();
     },
@@ -75,28 +75,28 @@ Ext.define('escape.controller.Search', {
         var newquery = record.getData().suggestion;
         this.getSearchField().setValue(newquery + ' ');
         event.stopEvent();
-        //this.hideSuggestions();
+        this.hideSuggestionsDelay();
     },
 
     queryChange: function() {
        // if (Ext.os.is.iOS) {
-            connectionStrong = false;
+            connectionStrong = true;
             // make sure the user has a strong enough connection
             var connectionType = Ext.device.Connection.getType();
             if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
-                connectionStrong = false;
+               // connectionStrong = false;
             }
             if (connectionStrong) {
                 // make sure the query is long enough
                 var query = this.getSearchField().getValue();
                 // make sure the query is long enough
-                if (query.length > 2) {
+                if (query.length > 0) {
                     // cancel any running delays
                     if (this.getQueryDelay()) {
                         this.getQueryDelay().cancel();
                     }
                     // wait for a delay then load the query compeltion
-                    this.getQueryDelay().delay(500);
+                    this.getQueryDelay().delay(300);
                 }
             }
 
@@ -136,7 +136,7 @@ Ext.define('escape.controller.Search', {
         // make sure we are still on the right page
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('searchPage') != -1) {
             // make sure the panel has been set up
-            this.setUpQueryCompletion();
+           
 
 
             var selfRef = this;
@@ -151,21 +151,34 @@ Ext.define('escape.controller.Search', {
 
             }
             if (suggestionsData.length) {
-                var height = (suggestionsData.length < 3) ? suggestionsData.length * 49 : 3 * 49;
-                this.getSuggestionsPanel().setTop(90);
-                this.getSuggestionsPanel().setHeight(height);
-                this.getSuggestionsPanel().getComponent('suggestionList').setHeight(height);
-                this.getSuggestionsStore().removeAll();
-                this.getSuggestionsStore().add(suggestionsData);
+                var height = (suggestionsData.length == 1) ? 49 : 98;
+                if (this.getSuggestionsPanel()){
+                    this.getSuggestionsPanel().setStyle('display:block');
+                    this.getSuggestionsPanel().setHidden(false);
+                    this.getSuggestionsPanel().setHeight(height);
+                    this.getSuggestionsPanel().getComponent('suggestionList').setHeight(height);
+                    this.getSuggestionsStore().removeAll();
+                    this.getSuggestionsStore().add(suggestionsData);
+                } else {
+                }
+                 
             }
         }
     },
+    hideSuggestionsDelay: function(){
+        var selfRef = this;
+        var task = Ext.create('Ext.util.DelayedTask', function() {
+                    selfRef.hideSuggestions();
+                });
+        task.delay(500);
+    },
+
     hideSuggestions: function() {
        // if (Ext.os.is.iOS) {
          if (this.getSuggestionsPanel()) {
-             this.getSuggestionsPanel().setHidden(true);
-            var viewportsize = Ext.Viewport.getSize();
-            this.getSuggestionsPanel().setTop(viewportsize.height);
+             this.getSuggestionsPanel().setStyle('display:none');
+            //var viewportsize = Ext.Viewport.getSize();
+           // this.getSuggestionsPanel().setTop(viewportsize.height);
         }
         //}
     },
@@ -197,16 +210,17 @@ Ext.define('escape.controller.Search', {
                     cls: 'suggestionList',
                     store: suggestionsStore,
                     onItemDisclosure: true,
-                    height: 150
+                    height: 98
                 });
                 // build the panel
                 var listPanel = Ext.create('Ext.Panel', {
                     masked: false,
                     cls: 'suggestionPanel',
                     width: viewportsize.width - 80,
-                    height: 150,
-                    top: viewportsize.height,
-                    left: 40
+                    height: 98,
+                    top: 90,
+                    left: 40,
+                    hidden: true
                 });
                 listPanel.add(suggestionsListDisplay);
                 this.setSuggestionsPanel(listPanel);
@@ -224,6 +238,8 @@ Ext.define('escape.controller.Search', {
         if (!this.getSearchBuilt()){
             this.getSearchBuilt(true);
             if (Ext.device.Connection.isOnline()) {
+                //
+                 this.setUpQueryCompletion();
             // check to see if dates need to be added
             var collectionType = this.getSearchPage().getCollectionType();
             if (collectionType == 'event') {
@@ -368,7 +384,7 @@ Ext.define('escape.controller.Search', {
 
     },
     search: function() {
-        this.removeSuggestions();
+        this.hideSuggestions();
         // add the results page
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'searchResultsPage'

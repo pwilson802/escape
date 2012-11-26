@@ -10,6 +10,9 @@ Ext.define('escape.controller.Settings', {
             },
             'settingsPage #offlineContent': {
                 change: 'switchUseOffline'
+            },
+             'settingsPage #offlineMap': {
+                change: 'switchUseOfflineMaps'
             }
         }
     },
@@ -19,6 +22,14 @@ Ext.define('escape.controller.Settings', {
             escape.model.Content.setUseOffline(false);
         } else {
             escape.model.Content.setUseOffline(true);
+        }
+    },
+      // swich use offline maps
+    switchUseOfflineMaps: function(){
+        if (escape.model.Map.getUseOffline()) {
+            escape.model.Map.setUseOffline(false);
+        } else {
+            escape.model.Map.setUseOffline(true);
         }
     },
     // clear the proxy cache

@@ -29158,6 +29158,9 @@ Ext.define('escape.controller.Settings', {
             },
             'settingsPage #offlineContent': {
                 change: 'switchUseOffline'
+            },
+             'settingsPage #offlineMap': {
+                change: 'switchUseOfflineMaps'
             }
         }
     },
@@ -29167,6 +29170,14 @@ Ext.define('escape.controller.Settings', {
             escape.model.Content.setUseOffline(false);
         } else {
             escape.model.Content.setUseOffline(true);
+        }
+    },
+      // swich use offline maps
+    switchUseOfflineMaps: function(){
+        if (escape.model.Map.getUseOffline()) {
+            escape.model.Map.setUseOffline(false);
+        } else {
+            escape.model.Map.setUseOffline(true);
         }
     },
     // clear the proxy cache
@@ -30161,7 +30172,6 @@ Ext.define("escape.model.Weather", {
     },
     // check to see if the weather needs to be loaded
     getFullWeather: function(refresh, callback, scope) {
-        console.log('getFullWeather');
         var selfRef = this;
         if (this.getIsDegrees() === null) {
             // the weather has not been set up
@@ -30184,55 +30194,43 @@ Ext.define("escape.model.Weather", {
     },
 
     checkedSavedWeather: function(callback, scope) {
-        console.log('checkedSavedWeather');
         var selfRef = this;
         // get the saved weather and check that is vaild
         escape.model.UserSettings.getSetting('fullWeather', {
 
             success: function(fullWeather) {
-                console.log('db returned fullWeather');
                 if (fullWeather) {
-                    console.log('fullWeather has a value');
                     fullWeather = JSON.parse(fullWeather);
                     selfRef.lastUpdatedDate = new Date(fullWeather.lastUpdated);
                     selfRef.forcatsByDay = fullWeather.forcatsByDay;
                     selfRef.weatherData = fullWeather.weatherData;
+                    selfRef.todaysDate = new Date(fullWeather.todaysDate);
                     if (!Ext.device.Connection.isOnline()) {
-                         console.log('not online');
                         // if we are not online return what we have
                         Ext.callback(callback.success, scope);
                     } else {
                         // check to see if the station ids are the same
-                        console.log('fullWeather.stationId: ' + fullWeather.stationId);
-                        console.log('getStationId: ' + selfRef.getStationId());
                         if (Number(fullWeather.stationId) != Number(selfRef.getStationId())) {
-                              console.log('different station id reload the data');
                             // different station id reload the data
                             selfRef.checkLocation(callback, scope);
                         }
                         // check to see if we need to reload the weather
                         var dateNow = new Date();
-                        var diff = dateNow - selfRef.lastUpdated;
-
+                        var diff = dateNow - selfRef.lastUpdatedDate;
                         if (diff > selfRef.reloadIn || selfRef.forcatsByDay.length <= 1 ||  !selfRef.weatherData) {
-                             console.log('reload the current data is old or the fullweather has not been loaded');
                             /// reload the current data is old or the fullweather has not been loaded
                             selfRef.checkLocation(callback, scope);
                         } else {
                             // do not reload use the current data
-                            console.log('1 do not reload use the current data');
-                            console.log(callback);
                             Ext.callback(callback.success, scope);
                         }
                     }
                 } else {
-                    console.log('fullWeather has no a value');
                     // laod the fullweather as it has not been loaded before
                     selfRef.checkLocation(callback, scope);
                 }
             },
             error: function(error) {
-                console.log('error returning fullweather');
                 // laod the fullweather as it has not been loaded before
                 selfRef.checkLocation(callback, scope);
             },
@@ -30240,7 +30238,6 @@ Ext.define("escape.model.Weather", {
         });
     },
     checkLocation: function(callback, scope) {
-        console.log('checkLocation');
         var selfRef = this;
         if (this.getStationId() === 0) {
             Ext.device.Geolocation.getCurrentPosition({
@@ -30295,8 +30292,6 @@ Ext.define("escape.model.Weather", {
     },
 
     fullWeatherLoaded: function(weatherData, callback, scope) {
-        console.log('fullWeatherLoaded');
-        console.log(weatherData);
         var selfRef = this;
         this.weatherData = weatherData;
         this.todaysDate = new Date(parseInt(weatherData.Date.substr(6)));
@@ -30317,7 +30312,8 @@ Ext.define("escape.model.Weather", {
             stationId: selfRef.getStationId(),
             lastUpdated: selfRef.lastUpdatedDate.getTime(),
             forcatsByDay: selfRef.forcatsByDay,
-            weatherData : selfRef.weatherData
+            weatherData : selfRef.weatherData,
+            todaysDate : selfRef.todaysDate.getTime()
         }), {
             success: function(newValue) {},
             error: function(error) {},
@@ -31753,14 +31749,14 @@ Ext.define("escape.model.Content", {
                 }
             },
             error: function(error) {
-                // no user temp has been selected
-                selfRef.setIsDegrees(true);
+                selfRef.setUseOffline(true);
             },
             scope: this
         });
     },
     // based on the users setting and connectivity will return the local page data
     getContentPageData: function(url, callback, scope) {
+        console.log('!!! getContentPageData');
         var loadLocal = true;
         if (Ext.device.Connection.isOnline()) {
             if (!this.getUseOffline()) {
@@ -31777,18 +31773,26 @@ Ext.define("escape.model.Content", {
 
     },
     loadRemoteContent: function(url, callback, scope, localData) {
+         console.log('!!! loadRemoteContent');
+        var loadLocal = true;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(url);
         escape.model.ContentPage.load(0, {
             success: function(content) {
+                console.log('!!! success loadRemoteContent ');
                 Ext.callback(callback.success, scope, [content]);
                 this.saveRemoteContent(url, content);
             },
-            error: function(error) {},
+            error: function(error) {
+                console.log('!!! error getContentPageData');
+                console.log(error);
+                selfRef.processLocalData(localData);
+            },
             scope: this
         });
     },
     saveRemoteContent: function(url, content) {
+        console.log('!!! saveRemoteContent');
         var updateTime = new Date().getTime();
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
@@ -31807,9 +31811,11 @@ Ext.define("escape.model.Content", {
         }
     },
     loadLocalContent: function(url, callback, scope) {
+        console.log('!!! loadLocalContent');
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         db.queryDB('SELECT * FROM Pages WHERE url = (?)', function(t, rs) {
+             console.log('!!! success useLocal');
             // make sure the product is not database
             var page = rs.rows.item(0);
             // build and map page data
@@ -31822,39 +31828,46 @@ Ext.define("escape.model.Content", {
             if (diff > (AppSettings.caching.cmsCacheLength*1000)) {
                 useLocal = false;
                 // make sure the user has a strong enough connection
+                console.log("!!!  Ext.device.Connection.isOnline(): " + Ext.device.Connection.isOnline());
+                var networkState = navigator.connection.type;
                 var connectionType = Ext.device.Connection.getType();
-                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G || !Ext.device.Connection.isOnline()) {
+                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G ||  !Ext.device.Connection.isOnline()) {
                     useLocal = true;
                 }
             }
             //
+             console.log('!!! useLocal: ' + useLocal);
             if (useLocal) {
-                var pageData = {};
-                pageData.title = jsonData.Page.Title;
-                pageData.description = jsonData.Page.Content;
-                pageData.images = jsonData.Page.Images;
-                pageData.geolocation = jsonData.Page.Geolocation;
-                pageData.children = jsonData.Children;
-                pageData.externalLinks = jsonData.Page['External-Links'];
-                pageData.page = jsonData.Page;
-                // place data into a model
-                var localImagesList = page.images.split(',');
-                if (localImagesList.length > 0 && page.images.length > 0) {
-                    // load the images
-                    selfRef.loadLocalImages(localImagesList, pageData, callback, scope);
-                } else {
-                    // return the data
-                    selfRef.returnLocalData(pageData, callback, scope);
-                }
+                selfRef.processLocalData(jsonData);
             } else {
                 // load remote data instead
-                selfRef.loadRemoteContent(url, callback, scope, page);
+                selfRef.loadRemoteContent(url, callback, scope, jsonData);
             }
             // return the content
         }, function(t, e) {
+            console.log('!!! error useLocal');
             // error try loading the remote data
             selfRef.loadRemoteContent(url, callback, scope);
         }, [url]);
+    },
+    processLocalData: function(localData){
+        var pageData = {};
+        pageData.title = localData.Page.Title;
+        pageData.description = localData.Page.Content;
+        pageData.images = localData.Page.Images;
+        pageData.geolocation = localData.Page.Geolocation;
+        pageData.children = localData.Children;
+        pageData.externalLinks = localData.Page['External-Links'];
+        pageData.page = localData.Page;
+        // place data into a model
+        var localImagesList = page.images.split(',');
+        if (localImagesList.length > 0 && page.images.length > 0) {
+            // load the images
+            this.loadLocalImages(localImagesList, pageData, callback, scope);
+        } else {
+            // return the data
+            this.returnLocalData(pageData, callback, scope);
+        }
     },
     loadLocalImages: function(ids, pageData, callback, scope) {
         var selfRef = this;
@@ -32147,7 +32160,11 @@ Ext.define("escape.model.Directions", {
         if (transportType == 'walk') {
             useTransportType = "PEDESTRIAN";
         }
-        this.routeManager.clearRoute();
+        try {
+            this.routeManager.clearRoute();
+        } catch (e) {
+
+        }
         this.routeManager.route(routeList, true, true, useTransportType, this.map.vlayer, {
             onComplete: function(routeResult) {
                 Ext.callback(callback.success, scope, [routeResult]);
@@ -32384,18 +32401,30 @@ Ext.define('escape.utils.Maps', {
     }
 });
 Ext.define("escape.model.Map", {
-    loaded: false,
+    onlineFilesLoaded: false,
     offlineFilesLoaded: false,
     singleton: true,
-    config: {},
+     config: {
+         useOffline: true
+    },
+     // called when useOffline is updated
+    updateUseOffline: function(newValue, oldValue) {
+         escape.model.UserSettings.setSetting('useOfflineMap', String(newValue), {
+            success: function(newValue) {
+            },
+            error: function(error) {
+            },
+            scope: this
+        });
+    },
     checkOfflineSettings: function(callback, scope) {
         // Check to see if the user has picked a useOffline setting
         var selfRef = this;
         escape.model.UserSettings.getSetting('useOfflineMap', {
             success: function(useOffline) {
-                if (useOffline === null) {
-                    // no user isDegrees has been selected
-                    selfRef.setUseOffline(true);
+                if (useOffline === null || useOffline === undefined) {
+                    // no user offline has been selected
+                    selfRef.setUseOffline(false);
                 } else {
                     var setting = true;
                     if (useOffline == 'false') {
@@ -32409,7 +32438,7 @@ Ext.define("escape.model.Map", {
             },
             error: function(error) {
                 // no user temp has been selected
-                selfRef.setIsDegrees(true);
+                selfRef.setUseOffline(false);
             },
             scope: this
         });
@@ -32424,7 +32453,7 @@ Ext.define("escape.model.Map", {
     },
 
     loadRequiredFiles: function(callback, scope) {
-        if (this.loaded) {
+        if (this.onlineFilesLoaded) {
             Ext.callback(callback.success, scope, []);
         } else {
             var selfRef = this;
@@ -32433,7 +32462,8 @@ Ext.define("escape.model.Map", {
             var ems = 'http://www.destinationnsw.com.au/smartphoneapps/whereis/v1/web/js/ems/EMS.js?profile=mobi&token=' + AppSettings.whereis.token;
             var iPhoneDefaults = 'resources/js/IPhoneDefaults.js';
             LazyLoad.js([whereIsOpenLayers, ems, iPhoneDefaults], function() {
-                selfRef.loaded = true;
+                selfRef.onlineFilesLoaded = true;
+                selfRef.offlineFilesLoaded = false;
                 Ext.callback(callback.success, scope, []);
             });
         }
@@ -32450,6 +32480,7 @@ Ext.define("escape.model.Map", {
             var js = 'resources/js/OpenLayers.js';
             LazyLoad.js([js], function() {
                 selfRef.offlineFilesLoaded = true;
+                 selfRef.onlineFilesLoaded = false;
                 Ext.callback(callback.success, scope, []);
             });
         }
@@ -40187,11 +40218,23 @@ Ext.define('escape.controller.Directions', {
             }
         }
     },
+    loadLibaries: function(map) {
+        var selfRef = this;
+        escape.model.Map.loadFiles(
+        true, {
+            success: function() {
+                console.log('map files loaded');
+                 escape.model.Directions.setup(map);
+            },
+            error: function() {},
+            scope: this
+        });
+    },
     mapCreated: function() {
         var selfRef = this;
         this.setTransportType('car');
         var map = this.getDirectionsPage().getMapDisplay().getMap();
-        escape.model.Directions.setup(map);
+        this.loadLibaries(map);
         this.getRouteBtn().enable();
         var transportBtn = this.getTransportBtn();
         escape.model.UserSettings.getSetting('transportType', {
@@ -40472,7 +40515,7 @@ Ext.define('escape.controller.Directions', {
                         var listPanel = Ext.create('Ext.Panel', {
                             modal: true,
                             centered: true,
-                            cls:'addressPicker',
+                            cls: 'addressPicker',
                             hideOnMaskTap: false,
                             width: viewportsize.width - 80,
                             height: viewportsize.height - 80,
@@ -41954,6 +41997,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     config: {
         cls: 'mapDisplay',
         useOnlineMaps: true,
+        forceUseOffline:false,
         map: null,
         created: false,
         mapId: 0,
@@ -41991,7 +42035,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     loadLibaries: function() {
         // check to see if the user is online or not
-        if (Ext.device.Connection.isOnline()) {
+        if (Ext.device.Connection.isOnline() && !escape.model.Map.getUseOffline() || this.getForceUseOffline()) {
             this.setUseOnlineMaps(true);
         } else {
              this.setUseOnlineMaps(false);
@@ -42065,7 +42109,6 @@ Ext.define("escape.view.ui.MapDisplay", {
         }
     },
     buildOfflineMap: function() {
-        console.log('buildOfflieMaps: ' + this.getBuilt());
         if (!this.getBuilt()) {
             //
             var options = {
@@ -42211,7 +42254,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         if (this.getUseOnlineMaps()) {
             this.getMarkerLayer().clearMarkers();
         } else {
-            this.getMap().getLayersByName("Markers")[0].destory();
+            this.getMap().getLayersByName("Markers")[0].destroy();
             var markers = new OpenLayers.Layer.Markers("Markers");
             this.getMap().addLayer(markers);
         }
@@ -42576,11 +42619,10 @@ Ext.define("escape.view.page.Directions", {
     openView: function() {
         var address = this.getAddress();
         var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
-        console.log(address);
-        console.log(this.getLatlon());
 
         var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
             itemId: 'mapDisplay',
+            forceUseOffline: true,
             height: Ext.Viewport.getSize().height - 143,
             lat: Number(this.getLatlon()[0]),
             lon: Number(this.getLatlon()[1]),
@@ -46635,6 +46677,7 @@ Ext.define("escape.view.page.Settings", {
         // Tempuature
         var tempToggleValue = (escape.model.Weather.getIsDegrees()) ? 1 : 0;
         var offlineToggleValue = (escape.model.Content.getUseOffline()) ? 1 : 0;
+        var offlineMapsToggleValue = (escape.model.Map.getUseOffline()) ? 1 : 0;
         items.push({
             xtype: 'container',
             cls: 'options',
@@ -46660,7 +46703,7 @@ Ext.define("escape.view.page.Settings", {
                 xtype: 'fieldset',
                 title: 'Offline content',
                 cls:'switchOnOff',
-                instructions: 'Controls the use off content saved to your phone',
+                instructions: 'Controls the use offline content',
                 items: [{
                     label: 'Use offline content',
                     labelWidth: '60%',
@@ -46668,6 +46711,17 @@ Ext.define("escape.view.page.Settings", {
                     itemId:'offlineContent',
                     value: offlineToggleValue
                 },{
+                    label: 'Always use offline maps',
+                    labelWidth: '60%',
+                    xtype: 'togglefield',
+                    itemId:'offlineMap',
+                    value: offlineMapsToggleValue
+                }]
+            }, {
+                xtype: 'fieldset',
+                title: 'Cache',
+                instructions: 'Controls the use of content saved to your phone as you browse the app',
+                items: [{
                     text: 'Clear Cache',
                     cls:'reset',
                     xtype: 'button',
@@ -50351,6 +50405,7 @@ Ext.define("escape.view.page.Home", {
     xtype: 'homePage',
     requires: ['Ext.Img', 'Ext.carousel.Carousel', 'escape.view.ui.AppImage', 'escape.view.ui.WeatherBtn'],
     config: {
+        cls:'homePage',
         addToItemId: 1,
         rightBtn: 'searchBtn',
         title: AppSettings.appAreaName,
@@ -50374,12 +50429,12 @@ Ext.define("escape.view.page.Home", {
         this.openView();
     },
     closeView: function() {
-        this.setHomeBuilt(false);
-        this.removeAll(true,true);
+       // this.setHomeBuilt(false);
+       // this.removeAll(true,true);
         this.removeWeatherBtn();
     },
     reOpenView: function() {
-        this.openView();
+        this.showWeather();
     },
 
     openView: function() {
@@ -50439,7 +50494,7 @@ Ext.define("escape.view.page.Home", {
             }, {
                 xtype: 'list',
                 itemId: 'thingsToDoList',
-                itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
+                itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div>', //<div class="img" style="background-image:url({imgPath})"></div>
                 cls: 'imgList numberedList homeList',
                 scrollable: false,
                 data: thingsToDoCats
@@ -50462,41 +50517,33 @@ Ext.define("escape.view.page.Home", {
         var currentPage = escape.utils.AppVars.currentPage;
         // make sure we are in the home section
         if (currentPage.config.xtype == 'homePage') {
-            // get the weather btn
-            var weatherBtn = currenctSection.getComponent('weatherBtn');
-            // if does not exist so create it
-            if (!weatherBtn) {
-                weatherBtn = currenctSection.add({
-                    xtype: 'button',
-                    cls: 'weatherBtn iconBtn',
-                    action: 'showWeather',
-                    itemId: 'weatherBtn',
-                    top: -2,
-                    right: 36,
-                    width: 40,
-                    zIndex: 10
-                });
-            }
-            // set the icon
             var wm = escape.model.Weather;
             var today = wm.forcatsByDay[0];
-            var imagaeName = 'we_ico_' + today.icon + '_sml';
-            if (escape.utils.Img.retinaAvailable()) {
-                imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+            if (today) {
+                // get the weather btn
+                var weatherBtn = currenctSection.getComponent('weatherBtn');
+                // if does not exist so create it
+                if (!weatherBtn) {
+                    weatherBtn = currenctSection.add({
+                        xtype: 'button',
+                        cls: 'weatherBtn iconBtn',
+                        action: 'showWeather',
+                        itemId: 'weatherBtn',
+                        top: -2,
+                        right: 36,
+                        width: 40,
+                        zIndex: 10
+                    });
+                }
+                // set the icon
+                var imagaeName = 'we_ico_' + today.icon + '_sml';
+                if (escape.utils.Img.retinaAvailable()) {
+                    imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+                }
+                weatherBtn.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
             }
-            weatherBtn.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+
         }
-        // var wm = escape.model.Weather;
-        // var btnsHomeContainer = this.getComponent('btnsHomeContainer');
-        // var todaysWeather = btnsHomeContainer.getComponent('weatherHome');
-        // var today = wm.forcatsByDay[0];
-        // var imagaeName = 'we_ico_' + today.icon + '_sml';
-        // if (escape.utils.Img.retinaAvailable()) {
-        //     imagaeName = 'we_ico_' + today.icon + '_sml@2x';
-        // }
-        // //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
-        // todaysWeather.addCls('icon_' + today.icon);
-        // todaysWeather.setText('<h2>' + wm.convertTempature(wm.currentTemp) + '&deg;</h2><h4>' + today.forecast + '</h4>');
     },
     removeWeatherBtn: function() {
         var currenctSection = escape.utils.AppVars.currentSection;
@@ -59541,8 +59588,8 @@ Ext.define('escape.controller.Search', {
             },
             'searchPage searchfield': {
                 keyup: 'queryChange',
-                change: 'hideSuggestions',
-                blur: 'hideSuggestions'
+                change: 'hideSuggestionsDelay',
+                blur: 'hideSuggestionsDelay'
             },
             'searchResultsPage': {
                 openView: 'resultsOpened'
@@ -59575,7 +59622,7 @@ Ext.define('escape.controller.Search', {
     querySeclected: function(list, record) {
         var newquery = record.getData().suggestion;
         this.getSearchField().setValue(newquery);
-        this.hideSuggestions();
+        this.hideSuggestionsDelay();
         // runn the search
         this.search();
     },
@@ -59583,17 +59630,18 @@ Ext.define('escape.controller.Search', {
         var newquery = record.getData().suggestion;
         this.getSearchField().setValue(newquery + ' ');
         event.stopEvent();
-        //this.hideSuggestions();
+        this.hideSuggestionsDelay();
     },
 
     queryChange: function() {
        // if (Ext.os.is.iOS) {
-            connectionStrong = false;
+            connectionStrong = true;
             // make sure the user has a strong enough connection
             var connectionType = Ext.device.Connection.getType();
             if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
-                connectionStrong = false;
+               // connectionStrong = false;
             }
+            console.log('queryChange: ' + connectionStrong);
             if (connectionStrong) {
                 // make sure the query is long enough
                 var query = this.getSearchField().getValue();
@@ -59612,6 +59660,7 @@ Ext.define('escape.controller.Search', {
 
     },
     loadQueryCompletion: function() {
+        console.log('loadQueryCompletion');
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('searchPage') != -1) {
             var selfRef = this;
             if (this.getSearchField()) {
@@ -59644,7 +59693,7 @@ Ext.define('escape.controller.Search', {
         // make sure we are still on the right page
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('searchPage') != -1) {
             // make sure the panel has been set up
-            this.setUpQueryCompletion();
+           
 
 
             var selfRef = this;
@@ -59659,25 +59708,42 @@ Ext.define('escape.controller.Search', {
 
             }
             if (suggestionsData.length) {
-                var height = (suggestionsData.length < 3) ? suggestionsData.length * 49 : 3 * 49;
-                this.getSuggestionsPanel().setTop(90);
-                this.getSuggestionsPanel().setHeight(height);
-                this.getSuggestionsPanel().getComponent('suggestionList').setHeight(height);
-                this.getSuggestionsStore().removeAll();
-                this.getSuggestionsStore().add(suggestionsData);
+                var height = (suggestionsData.length == 1) ? 49 : 98;
+                console.log(this.getSuggestionsPanel());
+                if (this.getSuggestionsPanel()){
+                    this.getSuggestionsPanel().setStyle('display:block');
+                    this.getSuggestionsPanel().setHidden(false);
+                    this.getSuggestionsPanel().setHeight(height);
+                    this.getSuggestionsPanel().getComponent('suggestionList').setHeight(height);
+                    this.getSuggestionsStore().removeAll();
+                    this.getSuggestionsStore().add(suggestionsData);
+                } else {
+                    console.log('suggestion panel not found');
+                }
+                 
             }
         }
     },
+    hideSuggestionsDelay: function(){
+        var selfRef = this;
+        var task = Ext.create('Ext.util.DelayedTask', function() {
+                    selfRef.hideSuggestions();
+                });
+        task.delay(500);
+    },
+
     hideSuggestions: function() {
+        console.log('hideSuggestions');
        // if (Ext.os.is.iOS) {
          if (this.getSuggestionsPanel()) {
-             this.getSuggestionsPanel().setHidden(true);
-            var viewportsize = Ext.Viewport.getSize();
-            this.getSuggestionsPanel().setTop(viewportsize.height);
+             this.getSuggestionsPanel().setStyle('display:none');
+            //var viewportsize = Ext.Viewport.getSize();
+           // this.getSuggestionsPanel().setTop(viewportsize.height);
         }
         //}
     },
     removeSuggestions: function() {
+        console.log('!!!!removeSuggestions');
        // if (Ext.os.is.iOS) {
             if (this.getSuggestionsPanel()) {
                 var selfRef = this;
@@ -59691,7 +59757,10 @@ Ext.define('escape.controller.Search', {
     },
 
     setUpQueryCompletion: function() {
+         console.log('setUpQueryCompletion');
+         console.log(this.getSuggestionsPanel());
             if (!this.getSuggestionsPanel()) {
+                 console.log('setUpQueryCompletion');
                 var selfRef = this;
                 var suggestionsStore = Ext.create('Ext.data.Store', {
                     model: 'escape.model.QueryCompletion'
@@ -59705,16 +59774,17 @@ Ext.define('escape.controller.Search', {
                     cls: 'suggestionList',
                     store: suggestionsStore,
                     onItemDisclosure: true,
-                    height: 150
+                    height: 98
                 });
                 // build the panel
                 var listPanel = Ext.create('Ext.Panel', {
                     masked: false,
                     cls: 'suggestionPanel',
                     width: viewportsize.width - 80,
-                    height: 150,
-                    top: viewportsize.height,
-                    left: 40
+                    height: 98,
+                    top: 90,
+                    left: 40,
+                    hidden: true
                 });
                 listPanel.add(suggestionsListDisplay);
                 this.setSuggestionsPanel(listPanel);
@@ -59732,6 +59802,8 @@ Ext.define('escape.controller.Search', {
         if (!this.getSearchBuilt()){
             this.getSearchBuilt(true);
             if (Ext.device.Connection.isOnline()) {
+                //
+                 this.setUpQueryCompletion();
             // check to see if dates need to be added
             var collectionType = this.getSearchPage().getCollectionType();
             if (collectionType == 'event') {
@@ -59876,7 +59948,7 @@ Ext.define('escape.controller.Search', {
 
     },
     search: function() {
-        this.removeSuggestions();
+        this.hideSuggestions();
         // add the results page
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'searchResultsPage'
@@ -65589,7 +65661,6 @@ Ext.define("escape.view.page.Weather", {
         var selfRef = this;
         escape.model.Weather.getFullWeather(refresh, {
             success: function() {
-                console.log('get weather success');
                 selfRef.build();
             },
             error: function(error) {
@@ -65605,8 +65676,6 @@ Ext.define("escape.view.page.Weather", {
         // get the weather model
         var wm = escape.model.Weather;
         var stationId = wm.getStationId();
-        console.log('stationId: ' + stationId);
-        console.log('stationId: ' + stationId);
         var initStationValue = -1;
         // build the weather locations
         var closesName = 'Closest';
@@ -65625,7 +65694,6 @@ Ext.define("escape.view.page.Weather", {
             });
         }
         var forcastItems = [];
-
         for (var f = 1; f < 8; f++) {
             var dayData = this.buildDayWeather(f);
             if (dayData) {
@@ -65681,7 +65749,6 @@ Ext.define("escape.view.page.Weather", {
                 items: forcastItems
             }]
         }];
-
         this.setItems(items);
         this.tempMeasureChange();
     },
@@ -65713,7 +65780,6 @@ Ext.define("escape.view.page.Weather", {
                 // day.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
                 day.addCls('icon_' + dayData.icon);
             }
-
         }
     },
     // build day weather
@@ -68049,6 +68115,7 @@ Ext.application({
         // create the favourites table
         var db = escape.utils.DatabaseManager.getBDConn('user');
         escape.model.Content.checkOfflineSettings();
+        escape.model.Map.checkOfflineSettings();
         // db.queryDB('DROP TABLE Favourites');
         db.queryDB('CREATE TABLE IF NOT EXISTS Favourites (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, product_id, name, type, data)');
         escape.model.Itineraries.setup();
