@@ -5,7 +5,6 @@
 #import "ChildBrowserViewController.h"
 
 @implementation ChildBrowserViewController
-
 @synthesize imageURL;
 @synthesize supportedOrientations;
 @synthesize isImage;

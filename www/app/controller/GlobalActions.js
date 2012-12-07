@@ -37,6 +37,11 @@ Ext.define('escape.controller.GlobalActions', {
                     this.makePhoneCall(btn.config.phoneNumber);
                 }
             },
+            'section button[action=addToCalender]': {
+                tap: function(btn) {
+                    this.addToCalender(btn.getData());
+                }
+            },
             'section button[action=sendEmail]': {
                 tap: function(btn) {
                     this.sendEmail(btn.config.emailAddress);
@@ -175,6 +180,16 @@ Ext.define('escape.controller.GlobalActions', {
             xtype: 'searchPage',
             collectionType: collectionType
         });
+    },
+    addToCalender: function(data){
+        console.log('addToCalender');
+         var title= data.title;
+         var location = data.address.Street + ', ' + data.address.Suburb + ', ' + data.address.State + ', ' + data.address.Postcode;
+         var notes = "My Notes";
+         var startDate = "2012-01-23 09:30:00";
+         var endDate = "2012-01-23 12:30:00";
+              
+         window.plugins.calendarPlugin.createEvent(title,location,notes,startDate,endDate);
     },
     showDirections: function(address, latlon) {
        var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';

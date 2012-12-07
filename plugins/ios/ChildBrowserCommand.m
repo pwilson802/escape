@@ -35,7 +35,33 @@
      */
 
     CDVViewController* cont = (CDVViewController*)[ super viewController ];
-    childBrowser.supportedOrientations = cont.supportedOrientations;
+    NSMutableArray* supportedOrientations =[[NSMutableArray alloc] init];
+    
+    if ([cont supportsOrientation:UIInterfaceOrientationPortrait]) {
+        
+        [supportedOrientations addObject: [NSNumber numberWithInt:UIDeviceOrientationPortrait]];
+        
+    }
+    
+    if ([cont supportsOrientation:UIDeviceOrientationPortraitUpsideDown]) {
+        
+        [supportedOrientations addObject: [NSNumber numberWithInt:UIDeviceOrientationPortraitUpsideDown]];
+        
+    }
+    
+    if ([cont supportsOrientation:UIDeviceOrientationLandscapeLeft]) {
+        
+        [supportedOrientations addObject: [NSNumber numberWithInt:UIDeviceOrientationLandscapeLeft]];
+        
+    }
+    
+    if ([cont supportsOrientation:UIDeviceOrientationLandscapeRight]) {
+        
+        [supportedOrientations addObject: [NSNumber numberWithInt:UIDeviceOrientationLandscapeRight]];
+        
+    }
+    
+    childBrowser.supportedOrientations = supportedOrientations;
     [ cont presentModalViewController:childBrowser animated:YES ];
 
     NSString *url = (NSString*) [arguments objectAtIndex:0];

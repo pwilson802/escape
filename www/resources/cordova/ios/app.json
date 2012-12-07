@@ -16,6 +16,9 @@
 		},
 		{
 			"path": "cordova/TwitterPlugin.js"
+		},
+		{
+			"path": "cordova/calendar.js"
 		}
 	]
 }

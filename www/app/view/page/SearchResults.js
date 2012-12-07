@@ -60,7 +60,7 @@ Ext.define("escape.view.page.SearchResults", {
 //                 itemId: 'optionsArea',
 //                 docked: 'bottom',
 //                 cls: 'btnsArea',
-//                 padding: '10xp',
+//                 padding: '10px',
 //                 defaults: {
 //                     margin: '0'
 //                 },

@@ -56,7 +56,8 @@ Ext.define("escape.model.Content", {
         }
 
     },
-    loadRemoteContent: function(url, callback, scope, localData) {
+    loadRemoteContent: function(url, callback, scope, page) {
+         console.log('loadRemoteContent');
         var loadLocal = true;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(url);
@@ -66,12 +67,13 @@ Ext.define("escape.model.Content", {
                 this.saveRemoteContent(url, content);
             },
             error: function(error) {
-                selfRef.processLocalData(localData);
+                selfRef.processLocalData(page, callback, scope);
             },
             scope: this
         });
     },
     saveRemoteContent: function(url, content) {
+         console.log('saveRemoteContent');
         var updateTime = new Date().getTime();
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
@@ -90,13 +92,13 @@ Ext.define("escape.model.Content", {
         }
     },
     loadLocalContent: function(url, callback, scope) {
+        console.log('loadLocalContent');
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         db.queryDB('SELECT * FROM Pages WHERE url = (?)', function(t, rs) {
             // make sure the product is not database
             var page = rs.rows.item(0);
-            // build and map page data
-            var jsonData = JSON.parse(page.JSON_data);
+           
             // make sure the page is uptodate
             var dateNow = new Date();
             var diff = dateNow.getTime() - page.date_modified;
@@ -105,18 +107,19 @@ Ext.define("escape.model.Content", {
             if (diff > (AppSettings.caching.cmsCacheLength*1000)) {
                 useLocal = false;
                 // make sure the user has a strong enough connection
-                var networkState = navigator.connection.type;
+               // var networkState = navigator.connection.type;
                 var connectionType = Ext.device.Connection.getType();
                 if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G ||  !Ext.device.Connection.isOnline()) {
                     useLocal = true;
                 }
             }
             //
+            console.log('useLocal: ' + useLocal);
             if (useLocal) {
-                selfRef.processLocalData(jsonData);
+                selfRef.processLocalData(page, callback, scope);
             } else {
                 // load remote data instead
-                selfRef.loadRemoteContent(url, callback, scope, jsonData);
+                selfRef.loadRemoteContent(url, callback, scope, page);
             }
             // return the content
         }, function(t, e) {
@@ -124,7 +127,12 @@ Ext.define("escape.model.Content", {
             selfRef.loadRemoteContent(url, callback, scope);
         }, [url]);
     },
-    processLocalData: function(localData){
+    processLocalData: function(page, callback, scope){
+         console.log('processLocalData');
+          console.log(page);
+         // build and map page data
+        var localData = JSON.parse(page.JSON_data);
+         console.log(localData);
         var pageData = {};
         pageData.title = localData.Page.Title;
         pageData.description = localData.Page.Content;
@@ -134,15 +142,22 @@ Ext.define("escape.model.Content", {
         pageData.externalLinks = localData.Page['External-Links'];
         pageData.page = localData.Page;
         // place data into a model
-        var localImagesList = page.images.split(',');
-        if (localImagesList.length > 0 && page.images.length > 0) {
+        
+        if (localData.Page.Images){
+            var localImagesList = page.images.split(',');
+            if (localImagesList.length > 0 && localData.Page.Images.length > 0) {
             // load the images
-            this.loadLocalImages(localImagesList, pageData, callback, scope);
-        } else {
+                this.loadLocalImages(localImagesList, pageData, callback, scope);
+            } else {
             // return the data
-            this.returnLocalData(pageData, callback, scope);
-        }
+                this.returnLocalData(pageData, callback, scope);
+            }
+         } else {
+            // return the data
+                this.returnLocalData(pageData, callback, scope);
+            }
     },
+        
     loadLocalImages: function(ids, pageData, callback, scope) {
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');

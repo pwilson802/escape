@@ -367,7 +367,20 @@ Ext.define("escape.view.page.Product", {
                 items.push({
                     xtype: 'container',
                     cls: 'productDates',
-                    html: output
+                    items:[{
+                         html: output
+                     },{
+                        xtype: 'button',
+                        action: 'addToCalender',
+                        data: {
+                            title: product.Name,
+                            startDate: startDate,
+                            endDate: endDate,
+                            address:  product.Contact.Address
+                        },
+                        itemCls: 'addToCalenderBtn'
+                    }]
+                   
                 });
             }
 

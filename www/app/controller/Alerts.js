@@ -11,7 +11,6 @@ Ext.define('escape.controller.Alerts', {
         },
         selectedRecord: null,
         currentSection: 'about',
-
         control: {
             'alertsPage': {
                 openView: 'checkSettings'
@@ -39,10 +38,10 @@ Ext.define('escape.controller.Alerts', {
     feedOptionsChange: function() {
         var data = this.getSettingsForm().getValues();
         var feedOptions = [];
-        for(var key in data){
+        for (var key in data) {
             feedOptions.push({
                 label: key,
-                load: (data[key]===0) ? true : false
+                load: (data[key] === 0) ? true : false
             });
         }
         this.setFeeds(feedOptions);
@@ -59,10 +58,10 @@ Ext.define('escape.controller.Alerts', {
                             load: true
                         }, {
                             label: 'Road Works',
-                            load: true
+                            load: false
                         }, {
                             label: 'Alpine Conditions',
-                            load: true
+                            load: false
                         }, {
                             label: 'Major Events',
                             load: true
@@ -85,23 +84,47 @@ Ext.define('escape.controller.Alerts', {
         }
 
     },
-    // called when degrees is updated
+    // called when alertsFeeds is updated
     updateFeeds: function(newValue, oldValue) {
         escape.model.UserSettings.setSetting('alertsFeeds', JSON.stringify(newValue), {
-            success: function(isDegrees) {},
+            success: function(alertsFeeds) {
+
+            },
             error: function(error) {},
             scope: this
         });
         this.loadAlerts();
     },
     loadAlerts: function() {
+        var alertsFeeds = this.getFeeds();
+        console.log(alertsFeeds);
+        var alltrue = true;
+        var feedString = '';
+        var feedList = [];
+        for (var i = 0; i < alertsFeeds.length; i++) {
+            var feed = alertsFeeds[i];
+            if (feed.load) {
+               feedList.push(feed.label.split(' ').join(''));
+            } else {
+                console.log(feed.label);
+                alltrue = false;
+            }
+        }
+        if (alltrue) {
+            feedString = 'All';
+        } else {
+           feedString = feedList.join(',');
+        }
+
         this.getAlertsPage().removeAll(true, true);
         this.getAlertsPage().setItems({
             xtype: 'loadingDisplay'
         });
         var selfRef = this;
-        escape.model.Alerts.load(1, {
+        escape.model.Alerts.getAlerts(feedString, {
             success: function(alerts) {
+                console.log('success');
+                console.log(alerts);
                 selfRef.alertsLoaded(alerts);
             },
             error: function(error) {}
@@ -118,9 +141,10 @@ Ext.define('escape.controller.Alerts', {
         this.getAlertsPage().buildPage();
         // process results
         var results = [];
-        for (var i = 0; i < alerts.raw.features.length; i++) {
-
-            var feature = alerts.raw.features[i];
+        for (var i = 0; i < alerts.length; i++) {
+            console.log(alerts[i]);
+            var feature = JSON.parse(alerts[i].jObject);
+           // console.log(feature);
             var result = {};
             result.displayName = feature.properties.displayName;
             result.mainCategory = feature.properties.mainCategory;
@@ -184,7 +208,7 @@ Ext.define('escape.controller.Alerts', {
         }
         var list = new Ext.List({
             flex: 1,
-            cls:'alerts',
+            cls: 'alerts',
             itemTpl: '<div class="icon incidents"></div><div class="infoArea"><b>{suburb}</b> {road},<br>{displayName}</div>',
             store: this.getAlertsStore()
         });
@@ -221,8 +245,8 @@ Ext.define('escape.controller.Alerts', {
                 lat: marker.lat,
                 lon: marker.lon,
                 data: marker,
-                iconPath : 'resources/images/alerts_marker_incidents.png',
-                iconSize : [57,37]
+                iconPath: 'resources/images/alerts_marker_incidents.png',
+                iconSize: [57, 37]
             });
         }
         var cardView = this.getAlertsPage().getItems().items[1];

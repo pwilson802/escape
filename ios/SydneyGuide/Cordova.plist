@@ -11,7 +11,7 @@
 	<key>EnableViewportScale</key>
 	<false/>
 	<key>AutoHideSplashScreen</key>
-	<true/>
+	<false/>
 	<key>ShowSplashScreenSpinner</key>
 	<true/>
 	<key>MediaPlaybackRequiresUserAction</key>
@@ -28,6 +28,8 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>calendarPlugin</key>
+		<string>calendarPlugin</string>
 		<key>TwitterPlugin</key>
 		<string>TwitterPlugin</string>
 		<key>SQLitePlugin</key>
@@ -42,20 +44,10 @@
 		<string>CDVLogger</string>
 		<key>Compass</key>
 		<string>CDVLocation</string>
-		<key>Accelerometer</key>
-		<string>CDVAccelerometer</string>
-		<key>Camera</key>
-		<string>CDVCamera</string>
 		<key>NetworkStatus</key>
 		<string>CDVConnection</string>
-		<key>Contacts</key>
-		<string>CDVContacts</string>
 		<key>Debug Console</key>
 		<string>CDVDebugConsole</string>
-		<key>File</key>
-		<string>CDVFile</string>
-		<key>FileTransfer</key>
-		<string>CDVFileTransfer</string>
 		<key>Geolocation</key>
 		<string>CDVLocation</string>
 		<key>Notification</key>

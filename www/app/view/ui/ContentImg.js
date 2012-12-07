@@ -1,5 +1,5 @@
 Ext.define("escape.view.ui.ContentImg", {
-    requires: ['Ext.device.Connection', 'Ext.device.Device', 'Ext.env.OS', 'escape.utils.Img'],
+    requires: ['escape.utils.Img'],
     extend: 'Ext.Img',
     xtype: 'contentImg',
     config: {

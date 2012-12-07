@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<PADRE_result_packet>
+  <details>
+    <padre_version>FUNNELBACK_PADRE_10.1.0.3 64MDPLFS-VEC3-DNAMS2 (Web/Enterprise)</padre_version>
+    <collection_size>/opt/funnelback/data/event/live/idx/index: 3.0 MB, 1393 docs</collection_size>
+    <collection_updated>
+      Wed Aug  8 00:16:22 2012    </collection_updated>
+  </details>
+
+  <query>dungog</query>
+  <query_as_processed>dungog</query_as_processed>
+
+<results_summary>
+  <fully_matching>14</fully_matching>
+  <estimated_hits>14</estimated_hits>
+  <partially_matching>0</partially_matching>
+  <total_matching>14</total_matching>
+  <num_ranks>20</num_ranks>
+  <currstart>1</currstart>
+  <currend>14</currend>
+</results_summary>
+
+<rmc item="k:Sporting Events|">4</rmc>
+<rmc item="k:Exhibitions and Shows |">2</rmc>
+<rmc item="k:Festivals and Celebrations|Sporting Events|">1</rmc>
+<rmc item="k:Festivals and Celebrations|">1</rmc>
+<rmc item="k:Classes">1</rmc>
+<rmc item="k:Exhibitions and Shows |Performances|Sporting Events|">1</rmc>
+<rmc item="k:Exhibitions and Shows |Sporting Events|">1</rmc>
+<rmc item="k:Festivals and Celebrations|Performances|Sporting Events|">1</rmc>
+<rmc item="k:Exhibitions and Shows |Festivals and Celebrations|">1</rmc>
+<rmc item="k:Lessons and Workshops|Festivals and Celebrations|">1</rmc>
+<rmc item="k:Exhibitions and Shows |Markets|">1</rmc>
+<gscope_counts>
+</gscope_counts>
+
+<results>
+
+  <tier_bar>
+  <matched>1</matched>
+  <outof>1</outof>
+  </tier_bar>
+
+  <result>
+  <rank>1</rank>
+  <score>69</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9034054/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[Twice weekly Barrington Tops National Park Tours are being conducted by friendly and knowledgeable local volunteer guides. This partnership between the National Parks and Wildlife Service and the Dungog Shire Visitor Information Centre.<br/><br/>There are two walks on offer through magnificent rainforest; these being at Blue Gum Loop in the upper Williams Valley and Jerusalem Creek, and each walk takes around two hours. Commentary throughout the walks brings this beautiful area alive.<br/><br/>Walks occu]]></md>
+<md f="d"><![CDATA[2012-08-01]]></md>
+<md f="h"><![CDATA[Flora/Fauna|Health and Wellbeing|Nature based|Rural/Country|Wildlife|]]></md>
+<md f="i"><![CDATA[9034054]]></md>
+<md f="k"><![CDATA[Exhibitions and Shows |]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15552]]></md>
+<md f="q"><![CDATA[15561]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[www.visitdungog.com.au]]></md>
+<md f="x"><![CDATA[-32.4018395]]></md>
+<md f="y"><![CDATA[151.7576158]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOLandscape__9223910_2420_May_10_2012_019.jpg]]></md>
+<md f="J"><![CDATA[Birdwatching|Events: Educational|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Guided Walks in the Barrington Tops National Parks]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[guided-walks-in-the-barrington-tops-national-parks]]></md>
+<md f="X"><![CDATA[-32.4018395;151.7576158]]></md>
+<md f="1"><![CDATA[01 Aug 2012]]></md>
+<md f="2"><![CDATA[08 Aug 2012]]></md>
+<md f="3"><![CDATA[08/08/2012]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=3%2F0%2F4%2F0%2F3040508d6fb17857f5a2316769599ad5.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9034054%2F</cache_url>
+  <date>1 Aug 2012</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>255</docnum>
+  </result>
+
+  <result>
+  <rank>2</rank>
+  <score>77</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9025035/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[Dungog/Clarence Town Country Women&#039;s Association will be hosting its annual Quiltarama, where there will be over fifty amazing quilts on display. <br/><br/>Many of these quilts are by local residents and will never be seen again in a public forum. These are truly works of art and anyone seeing them will realise the passion and love that goes into creating each and every one. They are diverse and range from the classic floral bedcover to quirky wall hangings so there is definitely something that wi]]></md>
+<md f="d"><![CDATA[2012-08-11]]></md>
+<md f="h"><![CDATA[Entertainment|The Arts|]]></md>
+<md f="i"><![CDATA[9025035]]></md>
+<md f="k"><![CDATA[Exhibitions and Shows |]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15562]]></md>
+<md f="q"><![CDATA[15565]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.401414573]]></md>
+<md f="y"><![CDATA[151.757712364]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOPromo_TNSW_9044683_i9025035b.jpg]]></md>
+<md f="J"><![CDATA[Events: Art|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Quiltarama]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[quiltarama]]></md>
+<md f="X"><![CDATA[-32.401414573;151.757712364]]></md>
+<md f="1"><![CDATA[11 Aug 2012]]></md>
+<md f="2"><![CDATA[12 Aug 2012]]></md>
+<md f="3"><![CDATA[12/08/2012]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=7%2F0%2Fd%2Fa%2F70da594435ea2cf920a188d13d4adf8a.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9025035%2F</cache_url>
+  <date>11 Aug 2012</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>1317</docnum>
+  </result>
+
+  <result>
+  <rank>3</rank>
+  <score>94</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9017251/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[The Dungog Community Markets are a monthly market held in the Presbyterian Church grounds. <br/><br/>Stalls include; handmade arts and crafts, selections of jams, pottery, candles, soap, hand woven garments, quality arts and crafts, gourmet food and lots more. Produce from local farms in the area is also on sale.<br/><br/>Come and join in this great day out for the whole family.]]></md>
+<md f="d"><![CDATA[2012-09-01]]></md>
+<md f="h"><![CDATA[Markets|Shopping|]]></md>
+<md f="i"><![CDATA[9017251]]></md>
+<md f="k"><![CDATA[Exhibitions and Shows |Markets|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15583]]></md>
+<md f="q"><![CDATA[15648]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.4059256]]></md>
+<md f="y"><![CDATA[151.756725311]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOPromo_TNSW_9050175_i9017251b.jpg]]></md>
+<md f="J"><![CDATA[Events: Art|Events: Lifestyle, boats, cars, gardens, flowers|Events: Markets|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Dungog Community Markets]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[dungog-community-markets]]></md>
+<md f="X"><![CDATA[-32.4059256;151.756725311]]></md>
+<md f="1"><![CDATA[01 Sep 2012]]></md>
+<md f="2"><![CDATA[03 Nov 2012]]></md>
+<md f="3"><![CDATA[03/11/2012]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=d%2Fa%2Fb%2Fb%2Fdabbf6b30490eef01360a02e0bde64b8.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9017251%2F</cache_url>
+  <date>1 Sep 2012</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>1164</docnum>
+  </result>
+
+  <result>
+  <rank>4</rank>
+  <score>90</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9020403/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[Dungog Pedalfest is an annual event in celebration of the humble bicycle. Pedalfest is a weekend gathering for cyclist, to enjoy safe pedalling on scenic country roads, and relaxation in the very best of company. Add a festival family atmosphere in and around the classic rural town of Dungog, with a bush dance in the evening. There are rides suitable for children and rides that might stretch the muscles of the fittest and keenest of adults.<br/><br/>A historical Scavenge is available on Sunday to exerci]]></md>
+<md f="d"><![CDATA[2012-09-07]]></md>
+<md f="h"><![CDATA[Adventure|Sport|]]></md>
+<md f="i"><![CDATA[9020403]]></md>
+<md f="k"><![CDATA[Festivals and Celebrations|Performances|Sporting Events|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15589]]></md>
+<md f="q"><![CDATA[15593]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.401097]]></md>
+<md f="y"><![CDATA[151.752752]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOPromo_TNSW_9026677_o9020403b.jpg]]></md>
+<md f="J"><![CDATA[Cycling|Events: Cycling|Events: Festivals and Celebrations|Events: Film|Events: Music, Orchestra, Jazz|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Dungog Pedalfest]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[dungog-pedalfest]]></md>
+<md f="X"><![CDATA[-32.401097;151.752752]]></md>
+<md f="1"><![CDATA[07 Sep 2012]]></md>
+<md f="2"><![CDATA[09 Sep 2012]]></md>
+<md f="3"><![CDATA[09/09/2012]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=1%2Fc%2F3%2F4%2F1c34d0edb67ed60ae441fe64c43d52d5.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9020403%2F</cache_url>
+  <date>7 Sep 2012</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>468</docnum>
+  </result>
+
+  <result>
+  <rank>5</rank>
+  <score>82</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9030181/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[The AGOG! Feast of Foreign Films/Flickefest Sumptuous Show of Short Films are being presented and organised as annual events by the Dungog Film Society. The aim is to bring to the local community and further afield as many quality foreign or short films as they can. Visit the website for more info, or subscribe to get updates.]]></md>
+<md f="d"><![CDATA[2012-09-21]]></md>
+<md f="h"><![CDATA[Entertainment|]]></md>
+<md f="i"><![CDATA[9030181]]></md>
+<md f="k"><![CDATA[Exhibitions and Shows |Festivals and Celebrations|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15603]]></md>
+<md f="q"><![CDATA[15606]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[www.agog.net.au]]></md>
+<md f="x"><![CDATA[-32.4021234]]></md>
+<md f="y"><![CDATA[151.7585105]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/TNSW/i9030181b.jpg]]></md>
+<md f="J"><![CDATA[Events: Educational|Events: Film|Events: Food Wine|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[AGOG]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[agog]]></md>
+<md f="X"><![CDATA[-32.4021234;151.7585105]]></md>
+<md f="1"><![CDATA[21 Sep 2012]]></md>
+<md f="2"><![CDATA[22 Sep 2012]]></md>
+<md f="3"><![CDATA[22/09/2012]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=d%2F5%2F8%2F8%2Fd588d1e8787a5e0fd96b5514cd9d360f.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9030181%2F</cache_url>
+  <date>21 Sep 2012</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>1195</docnum>
+  </result>
+
+  <result>
+  <rank>6</rank>
+  <score>74</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9022727/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[The Hunter Polo Challenge is a great family day out at Wirragulla Polo Club ground at Dungog in the Hunter. It is fast exciting Polo, with top players competing and over 200 horses will be played. The event is an informal relaxed way to watch and enjoy Picnic Polo in a picturesque setting. Canteen and bar will be available.<br/><br/>Make it a weekend or a day at the polo, then the coast or vineyards, it is your choice. Wirragulla Polo Club is one hour from Newcastle, one hour from the vineyards, and tw]]></md>
+<md f="d"><![CDATA[2012-10-27]]></md>
+<md f="h"><![CDATA[Entertainment|Sport|]]></md>
+<md f="i"><![CDATA[9022727]]></md>
+<md f="k"><![CDATA[Festivals and Celebrations|Sporting Events|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15639]]></md>
+<md f="q"><![CDATA[15642]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[www.wirragullapoloclub.com]]></md>
+<md f="x"><![CDATA[-32.4190383]]></md>
+<md f="y"><![CDATA[151.7413923]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOPromo_TNSW_9025149_e9022727c.jpg]]></md>
+<md f="J"><![CDATA[Events: Food Wine|Events: Rodeo, Campdraft, Equestrian|Sports Viewing|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Wirragulla Annual Polo Tournament]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[wirragulla-annual-polo-tournament]]></md>
+<md f="X"><![CDATA[-32.4190383;151.7413923]]></md>
+<md f="1"><![CDATA[27 Oct 2012]]></md>
+<md f="2"><![CDATA[28 Oct 2012]]></md>
+<md f="3"><![CDATA[28/10/2012]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=d%2Ff%2Ff%2F6%2Fdff6962667aa2db9407cacbf9922ba6e.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9022727%2F</cache_url>
+  <date>27 Oct 2012</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>1204</docnum>
+  </result>
+
+  <result>
+  <rank>7</rank>
+  <score>86</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9017253/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[The Dungog Show is an agricultural show at its best and there will be full ring displays. Friday will be given over, as usual, to camp drafting. However outside the arena there will be all manner of things to see and do. <br/><br/>On Saturday the Demolition Derby drivers will compete. Dungog&#8217;s Grand Parade has always been better than most; and this year will be another step forward. The parade is a hugely colourful display and the centrepiece of the show. <br/><br/>Events and displays to watch inclu]]></md>
+<md f="d"><![CDATA[2012-11-11]]></md>
+<md f="h"><![CDATA[Entertainment|Industry/Mining/Agriculture|Rural/Country|]]></md>
+<md f="i"><![CDATA[9017253]]></md>
+<md f="k"><![CDATA[Exhibitions and Shows |Performances|Sporting Events|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15654]]></md>
+<md f="q"><![CDATA[15657]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[dungogshow.com.au]]></md>
+<md f="x"><![CDATA[-32.4052]]></md>
+<md f="y"><![CDATA[151.751889]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOPromo_TNSW_9044863_p9014820b.jpg]]></md>
+<md f="J"><![CDATA[Animal Viewing|Events: Agriculture, Field days, Produce|Events: Performances|Events: Rodeo, Campdraft, Equestrian|Motor racing|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Dungog Agricultural Show]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[dungog-agricultural-show]]></md>
+<md f="X"><![CDATA[-32.4052;151.751889]]></md>
+<md f="1"><![CDATA[11 Nov 2012]]></md>
+<md f="2"><![CDATA[12 Nov 2012]]></md>
+<md f="3"><![CDATA[12/11/2012]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=e%2Fc%2F4%2F8%2Fec4837f4e57f29b0e885eb6f0076acc1.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9017253%2F</cache_url>
+  <date>11 Nov 2012</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>976</docnum>
+  </result>
+
+  <result>
+  <rank>8</rank>
+  <score>100</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9020304/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[*** Latest event details are yet to be confirmed ***<br/><br/>The Australia Day barbecue breakfast at Jubilee Park will commence with a welcoming from the Ambassador for Dungog. There will be speeches and a presentation of awards. Afterwards you and your family and friends will be invited to stay and enjoy the Australia Day cake. Come along and enjoy Australia Day in Dungog. If raining it will be held at the Dungog Return Services League Club in Lord Street.]]></md>
+<md f="d"><![CDATA[2013-01-26]]></md>
+<md f="h"><![CDATA[Australia Day|Cultural|Entertainment|]]></md>
+<md f="i"><![CDATA[9020304]]></md>
+<md f="k"><![CDATA[Festivals and Celebrations|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15730]]></md>
+<md f="q"><![CDATA[15732]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.401097]]></md>
+<md f="y"><![CDATA[151.752752]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOPromo_TNSW_9044389_p9020304b.jpg]]></md>
+<md f="J"><![CDATA[Events: Celebration, Commemoration, Religious|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Australia Day at Dungog]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[australia-day-at-dungog]]></md>
+<md f="X"><![CDATA[-32.401097;151.752752]]></md>
+<md f="1"><![CDATA[Jan 2013]]></md>
+<md f="2"><![CDATA[be confirmed]]></md>
+<md f="3"><![CDATA[26/01/2013]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=f%2Fb%2F1%2Ff%2Ffb1f7711833873ba0b06d8cdf0af2524.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9020304%2F</cache_url>
+  <date>26 Jan 2013</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>884</docnum>
+  </result>
+
+  <result>
+  <rank>9</rank>
+  <score>82</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9031293/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[*** Latest event details are yet to be confirmed ***<br/><br/>The BMW TC NSW invites you to its 35th KRR situated in some of the prettiest country surroundings in NSW with some of the State&#039;s best riding roads - sealed or unsealed. The Rally site is about 30 kilometres north of Dungog via the Monkerai and Main Creek Roads between Dungog and Stroud, or the Wangat Trig Road past the Chichester Dam turn off. Directions will be signposted from both these roads (each involves14 kilometres of dirt), and a ]]></md>
+<md f="d"><![CDATA[2013-02-09]]></md>
+<md f="h"><![CDATA[Rural/Country|Sport|]]></md>
+<md f="i"><![CDATA[9031293]]></md>
+<md f="k"><![CDATA[Sporting Events|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15744]]></md>
+<md f="q"><![CDATA[15750]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.224691671]]></md>
+<md f="y"><![CDATA[151.727263927]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOLandscape__9153237_2420_images3.jpg]]></md>
+<md f="J"><![CDATA[Events: Motor sports, Speedboats, Motorcycles|Motorcycling|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Karuah River Motorcycle Rally]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[karuah-river-motorcycle-rally]]></md>
+<md f="X"><![CDATA[-32.224691671;151.727263927]]></md>
+<md f="1"><![CDATA[Feb 2013]]></md>
+<md f="2"><![CDATA[be confirmed]]></md>
+<md f="3"><![CDATA[13/02/2013]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=f%2Fc%2F3%2F6%2Ffc369f1549c0918b79eff8cfbfa22b05.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9031293%2F</cache_url>
+  <date>9 Feb 2013</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>893</docnum>
+  </result>
+
+  <result>
+  <rank>10</rank>
+  <score>84</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9031307/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[*** Latest event details are yet to be confirmed ***<br/><br/>Round One and Two Forest 300 Australian Off Road Championship is held in Dungog this February.<br/><br/>The Forest 300&#039;s enduro format will take riders over a 120 kilometre course on day one, encompassing five motocross special tests and an enduro-cross special test. Day two will run over 180 kilometres with six special tests. Dungog Showground is set to host the Saturday afternoon final moto. It promises to offer great viewing for spectat]]></md>
+<md f="d"><![CDATA[2013-02-25]]></md>
+<md f="h"><![CDATA[Rural/Country|Sport|]]></md>
+<md f="i"><![CDATA[9031307]]></md>
+<md f="k"><![CDATA[Sporting Events|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15760]]></md>
+<md f="q"><![CDATA[15763]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.4051769]]></md>
+<md f="y"><![CDATA[151.7519083]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOLandscape__9153272_2420_6074351.jpg]]></md>
+<md f="J"><![CDATA[Events: Cycling|Events: Motor sports, Speedboats, Motorcycles|Motorcycling|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Round One and Two Forest 300 Australian Off Road Championship]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[round-one-and-two-forest-300-australian-off-road-championship]]></md>
+<md f="X"><![CDATA[-32.4051769;151.7519083]]></md>
+<md f="1"><![CDATA[Feb 2013]]></md>
+<md f="2"><![CDATA[be confirmed]]></md>
+<md f="3"><![CDATA[26/02/2013]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=0%2Fb%2F2%2F8%2F0b285d6cea7c6ad1e7822498340ac391.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9031307%2F</cache_url>
+  <date>25 Feb 2013</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>1325</docnum>
+  </result>
+
+  <result>
+  <rank>11</rank>
+  <score>89</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9026586/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[*** Latest event details are yet to be confirmed ***<br/><br/>In aid of cancer, walk for family or a friend, or in memory of loved one in the Relay for Life. <br/><br/>All donations and monies raised goes to Cancer Council. Get a team to walk through the day and night - there must be one member walking. The bigger the team the less you have to walk. Start Saturday and finish Sunday. Camp over night and you&#039;re sure to enjoy, games and other fun things to do.<br/><br/>Joining forms from Dungog Hospita]]></md>
+<md f="d"><![CDATA[2013-03-24]]></md>
+<md f="h"><![CDATA[Entertainment|Health and Wellbeing|]]></md>
+<md f="i"><![CDATA[9026586]]></md>
+<md f="k"><![CDATA[Sporting Events|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15787]]></md>
+<md f="q"><![CDATA[15790]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.4047982]]></md>
+<md f="y"><![CDATA[151.7494851]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOLandscape__9134750_2420_imagesCAMMAPT2.jpg]]></md>
+<md f="J"><![CDATA[Events: Marathons, running, walking|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Relay for Life - Dungog]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[relay-for-life-dungog]]></md>
+<md f="X"><![CDATA[-32.4047982;151.7494851]]></md>
+<md f="1"><![CDATA[Mar 2013]]></md>
+<md f="2"><![CDATA[be confirmed]]></md>
+<md f="3"><![CDATA[25/03/2013]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=d%2F5%2Fa%2Ff%2Fd5aff54953ca932937217b11f5d3b2c5.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9026586%2F</cache_url>
+  <date>24 Mar 2013</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>1199</docnum>
+  </result>
+
+  <result>
+  <rank>12</rank>
+  <score>95</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9029135/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[*** Latest event details are yet to be confirmed ***<br/><br/>Dungog Rodeo has all the usual rodeo events including bull ride, saddle bronc, steer wrestling, ladies and junior events also the Comedy Clown. There is a Junior Rodeo on 25 March with free entry, barbecue food and drinks available.<br/><br/>Don&#039;t miss the two days of full-on action from 8am each day.]]></md>
+<md f="d"><![CDATA[2013-03-30]]></md>
+<md f="h"><![CDATA[Entertainment|Rural/Country|]]></md>
+<md f="i"><![CDATA[9029135]]></md>
+<md f="k"><![CDATA[Sporting Events|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15793]]></md>
+<md f="q"><![CDATA[15796]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.4051769]]></md>
+<md f="y"><![CDATA[151.7519083]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOPromo_TNSW_9053140_i9029135b.jpg]]></md>
+<md f="J"><![CDATA[Animal Riding|Events: Rodeo, Campdraft, Equestrian|Events: Rodeo|Sports Viewing|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Dungog Rodeo]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[dungog-rodeo]]></md>
+<md f="X"><![CDATA[-32.4051769;151.7519083]]></md>
+<md f="1"><![CDATA[Mar 2013]]></md>
+<md f="2"><![CDATA[be confirmed]]></md>
+<md f="3"><![CDATA[31/03/2013]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=4%2F7%2F9%2F8%2F4798e59254bdbf04a1d71c3b67571e1c.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9029135%2F</cache_url>
+  <date>30 Mar 2013</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>622</docnum>
+  </result>
+
+  <result>
+  <rank>13</rank>
+  <score>53</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9023736/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[*** Latest event details are yet to be confirmed ***<br/><br/>Thunderbolt Rally is organised by the Central Coast American Motorcycle Club Inc. Live entertainment fireworks, bikes, hot rods, Ute&#039;s, mini trucks, tattoo show, Demolition Derby and Motor Cross. For the first time in Australia there will be Uni-motorcycle Drag&#039;s. Trade displays and cash prizes are included for the burnout competition.<br/><br/>All types of motorcycles, vintage cars, hot rods, custom cars and Ute&#039;s are invited ]]></md>
+<md f="d"><![CDATA[2013-05-19]]></md>
+<md f="h"><![CDATA[Entertainment|]]></md>
+<md f="i"><![CDATA[9023736]]></md>
+<md f="k"><![CDATA[Exhibitions and Shows |Sporting Events|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15843]]></md>
+<md f="q"><![CDATA[15845]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[__NULL__]]></md>
+<md f="x"><![CDATA[-32.405146604]]></md>
+<md f="y"><![CDATA[151.75073862]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOPromo_TNSW_9043602_p9023736b.jpg]]></md>
+<md f="J"><![CDATA[Events: Exhibitions and Shows |Events: Motor sports, Speedboats, Motorcycles|Motor racing|Motorcycling|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Thunderbolt Rally]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[thunderbolt-rally]]></md>
+<md f="X"><![CDATA[-32.405146604;151.75073862]]></md>
+<md f="1"><![CDATA[May 2013]]></md>
+<md f="2"><![CDATA[be confirmed]]></md>
+<md f="3"><![CDATA[19/05/2013]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=5%2Fa%2Fc%2F1%2F5ac1309de3fa0acb724b5cd5e57dfc4e.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9023736%2F</cache_url>
+  <date>19 May 2013</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>820</docnum>
+  </result>
+
+  <result>
+  <rank>14</rank>
+  <score>95</score>
+  <title><![CDATA[Dungog]]></title>
+  <collection>event</collection>
+  <component>0</component>
+  <live_url>local://serve&#45;db&#45;document.tcgi?collection=event&amp;record_id=9025115/</live_url>
+<md f="a"><![CDATA[Barrington Tops]]></md>
+<md f="b"><![CDATA[0]]></md>
+<md f="c"><![CDATA[*** Latest event details are yet to be confirmed ***<br/><br/>The Dungog Film Festival is an annual event showcasing exclusively the very best of Australian cinema from the past present and future. The festival is staged over three glorious days in the charming hunter town of Dungog in the foothills to the Barrington Tops, home to the oldest continuously running cinema in Australia, the Historic James Theatre. For more information and updates on the festival please see the website.]]></md>
+<md f="d"><![CDATA[2013-06-29]]></md>
+<md f="h"><![CDATA[Entertainment|Historic/Heritage|Kid friendly|Markets|]]></md>
+<md f="i"><![CDATA[9025115]]></md>
+<md f="k"><![CDATA[Classes, Lessons and Workshops|Festivals and Celebrations|]]></md>
+<md f="o"><![CDATA[0]]></md>
+<md f="p"><![CDATA[15884]]></md>
+<md f="q"><![CDATA[15888]]></md>
+<md f="r"><![CDATA[Hunter]]></md>
+<md f="t"><![CDATA[Dungog]]></md>
+<md f="u"><![CDATA[www.dungogfilmfestival.org]]></md>
+<md f="x"><![CDATA[-32.4016808]]></md>
+<md f="y"><![CDATA[151.7576444]]></md>
+<md f="A"><![CDATA[/hunter/barrington-tops/]]></md>
+<md f="C"><![CDATA[event]]></md>
+<md f="D"><![CDATA[/hunter/barrington-tops/dungog/]]></md>
+<md f="I"><![CDATA[http://getconnected.dnsw.com.au/multimedia/GTOLandscape__9176843_2420_footerlogo1.gif]]></md>
+<md f="J"><![CDATA[Events: Classes, Lessons and Workshops|Events: Film|Family Friendly|]]></md>
+<md f="Q"><![CDATA[0]]></md>
+<md f="R"><![CDATA[/hunter/]]></md>
+<md f="T"><![CDATA[Dungog Film Festival]]></md>
+<md f="U"><![CDATA[__NULL__]]></md>
+<md f="W"><![CDATA[dungog-film-festival]]></md>
+<md f="X"><![CDATA[-32.4016808;151.7576444]]></md>
+<md f="1"><![CDATA[Jun 2013]]></md>
+<md f="2"><![CDATA[be confirmed]]></md>
+<md f="3"><![CDATA[01/07/2013]]></md>
+  <cache_url>cache.cgi?collection=event&amp;doc=d%2F5%2F8%2F7%2Fd587c0e8cbf445460def96569c9332b5.xml&amp;url=local%3A%2F%2Fserve-db-document.tcgi%3Fcollection%3Devent%26record_id%3D9025115%2F</cache_url>
+  <date>29 Jun 2013</date>
+  <filesize>0</filesize>
+  <filetype>tcgi</filetype>
+  <tier>1</tier>
+  <docnum>1198</docnum>
+  </result>
+
+</results>
+
+  <include_scope></include_scope>
+  <exclude_scope></exclude_scope>
+  <query_processor_codes>S2?x</query_processor_codes>
+  <padre_elapsed_time>17</padre_elapsed_time>
+
+</PADRE_result_packet>

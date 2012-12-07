@@ -98,7 +98,7 @@ Ext.define("escape.view.page.AddToItinerary", {
                 xtype: 'container',
                 docked: 'bottom',
                 cls: 'btnsArea',
-                padding: '10xp',
+                padding: '10px',
                 defaults: {
                     margin: '10px 0 0 0'
                 },

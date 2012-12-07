@@ -275,7 +275,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
                     xtype: 'container',
                     itemId: 'optionsArea',
                     cls: 'btnsArea',
-                    padding: '10xp',
+                    padding: '10px',
                     defaults: {
                         margin: '0'
                     },

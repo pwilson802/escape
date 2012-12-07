@@ -190,7 +190,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         }
 
         if (intialMarkers.length >= 1 && this.getZoomToBounds()) {
-            map.zoomToExtent(map.markersLayer.getDataExtent());
+            map.zoomToExtent(this.getMarkerLayer().getDataExtent());
             this.setIntialMarkers([]);
         }
 

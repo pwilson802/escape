@@ -9,8 +9,8 @@ Ext.application({
         mainView: 'mainView'
     },
     name: 'escape',
-    requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars'],
-    views: ['Main', 'section.Section', 'page.OtherApps', 'page.Home', 'page.Alerts', 'page.AlertDetails', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map', 'ui.OfflineMessage'],
+    requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars','Ext.data.ArrayStore','Ext.device.Geolocation'],
+    views: ['Main', 'section.Section', 'page.OtherApps', 'page.AddToCalender', 'page.Home', 'page.Alerts', 'page.AlertDetails', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map', 'ui.OfflineMessage'],
     controllers: ['Map', 'GlobalActions', 'Settings','Page', 'Section', 'Search', 'Alerts', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage', 'Directions'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register', 'ProductSearch', 'Itineraries'],
@@ -34,10 +34,6 @@ Ext.application({
             this.onDeviceReady();
         }, this);
         task.delay(3000);
-        // listen for the back button
-        // set up a listener to handle the back button for Android
-        //if (Ext.os.is('Android')) {
-        // }
     },
     /**
      *   Controls the back button action for android
@@ -63,21 +59,13 @@ Ext.application({
      */
     onDeviceReady: function() {
         var scopeRef = this;
-        //
         if (!this.deviceReady) {
-
-            // try {
-            //     window.BackButton.override();
-            // } catch (e) {
-            //     console.log('!!! override failed');
-            // }
-            // back
+             this.deviceReady = true;
+            // listen for back button pressed (Android)
             document.addEventListener("backbutton", function() {
                 scopeRef.onBackBtnPressed();
             }, false);
-
-            this.deviceReady = true;
-
+            // listen for the databases to be set up
             escape.utils.DatabaseManager.on('ready', function() {
                 scopeRef.startApp();
             });
@@ -93,10 +81,10 @@ Ext.application({
                 prePopulate: true,
                 reImport: false
             }]);
-
+            // install plugins
             try {
                 escape.utils.AppVars.childbrowser = ChildBrowser.install();
-                ShareKitPlugin.install();
+
             } catch (e) {
 
             }
@@ -118,6 +106,12 @@ Ext.application({
         });
         // add the main view
         Ext.Viewport.add(Ext.create('escape.view.Main'));
+        try {
+            // hide the app splash screen as the app is ready
+            navigator.splashscreen.hide();
+        } catch (e) {
+
+        }
     },
 
     onUpdated: function() {

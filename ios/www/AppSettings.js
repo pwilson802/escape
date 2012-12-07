@@ -18,6 +18,7 @@ AppSettings.bounds = {
     "right": 151.80337081542,
     "top": -35.494202120384
 };
+AppSettings.radius = 100; // used with the center for alerts search
 // The detinations to perform all funnel back serches within
 AppSettings.destinationWebpath = '/sydney/';
 AppSettings.appSubDestination = ["Sydney City", "Sydney North", "Sydney West", "Sydney South", "Sydney East", "Inner Sydney"];
@@ -359,7 +360,14 @@ AppSettings.mainMenu = [{
         collectionType: 'deals',
         xtype: 'searchPage'
     }
-
+}, {
+    title: 'Alerts',
+    group: 'Group 4',
+    id: 'alertsSection',
+    firstPage: {
+        title: 'Alerts',
+        xtype: 'alertsPage'
+    }
 }, {
     title: 'Map',
     group: 'Group 4',
@@ -431,12 +439,3 @@ AppSettings.mainMenu = [{
     }
 }];
 
-// , {
-//     title: 'Alerts',
-//     group: 'Group 4',
-//     id: 'alertsSection',
-//     firstPage: {
-//         title: 'Alerts',
-//         xtype: 'alertsPage'
-//     }
-// }
