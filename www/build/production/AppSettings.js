@@ -11,15 +11,17 @@ AppSettings.appAddress = {
     state: 'nsw',
     suburb: 'sydney'
 };
+AppSettings.center = [-33.8674869, 151.2069902];
 AppSettings.bounds = {
     "left": 150.55337081542,
     "bottom": -36.119202120384,
     "right": 151.80337081542,
     "top": -35.494202120384
 };
+AppSettings.radius = 100; // used with the center for alerts search
 // The detinations to perform all funnel back serches within
 AppSettings.destinationWebpath = '/sydney/';
-AppSettings.appSubDestination = ["Sydney City","Sydney North","Sydney West","Sydney South","Sydney East","Inner Sydney"];
+AppSettings.appSubDestination = ["Sydney City", "Sydney North", "Sydney West", "Sydney South", "Sydney East", "Inner Sydney"];
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 AppSettings.EventCalName = 'SYDNEY EVENTS CALENDAR';
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
@@ -29,35 +31,19 @@ AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;29
 AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 // Caching
+var oneDay = 86400;
 AppSettings.caching = {
+    cmsCacheLength: (oneDay * 14),
+    searchCacheLength: (oneDay * 1),
+    productCacheLength: (oneDay * 14)
+};
 
-    cmsCacheLength :(60 * 60 * 24 * 14),
-    searchCacheLength : (60 * 60 * 24 * 14),
-    productCacheLength : (60 * 60 * 24 * 14)
-};
-// Image resizing
-AppSettings.imageResizing = {
-    resizeURL: 'http://m.img.getconnected.dnsw.com.au/',
-    fromURLs: [{
-        url: "getconnected.dnsw.com.au/",
-        remote:false
-    }, {
-        url: "destinationnsw.com.au/",
-         remote:true
-    }, {
-        url: "sydney.com/",
-         remote:true
-    }, {
-        url: "visitnsw.com",
-         remote:true
-    }]
-};
 // SHARING
 AppSettings.defualtShareData = {
-    name: AppSettings.appAreaName + ' Guide',
-    defaultMessage: 'Check the ' + AppSettings.appAreaName + ' Guide app on the app store',
-    description: 'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName+'.',
-    emailBody:'The ' + AppSettings.appAreaName + ' Guide application has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName+'.',
+    name: AppSettings.appAreaName + ' App',
+    defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
+    description: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
+    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName + '.',
     link: AppSettings.websiteURL,
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
@@ -67,7 +53,7 @@ AppSettings.facebook = {
     // FACEBOOK APP ID
     secret: "9079d25a28945c3d9e6ac6ec880b6197",
     // FACEBOOK APP SECRET
-    redirectUrl: "https://apps.facebook.com/sydneyguideapp/",
+    redirectUrl: "http://www.sydney.com/",
     // CHANGE THIS THE USER WILL SEE IT AFTER THEY LOGIN
     type: "user_agent",
     // LEAVE THIS
@@ -77,8 +63,16 @@ AppSettings.facebook = {
 };
 // SENSIS
 AppSettings.sensis = {
-    ApiKey: 'd396z769m8qgchnqk5ra44a8',
-    url: 'http://api.sensis.com.au/ob-20110511/prod/search'
+    ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
+    url: 'http://api.sensis.com.au/ob-20110511/prod/search',
+    location: "Greater Sydney NSW"
+};
+AppSettings.whereis = {
+    token: '8348923927920532480',
+    password: '2121133n!s!w828'
+};
+AppSettings.bing = {
+    key: 'At6i83RWspt0FyjmEpFHnY3YGbguN21C40zyg6St8ab0xOYu38Vz2pAvTEb3iIJB'
 };
 // TWITTER settings
 AppSettings.twitter = {
@@ -92,36 +86,6 @@ AppSettings.twitter = {
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };
-// Points of Interests
-AppSettings.pointsOfInterests = [{
-    label: 'Hospitals',
-    keyword: 'Hospitals',
-    sensis: false
-}, {
-    label: 'Police',
-    keyword: 'Police',
-    sensis: false
-}, {
-    label: 'Service Stations',
-    keyword: 'Service Stations',
-    sensis: false
-}, {
-    label: 'Post Office',
-    keyword: 'Post Office',
-    sensis: false
-}, {
-    label: 'Beaches',
-    keyword: 'Beaches',
-    sensis: false
-}, {
-    label: 'Lookouts',
-    keyword: 'Lookouts',
-    sensis: false
-}, {
-    label: 'Toilets',
-    keyword: 'toilet',
-    sensis: false
-}];
 // Weather
 AppSettings.weatherStations = [{
     stationId: 517,
@@ -192,7 +156,7 @@ AppSettings.homeImgs = [{
     altText: 'View of Sydney Harbour from Bradley\'s Head, Mosman by Hamilton Lund'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
-AppSettings.attractionCats = [ {
+AppSettings.attractionCats = [{
     title: 'Beach Lifestyle',
     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_e.png',
@@ -219,11 +183,69 @@ AppSettings.attractionCats = [ {
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_a.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
-},{
+}, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_f.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
+}];
+
+// Image resizing
+AppSettings.imageResizing = {
+    resizeURL: 'http://m.img.getconnected.dnsw.com.au/',
+    fromURLs: [{
+        url: "getconnected.dnsw.com.au/",
+        remote: false
+    }, {
+        url: "destinationnsw.com.au/",
+        remote: true
+    }, {
+        url: "sydney.com/",
+        remote: true
+    }, {
+        url: "visitnsw.com",
+        remote: true
+    }]
+};
+// servive and facilities list
+AppSettings.poi = [{
+    label: 'Hospitals'
+}, {
+    label: 'Police'
+}, {
+    label: 'Doctors'
+}, {
+    label: 'Dentist'
+}, {
+    label: 'Optometrist'
+}, {
+    label: 'Chemists'
+}, {
+    label: 'Service Stations'
+}, {
+    label: 'Veterinarian'
+}, {
+    label: 'Post Office'
+}, {
+    label: 'Beaches'
+}, {
+    label: 'Lookouts'
+}, {
+    label: 'Toilets'
+}, {
+    label: 'Supermarket'
+}, {
+    label: 'Hairdressers'
+}, {
+    label: 'Electrician'
+}, {
+    label: 'Plumber'
+}, {
+    label: 'Florist'
+}, {
+    label: 'Mechanics'
+}, {
+    label: 'Auto Electrictian'
 }];
 // The main menu for this app - Should only be updated by the developer
 AppSettings.mainMenu = [{
@@ -337,13 +359,29 @@ AppSettings.mainMenu = [{
         collectionType: 'deals',
         xtype: 'searchPage'
     }
-
 }, {
-    title: 'Current ' + AppSettings.appAreaName + ' Weather',
+    title: 'Alerts',
+    group: 'Group 4',
+    id: 'alertsSection',
+    firstPage: {
+        title: 'Alerts',
+        xtype: 'alertsPage'
+    }
+}, {
+    title: 'Map',
+    group: 'Group 4',
+    id: 'areaMap',
+    firstPage: {
+        title: 'Map',
+        xtype: 'mapPage',
+        zoomLevel: 11
+    }
+}, {
+    title: 'Weather',
     group: 'Group 4',
     id: 'currentWeather',
     firstPage: {
-        title: AppSettings.appAreaName + ' Weather',
+        title: 'Weather',
         xtype: 'weatherPage'
     }
 }, {
@@ -356,7 +394,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'Transport Info',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'tranportSection',
     firstPage: {
         title: 'Transport Info',
@@ -366,7 +404,7 @@ AppSettings.mainMenu = [{
 
 }, {
     title: 'Visitor Information Centres',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'visitorInoSection',
     firstPage: {
         title: 'Visitor Information Centres',
@@ -375,7 +413,7 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'About Destination NSW',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'aboutDNSWSection',
     firstPage: {
         title: 'About Destination NSW',
@@ -384,19 +422,19 @@ AppSettings.mainMenu = [{
     }
 }, {
     title: 'Other NSW Apps',
-    group: 'Group 4',
+    group: 'Group 5',
     id: 'otherAppsSection',
     firstPage: {
         title: 'Other DNSW apps',
-        xtype: 'otherAppsPage',
-        contentPath: AppSettings.getSMPSectionURL() + '/other-dnsw-apps'
+        xtype: 'otherAppsPage'
     }
 }, {
     title: 'Settings',
-    group: 'Group 5',
+    group: 'Group 6',
     id: 'settingsSection',
     firstPage: {
         title: 'Settings',
         xtype: 'settingsPage'
     }
-}]
+}];
+

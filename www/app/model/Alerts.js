@@ -6,7 +6,6 @@ Ext.define("escape.model.Alerts", {
     distance: -1,
     geoLocation: false,
     getAlerts: function(feedString,callback, scope) {
-		console.log(feedString);
 		var selfRef = this;
         // load the aleats
         //{"Latitude":"-33.8607","Longitude":"151.205","Radius":"100","IsMajor":"0","Types":"Fire,Flood,Incident","RegID":"1","AppID":"2"}

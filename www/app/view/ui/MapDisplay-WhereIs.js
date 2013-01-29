@@ -141,9 +141,9 @@ Ext.define("escape.view.ui.MapDisplay", {
                 icon = EMS.Services.StandardIcons.poi(map.tilePath, '323840', '323840', data.iconText);
             } else {
                 // pin icon
-                var imgPath = 'resources/images/pin_red.png';
+                var imgPath = 'resources/'+AppSettings.regionImagePath+'pin_red.png';
                 if (escape.utils.Img.useRetinaImg) {
-                    imgPath = 'resources/images/pin_red@2x.png';
+                    imgPath = 'resources/'+AppSettings.regionImagePath+'pin_red@2x.png';
                 }
                 var size = new OpenLayers.Size(45, 38);
                 var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);

@@ -35,7 +35,6 @@ Ext.define('escape.controller.Directions', {
         escape.model.Map.loadFiles(
         true, {
             success: function() {
-                console.log('map files loaded');
                  escape.model.Directions.setup(map);
             },
             error: function() {},
@@ -136,11 +135,15 @@ Ext.define('escape.controller.Directions', {
                             travelDistance = mathExt.roundNumber(seg.metres, 2) + ' m';
                         }
                         var travelTime;
-                        if (seg.travelTime > 59) {
-                            travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' hrs';
+                        if (seg.travelTime >= 3600) {
+                            travelTime = mathExt.roundNumber(((seg.travelTime / 60) / 60), 2) + ' hrs';
+                        } else if (seg.travelTime >= 60) {
+                            travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' mins';
                         } else {
-                            travelTime = mathExt.roundNumber(seg.travelTime, 2) + ' mins';
+                            travelTime = mathExt.roundNumber(seg.travelTime, 2) + ' sec';
                         }
+                        console.log('seg.travelTime: ' + seg.travelTime + ' travelTime: ' + travelTime);
+
                         instructions += "<div class='segment'>";
                         instructions += "<h2>" + seg.routeDirection + "</h2>";
                         instructions += "<h3 class='distance'>" + travelDistance + "</h3>";
@@ -158,7 +161,6 @@ Ext.define('escape.controller.Directions', {
         this.getRouteForm().show();
 
     },
-
 
     getRouteList: function(data, callback, scope) {
         var routeList = [];
@@ -263,7 +265,6 @@ Ext.define('escape.controller.Directions', {
             if (searchAddress.indexOf('Australia') == -1) {
                 //searchAddress += ' Australia';
             }
-            console.log('searchAddress: ' + searchAddress);
             // the user has entered their own custom address look that up
             escape.model.Directions.geocodeAddress(searchAddress, {
                 success: function(addresses) {

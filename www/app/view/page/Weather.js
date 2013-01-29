@@ -130,7 +130,7 @@ Ext.define("escape.view.page.Weather", {
         if (escape.utils.Img.retinaAvailable()) {
             imagaeName = 'we_ico_' + today.icon + '_lge@2x';
         }
-        //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+        //todaysWeather.setStyle('background-image:url(resources/'+AppSettings.regionImagePath+'' + imagaeName + '.png)');
         todaysWeather.addCls('icon_' + today.icon);
         // update forcast
         var weatherForcast = this.getComponent('weatherForcast');
@@ -144,7 +144,7 @@ Ext.define("escape.view.page.Weather", {
                 if (escape.utils.Img.retinaAvailable()) {
                     imagaeName = 'we_ico_' + dayData.icon + '_med@2x';
                 }
-                // day.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+                // day.setStyle('background-image:url(resources/'+AppSettings.regionImagePath+'' + imagaeName + '.png)');
                 day.addCls('icon_' + dayData.icon);
             }
         }

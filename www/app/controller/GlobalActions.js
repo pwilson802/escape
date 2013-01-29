@@ -182,7 +182,6 @@ Ext.define('escape.controller.GlobalActions', {
         });
     },
     addToCalender: function(data){
-        console.log('addToCalender');
          var title= data.title;
          var location = data.address.Street + ', ' + data.address.Suburb + ', ' + data.address.State + ', ' + data.address.Postcode;
          var notes = "My Notes";

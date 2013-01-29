@@ -73,7 +73,7 @@ Ext.define('escape.utils.Tracking', {
             }, []);
         }
     },
-    //  currently saving rows
+    // currently saving rows
     saveTracking: function(rows) {
         if (Ext.device.Connection.isOnline()) {
             // only try to send tracking if the device is online

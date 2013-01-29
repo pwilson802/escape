@@ -234,7 +234,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         // get the user location
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
-                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, 'resources/images/markers/marker_yourlocation.png', [17, 16], true);
+                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, 'resources/'+AppSettings.regionImagePath+'markers/marker_yourlocation.png', [17, 16], true);
                 selfRef.setLocationMarker(yourlocation);
                 selfRef.showUsersDirection();
             },
@@ -293,9 +293,9 @@ Ext.define("escape.view.ui.MapDisplay", {
                 }
             } else {
                 // use default icon
-                imgPath = 'resources/images/pin_red.png';
+                imgPath = 'resources/'+AppSettings.regionImagePath+'pin_red.png';
                 if (escape.utils.Img.useRetinaImg) {
-                    imgPath = 'resources/images/pin_red@2x.png';
+                    imgPath = 'resources/'+AppSettings.regionImagePath+'pin_red@2x.png';
                 }
             }
             // pin icon
@@ -318,7 +318,8 @@ Ext.define("escape.view.ui.MapDisplay", {
                 if (window.devicePixelRatio > 1.2) {
                     imgSize = '@2x';
                 }
-                imgPath = 'resources/images/markers/marker_' + iconNumber + '' + imgSize + '.png';
+                
+                imgPath = 'resources/'+AppSettings.regionImagePath+'markers/marker_' + iconNumber + '' + imgSize + '.png';
             }
             //
             icon = new OpenLayers.Icon(imgPath, size, offset);

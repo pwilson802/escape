@@ -158,9 +158,9 @@ Ext.define("escape.view.ui.MapDisplay", {
             var lonLat = escape.utils.Maps.getLatLon(lat, lon);
             var size = new OpenLayers.Size(45, 38);
 
-            var imgPath = 'resources/images/pin_red.png';
+            var imgPath = 'resources/'+AppSettings.regionImagePath+'pin_red.png';
             if (escape.utils.Img.useRetinaImg) {
-                imgPath = 'resources/images/pin_red@2x.png';
+                imgPath = 'resources/'+AppSettings.regionImagePath+'pin_red@2x.png';
             }
 
             var useIcon = true;
@@ -181,7 +181,7 @@ Ext.define("escape.view.ui.MapDisplay", {
                 if (window.devicePixelRatio > 1.2) {
                     imgSize = '@2x';
                 }
-                imgPath = 'resources/images/markers/marker_' + iconNumber + '' + imgSize + '.png';
+                imgPath = 'resources/'+AppSettings.regionImagePath+'markers/marker_' + iconNumber + '' + imgSize + '.png';
             }
 
             var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);

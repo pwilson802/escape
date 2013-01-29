@@ -21,16 +21,16 @@ Ext.define("escape.view.page.FeaturedList", {
             scrollable: false,
             data: [{
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }]
         }],
         itemsToAdd: []

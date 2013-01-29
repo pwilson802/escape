@@ -360,26 +360,16 @@ Ext.define("escape.view.page.Product", {
                 endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1]) - 1, Number(endDateBreakDown[2]));
             }
             if (startDate !== null) {
-                var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear() + '</h4></div>';
+                var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>'+Ext.Date.format(startDate, 'S')+'</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear() + '</h4></div>';
                 if (endDate !== null) {
-                    output += '<div class="dateDisplay end"><h4  class="dayName">' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] + ' ' + endDate.getFullYear() + '</h4></div></div>';
+                    output += '<div class="dateDisplay end"><h4  class="dayName">' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>'+Ext.Date.format(endDate, 'S')+'</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] + ' ' + endDate.getFullYear() + '</h4></div></div>';
                 }
                 items.push({
                     xtype: 'container',
                     cls: 'productDates',
                     items:[{
                          html: output
-                     },{
-                        xtype: 'button',
-                        action: 'addToCalender',
-                        data: {
-                            title: product.Name,
-                            startDate: startDate,
-                            endDate: endDate,
-                            address:  product.Contact.Address
-                        },
-                        itemCls: 'addToCalenderBtn'
-                    }]
+                     }]
                    
                 });
             }

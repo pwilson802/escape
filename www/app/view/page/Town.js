@@ -25,15 +25,15 @@ Ext.define("escape.view.page.Town", {
             items: [{
                 xtype: 'appImage',
                 height: 200,
-                imagePath: 'resources/images/example-image2.jpg'
+                imagePath: 'resources/'+AppSettings.regionImagePath+'example-image2.jpg'
             }, {
                 xtype: 'appImage',
                 height: 200,
-                imagePath: 'resources/images/example-image2.jpg'
+                imagePath: 'resources/'+AppSettings.regionImagePath+'example-image2.jpg'
             }, {
                 xtype: 'appImage',
                 height: 200,
-                imagePath: 'resources/images/example-image2.jpg'
+                imagePath: 'resources/'+AppSettings.regionImagePath+'example-image2.jpg'
             }]
         }, {
             xtype: 'mapDisplay',

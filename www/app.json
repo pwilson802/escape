@@ -73,7 +73,7 @@
      * Extra resources to be copied along when build
      */
     "extras": [
-        "resources/images",
+        "resources/region-images/sydney",
         "resources/icons",
         "resources/fonts",
         "resources/js",

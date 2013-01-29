@@ -251,7 +251,7 @@ Ext.define('escape.controller.Search', {
                     label: 'From',
                     name: 'fromDate',
                     dateFormat: 'd/m/Y',
-                    value: new Date(),
+                   // value: new Date(),
                     picker: {
                         yearFrom: todaysDate.getFullYear(),
                         yearTo: maxDate.getFullYear()
@@ -267,7 +267,7 @@ Ext.define('escape.controller.Search', {
                     label: 'To',
                     name: 'toDate',
                     dateFormat: 'd/m/Y',
-                    value: new Date(),
+                   // value: new Date(),
                     picker: {
                         yearFrom: todaysDate.getFullYear(),
                         yearTo: maxDate.getFullYear()

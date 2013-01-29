@@ -96,7 +96,7 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 text: cm.getOrginalCurrency(),
                 action: 'selectOrginal',
                 cls: 'currencyBtn',
-                style: "background-image:url('resources/images/flags/currency_flag_" + Ext.String.trim(cm.getOrginalCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
+                style: "background-image:url('resources/'+AppSettings.regionImagePath+'flags/currency_flag_" + Ext.String.trim(cm.getOrginalCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
             }, {
                 xtype: 'numberfield',
                 minValue: 0,
@@ -107,7 +107,7 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 text: cm.getConvertedCurrency(),
                 action: 'selectConverted',
                 cls: 'currencyBtn',
-                style: "background-image:url('resources/images/flags/currency_flag_" + Ext.String.trim(cm.getConvertedCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
+                style: "background-image:url('resources/'+AppSettings.regionImagePath+'flags/currency_flag_" + Ext.String.trim(cm.getConvertedCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
             }, {
                 xtype: 'numberfield',
                 minValue: 0,

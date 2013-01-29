@@ -138,7 +138,7 @@ Ext.define("escape.view.page.Home", {
                 if (escape.utils.Img.retinaAvailable()) {
                     imagaeName = 'we_ico_' + today.icon + '_sml@2x';
                 }
-                weatherBtn.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+                weatherBtn.setStyle('background-image:url(resources/'+AppSettings.regionImagePath+'' + imagaeName + '.png)');
             }
 
         }

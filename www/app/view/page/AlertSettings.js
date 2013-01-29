@@ -25,7 +25,7 @@ Ext.define("escape.view.page.AlertSettings", {
 
                 labelWidth: '60%',
                 cls: 'switchOnOff ' +feed.label.split(' ').join('').toLowerCase(),
-                value: (Boolean(feed.load)) ? 0 : 1
+                value: (Boolean(feed.load)) ? 1 : 0
             });
         }
         // create the page items

@@ -41,7 +41,7 @@ Ext.define('escape.controller.Alerts', {
         for (var key in data) {
             feedOptions.push({
                 label: key,
-                load: (data[key] === 0) ? true : false
+                load: (data[key] === 0) ? false : true
             });
         }
         this.setFeeds(feedOptions);
@@ -97,23 +97,21 @@ Ext.define('escape.controller.Alerts', {
     },
     loadAlerts: function() {
         var alertsFeeds = this.getFeeds();
-        console.log(alertsFeeds);
         var alltrue = true;
         var feedString = '';
         var feedList = [];
         for (var i = 0; i < alertsFeeds.length; i++) {
             var feed = alertsFeeds[i];
             if (feed.load) {
-               feedList.push(feed.label.split(' ').join(''));
+                feedList.push(feed.label.split(' ').join(''));
             } else {
-                console.log(feed.label);
                 alltrue = false;
             }
         }
         if (alltrue) {
             feedString = 'All';
         } else {
-           feedString = feedList.join(',');
+            feedString = feedList.join(',');
         }
 
         this.getAlertsPage().removeAll(true, true);
@@ -123,8 +121,6 @@ Ext.define('escape.controller.Alerts', {
         var selfRef = this;
         escape.model.Alerts.getAlerts(feedString, {
             success: function(alerts) {
-                console.log('success');
-                console.log(alerts);
                 selfRef.alertsLoaded(alerts);
             },
             error: function(error) {}
@@ -138,52 +134,69 @@ Ext.define('escape.controller.Alerts', {
         });
     },
     alertsLoaded: function(alerts) {
-        this.getAlertsPage().buildPage();
-        // process results
-        var results = [];
-        for (var i = 0; i < alerts.length; i++) {
-            console.log(alerts[i]);
-            var feature = JSON.parse(alerts[i].jObject);
-           // console.log(feature);
-            var result = {};
-            result.displayName = feature.properties.displayName;
-            result.mainCategory = feature.properties.mainCategory;
-            result.created = new Date(feature.properties.created);
-            result.lastUpdated = new Date(feature.properties.lastUpdated);
-            result.isMajor = feature.properties.isMajor;
-            result.lat = feature.geometry.coordinates[1];
-            result.lon = feature.geometry.coordinates[0];
-            result.attendingGroups = feature.properties.attendingGroups;
-            result.additionalInfo = feature.properties.additionalInfo;
-            result.diversions = feature.properties.diversions;
-            result.advice = Ext.String.trim(feature.properties.adviceA + ' ' + feature.properties.adviceB + ' ' + feature.properties.otherAdvice);
-            result.otherAdvice = feature.properties.otherAdvice;
-            result.suburb = '';
-            result.region = '';
-            result.road = '';
-            result.trafficVolume = '';
+        if (Number(alerts.length) === 0) {
+            this.getAlertsPage().removeAll(true,true);
+            this.getAlertsPage().setItems({
+                cls: 'noResults'
+            });
+            this.getAlertsPage().setMargin(0);
+            this.getAlertsPage().addCls('bgTexture');
+        } else {
+
+            this.getAlertsPage().removeCls('bgTexture');
+            this.getAlertsPage().buildPage();
+            // process results
+            var results = [];
+            for (var i = 0; i < alerts.length; i++) {
+                console.log(alerts[i]);
+                var feature = JSON.parse(alerts[i].jObject);
+                var result = {};
+
+                result.type = Ext.String.trim(alerts[i].MainType).toLowerCase();
+                result.displayName = feature.properties.displayName;
+                result.mainCategory = feature.properties.mainCategory;
+                result.created = new Date(feature.properties.created);
+                result.lastUpdated = new Date(feature.properties.lastUpdated);
+                result.isMajor = feature.properties.isMajor;
+                result.lat = feature.geometry.coordinates[1];
+                result.lon = feature.geometry.coordinates[0];
+                result.attendingGroups = feature.properties.attendingGroups;
+                result.additionalInfo = feature.properties.additionalInfo;
+                result.diversions = feature.properties.diversions;
+                result.advice = Ext.String.trim(feature.properties.adviceA + ' ' + feature.properties.adviceB + ' ' + feature.properties.otherAdvice);
+                result.otherAdvice = feature.properties.otherAdvice;
+                result.suburb = '';
+                result.region = '';
+                result.road = '';
+                result.trafficVolume = '';
 
 
-            if (feature.properties.roads.length > 0) {
-                result.suburb = feature.properties.roads[0].suburb;
-                result.region = feature.properties.roads[0].region;
-                if (feature.properties.roads.length === 1) {
-                    result.road = feature.properties.roads[0].mainStreet;
-                    result.trafficVolume = feature.properties.roads[0].trafficVolume;
-                } else {
-                    result.road = 'Various roads';
+                if (feature.properties.roads.length > 0) {
+                    result.suburb = feature.properties.roads[0].suburb;
+                    result.region = feature.properties.roads[0].region;
+                    if (feature.properties.roads.length === 1) {
+                        result.road = feature.properties.roads[0].mainStreet;
+                        result.trafficVolume = feature.properties.roads[0].trafficVolume;
+                    } else {
+                        result.road = 'Various roads';
+                    }
                 }
+                // push obj into the list
+                // if (feature.properties.isNewIncident)
+                results.push(result);
             }
-            // push obj into the list
-            // if (feature.properties.isNewIncident)
-            results.push(result);
+            var store = Ext.create('Ext.data.Store', {
+                fields: ['type', 'displayName', 'created', 'mainCategory', 'lastUpdated', 'isMajor', 'lat', 'lon', 'suburb', 'region', 'road', 'trafficVolume', 'attendingGroups', 'additionalInfo', 'advice', 'otherAdvice', 'diversions'],
+                data: results
+            });
+            this.setAlertsStore(store);
+
+            this.showList();
         }
-        var store = Ext.create('Ext.data.Store', {
-            fields: ['displayName', 'created', 'mainCategory', 'lastUpdated', 'isMajor', 'lat', 'lon', 'suburb', 'region', 'road', 'trafficVolume', 'attendingGroups', 'additionalInfo', 'advice', 'otherAdvice', 'diversions'],
-            data: results
-        });
-        this.setAlertsStore(store);
-        this.showList();
+
+
+
+
     },
     /**
      * Toggle between the two views
@@ -209,7 +222,7 @@ Ext.define('escape.controller.Alerts', {
         var list = new Ext.List({
             flex: 1,
             cls: 'alerts',
-            itemTpl: '<div class="icon incidents"></div><div class="infoArea"><b>{suburb}</b> {road},<br>{displayName}</div>',
+            itemTpl: '<div class="icon {type}"></div><div class="infoArea"><b>{suburb}</b> {road},<br>{displayName}</div>',
             store: this.getAlertsStore()
         });
         // add load more button
@@ -245,7 +258,7 @@ Ext.define('escape.controller.Alerts', {
                 lat: marker.lat,
                 lon: marker.lon,
                 data: marker,
-                iconPath: 'resources/images/alerts_marker_incidents.png',
+                iconPath: 'resources/'+AppSettings.regionImagePath+'alerts_marker_incidents.png',
                 iconSize: [57, 37]
             });
         }

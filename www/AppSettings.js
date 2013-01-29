@@ -3,6 +3,7 @@ AppSettings = {};
 AppSettings.AppID = 2;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Sydney';
+AppSettings.regionImagePath = 'region-images/blue/';
 // Website URL
 AppSettings.displayWebsiteURL = 'sydney.com';
 AppSettings.websiteURL = 'http://www.sydney.com/';
@@ -140,53 +141,53 @@ AppSettings.weatherStations = [{
 }];
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: 'resources/images/content/dnsw1375318-399-c.jpg',
+    imagePath: 'resources/'+AppSettings.regionImagePath+'content/dnsw1375318-399-c.jpg',
     altText: 'North Sydney Olympic Pool by Kajo Merket'
 }, {
-    imagePath: 'resources/images/content/dnsw1087014-399-c.jpg',
+    imagePath: 'resources/'+AppSettings.regionImagePath+'content/dnsw1087014-399-c.jpg',
     altText: 'Guillame at Bennelong with Opera sails by Steve Back'
 }, {
-    imagePath: 'resources/images/content/dnsw1375320-399-c.jpg',
+    imagePath: 'resources/'+AppSettings.regionImagePath+'content/dnsw1375320-399-c.jpg',
     altText: 'Sydney Harbour at twilight by Kajo Merket'
 }, {
-    imagePath: 'resources/images/content/dnsw1184096-399-c.jpg',
+    imagePath: 'resources/'+AppSettings.regionImagePath+'content/dnsw1184096-399-c.jpg',
     altText: 'Fireworks celebrating the new year in Sydney Harbour by Hamilton Lund'
 }, {
-    imagePath: 'resources/images/content/dnsw1369455-399-c.jpg',
+    imagePath: 'resources/'+AppSettings.regionImagePath+'content/dnsw1369455-399-c.jpg',
     altText: 'View of Sydney Harbour from Bradley\'s Head, Mosman by Hamilton Lund'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [{
     title: 'Beach Lifestyle',
     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_e.png',
+    imgPath: 'resources/'+AppSettings.regionImagePath+'home_experience_e.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
 }, {
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
-    imgPath: 'resources/images/home_experience_c.png',
+    imgPath: 'resources/'+AppSettings.regionImagePath+'home_experience_c.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_b.png',
+    imgPath: 'resources/'+AppSettings.regionImagePath+'home_experience_b.png',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_d.png',
+    imgPath: 'resources/'+AppSettings.regionImagePath+'home_experience_d.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_a.png',
+    imgPath: 'resources/'+AppSettings.regionImagePath+'home_experience_a.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
-    imgPath: 'resources/images/home_experience_f.png',
+    imgPath: 'resources/'+AppSettings.regionImagePath+'home_experience_f.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
 }];
 

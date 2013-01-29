@@ -37,23 +37,7 @@ AppSettings.caching = {
     searchCacheLength: (oneDay * 1),
     productCacheLength: (oneDay * 14)
 };
-// Image resizing
-AppSettings.imageResizing = {
-    resizeURL: 'http://m.img.getconnected.dnsw.com.au/',
-    fromURLs: [{
-        url: "getconnected.dnsw.com.au/",
-        remote: false
-    }, {
-        url: "destinationnsw.com.au/",
-        remote: true
-    }, {
-        url: "sydney.com/",
-        remote: true
-    }, {
-        url: "visitnsw.com",
-        remote: true
-    }]
-};
+
 // SHARING
 AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' App',
@@ -102,49 +86,6 @@ AppSettings.twitter = {
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };
-// servive and facilities list
-AppSettings.poi = [{
-    label: 'Hospitals'
-}, {
-    label: 'Police'
-}, {
-    label: 'Doctors'
-}, {
-    label: 'Dentist'
-}, {
-    label: 'Optometrist'
-}, {
-    label: 'Chemists'
-}, {
-    label: 'Service Stations'
-}, {
-    label: 'Veterinarian'
-}, {
-    label: 'Post Office'
-}, {
-    label: 'Beaches'
-}, {
-    label: 'Lookouts'
-}, {
-    label: 'Toilets'
-}, {
-    label: 'Supermarket'
-}, {
-    label: 'Hairdressers'
-}, {
-    label: 'Electrician'
-}, {
-    label: 'Plumber'
-}, {
-    label: 'Florist'
-}, {
-    label: 'Mechanics'
-}, {
-    label: 'Auto Electrictian'
-}];
-
-
-
 // Weather
 AppSettings.weatherStations = [{
     stationId: 517,
@@ -247,6 +188,64 @@ AppSettings.attractionCats = [{
     subheading: 'Family travel in ' + AppSettings.appAreaName,
     imgPath: 'resources/images/home_experience_f.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
+}];
+
+// Image resizing
+AppSettings.imageResizing = {
+    resizeURL: 'http://m.img.getconnected.dnsw.com.au/',
+    fromURLs: [{
+        url: "getconnected.dnsw.com.au/",
+        remote: false
+    }, {
+        url: "destinationnsw.com.au/",
+        remote: true
+    }, {
+        url: "sydney.com/",
+        remote: true
+    }, {
+        url: "visitnsw.com",
+        remote: true
+    }]
+};
+// servive and facilities list
+AppSettings.poi = [{
+    label: 'Hospitals'
+}, {
+    label: 'Police'
+}, {
+    label: 'Doctors'
+}, {
+    label: 'Dentist'
+}, {
+    label: 'Optometrist'
+}, {
+    label: 'Chemists'
+}, {
+    label: 'Service Stations'
+}, {
+    label: 'Veterinarian'
+}, {
+    label: 'Post Office'
+}, {
+    label: 'Beaches'
+}, {
+    label: 'Lookouts'
+}, {
+    label: 'Toilets'
+}, {
+    label: 'Supermarket'
+}, {
+    label: 'Hairdressers'
+}, {
+    label: 'Electrician'
+}, {
+    label: 'Plumber'
+}, {
+    label: 'Florist'
+}, {
+    label: 'Mechanics'
+}, {
+    label: 'Auto Electrictian'
 }];
 // The main menu for this app - Should only be updated by the developer
 AppSettings.mainMenu = [{
