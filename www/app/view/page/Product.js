@@ -44,8 +44,6 @@ Ext.define("escape.view.page.Product", {
                                 xtype: 'loadError'
                             });
                         }
-
-
                     },
                     callback: function(record, operation) {
                         console.log('callback');
@@ -72,7 +70,6 @@ Ext.define("escape.view.page.Product", {
                 }
             },
             error: function(error) {
-
             },
             scope: this
         });
@@ -86,9 +83,7 @@ Ext.define("escape.view.page.Product", {
                 favBtn.config.action = 'addToFavorites';
                 favBtn.setAction('addToFavorites');
             } catch (e) {
-
             }
-
             if (i === 1) {
                 favBtn.setText('Add to Favourites');
             }
@@ -105,7 +100,6 @@ Ext.define("escape.view.page.Product", {
                 favBtn.config.action = 'removeFromFavourites';
                 favBtn.setAction('removeFromFavourites');
             } catch (e) {
-
             }
             if (i === 1) {
                 favBtn.setText('Remove from Favourites');
