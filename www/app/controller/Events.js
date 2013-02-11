@@ -107,7 +107,7 @@ Ext.define('escape.controller.Events', {
         params.collection = 'tourism-nsw-meta';
         params.form = 'mobile-all-json';
         params.meta_C_not = 'dest';
-        params.meta_h_phrase_sand = AppSettings.EventCalName;
+        params.meta_h_phrase_sand = AppSettings.eventCalName;
         var dateNow = new Date();
         params.sort = 'metap';
         params.gt_q= parseInt(todaysDate/86400000);

@@ -1,8 +1,20 @@
+
+// - blue
+// $active-color: #00B5D0;
+// $highlightLight:#00B5D0;
+// $image-path: '../region-images/blue/';
+// - green
 $active-color: #89c540;
 $highlightLight:#89c540;
-// - blue #00B5D0
-// - green #89c540
-// - orange #de3615
+$image-path: '../region-images/green/';
+// - orange
+// $active-color: #de3615;
+// $highlightLight:#de3615;
+// $image-path: '../region-images/orange/';
+
+// APP Image locations
+$app-image-path: '../app-images/blue-mountains/';
+
 $base-color : #f9f7f3;
 $page-bg-color : #f9f7f3;
 $font-family : arial;
@@ -10,7 +22,7 @@ $neutral-color : #f9f7f3;
 $base-gradient : #f9f7f3;
 $include-highlights : false;
 $include-default-icons : false; 
-$image-path: '../region-images/green/';
+
 
 
 @import 'sencha-touch/default/all';
@@ -64,7 +76,7 @@ body {
 	line-height:175%;
 	/* Helvetica Light */
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
-	background: $active-color url(#{$image-path}/Splash_Portrait.png) no-repeat center top;
+	background: $active-color url(#{$app-image-path}/Splash_Portrait.png) no-repeat center top;
 }
 
 b {
@@ -127,7 +139,7 @@ p {
 	}
 }
 .badge {
-	background-image: url(#{$image-path}/badge_home_syd.png);
+	background-image: url(#{$app-image-path}/badge_home.png);
 	background-repeat: no-repeat;
 	width:118px;
 	height:118px;
@@ -3014,7 +3026,7 @@ p {
        (min-resolution: 85dpi),           /* Everyone else */
        (min-resolution: 1.2dppx)              /* The Future */ {
 	body {
-		background-image: url(#{$image-path}/Splash_Portrait@2x.png);
+		background-image: url(#{$app-image-path}/Splash_Portrait@2x.png);
 		-webkit-background-size: 400px 460px; 
 	}
 	.weatherBtn {
@@ -3099,7 +3111,7 @@ p {
 	}
 
 	.badge {
-		background-image: url(#{$image-path}/badge_home_syd@2x.png);
+		background-image: url(#{$app-image-path}/badge_home@2x.png);
 		-webkit-background-size: 118px 118px; 
 	}
 

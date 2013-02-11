@@ -258,7 +258,7 @@ Ext.define('escape.controller.Alerts', {
                 lat: marker.lat,
                 lon: marker.lon,
                 data: marker,
-                iconPath: 'resources/'+AppSettings.regionImagePath+'alerts_marker_incidents.png',
+                iconPath: 'resources/region-images/general/alerts_marker_incidents.png',
                 iconSize: [57, 37]
             });
         }

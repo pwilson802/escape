@@ -47,7 +47,7 @@ Ext.define("escape.model.Content", {
                 loadLocal = false;
             }
         }
-        if (loadLocal) {
+        if (loadLocal && !AppSettings.forceRemoteContent) {
             // the device is not online load local content
             this.loadLocalContent(url, callback, scope);
         } else {
@@ -175,7 +175,7 @@ Ext.define("escape.model.Content", {
             for (var i = 0; i < rs.rows.length; i++) {
                 var image = rs.rows.item(i);
                 imagesList.push({
-                    "Full Size": 'resources/'+AppSettings.regionImagePath+'cms/' + image.image_name,
+                    "Full Size": 'resources/'+AppSettings.imgfolder+'cms/' + image.image_name,
                     "Alt": image.alt_text
                 });
             }

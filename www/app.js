@@ -79,7 +79,7 @@ Ext.application({
                 fileName: 'cmsPages',
                 checkTable: 'Images',
                 prePopulate: true,
-                reImport: false
+                reImport: true
             }]);
             // install plugins
             try {
