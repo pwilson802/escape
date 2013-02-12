@@ -29567,6 +29567,74 @@ Ext.define('Ext.util.Geolocation', {
 /**
  * @private
  */
+Ext.define('Ext.device.connection.Abstract', {
+    extend: 'Ext.Evented',
+
+    config: {
+        online: false,
+        type: null
+    },
+
+    /**
+     * @property {String} UNKNOWN
+     * Text label for a connection type.
+     */
+    UNKNOWN: 'Unknown connection',
+
+    /**
+     * @property {String} ETHERNET
+     * Text label for a connection type.
+     */
+    ETHERNET: 'Ethernet connection',
+
+    /**
+     * @property {String} WIFI
+     * Text label for a connection type.
+     */
+    WIFI: 'WiFi connection',
+
+    /**
+     * @property {String} CELL_2G
+     * Text label for a connection type.
+     */
+    CELL_2G: 'Cell 2G connection',
+
+    /**
+     * @property {String} CELL_3G
+     * Text label for a connection type.
+     */
+    CELL_3G: 'Cell 3G connection',
+
+    /**
+     * @property {String} CELL_4G
+     * Text label for a connection type.
+     */
+    CELL_4G: 'Cell 4G connection',
+
+    /**
+     * @property {String} NONE
+     * Text label for a connection type.
+     */
+    NONE: 'No network connection',
+
+    /**
+     * True if the device is currently online
+     * @return {Boolean} online
+     */
+    isOnline: function() {
+        return this.getOnline();
+    }
+
+    /**
+     * @method getType
+     * Returns the current connection type.
+     * @return {String} type
+     */
+});
+
+/**
+ * @private
+ */
 Ext.define('Ext.mixin.Sortable', {
     extend: 'Ext.mixin.Mixin',
 
@@ -32539,7 +32607,7 @@ Ext.define('escape.utils.Tracking', {
             }, []);
         }
     },
-    //  currently saving rows
+    // currently saving rows
     saveTracking: function(rows) {
         if (Ext.device.Connection.isOnline()) {
             // only try to send tracking if the device is online
@@ -32828,6 +32896,142 @@ Ext.define('Ext.device.Geolocation', {
         }
         else {
             return Ext.create('Ext.device.geolocation.Simulator');
+        }
+    }
+});
+
+/**
+ * @private
+ */
+Ext.define('Ext.device.connection.Sencha', {
+    extend: 'Ext.device.connection.Abstract',
+
+    /**
+     * @event onlinechange
+     * Fires when the connection status changes.
+     * @param {Boolean} online True if you are {@link Ext.device.Connection#isOnline online}
+     * @param {String} type The new online {@link Ext.device.Connection#getType type}
+     */
+
+    initialize: function() {
+        Ext.device.Communicator.send({
+            command: 'Connection#watch',
+            callbacks: {
+                callback: this.onConnectionChange
+            },
+            scope: this
+        });
+    },
+
+    onConnectionChange: function(e) {
+        this.setOnline(Boolean(e.online));
+        this.setType(this[e.type]);
+
+        this.fireEvent('onlinechange', this.getOnline(), this.getType());
+    }
+});
+
+/**
+ * @private
+ */
+Ext.define('Ext.device.connection.PhoneGap', {
+    extend: 'Ext.device.connection.Abstract',
+
+    syncOnline: function() {
+        var type = navigator.network.connection.type;
+        this._type = type;
+        this._online = type != Connection.NONE;
+    },
+
+    getOnline: function() {
+        this.syncOnline();
+        return this._online;
+    },
+
+    getType: function() {
+        this.syncOnline();
+        return this._type;
+    }
+});
+
+/**
+ * @private
+ */
+Ext.define('Ext.device.connection.Simulator', {
+    extend: 'Ext.device.connection.Abstract',
+
+    getOnline: function() {
+        this._online = navigator.onLine;
+        this._type = Ext.device.Connection.UNKNOWN;
+        return this._online;
+    }
+});
+
+/**
+ * This class is used to check if the current device is currently online or not. It has three different implementations:
+ *
+ * - Sencha Packager
+ * - PhoneGap
+ * - Simulator
+ *
+ * Both the Sencha Packager and PhoneGap implementations will use the native functionality to determine if the current
+ * device is online. The Simulator version will simply use `navigator.onLine`.
+ *
+ * When this singleton ({@link Ext.device.Connection}) is instantiated, it will automatically decide which version to
+ * use based on the current platform.
+ *
+ * ## Examples
+ *
+ * Determining if the current device is online:
+ *
+ *     alert(Ext.device.Connection.isOnline());
+ *
+ * Checking the type of connection the device has:
+ *
+ *     alert('Your connection type is: ' + Ext.device.Connection.getType());
+ *
+ * The available connection types are:
+ *
+ * - {@link Ext.device.Connection#UNKNOWN UNKNOWN} - Unknown connection
+ * - {@link Ext.device.Connection#ETHERNET ETHERNET} - Ethernet connection
+ * - {@link Ext.device.Connection#WIFI WIFI} - WiFi connection
+ * - {@link Ext.device.Connection#CELL_2G CELL_2G} - Cell 2G connection
+ * - {@link Ext.device.Connection#CELL_3G CELL_3G} - Cell 3G connection
+ * - {@link Ext.device.Connection#CELL_4G CELL_4G} - Cell 4G connection
+ * - {@link Ext.device.Connection#NONE NONE} - No network connection
+ * 
+ * @mixins Ext.device.connection.Abstract
+ *
+ * @aside guide native_apis
+ */
+Ext.define('Ext.device.Connection', {
+    singleton: true,
+
+    requires: [
+        'Ext.device.Communicator',
+        'Ext.device.connection.Sencha',
+        'Ext.device.connection.PhoneGap',
+        'Ext.device.connection.Simulator'
+    ],
+    
+    /**
+     * @event onlinechange
+     * @inheritdoc Ext.device.connection.Sencha#onlinechange
+     */
+
+    constructor: function() {
+        var browserEnv = Ext.browser.is;
+
+        if (browserEnv.WebView) {
+            if (browserEnv.PhoneGap) {
+                return Ext.create('Ext.device.connection.PhoneGap');
+            }
+            else {
+                return Ext.create('Ext.device.connection.Sencha');
+            }
+        }
+        else {
+            return Ext.create('Ext.device.connection.Simulator');
         }
     }
 });
@@ -45187,7 +45391,6 @@ Ext.define("escape.model.Alerts", {
     distance: -1,
     geoLocation: false,
     getAlerts: function(feedString,callback, scope) {
-		console.log(feedString);
 		var selfRef = this;
         // load the aleats
         //{"Latitude":"-33.8607","Longitude":"151.205","Radius":"100","IsMajor":"0","Types":"Fire,Flood,Incident","RegID":"1","AppID":"2"}
@@ -45877,7 +46080,7 @@ Ext.define("escape.model.Content", {
                 loadLocal = false;
             }
         }
-        if (loadLocal) {
+        if (loadLocal && !AppSettings.forceRemoteContent) {
             // the device is not online load local content
             this.loadLocalContent(url, callback, scope);
         } else {
@@ -46005,7 +46208,7 @@ Ext.define("escape.model.Content", {
             for (var i = 0; i < rs.rows.length; i++) {
                 var image = rs.rows.item(i);
                 imagesList.push({
-                    "Full Size": 'resources/images/cms/' + image.image_name,
+                    "Full Size": AppSettings.imgfolder+'cms/' + image.image_name,
                     "Alt": image.alt_text
                 });
             }
@@ -46317,6 +46520,37 @@ Ext.define("escape.model.Directions", {
                 Ext.callback(callback.success, scope, [routeResult]);
             }
         });
+    }
+});
+Ext.define("escape.model.AppVersion", {
+    requires: [''],
+    extend: 'Ext.data.Model',
+    config: {
+        fields: [{
+            name: 'AppID'
+        }, {
+            name: 'AppName'
+        }, {
+            name: 'AppVer'
+        }, {
+            name: 'DB1Date'
+        }, {
+            name: 'DB1Name'
+        }, {
+            name: 'DB1Path'
+        }, {
+            name: 'DBVer'
+        }, {
+            name: 'File1Date'
+        }, {
+            name: 'File1Name'
+        }, {
+            name: 'File1Path'
+        }, {
+            name: 'Released'
+        }, {
+            name: 'UpdateID'
+        }]
     }
 });
 /**
@@ -50479,7 +50713,7 @@ Ext.define('escape.controller.Events', {
         params.collection = 'tourism-nsw-meta';
         params.form = 'mobile-all-json';
         params.meta_C_not = 'dest';
-        params.meta_h_phrase_sand = AppSettings.EventCalName;
+        params.meta_h_phrase_sand = AppSettings.eventCalName;
         var dateNow = new Date();
         params.sort = 'metap';
         params.gt_q= parseInt(todaysDate/86400000);
@@ -50630,7 +50864,6 @@ Ext.define('escape.controller.Directions', {
         escape.model.Map.loadFiles(
         true, {
             success: function() {
-                console.log('map files loaded');
                  escape.model.Directions.setup(map);
             },
             error: function() {},
@@ -50703,7 +50936,6 @@ Ext.define('escape.controller.Directions', {
         });
     },
     createRouteFromList: function(routeList) {
-
         var selfRef = this;
         // clear route
         escape.model.Directions.clearRoute();
@@ -50731,11 +50963,15 @@ Ext.define('escape.controller.Directions', {
                             travelDistance = mathExt.roundNumber(seg.metres, 2) + ' m';
                         }
                         var travelTime;
-                        if (seg.travelTime > 59) {
-                            travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' hrs';
+                        if (seg.travelTime >= 3600) {
+                            travelTime = mathExt.roundNumber(((seg.travelTime / 60) / 60), 2) + ' hrs';
+                        } else if (seg.travelTime >= 60) {
+                            travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' mins';
                         } else {
-                            travelTime = mathExt.roundNumber(seg.travelTime, 2) + ' mins';
+                            travelTime = mathExt.roundNumber(seg.travelTime, 2) + ' sec';
                         }
+                        console.log('seg.travelTime: ' + seg.travelTime + ' travelTime: ' + travelTime);
+
                         instructions += "<div class='segment'>";
                         instructions += "<h2>" + seg.routeDirection + "</h2>";
                         instructions += "<h3 class='distance'>" + travelDistance + "</h3>";
@@ -50753,7 +50989,6 @@ Ext.define('escape.controller.Directions', {
         this.getRouteForm().show();
 
     },
-
 
     getRouteList: function(data, callback, scope) {
         var routeList = [];
@@ -50858,7 +51093,6 @@ Ext.define('escape.controller.Directions', {
             if (searchAddress.indexOf('Australia') == -1) {
                 //searchAddress += ' Australia';
             }
-            console.log('searchAddress: ' + searchAddress);
             // the user has entered their own custom address look that up
             escape.model.Directions.geocodeAddress(searchAddress, {
                 success: function(addresses) {
@@ -51161,12 +51395,15 @@ Ext.define("escape.view.page.AlertDetails", {
         cls: 'alertDetailsPage',
         alertData: null,
         rightBtn: '',
-        scrollable: false,
         padding: 0,
         IsPageBuilt: false,
         pageTypeId: 18,
         pageTrackingId: 18,
-        layout: 'vbox'
+        layout: 'vbox',
+        scrollable: {
+            direction: 'vertical',
+            directionLock: true
+        }
     },
     openView: function() {
         var data = this.getAlertData();
@@ -51183,7 +51420,7 @@ Ext.define("escape.view.page.AlertDetails", {
         // headling
         items.push({
             xtype: 'container',
-            cls: 'actionHeader',
+            cls: 'actionHeader '+ data.type,
             padding: '10px',
             html: '<h3>' + data.suburb + '</h3><h3>' + data.road + '</h3><h3>' + data.displayName + '</h3>'
         });
@@ -51209,32 +51446,39 @@ Ext.define("escape.view.page.AlertDetails", {
             });
         }
         // attendingGroups
-        if (data.attendingGroups.length > 0) {
+        console.log(data.attendingGroups);
+        if (data.attendingGroups.join('</br>')!=" ") {
             detailsTable.push({
                 heading: 'Attending Groups',
                 value: data.attendingGroups.join('</br>')
             });
         }
         // advice
-        if (data.advice.length > 3) {
-            detailsTable.push({
-                heading: 'Advice',
-                value: data.advice
-            });
-        }
+        // if (data.advice.length > 3) {
+        //     detailsTable.push({
+        //         heading: 'Advice',
+        //         value: data.advice
+        //     });
+        // }
         // diversions
-         if (data.diversions.length > 3) {
+        if (data.diversions.length > 3) {
             detailsTable.push({
                 heading: 'Diversions',
                 value: data.diversions
             });
         }
         items.push({
-            padding: '10px',
+            padding: '10px 10px 0 10px',
             cls: 'dataTable',
             tpl: Ext.create('Ext.XTemplate', '<table>', '<tpl for=".">', '<tr>', '<th>{heading}</th>', '<td>{value}</td>', '</tr>', '</tpl>', '</table>'),
             data: detailsTable
         });
+        if (data.advice.length > 3) {
+            items.push({
+                padding:'0 10px 10px 10px',
+                html: "<h4>Advice</h4><p>" + data.advice + "</p>"
+            });
+        }
         this.setItems(items);
     }
 });
@@ -51261,16 +51505,16 @@ Ext.define("escape.view.page.FeaturedList", {
             scrollable: false,
             data: [{
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }]
         }],
         itemsToAdd: []
@@ -51346,16 +51590,16 @@ Ext.define("escape.view.page.LikeALocal", {
             scrollable: false,
             data: [{
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }, {
                 title: escape.utils.Translator.translate('location'),
-                imgHTML: escape.utils.Img.getImgDiv('resources/images/example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
+                imgHTML: escape.utils.Img.getImgDiv('resources/'+AppSettings.regionImagePath+'example-image2.jpg', (Number(320 - 20) / 100) * 48, 88)
             }]
         }]
     }
@@ -53676,7 +53920,7 @@ Ext.define("escape.view.page.Home", {
                 if (escape.utils.Img.retinaAvailable()) {
                     imagaeName = 'we_ico_' + today.icon + '_sml@2x';
                 }
-                weatherBtn.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+                weatherBtn.setStyle('background-image:url(resources/'+AppSettings.regionImagePath+'' + imagaeName + '.png)');
             }
 
         }
@@ -53841,12 +54085,10 @@ Ext.define("escape.view.ui.MapDisplay", {
             if (this.getInteraction()) {
                 map.addControl(new OpenLayers.Control.TouchNavigation());
             }
-
-
             this.setMap(map);
             // create the offline layer
-            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", "resources/maptiles/${z}/${x}/${y}.png", {
-                numZoomLevels: 14,
+            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", AppSettings.mapsTilesPath +"${z}/${x}/${y}.png", {
+                numZoomLevels: AppSettings.offlineMapsMaxZoom ,
                 alpha: true,
                 isBaseLayer: true
             });
@@ -53946,7 +54188,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         // get the user location
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
-                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, 'resources/images/markers/marker_yourlocation.png', [17, 16], true);
+                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, AppSettings.regionImagePath+'markers/marker_yourlocation.png', [17, 16], true);
                 selfRef.setLocationMarker(yourlocation);
                 selfRef.showUsersDirection();
             },
@@ -54005,9 +54247,9 @@ Ext.define("escape.view.ui.MapDisplay", {
                 }
             } else {
                 // use default icon
-                imgPath = 'resources/images/pin_red.png';
+                imgPath = AppSettings.regionImagePath+'pin_red.png';
                 if (escape.utils.Img.useRetinaImg) {
-                    imgPath = 'resources/images/pin_red@2x.png';
+                    imgPath = AppSettings.regionImagePath+'pin_red@2x.png';
                 }
             }
             // pin icon
@@ -54030,7 +54272,8 @@ Ext.define("escape.view.ui.MapDisplay", {
                 if (window.devicePixelRatio > 1.2) {
                     imgSize = '@2x';
                 }
-                imgPath = 'resources/images/markers/marker_' + iconNumber + '' + imgSize + '.png';
+                
+                imgPath = AppSettings.regionImagePath+'markers/marker_' + iconNumber + '' + imgSize + '.png';
             }
             //
             icon = new OpenLayers.Icon(imgPath, size, offset);
@@ -54675,7 +54918,7 @@ Ext.define("escape.view.page.AlertSettings", {
 
                 labelWidth: '60%',
                 cls: 'switchOnOff ' +feed.label.split(' ').join('').toLowerCase(),
-                value: (Boolean(feed.load)) ? 0 : 1
+                value: (Boolean(feed.load)) ? 1 : 0
             });
         }
         // create the page items
@@ -54738,7 +54981,7 @@ Ext.define('escape.controller.Alerts', {
         for (var key in data) {
             feedOptions.push({
                 label: key,
-                load: (data[key] === 0) ? true : false
+                load: (data[key] === 0) ? false : true
             });
         }
         this.setFeeds(feedOptions);
@@ -54794,23 +55037,21 @@ Ext.define('escape.controller.Alerts', {
     },
     loadAlerts: function() {
         var alertsFeeds = this.getFeeds();
-        console.log(alertsFeeds);
         var alltrue = true;
         var feedString = '';
         var feedList = [];
         for (var i = 0; i < alertsFeeds.length; i++) {
             var feed = alertsFeeds[i];
             if (feed.load) {
-               feedList.push(feed.label.split(' ').join(''));
+                feedList.push(feed.label.split(' ').join(''));
             } else {
-                console.log(feed.label);
                 alltrue = false;
             }
         }
         if (alltrue) {
             feedString = 'All';
         } else {
-           feedString = feedList.join(',');
+            feedString = feedList.join(',');
         }
 
         this.getAlertsPage().removeAll(true, true);
@@ -54820,8 +55061,6 @@ Ext.define('escape.controller.Alerts', {
         var selfRef = this;
         escape.model.Alerts.getAlerts(feedString, {
             success: function(alerts) {
-                console.log('success');
-                console.log(alerts);
                 selfRef.alertsLoaded(alerts);
             },
             error: function(error) {}
@@ -54835,52 +55074,69 @@ Ext.define('escape.controller.Alerts', {
         });
     },
     alertsLoaded: function(alerts) {
-        this.getAlertsPage().buildPage();
-        // process results
-        var results = [];
-        for (var i = 0; i < alerts.length; i++) {
-            console.log(alerts[i]);
-            var feature = JSON.parse(alerts[i].jObject);
-           // console.log(feature);
-            var result = {};
-            result.displayName = feature.properties.displayName;
-            result.mainCategory = feature.properties.mainCategory;
-            result.created = new Date(feature.properties.created);
-            result.lastUpdated = new Date(feature.properties.lastUpdated);
-            result.isMajor = feature.properties.isMajor;
-            result.lat = feature.geometry.coordinates[1];
-            result.lon = feature.geometry.coordinates[0];
-            result.attendingGroups = feature.properties.attendingGroups;
-            result.additionalInfo = feature.properties.additionalInfo;
-            result.diversions = feature.properties.diversions;
-            result.advice = Ext.String.trim(feature.properties.adviceA + ' ' + feature.properties.adviceB + ' ' + feature.properties.otherAdvice);
-            result.otherAdvice = feature.properties.otherAdvice;
-            result.suburb = '';
-            result.region = '';
-            result.road = '';
-            result.trafficVolume = '';
+        if (Number(alerts.length) === 0) {
+            this.getAlertsPage().removeAll(true,true);
+            this.getAlertsPage().setItems({
+                cls: 'noResults'
+            });
+            this.getAlertsPage().setMargin(0);
+            this.getAlertsPage().addCls('bgTexture');
+        } else {
+
+            this.getAlertsPage().removeCls('bgTexture');
+            this.getAlertsPage().buildPage();
+            // process results
+            var results = [];
+            for (var i = 0; i < alerts.length; i++) {
+                console.log(alerts[i]);
+                var feature = JSON.parse(alerts[i].jObject);
+                var result = {};
+
+                result.type = Ext.String.trim(alerts[i].MainType).toLowerCase();
+                result.displayName = feature.properties.displayName;
+                result.mainCategory = feature.properties.mainCategory;
+                result.created = new Date(feature.properties.created);
+                result.lastUpdated = new Date(feature.properties.lastUpdated);
+                result.isMajor = feature.properties.isMajor;
+                result.lat = feature.geometry.coordinates[1];
+                result.lon = feature.geometry.coordinates[0];
+                result.attendingGroups = feature.properties.attendingGroups;
+                result.additionalInfo = feature.properties.additionalInfo;
+                result.diversions = feature.properties.diversions;
+                result.advice = Ext.String.trim(feature.properties.adviceA + ' ' + feature.properties.adviceB + ' ' + feature.properties.otherAdvice);
+                result.otherAdvice = feature.properties.otherAdvice;
+                result.suburb = '';
+                result.region = '';
+                result.road = '';
+                result.trafficVolume = '';
 
 
-            if (feature.properties.roads.length > 0) {
-                result.suburb = feature.properties.roads[0].suburb;
-                result.region = feature.properties.roads[0].region;
-                if (feature.properties.roads.length === 1) {
-                    result.road = feature.properties.roads[0].mainStreet;
-                    result.trafficVolume = feature.properties.roads[0].trafficVolume;
-                } else {
-                    result.road = 'Various roads';
+                if (feature.properties.roads.length > 0) {
+                    result.suburb = feature.properties.roads[0].suburb;
+                    result.region = feature.properties.roads[0].region;
+                    if (feature.properties.roads.length === 1) {
+                        result.road = feature.properties.roads[0].mainStreet;
+                        result.trafficVolume = feature.properties.roads[0].trafficVolume;
+                    } else {
+                        result.road = 'Various roads';
+                    }
                 }
+                // push obj into the list
+                // if (feature.properties.isNewIncident)
+                results.push(result);
             }
-            // push obj into the list
-            // if (feature.properties.isNewIncident)
-            results.push(result);
+            var store = Ext.create('Ext.data.Store', {
+                fields: ['type', 'displayName', 'created', 'mainCategory', 'lastUpdated', 'isMajor', 'lat', 'lon', 'suburb', 'region', 'road', 'trafficVolume', 'attendingGroups', 'additionalInfo', 'advice', 'otherAdvice', 'diversions'],
+                data: results
+            });
+            this.setAlertsStore(store);
+
+            this.showList();
         }
-        var store = Ext.create('Ext.data.Store', {
-            fields: ['displayName', 'created', 'mainCategory', 'lastUpdated', 'isMajor', 'lat', 'lon', 'suburb', 'region', 'road', 'trafficVolume', 'attendingGroups', 'additionalInfo', 'advice', 'otherAdvice', 'diversions'],
-            data: results
-        });
-        this.setAlertsStore(store);
-        this.showList();
+
+
+
+
     },
     /**
      * Toggle between the two views
@@ -54906,7 +55162,7 @@ Ext.define('escape.controller.Alerts', {
         var list = new Ext.List({
             flex: 1,
             cls: 'alerts',
-            itemTpl: '<div class="icon incidents"></div><div class="infoArea"><b>{suburb}</b> {road},<br>{displayName}</div>',
+            itemTpl: '<div class="icon {type}"></div><div class="infoArea"><b>{suburb}</b> {road},<br>{displayName}</div>',
             store: this.getAlertsStore()
         });
         // add load more button
@@ -54942,7 +55198,7 @@ Ext.define('escape.controller.Alerts', {
                 lat: marker.lat,
                 lon: marker.lon,
                 data: marker,
-                iconPath: 'resources/images/alerts_marker_incidents.png',
+                iconPath: 'resources/region-images/general/alerts_marker_incidents.png',
                 iconSize: [57, 37]
             });
         }
@@ -55605,6 +55861,38 @@ Ext.define('escape.store.ProductSearch', {
             reader: {
                 type: 'json',
                 rootProperty: 'Results Summary'
+            }
+        }
+    }
+});
+Ext.define('escape.store.AppVersion', {
+    extend: 'Ext.data.Store',
+    requires: ['Ext.ux.proxy.AjaxCache', 'escape.model.AppVersion'],
+    config: {
+        model: 'escape.model.AppVersion',
+        proxy: {
+            type: 'ajax',
+            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/AppVersion2',
+            noCache: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            enablePagingParams: false,
+            actionMethods: {
+                create: 'POST',
+                read: 'POST',
+                update: 'POST',
+                destroy: 'POST'
+            },
+            extraParams: {
+                AppID: 3,
+                AppName: 'ARTN'
+            },
+            reader: {
+                type: 'json'
+            },
+            writer : {
+                type: 'json'
             }
         }
     }
@@ -57478,8 +57766,6 @@ Ext.define("escape.view.page.Product", {
                                 xtype: 'loadError'
                             });
                         }
-
-
                     },
                     callback: function(record, operation) {
                         console.log('callback');
@@ -57506,7 +57792,6 @@ Ext.define("escape.view.page.Product", {
                 }
             },
             error: function(error) {
-
             },
             scope: this
         });
@@ -57520,9 +57805,7 @@ Ext.define("escape.view.page.Product", {
                 favBtn.config.action = 'addToFavorites';
                 favBtn.setAction('addToFavorites');
             } catch (e) {
-
             }
-
             if (i === 1) {
                 favBtn.setText('Add to Favourites');
             }
@@ -57539,7 +57822,6 @@ Ext.define("escape.view.page.Product", {
                 favBtn.config.action = 'removeFromFavourites';
                 favBtn.setAction('removeFromFavourites');
             } catch (e) {
-
             }
             if (i === 1) {
                 favBtn.setText('Remove from Favourites');
@@ -57794,26 +58076,16 @@ Ext.define("escape.view.page.Product", {
                 endDate = new Date(endDateBreakDown[0], Number(endDateBreakDown[1]) - 1, Number(endDateBreakDown[2]));
             }
             if (startDate !== null) {
-                var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear() + '</h4></div>';
+                var output = '<div class="dateDisplay start"><h4 class="dayName">' + Ext.Date.dayNames[startDate.getDay()] + '</h4><h3>' + startDate.getDate() + '<sup>'+Ext.Date.format(startDate, 'S')+'</sup></h3><h4>' + Ext.Date.monthNames[startDate.getMonth()] + ' ' + startDate.getFullYear() + '</h4></div>';
                 if (endDate !== null) {
-                    output += '<div class="dateDisplay end"><h4  class="dayName">' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>th</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] + ' ' + endDate.getFullYear() + '</h4></div></div>';
+                    output += '<div class="dateDisplay end"><h4  class="dayName">' + Ext.Date.dayNames[endDate.getDay()] + '</h4><h3>' + endDate.getDate() + '<sup>'+Ext.Date.format(endDate, 'S')+'</sup></h3><h4>' + Ext.Date.monthNames[endDate.getMonth()] + ' ' + endDate.getFullYear() + '</h4></div></div>';
                 }
                 items.push({
                     xtype: 'container',
                     cls: 'productDates',
                     items:[{
                          html: output
-                     },{
-                        xtype: 'button',
-                        action: 'addToCalender',
-                        data: {
-                            title: product.Name,
-                            startDate: startDate,
-                            endDate: endDate,
-                            address:  product.Contact.Address
-                        },
-                        itemCls: 'addToCalenderBtn'
-                    }]
+                     }]
                    
                 });
             }
@@ -58176,7 +58448,7 @@ Ext.define('escape.controller.Search', {
                     label: 'From',
                     name: 'fromDate',
                     dateFormat: 'd/m/Y',
-                    value: new Date(),
+                   // value: new Date(),
                     picker: {
                         yearFrom: todaysDate.getFullYear(),
                         yearTo: maxDate.getFullYear()
@@ -58192,7 +58464,7 @@ Ext.define('escape.controller.Search', {
                     label: 'To',
                     name: 'toDate',
                     dateFormat: 'd/m/Y',
-                    value: new Date(),
+                   // value: new Date(),
                     picker: {
                         yearFrom: todaysDate.getFullYear(),
                         yearTo: maxDate.getFullYear()
@@ -65508,7 +65780,7 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 text: cm.getOrginalCurrency(),
                 action: 'selectOrginal',
                 cls: 'currencyBtn',
-                style: "background-image:url('resources/images/flags/currency_flag_" + Ext.String.trim(cm.getOrginalCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
+                style: "background-image:url('resources/region-images/general/flags/currency_flag_" + Ext.String.trim(cm.getOrginalCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
             }, {
                 xtype: 'numberfield',
                 minValue: 0,
@@ -65519,7 +65791,7 @@ Ext.define("escape.view.page.CurrencyConverter", {
                 text: cm.getConvertedCurrency(),
                 action: 'selectConverted',
                 cls: 'currencyBtn',
-                style: "background-image:url('resources/images/flags/currency_flag_" + Ext.String.trim(cm.getConvertedCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
+                style: "background-image:url('resources/region-images/general/flags/currency_flag_" + Ext.String.trim(cm.getConvertedCurrency().toLowerCase()) + flagSize + ".png');" + bgSize
             }, {
                 xtype: 'numberfield',
                 minValue: 0,
@@ -65693,7 +65965,7 @@ Ext.define("escape.view.page.Weather", {
         if (escape.utils.Img.retinaAvailable()) {
             imagaeName = 'we_ico_' + today.icon + '_lge@2x';
         }
-        //todaysWeather.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+        //todaysWeather.setStyle('background-image:url(resources/'+AppSettings.regionImagePath+'' + imagaeName + '.png)');
         todaysWeather.addCls('icon_' + today.icon);
         // update forcast
         var weatherForcast = this.getComponent('weatherForcast');
@@ -65707,7 +65979,7 @@ Ext.define("escape.view.page.Weather", {
                 if (escape.utils.Img.retinaAvailable()) {
                     imagaeName = 'we_ico_' + dayData.icon + '_med@2x';
                 }
-                // day.setStyle('background-image:url(resources/images/' + imagaeName + '.png)');
+                // day.setStyle('background-image:url(resources/'+AppSettings.regionImagePath+'' + imagaeName + '.png)');
                 day.addCls('icon_' + dayData.icon);
             }
         }
@@ -66082,7 +66354,6 @@ Ext.define('escape.controller.GlobalActions', {
         });
     },
     addToCalender: function(data){
-        console.log('addToCalender');
          var title= data.title;
          var location = data.address.Street + ', ' + data.address.Suburb + ', ' + data.address.State + ', ' + data.address.Postcode;
          var notes = "My Notes";
@@ -67890,12 +68161,12 @@ Ext.application({
         mainView: 'mainView'
     },
     name: 'escape',
-    requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars','Ext.data.ArrayStore','Ext.device.Geolocation'],
+    requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars','Ext.data.ArrayStore','Ext.device.Geolocation','Ext.device.Connection'],
     views: ['Main', 'section.Section', 'page.OtherApps', 'page.AddToCalender', 'page.Home', 'page.Alerts', 'page.AlertDetails', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map', 'ui.OfflineMessage'],
     controllers: ['Map', 'GlobalActions', 'Settings','Page', 'Section', 'Search', 'Alerts', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage', 'Directions'],
 
     models: ['Favourites', 'UserSettings', 'Currency', 'Register', 'ProductSearch', 'Itineraries'],
-    stores: ['ProductSearch'],
+    stores: ['ProductSearch','AppVersion'],
     icon: {
         57: 'resources/icons/Icon.png',
         72: 'resources/icons/Icon~ipad.png',
@@ -67960,7 +68231,7 @@ Ext.application({
                 fileName: 'cmsPages',
                 checkTable: 'Images',
                 prePopulate: true,
-                reImport: false
+                reImport: true
             }]);
             // install plugins
             try {
@@ -67993,6 +68264,18 @@ Ext.application({
         } catch (e) {
 
         }
+        //
+         var serachStore = Ext.create('escape.store.AppVersion');
+        // add the extra paramaters to the search
+        // request results
+        var selfRef = this;
+        serachStore.load({
+            callback: function(records, operation, success) {
+                // the operation object contains all of the details of the load operation
+                console.log(records);
+            },
+            scope: this
+        });
     },
 
     onUpdated: function() {
