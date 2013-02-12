@@ -107,7 +107,6 @@ Ext.define('escape.controller.Directions', {
         });
     },
     createRouteFromList: function(routeList) {
-
         var selfRef = this;
         // clear route
         escape.model.Directions.clearRoute();

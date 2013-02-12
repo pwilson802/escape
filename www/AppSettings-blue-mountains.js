@@ -2,17 +2,21 @@
 // GENERAL
 /////////////////////////////////////////////////////////////////////
 AppSettings = {};
-// The Tilt and Co App ID used for tracking
-AppSettings.AppID = 2;
+// The Tilt and Co App ID used for tracking, get id from glen
+AppSettings.AppID = 6;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Blue Mountains';
-AppSettings.imgfolder = 'app-images/blue-mountains/';
+// path to load unqiue images for the app from
+AppSettings.imgfolder = 'resources/app-images/blue-mountains/';
 // Path to load images from
-AppSettings.regionImagePath = 'region-images/green/';
+AppSettings.regionImagePath = 'resources/region-images/green/';
+// Path to load offile maps from
+AppSettings.mapsTilesPath = AppSettings.imgfolder +'maptiles/';
+// offile maps max zoom level
+AppSettings.offlineMapsMaxZoom = 14;
 // Website URL sydney.com or visitnsw.com
 AppSettings.displayWebsiteURL = 'visitnsw.com';
 AppSettings.websiteURL = 'http://www.visitnsw.com/';
-
 // The Area of the app which is used for services and faclitices searches
 AppSettings.appAddress = {
     state: 'nsw',
@@ -27,7 +31,7 @@ AppSettings.bounds = {
     "right": 150.720062,
     "top": -33.517354
 };
-// used with the center for alerts search
+// used with the center for alerts search in KM
 AppSettings.radius = 100;
 // The detinations to perform all funnel back serches within
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
@@ -58,6 +62,7 @@ AppSettings.defualtShareData = {
     description: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
     emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName + '.',
     link: AppSettings.websiteURL,
+    // maybe chnage picture
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
 // FACEBOOK settings
@@ -85,6 +90,7 @@ AppSettings.twitter = {
 };
 //////////////////////////////////////////////////////////////////////
 // WEATHER List of the weather station to use for the App
+// Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
     stationId: 517,
@@ -144,7 +150,7 @@ AppSettings.weatherStations = [{
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
     url: 'http://api.sensis.com.au/ob-20110511/prod/search',
-    location: "Greater Sydney NSW" // ** You will need to updated this
+    location: "Blue Mountains NSW" // ** You will need to updated this
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
@@ -194,56 +200,52 @@ AppSettings.poi = [{
 }, {
     label: 'Auto Electrictian'
 }];
-
-
-
-
 //////////////////////////////////////////////////////////////////////
 // APP CONTENTS
 /////////////////////////////////////////////////////////////////////
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: 'resources/'+AppSettings.imgfolder+'home_1.jpg',
+    imagePath: AppSettings.imgfolder+'home_1.jpg',
     altText: 'Test Image'
 }, {
-    imagePath: 'resources/'+AppSettings.imgfolder+'home_2.jpg',
+    imagePath: AppSettings.imgfolder+'home_2.jpg',
     altText: 'Test Image'
 }, {
-    imagePath: 'resources/'+AppSettings.imgfolder+'home_3.jpg',
+    imagePath: AppSettings.imgfolder+'home_3.jpg',
     altText: 'Test Image'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [{
     title: 'Beach Lifestyle',
     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'todo_beach.png',
+    imgPath: AppSettings.imgfolder+'todo_beach.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
 }, {
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
-    imgPath: 'resources/'+AppSettings.imgfolder+'todo_parks.png',
+    imgPath: AppSettings.imgfolder+'todo_parks.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'todo_dinning.png',
+    imgPath: AppSettings.imgfolder+'todo_dinning.png',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'todo_shopping.png',
+    imgPath: AppSettings.imgfolder+'todo_shopping.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'todo_culture.png',
+    imgPath: AppSettings.imgfolder+'todo_culture.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'todo_holidays.png',
+    imgPath: AppSettings.imgfolder+'todo_holidays.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
 }];
 

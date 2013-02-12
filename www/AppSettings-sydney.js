@@ -2,17 +2,21 @@
 // GENERAL
 /////////////////////////////////////////////////////////////////////
 AppSettings = {};
-// The Tilt and Co App ID used for tracking
+// The Tilt and Co App ID used for tracking, get id from glen
 AppSettings.AppID = 2;
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Sydney';
-AppSettings.imgfolder = 'app-images/sydney/';
+// path to load unqiue images for the app from
+AppSettings.imgfolder = 'resources/app-images/sydney/';
 // Path to load images from
-AppSettings.regionImagePath = 'region-images/blue/';
-// Website URL
+AppSettings.regionImagePath = 'resources/region-images/blue/';
+// Path to load offile maps from
+AppSettings.mapsTilesPath = AppSettings.imgfolder +'maptiles/';
+// offile maps max zoom level
+AppSettings.offlineMapsMaxZoom = 14;
+// Website URL sydney.com or visitnsw.com
 AppSettings.displayWebsiteURL = 'sydney.com';
 AppSettings.websiteURL = 'http://www.sydney.com/';
-
 // The Area of the app which is used for services and faclitices searches
 AppSettings.appAddress = {
     state: 'nsw',
@@ -20,17 +24,19 @@ AppSettings.appAddress = {
 };
 // The default map center
 AppSettings.center = [-33.8674869, 151.2069902];
-// The bound of the app, used to finf products and services
+// The bound of the app, used to find products and services
 AppSettings.bounds = {
     "left": 150.55337081542,
     "bottom": -36.119202120384,
     "right": 151.80337081542,
     "top": -35.494202120384
 };
-// used with the center for alerts search
+// used with the center for alerts search in KM
 AppSettings.radius = 100;
 // The detinations to perform all funnel back serches within
+// look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.destinationWebpath = '/sydney/';
+// look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.appSubDestination = ["Sydney City", "Sydney North", "Sydney West", "Sydney South", "Sydney East", "Inner Sydney"];
 // The url of the squiz search
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
@@ -40,7 +46,7 @@ AppSettings.eventCalName = 'SYDNEY EVENTS CALENDAR';
 // matrix destination ids for this app
 AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;295;296;297;298;299;300;301;302;303;304;305;306;308;309;310;311;312;313;314;315;316;317;318;319;320;321;332;406;407;408;409;410;411;4177;4178;4179;4180;4181;4182;4188;4190';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
@@ -77,7 +83,7 @@ AppSettings.twitter = {
     // REPLACE WITH YOUR CONSUMER_KEY
     consumerSecret: 'C0TmFAYUYZEw6zopz1sxLKCSEyddFqeu9YO00MX1PA',
     // Replace with your thankyou URL
-    callbackUrl: AppSettings.websiteURL 
+    callbackUrl: AppSettings.websiteURL
     // YOUR URL
 };
 //////////////////////////////////////////////////////////////////////
@@ -200,53 +206,53 @@ AppSettings.poi = [{
 /////////////////////////////////////////////////////////////////////
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: 'resources/'+AppSettings.imgfolder+'content/dnsw1375318-399-c.jpg',
+    imagePath: AppSettings.imgfolder+'content/dnsw1375318-399-c.jpg',
     altText: 'North Sydney Olympic Pool by Kajo Merket'
 }, {
-    imagePath: 'resources/'+AppSettings.imgfolder+'content/dnsw1087014-399-c.jpg',
+    imagePath: AppSettings.imgfolder+'content/dnsw1087014-399-c.jpg',
     altText: 'Guillame at Bennelong with Opera sails by Steve Back'
 }, {
-    imagePath: 'resources/'+AppSettings.imgfolder+'content/dnsw1375320-399-c.jpg',
+    imagePath: AppSettings.imgfolder+'content/dnsw1375320-399-c.jpg',
     altText: 'Sydney Harbour at twilight by Kajo Merket'
 }, {
-    imagePath: 'resources/'+AppSettings.imgfolder+'content/dnsw1184096-399-c.jpg',
+    imagePath: AppSettings.imgfolder+'content/dnsw1184096-399-c.jpg',
     altText: 'Fireworks celebrating the new year in Sydney Harbour by Hamilton Lund'
 }, {
-    imagePath: 'resources/'+AppSettings.imgfolder+'content/dnsw1369455-399-c.jpg',
+    imagePath: AppSettings.imgfolder+'content/dnsw1369455-399-c.jpg',
     altText: 'View of Sydney Harbour from Bradley\'s Head, Mosman by Hamilton Lund'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [{
     title: 'Beach Lifestyle',
     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'home_experience_e.png',
+    imgPath: AppSettings.imgfolder+'home_experience_e.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
 }, {
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
-    imgPath: 'resources/'+AppSettings.imgfolder+'home_experience_c.png',
+    imgPath: AppSettings.imgfolder+'home_experience_c.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'home_experience_b.png',
+    imgPath: AppSettings.imgfolder+'home_experience_b.png',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'home_experience_d.png',
+    imgPath: AppSettings.imgfolder+'home_experience_d.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'home_experience_a.png',
+    imgPath: AppSettings.imgfolder+'home_experience_a.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
-    imgPath: 'resources/'+AppSettings.imgfolder+'home_experience_f.png',
+    imgPath: AppSettings.imgfolder+'home_experience_f.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
 }];
 

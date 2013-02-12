@@ -175,7 +175,7 @@ Ext.define("escape.model.Content", {
             for (var i = 0; i < rs.rows.length; i++) {
                 var image = rs.rows.item(i);
                 imagesList.push({
-                    "Full Size": 'resources/'+AppSettings.imgfolder+'cms/' + image.image_name,
+                    "Full Size": AppSettings.imgfolder+'cms/' + image.image_name,
                     "Alt": image.alt_text
                 });
             }

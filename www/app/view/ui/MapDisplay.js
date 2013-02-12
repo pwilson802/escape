@@ -129,12 +129,10 @@ Ext.define("escape.view.ui.MapDisplay", {
             if (this.getInteraction()) {
                 map.addControl(new OpenLayers.Control.TouchNavigation());
             }
-
-
             this.setMap(map);
             // create the offline layer
-            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", "resources/maptiles/${z}/${x}/${y}.png", {
-                numZoomLevels: 14,
+            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", AppSettings.mapsTilesPath +"${z}/${x}/${y}.png", {
+                numZoomLevels: AppSettings.offlineMapsMaxZoom ,
                 alpha: true,
                 isBaseLayer: true
             });
@@ -234,7 +232,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         // get the user location
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
-                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, 'resources/'+AppSettings.regionImagePath+'markers/marker_yourlocation.png', [17, 16], true);
+                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, AppSettings.regionImagePath+'markers/marker_yourlocation.png', [17, 16], true);
                 selfRef.setLocationMarker(yourlocation);
                 selfRef.showUsersDirection();
             },
@@ -293,9 +291,9 @@ Ext.define("escape.view.ui.MapDisplay", {
                 }
             } else {
                 // use default icon
-                imgPath = 'resources/'+AppSettings.regionImagePath+'pin_red.png';
+                imgPath = AppSettings.regionImagePath+'pin_red.png';
                 if (escape.utils.Img.useRetinaImg) {
-                    imgPath = 'resources/'+AppSettings.regionImagePath+'pin_red@2x.png';
+                    imgPath = AppSettings.regionImagePath+'pin_red@2x.png';
                 }
             }
             // pin icon
@@ -319,7 +317,7 @@ Ext.define("escape.view.ui.MapDisplay", {
                     imgSize = '@2x';
                 }
                 
-                imgPath = 'resources/'+AppSettings.regionImagePath+'markers/marker_' + iconNumber + '' + imgSize + '.png';
+                imgPath = AppSettings.regionImagePath+'markers/marker_' + iconNumber + '' + imgSize + '.png';
             }
             //
             icon = new OpenLayers.Icon(imgPath, size, offset);

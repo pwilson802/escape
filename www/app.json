@@ -78,9 +78,8 @@
         "resources/icons",
         "resources/fonts",
         "resources/js",
-        "resources/maptiles",
         "config.xml",
-        "AppSettings.js"
+        "AppSettings-sydney.js"
     ],
 
     /**
