@@ -47,7 +47,7 @@ AppSettings.eventCalName = 'SYDNEY EVENTS CALENDAR';
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '324;335;4113;9;1;3;10;11;8;4115;4;336;12;6;4116;337;2;5;4117';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'blue-mountains';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
@@ -93,55 +93,20 @@ AppSettings.twitter = {
 // Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 517,
-    lat: -33.8607,
-    lon: 151.205,
-    name: 'Sydney'
-}, {
-    stationId: 516,
-    lat: -33.6908,
-    lon: 151.2253,
-    name: 'Terrey Hills'
-}, {
-    stationId: 518,
-    lat: -33.7917,
-    lon: 151.0181,
-    name: 'Parramatta'
-}, {
-    stationId: 525,
-    lat: -33.9214,
-    lon: 150.8861,
-    name: 'Liverpool'
-}, {
-    stationId: 625,
-    lat: -34.0542,
-    lon: 150.8772,
-    name: 'Campbelltown'
-}, {
-    stationId: 535,
-    lat: -34.3691,
-    lon: 150.9291,
-    name: 'Wollongong'
-}, {
-    stationId: 526,
-    lat: -33.6004,
-    lon: 150.7761,
-    name: 'Richmond'
-}, {
-    stationId: 528,
-    lat: -33.7195,
-    lon: 150.6783,
-    name: 'Penrith'
-}, {
-    stationId: 479,
-    lat: -33.3949,
-    lon: 151.3289,
-    name: 'Gosford'
+    stationId: 499,
+    lat: -33.7122,
+    lon: 150.3087,
+    name: 'Katoomba'
 }, {
     stationId: 501,
     lat: -33.7065,
     lon: 150.5848,
     name: 'Springwood'
+}, {
+    stationId: 502,
+    lat: -33.4769,
+    lon: 150.1303,
+    name: 'Lithgow'
 }];
 //////////////////////////////////////////////////////////////////////
 // SERVICES
