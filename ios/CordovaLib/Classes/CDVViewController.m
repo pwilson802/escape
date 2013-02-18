@@ -686,9 +686,20 @@
                 break;
         }
     }
+    //else // not iPad
+    //{
+    //    orientedLaunchImageFile = launchImageFile;
+    //}
     else // not iPad
     {
-        orientedLaunchImageFile = launchImageFile;
+        if ( [UIScreen mainScreen].bounds.size.height == 568 )
+        {
+            orientedLaunchImageFile = [NSString stringWithFormat:@"%@-568h", launchImageFile];
+        }
+        else
+        {
+            orientedLaunchImageFile = launchImageFile;
+        }
     }
     
     launchImage = [UIImage imageNamed:[[self class] resolveImageResource:orientedLaunchImageFile]];

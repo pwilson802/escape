@@ -1224,7 +1224,7 @@ p {
 		}
 
 		h4 {
-			margin : 0 0 10px 50px;
+			margin : 0 40px 10px 50px;
 			padding:0;
 			color:#466b77;
 			font-size:12px;
@@ -3474,7 +3474,7 @@ p {
 			background: url(#{$image-path}/linen_bg@2x.png);
 		 	-webkit-background-size: 333px 500px; 
 			.x-scroll-scroller {
-				background-image: url(#{$image-path}/we_bg_rpt@2x.png);
+				//background-image: url(#{$image-path}/we_bg_rpt@2x.png);
 				-webkit-background-size: 40px 40px;
 			}
 			.weatherDay {
