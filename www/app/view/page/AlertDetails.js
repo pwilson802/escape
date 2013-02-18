@@ -40,13 +40,13 @@ Ext.define("escape.view.page.AlertDetails", {
         // started
         detailsTable.push({
             heading: 'Started',
-            value: Ext.Date.format(data.created, 'j/d/Y h:ia')
+            value: Ext.Date.format(data.created, 'j/n/Y h:ia')
         });
         // updated
         if (data.lastUpdated.getTime() !== data.created.getTime()) {
             detailsTable.push({
                 heading: 'Last Updated',
-                value: Ext.Date.format(data.lastUpdated, 'j/d/Y h:ia')
+                value: Ext.Date.format(data.lastUpdated, 'j/n/Y h:ia')
             });
         }
         // trafficVolume

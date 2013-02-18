@@ -92,7 +92,7 @@ Ext.define("escape.view.page.Home", {
             }, {
                 xtype: 'list',
                 itemId: 'thingsToDoList',
-                itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div>', //<div class="img" style="background-image:url({imgPath})"></div>
+                itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
                 cls: 'imgList numberedList homeList',
                 scrollable: false,
                 data: thingsToDoCats
