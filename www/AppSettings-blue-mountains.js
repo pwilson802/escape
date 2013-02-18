@@ -236,6 +236,16 @@ AppSettings.mainMenu = [{
         contentPath: AppSettings.getSMPSectionURL() + '/about'
     }
 }, {
+
+    title: 'Local Areas',
+    group: 'Group 1',
+    id: 'localSection',
+    firstPage: {
+        xtype: 'contentPage',
+        title: 'Local Areas',
+        contentPath: AppSettings.getSMPSectionURL() + '/local-areas'
+    }
+}, {
     title: 'My Itinerary',
     group: 'Group 1',
     id: 'myItinerarySection',
