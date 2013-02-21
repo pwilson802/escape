@@ -17,6 +17,7 @@ Ext.define("escape.view.page.Alerts", {
         }]
     },
     buildPage: function(featuresList) {
+        console.log("Build page alerts");
         this.removeAll(true, true);
         this.setMargin(0);
         this.setIsPageBuilt(true);
