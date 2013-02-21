@@ -44836,7 +44836,7 @@ Ext.define("escape.model.Weather", {
         Ext.Ajax.useDefaultXhrHeader = false;
 
         var stationId = this.getStationId();
-        if (stationId === 0 && lat === 0) {
+        if (stationId === 0 /*&& lat === 0*/) {
             stationId = AppSettings.weatherStations[0].stationId;
         }
 
@@ -44953,7 +44953,7 @@ Ext.define("escape.model.Weather", {
         var regID = escape.utils.Tracking.getRegID();
         //
         var stationId = this.getStationId();
-        if (stationId === 0 && lat === 0) {
+        if (stationId === 0 /*&& lat === 0*/) {
             stationId = AppSettings.weatherStations[0].stationId;
         }
         // load the waeather
@@ -51349,6 +51349,7 @@ Ext.define("escape.view.page.Alerts", {
         }]
     },
     buildPage: function(featuresList) {
+        console.log("Build page alerts");
         this.removeAll(true, true);
         this.setMargin(0);
         this.setIsPageBuilt(true);
@@ -51429,13 +51430,13 @@ Ext.define("escape.view.page.AlertDetails", {
         // started
         detailsTable.push({
             heading: 'Started',
-            value: Ext.Date.format(data.created, 'j/d/Y h:ia')
+            value: Ext.Date.format(data.created, 'j/n/Y h:ia')
         });
         // updated
         if (data.lastUpdated.getTime() !== data.created.getTime()) {
             detailsTable.push({
                 heading: 'Last Updated',
-                value: Ext.Date.format(data.lastUpdated, 'j/d/Y h:ia')
+                value: Ext.Date.format(data.lastUpdated, 'j/n/Y h:ia')
             });
         }
         // trafficVolume
@@ -53874,7 +53875,7 @@ Ext.define("escape.view.page.Home", {
             }, {
                 xtype: 'list',
                 itemId: 'thingsToDoList',
-                itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div>', //<div class="img" style="background-image:url({imgPath})"></div>
+                itemTpl: '<div><span>{number}</span><h3>{title}</h3><h4>{subheading}</h4></div><div class="img" style="background-image:url({imgPath})"></div>',
                 cls: 'imgList numberedList homeList',
                 scrollable: false,
                 data: thingsToDoCats
@@ -53920,7 +53921,7 @@ Ext.define("escape.view.page.Home", {
                 if (escape.utils.Img.retinaAvailable()) {
                     imagaeName = 'we_ico_' + today.icon + '_sml@2x';
                 }
-                weatherBtn.setStyle('background-image:url(resources/'+AppSettings.regionImagePath+'' + imagaeName + '.png)');
+                weatherBtn.setStyle('background-image:url('+AppSettings.regionImagePath+'' + imagaeName + '.png)');
             }
 
         }
@@ -55870,31 +55871,31 @@ Ext.define('escape.store.AppVersion', {
     requires: ['Ext.ux.proxy.AjaxCache', 'escape.model.AppVersion'],
     config: {
         model: 'escape.model.AppVersion',
-        proxy: {
-            type: 'ajax',
-            url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/AppVersion2',
-            noCache: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            enablePagingParams: false,
-            actionMethods: {
-                create: 'POST',
-                read: 'POST',
-                update: 'POST',
-                destroy: 'POST'
-            },
-            extraParams: {
-                AppID: 3,
-                AppName: 'ARTN'
-            },
-            reader: {
-                type: 'json'
-            },
-            writer : {
-                type: 'json'
-            }
-        }
+        // proxy: {
+        //     type: 'ajax',
+        //     url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/AppVersion2',
+        //     noCache: false,
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     enablePagingParams: false,
+        //     actionMethods: {
+        //         create: 'POST',
+        //         read: 'POST',
+        //         update: 'POST',
+        //         destroy: 'POST'
+        //     },
+        //     extraParams: {
+        //         AppID: 3,
+        //         AppName: 'ARTN'
+        //     },
+        //     reader: {
+        //         type: 'json'
+        //     },
+        //     writer : {
+        //         type: 'json'
+        //     }
+        // }
     }
 });
 Ext.define("escape.model.ProductList", {
@@ -56165,7 +56166,7 @@ Ext.define('escape.controller.ContentPage', {
     },
     loadMustDos: function(url, contentPage) {
         var selfRef = this;
-         escape.model.Content.getContentPageData(contentPage.getContentPath(), {
+         escape.model.Content.getContentPageData(url, {
             success: function(content) {
                  selfRef.mustDosLoaded(content.getData(), contentPage);
             },
