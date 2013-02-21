@@ -17,26 +17,28 @@ Ext.define("escape.view.page.CurrencyConverter", {
     },
     // load the currencys
     openView: function() {
-        this.setItems({
-            xtype: 'loadingDisplay'
-        });
-        // check to see if the product is a favourite or not
-        var selfRef = this;
-        escape.model.Currency.loadDefaults({
-            success: function() {
-                selfRef.loadOrginal();
-            },
-            error: function(error) {
-                selfRef.setItems({
-                    xtype: 'loadError'
-                });
-            },
-            scope: this
-        });
-
-
-
-
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            this.setItems({
+                xtype: 'loadingDisplay'
+            });
+            // check to see if the product is a favourite or not
+            var selfRef = this;
+            escape.model.Currency.loadDefaults({
+                success: function() {
+                    selfRef.loadOrginal();
+                },
+                error: function(error) {
+                    selfRef.setItems({
+                        xtype: 'loadError'
+                    });
+                },
+                scope: this
+            });
+        }
     },
     loadOrginal: function() {
         this.setItems({
