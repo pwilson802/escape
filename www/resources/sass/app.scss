@@ -3692,7 +3692,7 @@ p {
 		background-image: url(#{$image-path}/linen_bg@2x.png);
 		-webkit-background-size: 333px 500px; 
 		.x-innerhtml  {
-			background-image: url(#{$image-path}/no_internet_badge@2x.png) no-repeat 0 20px;
+			background: url(#{$image-path}/no_internet_badge@2x.png) no-repeat 0 20px;
 			-webkit-background-size: 107px 146px; 
 
 		}
