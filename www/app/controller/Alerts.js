@@ -7,7 +7,8 @@ Ext.define('escape.controller.Alerts', {
         feeds: null,
         refs: {
             alertsPage: 'alertsPage',
-            settingsForm: 'alertSettingsPage formpanel'
+            settingsForm: 'alertSettingsPage formpanel',
+            settingsBtn: '#alertsSection button[cls="editBtn iconBtn"]'
         },
         selectedRecord: null,
         currentSection: 'about',
@@ -48,41 +49,48 @@ Ext.define('escape.controller.Alerts', {
     },
     checkSettings: function() {
         var selfRef = this;
-        if (!this.getFeeds()) {
-            // load the feeds
-            escape.model.UserSettings.getSetting('alertsFeeds', {
-                success: function(feeds) {
-                    if (!feeds) {
-                        selfRef.setFeeds([{
-                            label: 'Incidents',
-                            load: true
-                        }, {
-                            label: 'Road Works',
-                            load: false
-                        }, {
-                            label: 'Alpine Conditions',
-                            load: false
-                        }, {
-                            label: 'Major Events',
-                            load: true
-                        }, {
-                            label: 'Floods',
-                            load: true
-                        }, {
-                            label: 'Fire',
-                            load: true
-                        }]);
-                    } else {
-                        selfRef.setFeeds(JSON.parse(feeds));
-                    }
-                },
-                error: function(error) {},
-                scope: this
-            });
+        if (!Ext.device.Connection.isOnline()) {
+            // Show offline Message
+            this.getSettingsBtn().setHidden(true); // Hide Settings Btn
+            this.getAlertsPage().setMargin(0);
+            var offlineHeight = window.innerHeight; // Set to window height
+            this.getAlertsPage().setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
         } else {
-            this.loadAlerts();
+            if (!this.getFeeds()) {
+                // load the feeds
+                escape.model.UserSettings.getSetting('alertsFeeds', {
+                    success: function(feeds) {
+                        if (!feeds) {
+                            selfRef.setFeeds([{
+                                label: 'Incidents',
+                                load: true
+                            }, {
+                                label: 'Road Works',
+                                load: false
+                            }, {
+                                label: 'Alpine Conditions',
+                                load: false
+                            }, {
+                                label: 'Major Events',
+                                load: true
+                            }, {
+                                label: 'Floods',
+                                load: true
+                            }, {
+                                label: 'Fire',
+                                load: true
+                            }]);
+                        } else {
+                            selfRef.setFeeds(JSON.parse(feeds));
+                        }
+                    },
+                    error: function(error) {},
+                    scope: this
+                });
+            } else {
+                this.loadAlerts();
+            }
         }
-
     },
     // called when alertsFeeds is updated
     updateFeeds: function(newValue, oldValue) {
