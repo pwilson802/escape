@@ -21,22 +21,28 @@ Ext.define("escape.view.page.Weather", {
 
     },
     getTheWeather: function(refresh) {
-        this.setItems({
-            xtype: 'loadingDisplay'
-        });
-        // check to see if the product is a favourite or not
-        var selfRef = this;
-        escape.model.Weather.getFullWeather(refresh, {
-            success: function() {
-                selfRef.build();
-            },
-            error: function(error) {
-                selfRef.setItems({
-                    xtype: 'loadError'
-                });
-            },
-            scope: this
-        });
+        if (!Ext.device.Connection.isOnline()) {
+            // show offline messgae
+            var offlineHeight = window.innerHeight; // Set to window height
+            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            this.setItems({
+                xtype: 'loadingDisplay'
+            });
+            // check to see if the product is a favourite or not
+            var selfRef = this;
+            escape.model.Weather.getFullWeather(refresh, {
+                success: function() {
+                    selfRef.build();
+                },
+                error: function(error) {
+                    selfRef.setItems({
+                        xtype: 'loadError'
+                    });
+                },
+                scope: this
+            });
+        }
     },
     // build the weather page
     build: function() {
