@@ -14,32 +14,37 @@ Ext.define("escape.view.page.Events", {
     },
     //
     openView: function() {
-
-        this.setItems([{
-            xtype: 'segmentedbutton',
-            layout: 'hbox',
-            allowMultiple: false,
-            allowDepress: false,
-            docked: 'top',
-            items: [{
-                text: 'Featured Events',
-                type: 'eventsCalender',
-                pressed: true,
-                flex: 1
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            this.setItems([{
+                xtype: 'segmentedbutton',
+                layout: 'hbox',
+                allowMultiple: false,
+                allowDepress: false,
+                docked: 'top',
+                items: [{
+                    text: 'Featured Events',
+                    type: 'eventsCalender',
+                    pressed: true,
+                    flex: 1
+                }, {
+                    text: 'This week',
+                    type: 'weekly',
+                    flex: 1
+                }]
             }, {
-                text: 'This week',
-                type: 'weekly',
-                flex: 1
-            }]
-        }, {
-            xtype: 'container',
-            itemId: 'contents',
-            flex: 1,
-            padding:'10',
-            items: [{
-                xtype: 'loadingDisplay'
-            }]
-        }]);
-        this.fireEvent('built', this);
+                xtype: 'container',
+                itemId: 'contents',
+                flex: 1,
+                padding:'10',
+                items: [{
+                    xtype: 'loadingDisplay'
+                }]
+            }]);
+            this.fireEvent('built', this);
+        }
     }
 });
