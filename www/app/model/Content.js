@@ -79,10 +79,19 @@ Ext.define("escape.model.Content", {
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         if (content) {
-            db.queryDB('UPDATE Pages SET name=(?), date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
-                // the content was updated succeesfully
-            }, function(t, e) {
-            }, [content.title, updateTime, JSON.stringify(content.raw), url]);
+            if ((content.title == null) || (content.title == undefined)) { 
+                // Name is null, don't want it to corrupt existing data
+                console.log("No name Defined");
+                db.queryDB('UPDATE Pages SET date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
+                    // the content was updated succeesfully
+                }, function(t, e) {
+                }, [content.title, updateTime, JSON.stringify(content.raw), url]);
+            } else {
+                db.queryDB('UPDATE Pages SET name=(?), date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
+                    // the content was updated succeesfully
+                }, function(t, e) {
+                }, [content.title, updateTime, JSON.stringify(content.raw), url]);
+            }
         } else {
             // error updating the content try insertint it
             db.queryDB('INSERT INTO Pages (name,url,date_modified,JSON_data) VALUES (?,?,?,?)', function(t, rs) {
