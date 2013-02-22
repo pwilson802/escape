@@ -74,6 +74,7 @@ Ext.define("escape.model.Content", {
     },
     saveRemoteContent: function(url, content) {
          console.log('saveRemoteContent');
+         console.log(JSON.stringify(content.raw));
         var updateTime = new Date().getTime();
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
