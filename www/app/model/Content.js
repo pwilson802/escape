@@ -63,6 +63,7 @@ Ext.define("escape.model.Content", {
         escape.model.ContentPage.getProxy().setUrl(url);
         escape.model.ContentPage.load(0, {
             success: function(content) {
+                console.log(content);
                 Ext.callback(callback.success, scope, [content]);
                 this.saveRemoteContent(url, content);
             },
@@ -74,26 +75,22 @@ Ext.define("escape.model.Content", {
     },
     saveRemoteContent: function(url, content) {
          console.log('saveRemoteContent');
-         console.log(JSON.stringify(content.raw));
         var updateTime = new Date().getTime();
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         if (content) {
-            if ((content.title == null) || (content.title == undefined)) { 
-                // Name is null, don't want it to corrupt existing data
-                console.log("No name Defined");
-                db.queryDB('UPDATE Pages SET date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
-                    // the content was updated succeesfully
-                }, function(t, e) {
-                }, [content.title, updateTime, JSON.stringify(content.raw), url]);
-            } else {
-                db.queryDB('UPDATE Pages SET name=(?), date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
-                    // the content was updated succeesfully
-                }, function(t, e) {
-                }, [content.title, updateTime, JSON.stringify(content.raw), url]);
+            var contentTitle = content.title;
+            if ((content.title == undefined) || (content.title == null)) {
+                console.log('Undefined Title, set new');
+                contentTitle = content.raw.Page.Title;
             }
+            db.queryDB('UPDATE Pages SET name=(?), date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
+                // the content was updated succeesfully
+            }, function(t, e) {
+            }, [contentTitle, updateTime, JSON.stringify(content.raw), url]);
         } else {
             // error updating the content try insertint it
+            console.log("Insert into pages");
             db.queryDB('INSERT INTO Pages (name,url,date_modified,JSON_data) VALUES (?,?,?,?)', function(t, rs) {
                 // the content was updated succeesfully
             }, function(t, e) {
