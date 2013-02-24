@@ -141,7 +141,8 @@ Ext.define('escape.controller.Directions', {
                         if (seg.travelTime >= 3600) {
                             travelTime = mathExt.roundNumber(((seg.travelTime / 60) / 60), 2) + ' hrs';
                         } else if (seg.travelTime >= 60) {
-                            travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' mins';
+                            travelTime = Math.floor(seg.travelTime / 60) + "." + mathExt.roundNumber(seg.travelTime % 60, 2)  + ' mins';
+                            //travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' mins';
                         } else {
                             travelTime = mathExt.roundNumber(seg.travelTime, 2) + ' sec';
                         }
@@ -168,7 +169,8 @@ Ext.define('escape.controller.Directions', {
                 if (totalTime >= 3600) {
                     travelTime = mathExt.roundNumber(((totalTime / 60) / 60), 2) + ' hrs';
                 } else if (totalTime >= 60) {
-                    travelTime = mathExt.roundNumber((totalTime / 60), 2) + ' mins';
+                    travelTime = Math.floor(totalTime / 60) + "." + mathExt.roundNumber(totalTime % 60, 2)  + ' mins';
+                    //travelTime = mathExt.roundNumber((totalTime / 60), 2) + ' mins';
                 } else {
                     travelTime = mathExt.roundNumber(totalTime, 2) + ' sec';
                 }
