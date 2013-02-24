@@ -52,33 +52,36 @@ Ext.define("escape.view.page.ContentPage", {
             }
         }
         var pageItems = escape.model.Content.buildItems(content);
-        // add share this app button
-        var urlBreakdown = this.getContentPath().split('/');
-        if (urlBreakdown[urlBreakdown.length - 1].indexOf('about-destination-nsw') != -1) {
-            var appStoreURL;
-            var googlePlayURL;
-            for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
-                var link = content.page['External-Links'][l];
-                if (link.Name.indexOf("Apple App Store")) {
-                    appStoreURL = link.Url;
+        // Don't show share button when offline.
+        if (Ext.device.Connection.isOnline()){
+            // add share this app button
+            var urlBreakdown = this.getContentPath().split('/');
+            if (urlBreakdown[urlBreakdown.length - 1].indexOf('about-destination-nsw') != -1) {
+                var appStoreURL;
+                var googlePlayURL;
+                for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
+                    var link = content.page['External-Links'][l];
+                    if (link.Name.indexOf("Apple App Store")) {
+                        appStoreURL = link.Url;
+                    }
+                    if (link.Name.indexOf("Google Play")) {
+                        googlePlayURL = link.Url;
+                    }
                 }
-                if (link.Name.indexOf("Google Play")) {
-                    googlePlayURL = link.Url;
-                }
+                var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
+                AppSettings.defualtShareData.link = appLink;
+                pageItems.pop();
+                pageItems.push({
+                    margin: 10,
+                    xtype: 'button',
+                    text: 'Share this App',
+                    cls: 'shareAppBtn',
+                    action: 'shareApp'
+                });
+                pageItems.push({
+                    xtype: 'footer'
+                });
             }
-            var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
-            AppSettings.defualtShareData.link = appLink;
-            pageItems.pop();
-            pageItems.push({
-                margin: 10,
-                xtype: 'button',
-                text: 'Share this App',
-                cls: 'shareAppBtn',
-                action: 'shareApp'
-            });
-            pageItems.push({
-                xtype: 'footer'
-            });
         }
         //var fullItems = menuItems.concat(items);
         var viewportSize = Ext.Viewport.getSize();
