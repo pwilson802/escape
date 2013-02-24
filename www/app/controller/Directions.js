@@ -122,18 +122,22 @@ Ext.define('escape.controller.Directions', {
                 map.zoomToExtent(new EMS.Bounds(routeResult.boundingBox.left, routeResult.boundingBox.bottom, routeResult.boundingBox.right, routeResult.boundingBox.top));
                 // write out directions
                 var instructions = "";
+                var totalTime = 0;
+                var totalDistance = 0;
+                var travelDistance;
+                var travelTime;
                 for (var routeNum = 0; routeNum < routeResult.routes.length; routeNum++) {
                     myNum = routeNum + 1;
                     route = routeResult.routes[routeNum];
                     for (var i = 0; i < route.routeSegments.length; i++) {
                         seg = route.routeSegments[i];
-                        var travelDistance;
+                        // distance
                         if (seg.metres > 1000) {
                             travelDistance = mathExt.roundNumber((seg.metres / 1000), 2) + ' km';
                         } else {
                             travelDistance = mathExt.roundNumber(seg.metres, 2) + ' m';
                         }
-                        var travelTime;
+                        // time
                         if (seg.travelTime >= 3600) {
                             travelTime = mathExt.roundNumber(((seg.travelTime / 60) / 60), 2) + ' hrs';
                         } else if (seg.travelTime >= 60) {
@@ -141,6 +145,8 @@ Ext.define('escape.controller.Directions', {
                         } else {
                             travelTime = mathExt.roundNumber(seg.travelTime, 2) + ' sec';
                         }
+                        totalTime += seg.travelTime;
+                        totalDistance += seg.metres;
                         console.log('seg.travelTime: ' + seg.travelTime + ' travelTime: ' + travelTime);
 
                         instructions += "<div class='segment'>";
@@ -151,6 +157,29 @@ Ext.define('escape.controller.Directions', {
                         instructions += "</div>";
                     }
                 }
+                // add total times
+                // distance
+                if (totalDistance > 1000) {
+                    travelDistance = mathExt.roundNumber((totalDistance / 1000), 2) + ' km';
+                } else {
+                    travelDistance = mathExt.roundNumber(totalDistance, 2) + ' m';
+                }
+                // time
+                if (totalTime >= 3600) {
+                    travelTime = mathExt.roundNumber(((totalTime / 60) / 60), 2) + ' hrs';
+                } else if (totalTime >= 60) {
+                    travelTime = mathExt.roundNumber((totalTime / 60), 2) + ' mins';
+                } else {
+                    travelTime = mathExt.roundNumber(totalTime, 2) + ' sec';
+                }
+                var totalText = "<div class='segment'>";
+                totalText += "<h2>Route Details</h2>";
+                totalText += "<h3 class='distance'>" + travelDistance + "</h3>";
+                totalText += "<h3 class='time'>" + travelTime + "</h3>";
+                totalText += "<p></p>";
+                totalText += "</div>";
+                //
+                instructions = totalText+=instructions;
                 selfRef.getDirectionsPage().getComponent('cardLayout').getComponent('listDisplay').setHtml(instructions);
             },
             failure: function() {}
