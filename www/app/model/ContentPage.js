@@ -27,11 +27,6 @@ Ext.define("escape.model.ContentPage", {
             mapping: 'Children',
             type: 'array',
             defaultValue: []
-        }, {
-            name: 'externalLinks',
-            mapping: 'Page.External-Links',
-            type: 'array',
-            defaultValue: []
         },{
             name: 'page',
             mapping: 'Page',

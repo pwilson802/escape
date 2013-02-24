@@ -18,6 +18,8 @@ Ext.define("escape.view.page.ContentPage", {
     },
     //
     buildPage: function(content) {
+        console.log('show page');
+        console.log(content);
         this.setContent(content);
         var items = [];
         for (var i = 0; i < content.productLists.length; i++) {

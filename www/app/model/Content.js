@@ -1,19 +1,17 @@
 Ext.define("escape.model.Content", {
     singleton: true,
     config: {
-         useOffline: true
+        useOffline: true
     },
     // called when useOffline is updated
     updateUseOffline: function(newValue, oldValue) {
-         escape.model.UserSettings.setSetting('useOffline', String(newValue), {
-            success: function(newValue) {
-            },
-            error: function(error) {
-            },
+        escape.model.UserSettings.setSetting('useOffline', String(newValue), {
+            success: function(newValue) {},
+            error: function(error) {},
             scope: this
         });
     },
-   
+
     checkOfflineSettings: function(callback, scope) {
         // Check to see if the user has picked a useOffline setting
         var selfRef = this;
@@ -41,6 +39,7 @@ Ext.define("escape.model.Content", {
     },
     // based on the users setting and connectivity will return the local page data
     getContentPageData: function(url, callback, scope) {
+        console.log('getContentPageData');
         var loadLocal = true;
         if (Ext.device.Connection.isOnline()) {
             if (!this.getUseOffline()) {
@@ -57,15 +56,17 @@ Ext.define("escape.model.Content", {
 
     },
     loadRemoteContent: function(url, callback, scope, page) {
-         console.log('loadRemoteContent');
+        console.log('loadRemoteContent');
+        console.log(url);
         var loadLocal = true;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(url);
         escape.model.ContentPage.load(0, {
             success: function(content) {
-                console.log(content);
-                Ext.callback(callback.success, scope, [content]);
+                // save first
                 this.saveRemoteContent(url, content);
+                // call back
+                Ext.callback(callback.success, scope, [content]);
             },
             error: function(error) {
                 selfRef.processLocalData(page, callback, scope);
@@ -74,20 +75,17 @@ Ext.define("escape.model.Content", {
         });
     },
     saveRemoteContent: function(url, content) {
-         console.log('saveRemoteContent');
         var updateTime = new Date().getTime();
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         if (content) {
             var contentTitle = content.title;
-            if ((content.title == undefined) || (content.title == null)) {
-                console.log('Undefined Title, set new');
+            if ((content.title === undefined) || (content.title === null)) {
                 contentTitle = content.raw.Page.Title;
             }
             db.queryDB('UPDATE Pages SET name=(?), date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
                 // the content was updated succeesfully
-            }, function(t, e) {
-            }, [contentTitle, updateTime, JSON.stringify(content.raw), url]);
+            }, function(t, e) {}, [contentTitle, updateTime, JSON.stringify(content.raw), url]);
         } else {
             // error updating the content try insertint it
             console.log("Insert into pages");
@@ -105,18 +103,18 @@ Ext.define("escape.model.Content", {
         db.queryDB('SELECT * FROM Pages WHERE url = (?)', function(t, rs) {
             // make sure the product is not database
             var page = rs.rows.item(0);
-           
+
             // make sure the page is uptodate
             var dateNow = new Date();
             var diff = dateNow.getTime() - page.date_modified;
             // check to see if the content is out of date
             var useLocal = true;
-            if (diff > (AppSettings.caching.cmsCacheLength*1000)) {
+            if (diff > (AppSettings.caching.cmsCacheLength * 1000)) {
                 useLocal = false;
                 // make sure the user has a strong enough connection
-               // var networkState = navigator.connection.type;
+                // var networkState = navigator.connection.type;
                 var connectionType = Ext.device.Connection.getType();
-                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G ||  !Ext.device.Connection.isOnline()) {
+                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G || !Ext.device.Connection.isOnline()) {
                     useLocal = true;
                 }
             }
@@ -134,12 +132,12 @@ Ext.define("escape.model.Content", {
             selfRef.loadRemoteContent(url, callback, scope);
         }, [url]);
     },
-    processLocalData: function(page, callback, scope){
-         console.log('processLocalData');
-          console.log(page);
-         // build and map page data
+    processLocalData: function(page, callback, scope) {
+        console.log('processLocalData');
+        console.log(page);
+        // build and map page data
         var localData = JSON.parse(page.JSON_data);
-         console.log(localData);
+        console.log(localData);
         var pageData = {};
         pageData.title = localData.Page.Title;
         pageData.description = localData.Page.Content;
@@ -149,22 +147,21 @@ Ext.define("escape.model.Content", {
         pageData.externalLinks = localData.Page['External-Links'];
         pageData.page = localData.Page;
         // place data into a model
-        
-        if (localData.Page.Images){
+        if (localData.Page.Images) {
             var localImagesList = page.images.split(',');
             if (localImagesList.length > 0 && localData.Page.Images.length > 0) {
-            // load the images
+                // load the images
                 this.loadLocalImages(localImagesList, pageData, callback, scope);
             } else {
-            // return the data
+                // return the data
                 this.returnLocalData(pageData, callback, scope);
             }
-         } else {
+        } else {
             // return the data
-                this.returnLocalData(pageData, callback, scope);
-            }
+            this.returnLocalData(pageData, callback, scope);
+        }
     },
-        
+
     loadLocalImages: function(ids, pageData, callback, scope) {
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
@@ -182,7 +179,7 @@ Ext.define("escape.model.Content", {
             for (var i = 0; i < rs.rows.length; i++) {
                 var image = rs.rows.item(i);
                 imagesList.push({
-                    "Full Size": AppSettings.imgfolder+'cms/' + image.image_name,
+                    "Full Size": AppSettings.imgfolder + 'cms/' + image.image_name,
                     "Alt": image.alt_text
                 });
             }
