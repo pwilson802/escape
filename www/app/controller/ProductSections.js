@@ -152,13 +152,21 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadMustDos: function(url, productSubSection) {
         var selfRef = this;
-        escape.model.Content.getContentPageData(url, {
-            success: function(content) {
-                 selfRef.mustDosLoaded(content.getData(), productSubSection);
-            },
-            error: function(error) {},
-            scope: this
-        });
+        // Don't load must do's if offline.
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            productSubSection.getCardView().getComponent('contents').setPadding(0);
+            productSubSection.getCardView().getComponent('contents').setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            escape.model.Content.getContentPageData(url, {
+                success: function(content) {
+                     selfRef.mustDosLoaded(content.getData(), productSubSection);
+                },
+                error: function(error) {},
+                scope: this
+            });
+        }
     },
 
     mustDosLoaded: function(content, productSubSection) {
