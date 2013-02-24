@@ -67,14 +67,24 @@ Ext.define('escape.controller.ContentPage', {
 
     },
     loadMustDos: function(url, contentPage) {
-        var selfRef = this;
-         escape.model.Content.getContentPageData(contentPage.getContentPath(), {
-            success: function(content) {
-                 selfRef.mustDosLoaded(content.getData(), contentPage);
-            },
-            error: function(error) {},
-            scope: this
-        });
+        // Don't show must do's if offline.
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            var cardView = contentPage.getComponent('cardView');
+            var contentArea = cardView.getComponent('contents');
+            contentArea.setPadding(0);
+            contentArea.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            var selfRef = this;
+             escape.model.Content.getContentPageData(contentPage.getContentPath(), {
+                success: function(content) {
+                     selfRef.mustDosLoaded(content.getData(), contentPage);
+                },
+                error: function(error) {},
+                scope: this
+            });
+        }
     },
 
     mustDosLoaded: function(content, contentPage) {
