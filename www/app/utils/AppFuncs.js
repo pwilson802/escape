@@ -67,6 +67,11 @@ Ext.define('escape.utils.AppFuncs', {
     parseCMSText: function(description) {
         var linksStartBreakdown = description.split('<a href="');
         var output = '';
+        // Don't create hyperlinks when offline.
+        var isOnline = true;
+        if (!Ext.device.Connection.isOnline()){
+            isOnline = false;
+        }
         for (var i = 0; i < linksStartBreakdown.length; i++) {
             var linksEndBreakdown = linksStartBreakdown[i].split('</a>');
             if (linksEndBreakdown.length > 1) {
@@ -96,12 +101,14 @@ Ext.define('escape.utils.AppFuncs', {
                     }
                     if (allowedProduct) {
                         allowedLink = true;
-                        output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                        output += (!isOnline) ? linkText : '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                        //output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
                     }
                     // check to see if the link is an internal smartphone cms link
                     if (link.indexOf('smartphoneapps') != -1) {
                         allowedLink = true;
-                        output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openCMSPage(\'' + linkText + '\',\'' + link + '\')">' + linkText + '</a>';
+                        output += (!isOnline) ? linkText : '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openCMSPage(\'' + linkText + '\',\'' + link + '\')">' + linkText + '</a>';
+                        //output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openCMSPage(\'' + linkText + '\',\'' + link + '\')">' + linkText + '</a>';
                     }
 
                 }
