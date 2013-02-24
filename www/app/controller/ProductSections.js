@@ -227,42 +227,50 @@ Ext.define('escape.controller.ProductSections', {
         }
     },
     loadProductList: function(url, productSubSection) {
-        var selfRef = this;
-        var currentList = 0;
-        var productList = '';
-        var values = url.split('/product-list-generator/')[1].split('&');
-        var params = {};
-        var producType = 'attraction';
-        for (var i = 0; i < values.length; i++) {
-            var param = values[i].split('=');
-            if (param[0] == 'product_types') {
-                producType = param[1].split(',')[0];
-                params[param[0]] = producType;
-            } else {
-                params[param[0]] = param[1].split(',').join(';');
+        // Don't load must do's if offline.
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            productSubSection.getCardView().getComponent('contents').setPadding(0);
+            productSubSection.getCardView().getComponent('contents').setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            var selfRef = this;
+            var currentList = 0;
+            var productList = '';
+            var values = url.split('/product-list-generator/')[1].split('&');
+            var params = {};
+            var producType = 'attraction';
+            for (var i = 0; i < values.length; i++) {
+                var param = values[i].split('=');
+                if (param[0] == 'product_types') {
+                    producType = param[1].split(',')[0];
+                    params[param[0]] = producType;
+                } else {
+                    params[param[0]] = param[1].split(',').join(';');
+                }
+
+            }
+            // if no destination are sent use the default ones
+            if (!params.destination_id) {
+                params.destination_id = AppSettings.destinationIds;
+            }
+            // if no limit is sent add one
+            if (!params.limit_by) {
+                params.limit_by = 10;
             }
 
-        }
-        // if no destination are sent use the default ones
-        if (!params.destination_id) {
-            params.destination_id = AppSettings.destinationIds;
-        }
-        // if no limit is sent add one
-        if (!params.limit_by) {
-            params.limit_by = 10;
-        }
+            Ext.Ajax.request({
+                method: 'GET',
+                url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator',
+                params: params,
+                success: function(response) {
+                    productList = (JSON.parse(response.responseText));
+                    selfRef.productListLoaded(productList, productSubSection, producType);
 
-        Ext.Ajax.request({
-            method: 'GET',
-            url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator',
-            params: params,
-            success: function(response) {
-                productList = (JSON.parse(response.responseText));
-                selfRef.productListLoaded(productList, productSubSection, producType);
-
-            },
-            failure: function(response, opts) {}
-        });
+                },
+                failure: function(response, opts) {}
+            });
+        }
     },
     productListLoaded: function(productList, productSubSection, producType) {
         if (this.getCurrentSection() == 'productList') {
