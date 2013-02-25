@@ -262,11 +262,29 @@ Ext.define('escape.controller.Alerts', {
         for (var i = resultsList.length - 1; i >= 0; i--) {
             var marker = resultsList[i].getData();
             //marker.iconText = marker.resultIndex;
+            var markerType = marker.type;
+            var markerImage = "alerts_marker_incidents";
+            if (markerType == 'roadworks') {
+                markerImage = 'alerts_marker_roadworks';
+
+            } else if (markerType == 'alpineconditions') {
+                markerImage = 'alerts_marker_alpine';
+
+            } else if (markerType == 'majorevent') {
+                markerImage = 'alerts_marker_events';
+
+            } else if (markerType == 'flood') {
+                markerImage = 'alerts_marker_flood';
+
+            } else if (markerType == 'fire') {
+                markerImage = 'alerts_marker_fire';
+            }
+
             intialMarkers.push({
                 lat: marker.lat,
                 lon: marker.lon,
                 data: marker,
-                iconPath: 'resources/region-images/general/alerts_marker_incidents.png',
+                iconPath: 'resources/region-images/general/' + markerImage + '.png',
                 iconSize: [57, 37]
             });
         }
