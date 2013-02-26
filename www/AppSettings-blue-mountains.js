@@ -23,7 +23,7 @@ AppSettings.appAddress = {
     suburb: 'blue mountains'
 };
 // The default map center
-AppSettings.center = [-33.650655, 150.442832];
+AppSettings.center = [-33.71463,150.311508];
 // The bound of the app, used to find products and services
 AppSettings.bounds = {
     "left": 150.240784,
