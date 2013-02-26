@@ -77,7 +77,7 @@ Ext.define('escape.controller.ContentPage', {
             contentArea.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
         } else {
             var selfRef = this;
-             escape.model.Content.getContentPageData(contentPage.getContentPath(), {
+             escape.model.Content.getContentPageData(url, {
                 success: function(content) {
                      selfRef.mustDosLoaded(content.getData(), contentPage);
                 },
