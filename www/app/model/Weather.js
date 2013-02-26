@@ -252,7 +252,7 @@ Ext.define("escape.model.Weather", {
         Ext.Ajax.useDefaultXhrHeader = false;
 
         var stationId = this.getStationId();
-        if (stationId === 0 /*&& lat === 0*/) {
+        if (stationId === 0 && lat === 0) {
             stationId = AppSettings.weatherStations[0].stationId;
         }
 
@@ -369,7 +369,7 @@ Ext.define("escape.model.Weather", {
         var regID = escape.utils.Tracking.getRegID();
         //
         var stationId = this.getStationId();
-        if (stationId === 0 /*&& lat === 0*/) {
+        if (stationId === 0 && lat === 0) {
             stationId = AppSettings.weatherStations[0].stationId;
         }
         // load the waeather
