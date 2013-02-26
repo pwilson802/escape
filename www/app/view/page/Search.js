@@ -79,7 +79,7 @@ Ext.define("escape.view.page.Search", {
                         value: -1
                     },{
                         text: '1 km',
-                        value: 5
+                        value: 1
                     }, {
                         text: '5 km',
                         value: 5
