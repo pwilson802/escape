@@ -99,7 +99,7 @@ Ext.define("escape.view.page.Weather", {
                 labelAlign: 'top',
                 options: weatherOptions,
                 value: stationId,
-                width: Ext.Viewport.getSize().width - 160
+                width: Ext.Viewport.getSize().width - 140
             }]
         }, {
             xtype: 'container',
