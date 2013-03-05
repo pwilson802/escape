@@ -1,19 +1,19 @@
 
 // - blue
- $active-color: #00B5D0;
- $highlightLight:#00B5D0;
- $image-path: '../region-images/blue/';
+// $active-color: #00B5D0;
+// $highlightLight:#00B5D0;
+// $image-path: '../region-images/blue/';
 // - green
-//$active-color: #89c540;
-//$highlightLight:#89c540;
-//$image-path: '../region-images/green/';
+$active-color: #89c540;
+$highlightLight:#89c540;
+$image-path: '../region-images/green/';
 // - orange
 // $active-color: #de3615;
 // $highlightLight:#de3615;
 // $image-path: '../region-images/orange/';
 
 // APP Image locations
-$app-image-path: '../app-images/sydney/';
+$app-image-path: '../app-images/blue-mountains/';
 
 $base-color : #f9f7f3;
 $page-bg-color : #f9f7f3;
@@ -2144,7 +2144,8 @@ p {
 		@include background-clip(); // prevents bg colour from leaking outside the border
 		background-color: #f8f6f3; // layer fill content
 		@include box-shadow(inset 0 1px 0 rgba(255,255,255,.46)); // inner shadow
-		@include background-image(linear-gradient(bottom, #00a3bc 0%, #02c4e1 100%)) ; // gradient overlay
+		//@include background-image(linear-gradient(bottom, #00a3bc 0%, #02c4e1 100%)) ; // gradient overlay
+		@include background-image(linear-gradient($active-color,darken($active-color, 20%)));
 	}
 	.x-picker-bar {
 		@include opacity(.56); // layer alpha
