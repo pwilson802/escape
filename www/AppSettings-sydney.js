@@ -448,7 +448,35 @@ AppSettings.mainMenu = [{
     }
 }];
 
+//////////////////////////////////////////////////////////////////////
+// Home Options
+//////////////////////////////////////////////////////////////////////
 
+AppSettings.homeMenu = [{
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Accommodation</span>",
+                    cls: 'accomHome',
+                    action: 'changeSection',
+                    sectionId: 'accommodationSection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Events</span>",
+                      cls: 'eventsHome',
+                    action: 'changeSection',
+                    sectionId: 'eventsSection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>My Itinerary</span>",
+                    cls: 'itineraryHome',
+                    action: 'changeSection',
+                    sectionId: 'myItinerarySection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Deals</span>",
+                    cls: 'dealsHome',
+                    action: 'changeSection',
+                    sectionId: 'dealsSection'
+                }];
 
 //////////////////////////////////////////////////////////////////////
 // CONSTANTS

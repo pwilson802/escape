@@ -180,12 +180,14 @@ AppSettings.homeImgs = [{
     altText: 'Test Image'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
-AppSettings.attractionCats = [{
-    title: 'Beach Lifestyle',
-    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_beach.png',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
-}, {
+AppSettings.attractionCats = [
+// {
+//     title: 'Beach Lifestyle',
+//     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
+//     imgPath: AppSettings.imgfolder+'todo_beach.png',
+//     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
+// }, 
+{
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
     imgPath: AppSettings.imgfolder+'todo_parks.png',
@@ -416,7 +418,35 @@ AppSettings.mainMenu = [{
     }
 }];
 
+//////////////////////////////////////////////////////////////////////
+// Home Options
+//////////////////////////////////////////////////////////////////////
 
+AppSettings.homeMenu = [{
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Accommodation</span>",
+                    cls: 'accomHome',
+                    action: 'changeSection',
+                    sectionId: 'accommodationSection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Events</span>",
+                      cls: 'eventsHome',
+                    action: 'changeSection',
+                    sectionId: 'eventsSection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>My Itinerary</span>",
+                    cls: 'itineraryHome',
+                    action: 'changeSection',
+                    sectionId: 'myItinerarySection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Tours</span>",
+                    cls: 'dealsHome',
+                    action: 'changeSection',
+                    sectionId: 'dealsSection'
+                }];
 
 //////////////////////////////////////////////////////////////////////
 // CONSTANTS
