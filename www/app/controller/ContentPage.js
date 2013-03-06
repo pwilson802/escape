@@ -79,7 +79,7 @@ Ext.define('escape.controller.ContentPage', {
             var selfRef = this;
              escape.model.Content.getContentPageData(url, {
                 success: function(content) {
-                     selfRef.mustDosLoaded(content.getData(), contentPage);
+                     selfRef.mustDosLoaded(url, contentPage);
                 },
                 error: function(error) {},
                 scope: this
