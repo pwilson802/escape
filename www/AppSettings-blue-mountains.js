@@ -42,6 +42,7 @@ AppSettings.appSubDestination = ["Katoomba","Lithgow","Oberon"];
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 // The name of the events calender in the database to search for events in
 AppSettings.eventCalName = 'SYDNEY EVENTS CALENDAR';
+AppSettings.eventsIncludeFeatured = false;
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
 // matrix destination ids for this app - Get DNSW to provide
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache

@@ -22,6 +22,7 @@ Ext.define("escape.view.page.Events", {
             this.setItems([{
                 xtype: 'segmentedbutton',
                 layout: 'hbox',
+                itemId: 'eventsSegmentedButton',
                 allowMultiple: false,
                 allowDepress: false,
                 docked: 'top',
