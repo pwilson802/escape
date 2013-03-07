@@ -57,7 +57,7 @@ Ext.define("escape.view.page.Town", {
                 type: 'season',
                 season: 'winter'
             }, {
-                title: escape.utils.Translator.translate('Food & Wine'),
+                title: escape.utils.Translator.translate('Dining & Entertainment'),
                 type: 'season',
                 season: 'summer'
             }, {

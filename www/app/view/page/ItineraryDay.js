@@ -85,7 +85,7 @@ Ext.define("escape.view.page.ItineraryDay", {
                 title: escape.utils.Translator.translate('Things to do'),
                 sectionId: 'thingsToDoSection'
             }, {
-                title: escape.utils.Translator.translate('Food & Wine'),
+                title: escape.utils.Translator.translate('Dining & Entertainment'),
                 sectionId: 'foodAndWineSection'
             }, {
                 title: escape.utils.Translator.translate('Accommodation'),
