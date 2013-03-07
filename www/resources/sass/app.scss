@@ -14,6 +14,7 @@ $image-path: '../region-images/green/';
 
 // APP Image locations
 $app-image-path: '../app-images/blue-mountains/';
+$general-path: '../region-images/general/';
 
 $base-color : #f9f7f3;
 $page-bg-color : #f9f7f3;
@@ -187,7 +188,7 @@ p {
 	background: url(#{$image-path}/linen_bg.png);
 	width:100%;
 	.x-innerhtml  {
-		background: url(#{$image-path}/no_results_badge.png) no-repeat 0 20px;
+		background: url(#{$general-path}/no_results_badge.png) no-repeat 0 20px;
 		width:107px;
 		height:166px;
 		margin: 0 auto;
@@ -290,7 +291,7 @@ p {
 }
 
 .noResults {
-	background: url(#{$image-path}/no_results_badge.png) no-repeat center center;
+	background: url(#{$general-path}/no_results_badge.png) no-repeat center center;
 	width:222px;
 	height:222px;
 	margin:40px auto;
@@ -3552,7 +3553,7 @@ p {
 		-webkit-background-size: 107px 146px;
 	}
 	.noResults {
-		background: url(#{$image-path}/no_results_badge@2x.png) no-repeat center center;	
+		background: url(#{$general-path}/no_results_badge@2x.png) no-repeat center center;	
 		-webkit-background-size: 107px 146px;
 	}
 	.favsAddedMsg {
@@ -3703,8 +3704,14 @@ p {
 		background-image: url(#{$image-path}/linen_bg@2x.png);
 		-webkit-background-size: 333px 500px; 
 		.x-innerhtml  {
-			background-image: url(#{$image-path}/no_results_badge@2x.png) no-repeat 0 20px;
+			background: url(#{$general-path}/no_results_badge@2x.png) no-repeat 0 20px;
 			-webkit-background-size: 107px 146px; 
+		}
+
+		.x-inner {
+			background: url(#{$general-path}/no_results_badge@2x.png) no-repeat 0 20px;
+			-webkit-background-size: 107px 146px; 	
+			background-position: center;		
 		}
 	}
 	.refreshBtn {
