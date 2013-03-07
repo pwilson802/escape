@@ -1700,12 +1700,30 @@ p {
 				}
 			}
 		}
+		&.toursHome {
+			border-right: none !important;
+			.x-button-label {
+				span.icon  {
+					background-image:url(#{$image-path}/ico_home_btn_tours.png);
+				}
+			}
+		}
 		&.itineraryHome {
 			border-bottom: none !important;
 			border-left: none !important;
 			.x-button-label {
 				span.icon  {
-					width:35px;
+					//width:35px;
+					background-image:url(#{$image-path}/ico_home_btn_itinerary_book.png);
+				}
+			}
+		}
+		&.localHome {
+			border-bottom: none !important;
+			border-right: none !important;
+			.x-button-label {
+				span.icon  {
+					width: 35px;
 					background-image:url(#{$image-path}/ico_home_btn_itinerary.png);
 				}
 			}
@@ -3058,10 +3076,32 @@ p {
 				}
 			}
 		}
+		&.toursHome {
+			border-right: none !important;
+			.x-button-label {
+				span.icon  {
+					//width:35px;
+					background-image:url(#{$image-path}/ico_home_btn_tours@2x.png);
+					//-webkit-background-size: 28px 14px;
+					-webkit-background-size: 14px 14px;
+				}
+			}
+		}
 		&.itineraryHome {
 			.x-button-label {
 				span.icon  {
-					width:35px;
+					//width:35px;
+					background-image:url(#{$image-path}/ico_home_btn_itinerary_book@2x.png);
+					-webkit-background-size: 11px 14px;
+				}
+			}
+		}
+		&.localHome {
+			border-bottom: none !important;
+			border-right: none !important;
+			.x-button-label {
+				span.icon  {
+					width: 35px;
 					background-image:url(#{$image-path}/ico_home_btn_itinerary@2x.png);
 					-webkit-background-size: 28px 14px;
 				}
