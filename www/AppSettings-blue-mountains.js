@@ -429,24 +429,24 @@ AppSettings.homeMenu = [{
                     cls: 'accomHome',
                     action: 'changeSection',
                     sectionId: 'accommodationSection'
-                }, {
+                }, { // Tours
                     xtype: 'button',
-                    html: "<span class='icon'></span><span>Events</span>",
-                      cls: 'eventsHome',
+                    html: "<span class='icon'></span><span>Tours</span>",
+                      cls: 'toursHome',
                     action: 'changeSection',
-                    sectionId: 'eventsSection'
+                    sectionId: 'toursSection'
                 }, {
                     xtype: 'button',
                     html: "<span class='icon'></span><span>My Itinerary</span>",
                     cls: 'itineraryHome',
                     action: 'changeSection',
                     sectionId: 'myItinerarySection'
-                }, {
+                }, { // Local Areas
                     xtype: 'button',
-                    html: "<span class='icon'></span><span>Tours</span>",
-                    cls: 'dealsHome',
+                    html: "<span class='icon'></span><span>Local Areas</span>",
+                    cls: 'localHome',
                     action: 'changeSection',
-                    sectionId: 'dealsSection'
+                    sectionId: 'localSection'
                 }];
 
 //////////////////////////////////////////////////////////////////////
