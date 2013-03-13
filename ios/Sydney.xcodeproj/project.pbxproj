@@ -11,7 +11,7 @@
 		00889C1516CDACD900D844AB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 00889C1016CDACD900D844AB /* Default.png */; };
 		00889C1616CDACD900D844AB /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00889C1116CDACD900D844AB /* Default@2x.png */; };
 		00889C1716CDACD900D844AB /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 00889C1216CDACD900D844AB /* Icon-57.png */; };
-		00889C1816CDACD900D844AB /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00889C1316CDACD900D844AB /* icon-72@2x.png */; };
+		00889C1816CDACD900D844AB /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00889C1316CDACD900D844AB /* Icon-72@2x.png */; };
 		00889C1916CDACD900D844AB /* Icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = 00889C1416CDACD900D844AB /* Icon-114.png */; };
 		009AF38E16D1DB3D002EBDFB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 009AF38D16D1DB3D002EBDFB /* Default-568h@2x.png */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
@@ -60,7 +60,7 @@
 		B792CC44160805CB00BD25D7 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B792CC3C160805CB00BD25D7 /* ChildBrowserViewController.xib */; };
 		B792CC46160805CB00BD25D7 /* SQLitePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = B792CC40160805CB00BD25D7 /* SQLitePlugin.m */; };
 		B792CC4D16080EAD00BD25D7 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B792CC4C16080EAD00BD25D7 /* libsqlite3.dylib */; };
-		B7EF9DC21640D58400BA3EFE /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF9DC11640D58400BA3EFE /* icon-72@2x.png */; };
+		B7EF9DC21640D58400BA3EFE /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EF9DC11640D58400BA3EFE /* Icon-72@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,7 +92,7 @@
 		00889C1016CDACD900D844AB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../icons/Default.png; sourceTree = "<group>"; };
 		00889C1116CDACD900D844AB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../icons/Default@2x.png"; sourceTree = "<group>"; };
 		00889C1216CDACD900D844AB /* Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-57.png"; path = "../icons/Icon-57.png"; sourceTree = "<group>"; };
-		00889C1316CDACD900D844AB /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72@2x.png"; path = "../icons/icon-72@2x.png"; sourceTree = "<group>"; };
+		00889C1316CDACD900D844AB /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72@2x.png"; path = "../icons/Icon-72@2x.png"; sourceTree = "<group>"; };
 		00889C1416CDACD900D844AB /* Icon-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-114.png"; path = "../icons/Icon-114.png"; sourceTree = "<group>"; };
 		009AF38D16D1DB3D002EBDFB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../../../icons/Default-568h@2x.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -153,7 +153,7 @@
 		B792CC3F160805CB00BD25D7 /* SQLitePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SQLitePlugin.h; path = ../../../plugins/ios/SQLitePlugin.h; sourceTree = "<group>"; };
 		B792CC40160805CB00BD25D7 /* SQLitePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SQLitePlugin.m; path = ../../../plugins/ios/SQLitePlugin.m; sourceTree = "<group>"; };
 		B792CC4C16080EAD00BD25D7 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		B7EF9DC11640D58400BA3EFE /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72@2x.png"; path = "../icons/icon-72@2x.png"; sourceTree = "<group>"; };
+		B7EF9DC11640D58400BA3EFE /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72@2x.png"; path = "../icons/Icon-72@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,12 +229,12 @@
 			children = (
 				2F502BED16CAFB6900050BE4 /* CordovaLib.xcodeproj */,
 				2F1322D01665BB4100CBBAE4 /* EventKit.framework */,
-				B7EF9DC11640D58400BA3EFE /* icon-72@2x.png */,
+				B7EF9DC11640D58400BA3EFE /* Icon-72@2x.png */,
 				00889C0B16CDAC5D00D844AB /* Default-568h@2x.png */,
 				00889C1016CDACD900D844AB /* Default.png */,
 				00889C1116CDACD900D844AB /* Default@2x.png */,
 				00889C1216CDACD900D844AB /* Icon-57.png */,
-				00889C1316CDACD900D844AB /* icon-72@2x.png */,
+				00889C1316CDACD900D844AB /* Icon-72@2x.png */,
 				00889C1416CDACD900D844AB /* Icon-114.png */,
 				B73840CA160C4313008B16F7 /* MessageUI.framework */,
 				B73840C2160C2A83008B16F7 /* Accounts.framework */,
@@ -471,7 +471,7 @@
 				30A0434914DC770100060A13 /* Localizable.strings in Resources */,
 				B792CC41160805CB00BD25D7 /* ChildBrowser.bundle in Resources */,
 				B792CC44160805CB00BD25D7 /* ChildBrowserViewController.xib in Resources */,
-				B7EF9DC21640D58400BA3EFE /* icon-72@2x.png in Resources */,
+				B7EF9DC21640D58400BA3EFE /* Icon-72@2x.png in Resources */,
 				2F91C88516B0C8D4002990C1 /* Default@2x~iphone.png in Resources */,
 				2F91C88616B0C8D4002990C1 /* Default~iphone.png in Resources */,
 				2F502BFE16CAFB9F00050BE4 /* cmsPages.db in Resources */,
@@ -479,7 +479,7 @@
 				00889C1516CDACD900D844AB /* Default.png in Resources */,
 				00889C1616CDACD900D844AB /* Default@2x.png in Resources */,
 				00889C1716CDACD900D844AB /* Icon-57.png in Resources */,
-				00889C1816CDACD900D844AB /* icon-72@2x.png in Resources */,
+				00889C1816CDACD900D844AB /* Icon-72@2x.png in Resources */,
 				00889C1916CDACD900D844AB /* Icon-114.png in Resources */,
 				009AF38E16D1DB3D002EBDFB /* Default-568h@2x.png in Resources */,
 			);
@@ -563,7 +563,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = armv7;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -571,7 +571,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Sydney-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
@@ -593,13 +593,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = armv7;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Sydney-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
@@ -621,10 +621,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -661,10 +658,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
