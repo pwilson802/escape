@@ -171,13 +171,19 @@ AppSettings.poi = [{
 /////////////////////////////////////////////////////////////////////
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: AppSettings.imgfolder+'home_1.jpg',
+    imagePath: AppSettings.imgfolder+'home1.jpg',
     altText: 'Test Image'
 }, {
-    imagePath: AppSettings.imgfolder+'home_2.jpg',
+    imagePath: AppSettings.imgfolder+'home2.jpg',
     altText: 'Test Image'
 }, {
-    imagePath: AppSettings.imgfolder+'home_3.jpg',
+    imagePath: AppSettings.imgfolder+'home3.jpg',
+    altText: 'Test Image'
+}, {
+    imagePath: AppSettings.imgfolder+'home4.jpg',
+    altText: 'Test Image'
+}, {
+    imagePath: AppSettings.imgfolder+'home5.jpg',
     altText: 'Test Image'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
@@ -191,29 +197,29 @@ AppSettings.attractionCats = [
 {
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
-    imgPath: AppSettings.imgfolder+'todo_parks.png',
+    imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_dinning.png',
+    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_shopping.png',
+    imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_culture.png',
+    imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_holidays.png',
+    imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
 }];
 
