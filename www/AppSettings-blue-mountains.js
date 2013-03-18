@@ -172,19 +172,19 @@ AppSettings.poi = [{
 // Home Images
 AppSettings.homeImgs = [{
     imagePath: AppSettings.imgfolder+'home1.jpg',
-    altText: 'Test Image'
+    altText: 'Hamilton Lund; Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Test Image'
+    altText: 'Hamilton Lund; Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home3.jpg',
-    altText: 'Test Image'
+    altText: 'James Horan; Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home4.jpg',
-    altText: 'Test Image'
+    altText: 'Chris Jones; Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home5.jpg',
-    altText: 'Test Image'
+    altText: 'Destination NSW'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [

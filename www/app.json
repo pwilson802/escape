@@ -74,13 +74,13 @@
      */
     "extras": [
         "resources/region-images/blue",
-        "resources/app-images/sydney/",
+        "resources/app-images/blue-mountains/",
         "resources/region-images/general",
         "resources/icons",
         "resources/fonts",
         "resources/js",
         "config.xml",
-        "AppSettings-sydney.js"
+        "AppSettings-blue-mountains.js"
     ],
 
     /**
