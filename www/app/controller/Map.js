@@ -1,7 +1,9 @@
 Ext.define('escape.controller.Map', {
     extend: 'Ext.app.Controller',
     config: {
-        refs: {},
+        refs: {
+            mapDisplay: 'mapDisplay'
+        },
         control: {
             'mapDisplay button[action=zoomIn]': {
                 tap: 'zoomIn'
@@ -9,7 +11,11 @@ Ext.define('escape.controller.Map', {
             'mapDisplay button[action=zoomOut]': {
                 tap: 'zoomOut'
             },
-             'mapDisplayOffline button[action=zoomIn]': {
+            'mapDisplay': {
+                pinchStart: 'pinchStart',
+                pinchEnd: 'pinchEnd'
+            },
+            'mapDisplayOffline button[action=zoomIn]': {
                 tap: 'zoomIn'
             },
             'mapDisplayOffline button[action=zoomOut]': {
@@ -37,6 +43,13 @@ Ext.define('escape.controller.Map', {
             zoomLevel--;
         }
         map.zoomTo(zoomLevel);
+    },
+    pinchStart: function() {
+        console.log('controller pinchStart');
+        this.getMapDiplay().setPinching(true);
+    },
+    pinchEnd: function() {
+        console.log('controller pinchEnd');
+        this.getMapDiplay().setPinching(false);
     }
-
 });

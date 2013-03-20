@@ -23,7 +23,7 @@ AppSettings.appAddress = {
     suburb: 'blue mountains'
 };
 // The default map center
-AppSettings.center = [-33.650655, 150.442832];
+AppSettings.center = [-33.71463,150.311508];
 // The bound of the app, used to find products and services
 AppSettings.bounds = {
     "left": 150.240784,
@@ -42,6 +42,7 @@ AppSettings.appSubDestination = ["Katoomba","Lithgow","Oberon"];
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 // The name of the events calender in the database to search for events in
 AppSettings.eventCalName = 'SYDNEY EVENTS CALENDAR';
+AppSettings.eventsIncludeFeatured = false;
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
 // matrix destination ids for this app - Get DNSW to provide
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
@@ -170,47 +171,55 @@ AppSettings.poi = [{
 /////////////////////////////////////////////////////////////////////
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: AppSettings.imgfolder+'home_1.jpg',
-    altText: 'Test Image'
+    imagePath: AppSettings.imgfolder+'home1.jpg',
+    altText: 'Hamilton Lund; Destination NSW'
 }, {
-    imagePath: AppSettings.imgfolder+'home_2.jpg',
-    altText: 'Test Image'
+    imagePath: AppSettings.imgfolder+'home2.jpg',
+    altText: 'Hamilton Lund; Destination NSW'
 }, {
-    imagePath: AppSettings.imgfolder+'home_3.jpg',
-    altText: 'Test Image'
+    imagePath: AppSettings.imgfolder+'home3.jpg',
+    altText: 'James Horan; Destination NSW'
+}, {
+    imagePath: AppSettings.imgfolder+'home4.jpg',
+    altText: 'Chris Jones; Destination NSW'
+}, {
+    imagePath: AppSettings.imgfolder+'home5.jpg',
+    altText: 'Destination NSW'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
-AppSettings.attractionCats = [{
-    title: 'Beach Lifestyle',
-    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_beach.png',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
-}, {
+AppSettings.attractionCats = [
+// {
+//     title: 'Beach Lifestyle',
+//     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
+//     imgPath: AppSettings.imgfolder+'todo_beach.png',
+//     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
+// }, 
+{
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
-    imgPath: AppSettings.imgfolder+'todo_parks.png',
+    imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_dinning.png',
+    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_shopping.png',
+    imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_culture.png',
+    imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'todo_holidays.png',
+    imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
 }];
 
@@ -234,6 +243,16 @@ AppSettings.mainMenu = [{
         xtype: 'contentPage',
         title: 'About ' + AppSettings.appAreaName,
         contentPath: AppSettings.getSMPSectionURL() + '/about'
+    }
+}, {
+
+    title: 'Local Areas',
+    group: 'Group 1',
+    id: 'localSection',
+    firstPage: {
+        xtype: 'contentPage',
+        title: 'Local Areas',
+        contentPath: AppSettings.getSMPSectionURL() + '/local-areas'
     }
 }, {
     title: 'My Itinerary',
@@ -406,7 +425,35 @@ AppSettings.mainMenu = [{
     }
 }];
 
+//////////////////////////////////////////////////////////////////////
+// Home Options
+//////////////////////////////////////////////////////////////////////
 
+AppSettings.homeMenu = [{
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Accommodation</span>",
+                    cls: 'accomHome',
+                    action: 'changeSection',
+                    sectionId: 'accommodationSection'
+                }, { // Tours
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Tours</span>",
+                      cls: 'toursHome',
+                    action: 'changeSection',
+                    sectionId: 'toursSection'
+                }, {
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>My Itinerary</span>",
+                    cls: 'itineraryHome',
+                    action: 'changeSection',
+                    sectionId: 'myItinerarySection'
+                }, { // Local Areas
+                    xtype: 'button',
+                    html: "<span class='icon'></span><span>Local Areas</span>",
+                    cls: 'localHome',
+                    action: 'changeSection',
+                    sectionId: 'localSection'
+                }];
 
 //////////////////////////////////////////////////////////////////////
 // CONSTANTS

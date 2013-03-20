@@ -6,6 +6,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         cls: 'mapDisplay',
         useOnlineMaps: true,
         forceUseOffline: false,
+        pinching: false,
         map: null,
         created: false,
         mapId: 0,
@@ -22,7 +23,9 @@ Ext.define("escape.view.ui.MapDisplay", {
         interaction: true,
         zoomToBounds: true,
         listeners: {
-            painted: 'createMapDom'
+            painted: 'createMapDom',
+            pinchStart: 'pinchStart',
+            pinchEnd: 'pinchEnd'
         }
     },
     createMapDom: function() {
@@ -33,12 +36,22 @@ Ext.define("escape.view.ui.MapDisplay", {
             } else {
                 this.removeCls('mapLarge');
             }
-            this.setMapId('mapContainier' + Math.random() * 1000000000);
+            this.setMapId('mapContainier-' + Math.floor(Math.random() * 1000000000));
             var divHeight = (isNaN(this.getHeight())) ? this.getHeight() : this.getHeight() + 'px';
             this.add({
                 html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
             });
         }
+        console.log('#' + this.getMapId());
+        var mapHolder = Ext.get(this.getMapId());
+        console.log(mapHolder);
+        mapHolder.on('pinchStart', function() {
+            console.log('# pinching starteed');
+        }, this);
+        mapHolder.on('pinchEnd', function() {
+            console.log('# pinching ended');
+        }, this);
+
         this.loadLibaries();
     },
     loadLibaries: function() {
@@ -270,6 +283,14 @@ Ext.define("escape.view.ui.MapDisplay", {
         map.zoomToExtent(this.getMarkerLayer().getDataExtent());
         this.setIntialMarkers([]);
     },
+    pinchStart: function() {
+        console.log('pinchStart');
+        this.setPinching(true);
+    },
+    pinchEnd: function() {
+        console.log('pinchEnd');
+        this.setPinching(false);
+    },
     addMarker: function(lat, lon, data, imgPath, iconSize, centre) {
         if (this.getBuilt()) {
             var map = this.getMap();
@@ -335,6 +356,11 @@ Ext.define("escape.view.ui.MapDisplay", {
                             // the event is part of a multi touch event like pinch and zoom.
                             allowSelection = false;
                         }
+                    }
+                    console.log('getPinching: ' + selfRef.getPinching());
+                    if (selfRef.getPinching()) {
+                        // the user is pinching disable marker selection
+                        allowSelection = false;
                     }
                     if (allowSelection) {
                         console.log('click');
