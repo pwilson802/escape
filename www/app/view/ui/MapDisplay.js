@@ -5,7 +5,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     config: {
         cls: 'mapDisplay',
         useOnlineMaps: true,
-        forceUseOffline:false,
+        forceUseOffline: false,
         map: null,
         created: false,
         mapId: 0,
@@ -25,7 +25,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             painted: 'createMapDom'
         }
     },
-    createMapDom : function(){
+    createMapDom: function() {
         if (!this.getCreated()) {
             this.setCreated(true);
             if (this.getHeight() > 200) {
@@ -46,7 +46,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         if (Ext.device.Connection.isOnline() && !escape.model.Map.getUseOffline() || this.getForceUseOffline()) {
             this.setUseOnlineMaps(true);
         } else {
-             this.setUseOnlineMaps(false);
+            this.setUseOnlineMaps(false);
         }
         var selfRef = this;
         escape.model.Map.loadFiles(
@@ -131,8 +131,8 @@ Ext.define("escape.view.ui.MapDisplay", {
             }
             this.setMap(map);
             // create the offline layer
-            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", AppSettings.mapsTilesPath +"${z}/${x}/${y}.png", {
-                numZoomLevels: AppSettings.offlineMapsMaxZoom ,
+            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", AppSettings.mapsTilesPath + "${z}/${x}/${y}.png", {
+                numZoomLevels: AppSettings.offlineMapsMaxZoom,
                 alpha: true,
                 isBaseLayer: true
             });
@@ -144,7 +144,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             map.addLayer(markers);
 
             this.setBuilt(true);
-             // position the map
+            // position the map
             map.setCenter(lonLat, this.getZoomLevel());
             this.defineMap();
             this.fireEvent('mapCreated', this);
@@ -232,7 +232,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         // get the user location
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
-                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, AppSettings.regionImagePath+'markers/marker_yourlocation.png', [17, 16], true);
+                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, AppSettings.regionImagePath + 'markers/marker_yourlocation.png', [17, 16], true);
                 selfRef.setLocationMarker(yourlocation);
                 selfRef.showUsersDirection();
             },
@@ -291,9 +291,9 @@ Ext.define("escape.view.ui.MapDisplay", {
                 }
             } else {
                 // use default icon
-                imgPath = AppSettings.regionImagePath+'pin_red.png';
+                imgPath = AppSettings.regionImagePath + 'pin_red.png';
                 if (escape.utils.Img.useRetinaImg) {
-                    imgPath = AppSettings.regionImagePath+'pin_red@2x.png';
+                    imgPath = AppSettings.regionImagePath + 'pin_red@2x.png';
                 }
             }
             // pin icon
@@ -316,8 +316,8 @@ Ext.define("escape.view.ui.MapDisplay", {
                 if (window.devicePixelRatio > 1.2) {
                     imgSize = '@2x';
                 }
-                
-                imgPath = AppSettings.regionImagePath+'markers/marker_' + iconNumber + '' + imgSize + '.png';
+
+                imgPath = AppSettings.regionImagePath + 'markers/marker_' + iconNumber + '' + imgSize + '.png';
             }
             //
             icon = new OpenLayers.Icon(imgPath, size, offset);
@@ -328,17 +328,28 @@ Ext.define("escape.view.ui.MapDisplay", {
             // custom marker
             this.getMarkerLayer().addMarker(marker);
             var selfRef = this;
-            var markerClick = function(evt) {
-                    selfRef.fireEvent('markerSelected', data);
+            var markerTouch = function(e) {
+                    var allowSelection = true;
+                    if (e.touches) {
+                        if (e.touches.length > 0) {
+                            // the event is part of a multi touch event like pinch and zoom.
+                            allowSelection = false;
+                        }
+                    }
+                    if (allowSelection) {
+                        console.log('click');
+                        selfRef.fireEvent('markerSelected', data);
+                    }
                 };
-            marker.events.register('click', marker, markerClick);
+            if (Ext.os.deviceType === 'Desktop') {
+                marker.events.register('click', marker, markerTouch);
+            }
+
             // marker.events.register('mousedown', marker, markerClick);
             // marker.events.register('touchend', marker, markerClick);
             // marker.events.register("touchstart", marker, function(e) {
             // });
-            icon.imageDiv.addEventListener('touchend', function() {
-                selfRef.fireEvent('markerSelected', data);
-            });
+            icon.imageDiv.addEventListener('touchend', markerTouch);
             return marker;
         } else {
             this.getIntialMarkers().push({

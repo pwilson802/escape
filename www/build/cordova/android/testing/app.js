@@ -28008,6 +28008,11 @@ Ext.define('escape.utils.AppFuncs', {
     parseCMSText: function(description) {
         var linksStartBreakdown = description.split('<a href="');
         var output = '';
+        // Don't create hyperlinks when offline.
+        var isOnline = true;
+        if (!Ext.device.Connection.isOnline()){
+            isOnline = false;
+        }
         for (var i = 0; i < linksStartBreakdown.length; i++) {
             var linksEndBreakdown = linksStartBreakdown[i].split('</a>');
             if (linksEndBreakdown.length > 1) {
@@ -28037,12 +28042,14 @@ Ext.define('escape.utils.AppFuncs', {
                     }
                     if (allowedProduct) {
                         allowedLink = true;
-                        output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                        output += (!isOnline) ? linkText : '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
+                        //output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openProduct(\'' + productId + '\',\'' + type + '\')">' + linkText + '</a>';
                     }
                     // check to see if the link is an internal smartphone cms link
                     if (link.indexOf('smartphoneapps') != -1) {
                         allowedLink = true;
-                        output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openCMSPage(\'' + linkText + '\',\'' + link + '\')">' + linkText + '</a>';
+                        output += (!isOnline) ? linkText : '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openCMSPage(\'' + linkText + '\',\'' + link + '\')">' + linkText + '</a>';
+                        //output += '<a href="javascript:void(0)" onClick="escape.utils.AppFuncs.openCMSPage(\'' + linkText + '\',\'' + link + '\')">' + linkText + '</a>';
                     }
 
                 }
@@ -44836,7 +44843,7 @@ Ext.define("escape.model.Weather", {
         Ext.Ajax.useDefaultXhrHeader = false;
 
         var stationId = this.getStationId();
-        if (stationId === 0 /*&& lat === 0*/) {
+        if (stationId === 0 && lat === 0) {
             stationId = AppSettings.weatherStations[0].stationId;
         }
 
@@ -44953,7 +44960,7 @@ Ext.define("escape.model.Weather", {
         var regID = escape.utils.Tracking.getRegID();
         //
         var stationId = this.getStationId();
-        if (stationId === 0 /*&& lat === 0*/) {
+        if (stationId === 0 && lat === 0) {
             stationId = AppSettings.weatherStations[0].stationId;
         }
         // load the waeather
@@ -46034,19 +46041,17 @@ Ext.define("escape.view.subSection.Product", {
 Ext.define("escape.model.Content", {
     singleton: true,
     config: {
-         useOffline: true
+        useOffline: true
     },
     // called when useOffline is updated
     updateUseOffline: function(newValue, oldValue) {
-         escape.model.UserSettings.setSetting('useOffline', String(newValue), {
-            success: function(newValue) {
-            },
-            error: function(error) {
-            },
+        escape.model.UserSettings.setSetting('useOffline', String(newValue), {
+            success: function(newValue) {},
+            error: function(error) {},
             scope: this
         });
     },
-   
+
     checkOfflineSettings: function(callback, scope) {
         // Check to see if the user has picked a useOffline setting
         var selfRef = this;
@@ -46074,6 +46079,7 @@ Ext.define("escape.model.Content", {
     },
     // based on the users setting and connectivity will return the local page data
     getContentPageData: function(url, callback, scope) {
+        console.log('getContentPageData');
         var loadLocal = true;
         if (Ext.device.Connection.isOnline()) {
             if (!this.getUseOffline()) {
@@ -46090,14 +46096,17 @@ Ext.define("escape.model.Content", {
 
     },
     loadRemoteContent: function(url, callback, scope, page) {
-         console.log('loadRemoteContent');
+        console.log('loadRemoteContent');
+        console.log(url);
         var loadLocal = true;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(url);
         escape.model.ContentPage.load(0, {
             success: function(content) {
-                Ext.callback(callback.success, scope, [content]);
+                // save first
                 this.saveRemoteContent(url, content);
+                // call back
+                Ext.callback(callback.success, scope, [content]);
             },
             error: function(error) {
                 selfRef.processLocalData(page, callback, scope);
@@ -46106,17 +46115,20 @@ Ext.define("escape.model.Content", {
         });
     },
     saveRemoteContent: function(url, content) {
-         console.log('saveRemoteContent');
         var updateTime = new Date().getTime();
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         if (content) {
+            var contentTitle = content.title;
+            if ((content.title === undefined) || (content.title === null)) {
+                contentTitle = content.raw.Page.Title;
+            }
             db.queryDB('UPDATE Pages SET name=(?), date_modified=(?), JSON_data=(?) WHERE url = (?)', function(t, rs) {
                 // the content was updated succeesfully
-            }, function(t, e) {
-            }, [content.title, updateTime, JSON.stringify(content.raw), url]);
+            }, function(t, e) {}, [contentTitle, updateTime, JSON.stringify(content.raw), url]);
         } else {
             // error updating the content try insertint it
+            console.log("Insert into pages");
             db.queryDB('INSERT INTO Pages (name,url,date_modified,JSON_data) VALUES (?,?,?,?)', function(t, rs) {
                 // the content was updated succeesfully
             }, function(t, e) {
@@ -46131,18 +46143,18 @@ Ext.define("escape.model.Content", {
         db.queryDB('SELECT * FROM Pages WHERE url = (?)', function(t, rs) {
             // make sure the product is not database
             var page = rs.rows.item(0);
-           
+
             // make sure the page is uptodate
             var dateNow = new Date();
             var diff = dateNow.getTime() - page.date_modified;
             // check to see if the content is out of date
             var useLocal = true;
-            if (diff > (AppSettings.caching.cmsCacheLength*1000)) {
+            if (diff > (AppSettings.caching.cmsCacheLength * 1000)) {
                 useLocal = false;
                 // make sure the user has a strong enough connection
-               // var networkState = navigator.connection.type;
+                // var networkState = navigator.connection.type;
                 var connectionType = Ext.device.Connection.getType();
-                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G ||  !Ext.device.Connection.isOnline()) {
+                if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G || !Ext.device.Connection.isOnline()) {
                     useLocal = true;
                 }
             }
@@ -46160,12 +46172,12 @@ Ext.define("escape.model.Content", {
             selfRef.loadRemoteContent(url, callback, scope);
         }, [url]);
     },
-    processLocalData: function(page, callback, scope){
-         console.log('processLocalData');
-          console.log(page);
-         // build and map page data
+    processLocalData: function(page, callback, scope) {
+        console.log('processLocalData');
+        console.log(page);
+        // build and map page data
         var localData = JSON.parse(page.JSON_data);
-         console.log(localData);
+        console.log(localData);
         var pageData = {};
         pageData.title = localData.Page.Title;
         pageData.description = localData.Page.Content;
@@ -46175,22 +46187,21 @@ Ext.define("escape.model.Content", {
         pageData.externalLinks = localData.Page['External-Links'];
         pageData.page = localData.Page;
         // place data into a model
-        
-        if (localData.Page.Images){
+        if (localData.Page.Images) {
             var localImagesList = page.images.split(',');
             if (localImagesList.length > 0 && localData.Page.Images.length > 0) {
-            // load the images
+                // load the images
                 this.loadLocalImages(localImagesList, pageData, callback, scope);
             } else {
-            // return the data
+                // return the data
                 this.returnLocalData(pageData, callback, scope);
             }
-         } else {
+        } else {
             // return the data
-                this.returnLocalData(pageData, callback, scope);
-            }
+            this.returnLocalData(pageData, callback, scope);
+        }
     },
-        
+
     loadLocalImages: function(ids, pageData, callback, scope) {
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
@@ -46208,7 +46219,7 @@ Ext.define("escape.model.Content", {
             for (var i = 0; i < rs.rows.length; i++) {
                 var image = rs.rows.item(i);
                 imagesList.push({
-                    "Full Size": AppSettings.imgfolder+'cms/' + image.image_name,
+                    "Full Size": AppSettings.imgfolder + 'cms/' + image.image_name,
                     "Alt": image.alt_text
                 });
             }
@@ -50461,13 +50472,21 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadMustDos: function(url, productSubSection) {
         var selfRef = this;
-        escape.model.Content.getContentPageData(url, {
-            success: function(content) {
-                 selfRef.mustDosLoaded(content.getData(), productSubSection);
-            },
-            error: function(error) {},
-            scope: this
-        });
+        // Don't load must do's if offline.
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            productSubSection.getCardView().getComponent('contents').setPadding(0);
+            productSubSection.getCardView().getComponent('contents').setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            escape.model.Content.getContentPageData(url, {
+                success: function(content) {
+                     selfRef.mustDosLoaded(content.getData(), productSubSection);
+                },
+                error: function(error) {},
+                scope: this
+            });
+        }
     },
 
     mustDosLoaded: function(content, productSubSection) {
@@ -50528,42 +50547,50 @@ Ext.define('escape.controller.ProductSections', {
         }
     },
     loadProductList: function(url, productSubSection) {
-        var selfRef = this;
-        var currentList = 0;
-        var productList = '';
-        var values = url.split('/product-list-generator/')[1].split('&');
-        var params = {};
-        var producType = 'attraction';
-        for (var i = 0; i < values.length; i++) {
-            var param = values[i].split('=');
-            if (param[0] == 'product_types') {
-                producType = param[1].split(',')[0];
-                params[param[0]] = producType;
-            } else {
-                params[param[0]] = param[1].split(',').join(';');
+        // Don't load must do's if offline.
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            productSubSection.getCardView().getComponent('contents').setPadding(0);
+            productSubSection.getCardView().getComponent('contents').setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            var selfRef = this;
+            var currentList = 0;
+            var productList = '';
+            var values = url.split('/product-list-generator/')[1].split('&');
+            var params = {};
+            var producType = 'attraction';
+            for (var i = 0; i < values.length; i++) {
+                var param = values[i].split('=');
+                if (param[0] == 'product_types') {
+                    producType = param[1].split(',')[0];
+                    params[param[0]] = producType;
+                } else {
+                    params[param[0]] = param[1].split(',').join(';');
+                }
+
+            }
+            // if no destination are sent use the default ones
+            if (!params.destination_id) {
+                params.destination_id = AppSettings.destinationIds;
+            }
+            // if no limit is sent add one
+            if (!params.limit_by) {
+                params.limit_by = 10;
             }
 
-        }
-        // if no destination are sent use the default ones
-        if (!params.destination_id) {
-            params.destination_id = AppSettings.destinationIds;
-        }
-        // if no limit is sent add one
-        if (!params.limit_by) {
-            params.limit_by = 10;
-        }
+            Ext.Ajax.request({
+                method: 'GET',
+                url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator',
+                params: params,
+                success: function(response) {
+                    productList = (JSON.parse(response.responseText));
+                    selfRef.productListLoaded(productList, productSubSection, producType);
 
-        Ext.Ajax.request({
-            method: 'GET',
-            url: 'http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/product-list-generator',
-            params: params,
-            success: function(response) {
-                productList = (JSON.parse(response.responseText));
-                selfRef.productListLoaded(productList, productSubSection, producType);
-
-            },
-            failure: function(response, opts) {}
-        });
+                },
+                failure: function(response, opts) {}
+            });
+        }
     },
     productListLoaded: function(productList, productSubSection, producType) {
         if (this.getCurrentSection() == 'productList') {
@@ -50614,7 +50641,8 @@ Ext.define('escape.controller.Events', {
         },
         control: {
             'eventsPage': {
-                built: 'loadEventsCalender'
+                built: 'setUpContent'
+                //built: 'loadEventsCalender'
             },
             'eventsPage segmentedbutton': {
                 toggle: 'switchType'
@@ -50624,6 +50652,26 @@ Ext.define('escape.controller.Events', {
             }
         }
     },
+
+    setUpContent: function() {
+        if (AppSettings.eventsIncludeFeatured) {
+            this.loadEventsCalender();
+        } else {
+            var segmentedbutton = this.getEventsPage().getComponent('eventsSegmentedButton');
+            segmentedbutton.setItems([{
+                        text: 'This Month',
+                        type: 'thisMonth',
+                        pressed: true,
+                        flex: 1
+                    },{
+                        text: 'Next Month',
+                        type: 'nextMonth',
+                        flex: 1
+                    }])
+            this.loadThisMonth();           
+        }
+    },
+
     switchType: function(container, btn, pressed) {
         this.setCurrentSection(btn.config.type);
         var productSubSection = container.parent;
@@ -50639,6 +50687,12 @@ Ext.define('escape.controller.Events', {
 
         if (btn.config.type == 'weekly') {
             this.loadWeekly();
+        }
+
+        if (btn.config.type == 'thisMonth') {
+            this.loadThisMonth();
+        } else if (btn.config.type == 'nextMonth') {
+            this.loadNextMonth();
         }
 
     },
@@ -50765,6 +50819,105 @@ Ext.define('escape.controller.Events', {
             xtype: 'productPage',
             productId: productId,
             productType: collection.matrix
+        });
+    },
+
+    loadThisMonth: function() {
+        var params = {
+            // linit the search to the apps destination webpath
+            meta_D_phrase_sand: AppSettings.destinationWebpath
+        };
+        // set the serach to use the right collection
+        params.collection = 'event'; //'prototype-dnsw-' +
+        params.form = 'mobile-event-json';
+        var todaysDate = new Date();
+        var endOfMonth = new Date(todaysDate.getFullYear(), todaysDate.getMonth() + 1, 0);
+        params.meta_d3 = Ext.Date.format(todaysDate, 'dMY'); //'2Oct2012';
+        params.meta_d4 = Ext.Date.format(endOfMonth, 'dMY');
+        //
+        // perform the seach
+        var serachStore = Ext.create('escape.store.ProductSearch');
+        // add the extra paramaters to the search
+        serachStore.getProxy().setExtraParams(params);
+        // only request one result
+        serachStore.setPageSize(50);
+        // request results
+        var selfRef = this;
+        serachStore.loadPage(1, {
+            callback: function(records, operation, success) {
+                // the operation object contains all of the details of the load operation
+                if (success) {
+                    selfRef.monthEventsLoaded(records[0].getData());
+                } else {
+                    // fails silently
+                }
+            },
+            scope: this
+        });
+    }, 
+
+    monthEventsLoaded: function(records) {
+        var resultsStore = Ext.create('Ext.data.Store', {
+            model: 'escape.model.ProductResult',
+            data: records.results,
+            grouper: {
+                groupFn: function(record) {
+                    var dateStr = record.get('Start Date').split('-');
+                    var date = new Date(dateStr[0], Number(dateStr[1]) - 1, dateStr[2]);
+
+                    return Ext.Date.format(date, 'l jS F'); //record.get('Start Date');
+                },
+                sortProperty: 'Start Date'
+            }
+        });
+        var viewportSize = Ext.Viewport.getSize();
+        var list = new Ext.List({
+            itemTpl: '{Title}',
+            store: resultsStore,
+            height: viewportSize.height - 89,
+            scrollable: true,
+            grouped: true
+        });
+
+        var contents = this.getEventsPage().getComponent('contents');
+        contents.setPadding(0);
+        contents.setItems(list);
+    },
+
+    loadNextMonth: function() {
+        var params = {
+            // linit the search to the apps destination webpath
+            meta_D_phrase_sand: AppSettings.destinationWebpath
+        };
+        // set the serach to use the right collection
+        params.collection = 'event'; //'prototype-dnsw-' +
+        params.form = 'mobile-event-json';
+        var todaysDate = new Date();
+        var weekFromNow = new Date();
+        var firstDayNextMonth = new Date(todaysDate.getFullYear(), todaysDate.getMonth()+1, 1);
+        var lastDayNextMonth = new Date(firstDayNextMonth.getFullYear(), firstDayNextMonth.getMonth() + 1, 0);
+        weekFromNow.setDate(todaysDate.getDate() + 30);
+        params.meta_d3 = Ext.Date.format(firstDayNextMonth, 'dMY'); //'2Oct2012';
+        params.meta_d4 = Ext.Date.format(lastDayNextMonth, 'dMY');
+        //
+        // perform the seach
+        var serachStore = Ext.create('escape.store.ProductSearch');
+        // add the extra paramaters to the search
+        serachStore.getProxy().setExtraParams(params);
+        // only request one result
+        serachStore.setPageSize(50);
+        // request results
+        var selfRef = this;
+        serachStore.loadPage(1, {
+            callback: function(records, operation, success) {
+                // the operation object contains all of the details of the load operation
+                if (success) {
+                    selfRef.monthEventsLoaded(records[0].getData());
+                } else {
+                    // fails silently
+                }
+            },
+            scope: this
         });
     }
 
@@ -50951,25 +51104,32 @@ Ext.define('escape.controller.Directions', {
                 map.zoomToExtent(new EMS.Bounds(routeResult.boundingBox.left, routeResult.boundingBox.bottom, routeResult.boundingBox.right, routeResult.boundingBox.top));
                 // write out directions
                 var instructions = "";
+                var totalTime = 0;
+                var totalDistance = 0;
+                var travelDistance;
+                var travelTime;
                 for (var routeNum = 0; routeNum < routeResult.routes.length; routeNum++) {
                     myNum = routeNum + 1;
                     route = routeResult.routes[routeNum];
                     for (var i = 0; i < route.routeSegments.length; i++) {
                         seg = route.routeSegments[i];
-                        var travelDistance;
+                        // distance
                         if (seg.metres > 1000) {
                             travelDistance = mathExt.roundNumber((seg.metres / 1000), 2) + ' km';
                         } else {
                             travelDistance = mathExt.roundNumber(seg.metres, 2) + ' m';
                         }
-                        var travelTime;
+                        // time
                         if (seg.travelTime >= 3600) {
                             travelTime = mathExt.roundNumber(((seg.travelTime / 60) / 60), 2) + ' hrs';
                         } else if (seg.travelTime >= 60) {
-                            travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' mins';
+                            travelTime = Math.floor(seg.travelTime / 60) + "." + mathExt.roundNumber(seg.travelTime % 60, 2)  + ' mins';
+                            //travelTime = mathExt.roundNumber((seg.travelTime / 60), 2) + ' mins';
                         } else {
                             travelTime = mathExt.roundNumber(seg.travelTime, 2) + ' sec';
                         }
+                        totalTime += seg.travelTime;
+                        totalDistance += seg.metres;
                         console.log('seg.travelTime: ' + seg.travelTime + ' travelTime: ' + travelTime);
 
                         instructions += "<div class='segment'>";
@@ -50980,6 +51140,30 @@ Ext.define('escape.controller.Directions', {
                         instructions += "</div>";
                     }
                 }
+                // add total times
+                // distance
+                if (totalDistance > 1000) {
+                    travelDistance = mathExt.roundNumber((totalDistance / 1000), 2) + ' km';
+                } else {
+                    travelDistance = mathExt.roundNumber(totalDistance, 2) + ' m';
+                }
+                // time
+                if (totalTime >= 3600) {
+                    travelTime = mathExt.roundNumber(((totalTime / 60) / 60), 2) + ' hrs';
+                } else if (totalTime >= 60) {
+                    travelTime = Math.floor(totalTime / 60) + "." + mathExt.roundNumber(totalTime % 60, 2)  + ' mins';
+                    //travelTime = mathExt.roundNumber((totalTime / 60), 2) + ' mins';
+                } else {
+                    travelTime = mathExt.roundNumber(totalTime, 2) + ' sec';
+                }
+                var totalText = "<div class='segment'>";
+                totalText += "<h2>Route Details</h2>";
+                totalText += "<h3 class='distance'>" + travelDistance + "</h3>";
+                totalText += "<h3 class='time'>" + travelTime + "</h3>";
+                totalText += "<p></p>";
+                totalText += "</div>";
+                //
+                instructions = totalText+=instructions;
                 selfRef.getDirectionsPage().getComponent('cardLayout').getComponent('listDisplay').setHtml(instructions);
             },
             failure: function() {}
@@ -51299,35 +51483,85 @@ Ext.define("escape.view.page.OtherApps", {
         }
     },
     openView: function(content) {
-        var otherApps = [{
-            "name": "Sydney 悉尼",
-            "description": "The app features exciting things to do, interactive maps, great food and wine and tips on customs and transport for Chinese travellers to Sydney. Available in 3 languages, English, simplified Chinese and Traditional Chinese.",
-            "appleAppStrore": "https://itunes.apple.com/au/app/sydney-xi-ni/id559654518?mt=8",
-            "googlePlay": "https://play.google.com/store/apps/details?id=com.sydney.dnswchina&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5zeWRuZXkuZG5zd2NoaW5hIl0",
-            "imgPath": "http://www.destinationnsw.com.au/__data/assets/image/0009/148788/chinaIcon-72@2x.png"
-        }];
+        // var otherApps = [{
+        //     "name": "Sydney 悉尼",
+        //     "description": "The app features exciting things to do, interactive maps, great food and wine and tips on customs and transport for Chinese travellers to Sydney. Available in 3 languages, English, simplified Chinese and Traditional Chinese.",
+        //     "appleAppStrore": "https://itunes.apple.com/au/app/sydney-xi-ni/id559654518?mt=8",
+        //     "googlePlay": "https://play.google.com/store/apps/details?id=com.sydney.dnswchina&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5zeWRuZXkuZG5zd2NoaW5hIl0",
+        //     "imgPath": "http://www.destinationnsw.com.au/__data/assets/image/0009/148788/chinaIcon-72@2x.png"
+        // }];
 
-        for (var i = otherApps.length - 1; i >= 0; i--) {
-            otherApps[i].link = (!Ext.os.is.iOS) ? otherApps[i].googlePlay : otherApps[i].appleAppStrore;
+        if (!Ext.device.Connection.isOnline()) {
+            // show offline messgae
+            var offlineHeight = window.innerHeight; // Set to window height
+            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            this.getApps();
         }
+    },
 
-        var viewText = 'View on the App Store';
-        if (!Ext.os.is.iOS) {
-            viewText = 'View on Google Play';
-        }
+    /**
+    *   Attempt to load the other apps from DNSW's global content
+    *   The response has to be parsed then converted to a JSON object
+    */
+
+    getApps: function() {
+        var otherApps;
+        var selfref = this;
 
         this.setItems([{
-            xtype: 'list',
-            itemTpl: '<img src="{imgPath}" witdh="72" height="72" /><b>{name}</b><br>{description}<br><b>' + viewText + '</b>',
-            scrollable: false,
-            cls: 'selectionList appList',
-            margin: 10,
-            action: 'appList',
-            disableSelection: true,
-            data: otherApps
-        }, {
-            xtype: 'footer'
-        }]);
+            xtype: 'loadingDisplay'
+        }])
+
+        Ext.Ajax.request({
+            method: 'GET',
+            url: 'http://www.destinationnsw.com.au/smartphoneapps/global-content/other-dnsw-apps?no-cache=0',
+            success: function(response) {
+                try {
+                    var productList = (JSON.parse(response.responseText));
+                    /* Parse Response */
+                    var body = productList.Page.Content;
+                    body = body.replace(/<.*/g, "");
+                    body = body.replace(/&quot;/g, '"');
+                    body = (JSON.parse(body));
+                    otherApps = body;
+
+                    /* Add correct store to app */
+                    for (var i = otherApps.length - 1; i >= 0; i--) {
+                        otherApps[i].link = (!Ext.os.is.iOS) ? otherApps[i].googlePlay : otherApps[i].appleAppStrore;
+                    }
+
+                    var viewText = 'View on the App Store';
+                    if (!Ext.os.is.iOS) {
+                        viewText = 'View on Google Play';
+                    }
+
+                    /* Add items to list */
+                    selfref.setItems([{
+                        xtype: 'list',
+                        itemTpl: '<table><tr><td style="vertical-align:top;"><img src="{imgPath}" witdh="72" height="72" /></td><td><b>{name}</b><br>{description}<br><b>' + viewText + '</b></td></tr></table>',
+                        scrollable: false,
+                        cls: 'selectionList appList',
+                        margin: 10,
+                        action: 'appList',
+                        disableSelection: true,
+                        data: otherApps
+                    }, {
+                        xtype: 'footer'
+                    }]);
+
+                } catch (e) {
+                      selfref.setItems([{
+                        xtype: 'loadError'
+                    }])                  
+                }
+            },
+            failure: function (response) {
+                selfref.setItems([{
+                    xtype: 'loadError'
+                }])
+            }
+        });
     }
 });
 Ext.define("escape.view.page.Alerts", {
@@ -51537,33 +51771,39 @@ Ext.define("escape.view.page.Events", {
     },
     //
     openView: function() {
-
-        this.setItems([{
-            xtype: 'segmentedbutton',
-            layout: 'hbox',
-            allowMultiple: false,
-            allowDepress: false,
-            docked: 'top',
-            items: [{
-                text: 'Featured Events',
-                type: 'eventsCalender',
-                pressed: true,
-                flex: 1
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            this.setItems([{
+                xtype: 'segmentedbutton',
+                layout: 'hbox',
+                itemId: 'eventsSegmentedButton',
+                allowMultiple: false,
+                allowDepress: false,
+                docked: 'top',
+                items: [{
+                    text: 'Featured Events',
+                    type: 'eventsCalender',
+                    pressed: true,
+                    flex: 1
+                }, {
+                    text: 'This week',
+                    type: 'weekly',
+                    flex: 1
+                }]
             }, {
-                text: 'This week',
-                type: 'weekly',
-                flex: 1
-            }]
-        }, {
-            xtype: 'container',
-            itemId: 'contents',
-            flex: 1,
-            padding:'10',
-            items: [{
-                xtype: 'loadingDisplay'
-            }]
-        }]);
-        this.fireEvent('built', this);
+                xtype: 'container',
+                itemId: 'contents',
+                flex: 1,
+                padding:'10',
+                items: [{
+                    xtype: 'loadingDisplay'
+                }]
+            }]);
+            this.fireEvent('built', this);
+        }
     }
 });
 Ext.define("escape.view.page.LikeALocal", {
@@ -51680,114 +51920,120 @@ Ext.define("escape.view.page.ServicesAndFacilities", {
         pageTrackingId: 1
        },
     openView: function() {
-         Ext.define('POIModel', {
-            extend: 'Ext.data.Model',
-            config: {
-                fields: [{
-                    name: 'label',
-                    type: 'string'
-                }, {
-                    name: 'keyword',
-                    type: 'string'
-                }]
-            }
-        });
-        var store = Ext.create("Ext.data.Store", {
-            model: "POIModel",
-            storeId: "generalStore",
-            data: AppSettings.poi
-        });
-        var items = [{
-            xtype: 'formpanel',
-            layout: 'vbox',
-            scrollable: false,
-            width: '100%',
-            flex: 1,
-            items: [{
-                xtype: 'toolbar',
-                docked: 'top',
-                cls: 'searchBar',
-                layout: 'hbox',
-                items: [{
-                    xtype: 'searchfield',
-                    name: 'keyword',
-                    flex: 1
-                }]
-            }, {
-                xtype: 'container',
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            Ext.define('POIModel', {
+                extend: 'Ext.data.Model',
+                config: {
+                    fields: [{
+                        name: 'label',
+                        type: 'string'
+                    }, {
+                        name: 'keyword',
+                        type: 'string'
+                    }]
+                }
+            });
+            var store = Ext.create("Ext.data.Store", {
+                model: "POIModel",
+                storeId: "generalStore",
+                data: AppSettings.poi
+            });
+            var items = [{
+                xtype: 'formpanel',
+                layout: 'vbox',
+                scrollable: false,
+                width: '100%',
                 flex: 1,
-                scrollable: {
-                    direction: 'vertical',
-                    directionLock: true
-                },
                 items: [{
-                    xtype: 'selectField',
-                    label: 'Around me',
-                    labelWidth: '50%',
-                    name: 'distance',
-                    options: [{
-                        text: 'Off',
-                        value: -1
-                    }, {
-                        text: '1Km',
-                        value: 5
-                    }, {
-                        text: '5Km',
-                        value: 5
-                    }, {
-                        text: '10Km',
-                        value: 10
-                    }, {
-                        text: '15Km',
-                        value: 15
-                    }, {
-                        text: '25Km',
-                        value: 25
-                    }, {
-                        text: '50Km',
-                        value: 50
-                    }, {
-                        text: '75Km',
-                        value: 75
-                    }, {
-                        text: '100Km',
-                        value: 100
-                    }, {
-                        text: '150Km',
-                        value: 150
-                    }, {
-                        text: '200Km',
-                        value: 200
+                    xtype: 'toolbar',
+                    docked: 'top',
+                    cls: 'searchBar',
+                    layout: 'hbox',
+                    items: [{
+                        xtype: 'searchfield',
+                        name: 'keyword',
+                        flex: 1
                     }]
                 }, {
-                    xtype: 'list',
-                    itemId: 'keywordList',
-                    action: 'selectKeyword',
-                    margin: '10px',
-                    cls: 'radioList',
-                    activeItem: 1,
-                    scrollable: false,
+                    xtype: 'container',
                     flex: 1,
-                    itemTpl: '{label}',
-                    store : store
+                    scrollable: {
+                        direction: 'vertical',
+                        directionLock: true
+                    },
+                    items: [{
+                        xtype: 'selectField',
+                        label: 'Around me',
+                        labelWidth: '50%',
+                        name: 'distance',
+                        options: [{
+                            text: 'Off',
+                            value: -1
+                        }, {
+                            text: '1Km',
+                            value: 5
+                        }, {
+                            text: '5Km',
+                            value: 5
+                        }, {
+                            text: '10Km',
+                            value: 10
+                        }, {
+                            text: '15Km',
+                            value: 15
+                        }, {
+                            text: '25Km',
+                            value: 25
+                        }, {
+                            text: '50Km',
+                            value: 50
+                        }, {
+                            text: '75Km',
+                            value: 75
+                        }, {
+                            text: '100Km',
+                            value: 100
+                        }, {
+                            text: '150Km',
+                            value: 150
+                        }, {
+                            text: '200Km',
+                            value: 200
+                        }]
+                    }, {
+                        xtype: 'list',
+                        itemId: 'keywordList',
+                        action: 'selectKeyword',
+                        margin: '10px',
+                        cls: 'radioList',
+                        activeItem: 1,
+                        scrollable: false,
+                        flex: 1,
+                        itemTpl: '{label}',
+                        store : store
+                    }]
+                }, {
+                    xtype: 'container',
+                    docked: 'bottom',
+                    cls: 'btnsArea',
+                    padding: '10px',
+                    defaults: {
+                        margin: '10px 0 0 0'
+                    },
+                    items: [{
+                        xtype: 'button',
+                        text: 'Search',
+                        action: 'search',
+                        cls: 'search'
+                    }]
                 }]
-            }, {
-                xtype: 'container',
-                docked: 'bottom',
-                cls: 'btnsArea',
-                padding: '10px',
-                defaults: {
-                    margin: '10px 0 0 0'
-                },
-                items: [{
-                    xtype: 'button',
-                    text: 'Search',
-                    action: 'search',
-                    cls: 'search'
-                }]
-            }]
-        }];
-        this.setItems(items);
+            }];
+            this.setItems(items);
+        }
     }
 });
 /**
@@ -53847,31 +54093,7 @@ Ext.define("escape.view.page.Home", {
             }, {
                 xtype: 'container',
                 cls: 'btnsContainer',
-                items: [{
-                    xtype: 'button',
-                    html: "<span class='icon'></span><span>Accommodation</span>",
-                    cls: 'accomHome',
-                    action: 'changeSection',
-                    sectionId: 'accommodationSection'
-                }, {
-                    xtype: 'button',
-                    html: "<span class='icon'></span><span>Events</span>",
-                      cls: 'eventsHome',
-                    action: 'changeSection',
-                    sectionId: 'eventsSection'
-                }, {
-                    xtype: 'button',
-                    html: "<span class='icon'></span><span>My Itinerary</span>",
-                    cls: 'itineraryHome',
-                    action: 'changeSection',
-                    sectionId: 'myItinerarySection'
-                }, {
-                    xtype: 'button',
-                    html: "<span class='icon'></span><span>Deals</span>",
-                    cls: 'dealsHome',
-                    action: 'changeSection',
-                    sectionId: 'dealsSection'
-                }]
+                items: AppSettings.homeMenu
             }, {
                 xtype: 'list',
                 itemId: 'thingsToDoList',
@@ -53962,7 +54184,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     config: {
         cls: 'mapDisplay',
         useOnlineMaps: true,
-        forceUseOffline:false,
+        forceUseOffline: false,
         map: null,
         created: false,
         mapId: 0,
@@ -53982,7 +54204,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             painted: 'createMapDom'
         }
     },
-    createMapDom : function(){
+    createMapDom: function() {
         if (!this.getCreated()) {
             this.setCreated(true);
             if (this.getHeight() > 200) {
@@ -54003,7 +54225,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         if (Ext.device.Connection.isOnline() && !escape.model.Map.getUseOffline() || this.getForceUseOffline()) {
             this.setUseOnlineMaps(true);
         } else {
-             this.setUseOnlineMaps(false);
+            this.setUseOnlineMaps(false);
         }
         var selfRef = this;
         escape.model.Map.loadFiles(
@@ -54088,8 +54310,8 @@ Ext.define("escape.view.ui.MapDisplay", {
             }
             this.setMap(map);
             // create the offline layer
-            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", AppSettings.mapsTilesPath +"${z}/${x}/${y}.png", {
-                numZoomLevels: AppSettings.offlineMapsMaxZoom ,
+            var mapLayer = new OpenLayers.Layer.OSM("OfflineMaps", AppSettings.mapsTilesPath + "${z}/${x}/${y}.png", {
+                numZoomLevels: AppSettings.offlineMapsMaxZoom,
                 alpha: true,
                 isBaseLayer: true
             });
@@ -54101,7 +54323,7 @@ Ext.define("escape.view.ui.MapDisplay", {
             map.addLayer(markers);
 
             this.setBuilt(true);
-             // position the map
+            // position the map
             map.setCenter(lonLat, this.getZoomLevel());
             this.defineMap();
             this.fireEvent('mapCreated', this);
@@ -54189,7 +54411,7 @@ Ext.define("escape.view.ui.MapDisplay", {
         // get the user location
         Ext.device.Geolocation.getCurrentPosition({
             success: function(position) {
-                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, AppSettings.regionImagePath+'markers/marker_yourlocation.png', [17, 16], true);
+                var yourlocation = selfRef.addMarker(position.coords.latitude, position.coords.longitude, null, AppSettings.regionImagePath + 'markers/marker_yourlocation.png', [17, 16], true);
                 selfRef.setLocationMarker(yourlocation);
                 selfRef.showUsersDirection();
             },
@@ -54248,9 +54470,9 @@ Ext.define("escape.view.ui.MapDisplay", {
                 }
             } else {
                 // use default icon
-                imgPath = AppSettings.regionImagePath+'pin_red.png';
+                imgPath = AppSettings.regionImagePath + 'pin_red.png';
                 if (escape.utils.Img.useRetinaImg) {
-                    imgPath = AppSettings.regionImagePath+'pin_red@2x.png';
+                    imgPath = AppSettings.regionImagePath + 'pin_red@2x.png';
                 }
             }
             // pin icon
@@ -54273,8 +54495,8 @@ Ext.define("escape.view.ui.MapDisplay", {
                 if (window.devicePixelRatio > 1.2) {
                     imgSize = '@2x';
                 }
-                
-                imgPath = AppSettings.regionImagePath+'markers/marker_' + iconNumber + '' + imgSize + '.png';
+
+                imgPath = AppSettings.regionImagePath + 'markers/marker_' + iconNumber + '' + imgSize + '.png';
             }
             //
             icon = new OpenLayers.Icon(imgPath, size, offset);
@@ -54285,17 +54507,30 @@ Ext.define("escape.view.ui.MapDisplay", {
             // custom marker
             this.getMarkerLayer().addMarker(marker);
             var selfRef = this;
-            var markerClick = function(evt) {
-                    selfRef.fireEvent('markerSelected', data);
+            var markerTouch = function(e) {
+                    var allowSelection = true;
+                    if (e.touches) {
+                        console.log('touches: ' + e.touches.length);
+                        if (e.touches.length > 0) {
+                            // the event is part of a multi touch event like pinch and zoom.
+                            allowSelection = false;
+                        }
+                    }
+                    if (allowSelection) {
+                        console.log('click');
+                        selfRef.fireEvent('markerSelected', data);
+                    }
                 };
-            marker.events.register('click', marker, markerClick);
+            console.log(Ext.os.deviceType);
+            if (Ext.os.deviceType === 'Desktop') {
+                marker.events.register('click', marker, markerTouch);
+            }
+
             // marker.events.register('mousedown', marker, markerClick);
             // marker.events.register('touchend', marker, markerClick);
             // marker.events.register("touchstart", marker, function(e) {
             // });
-            icon.imageDiv.addEventListener('touchend', function() {
-                selfRef.fireEvent('markerSelected', data);
-            });
+            icon.imageDiv.addEventListener('touchend', markerTouch);
             return marker;
         } else {
             this.getIntialMarkers().push({
@@ -54948,7 +55183,8 @@ Ext.define('escape.controller.Alerts', {
         feeds: null,
         refs: {
             alertsPage: 'alertsPage',
-            settingsForm: 'alertSettingsPage formpanel'
+            settingsForm: 'alertSettingsPage formpanel',
+            settingsBtn: '#alertsSection button[cls="editBtn iconBtn"]'
         },
         selectedRecord: null,
         currentSection: 'about',
@@ -54989,41 +55225,48 @@ Ext.define('escape.controller.Alerts', {
     },
     checkSettings: function() {
         var selfRef = this;
-        if (!this.getFeeds()) {
-            // load the feeds
-            escape.model.UserSettings.getSetting('alertsFeeds', {
-                success: function(feeds) {
-                    if (!feeds) {
-                        selfRef.setFeeds([{
-                            label: 'Incidents',
-                            load: true
-                        }, {
-                            label: 'Road Works',
-                            load: false
-                        }, {
-                            label: 'Alpine Conditions',
-                            load: false
-                        }, {
-                            label: 'Major Events',
-                            load: true
-                        }, {
-                            label: 'Floods',
-                            load: true
-                        }, {
-                            label: 'Fire',
-                            load: true
-                        }]);
-                    } else {
-                        selfRef.setFeeds(JSON.parse(feeds));
-                    }
-                },
-                error: function(error) {},
-                scope: this
-            });
+        if (!Ext.device.Connection.isOnline()) {
+            // Show offline Message
+            this.getSettingsBtn().setHidden(true); // Hide Settings Btn
+            this.getAlertsPage().setMargin(0);
+            var offlineHeight = window.innerHeight; // Set to window height
+            this.getAlertsPage().setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
         } else {
-            this.loadAlerts();
+            if (!this.getFeeds()) {
+                // load the feeds
+                escape.model.UserSettings.getSetting('alertsFeeds', {
+                    success: function(feeds) {
+                        if (!feeds) {
+                            selfRef.setFeeds([{
+                                label: 'Incidents',
+                                load: true
+                            }, {
+                                label: 'Road Works',
+                                load: false
+                            }, {
+                                label: 'Alpine Conditions',
+                                load: false
+                            }, {
+                                label: 'Major Events',
+                                load: true
+                            }, {
+                                label: 'Floods',
+                                load: true
+                            }, {
+                                label: 'Fire',
+                                load: true
+                            }]);
+                        } else {
+                            selfRef.setFeeds(JSON.parse(feeds));
+                        }
+                    },
+                    error: function(error) {},
+                    scope: this
+                });
+            } else {
+                this.loadAlerts();
+            }
         }
-
     },
     // called when alertsFeeds is updated
     updateFeeds: function(newValue, oldValue) {
@@ -55195,11 +55438,29 @@ Ext.define('escape.controller.Alerts', {
         for (var i = resultsList.length - 1; i >= 0; i--) {
             var marker = resultsList[i].getData();
             //marker.iconText = marker.resultIndex;
+            var markerType = marker.type;
+            var markerImage = "alerts_marker_incidents";
+            if (markerType == 'roadworks') {
+                markerImage = 'alerts_marker_roadworks';
+
+            } else if (markerType == 'alpineconditions') {
+                markerImage = 'alerts_marker_alpine';
+
+            } else if (markerType == 'majorevent') {
+                markerImage = 'alerts_marker_events';
+
+            } else if (markerType == 'flood') {
+                markerImage = 'alerts_marker_flood';
+
+            } else if (markerType == 'fire') {
+                markerImage = 'alerts_marker_fire';
+            }
+
             intialMarkers.push({
                 lat: marker.lat,
                 lon: marker.lon,
                 data: marker,
-                iconPath: 'resources/region-images/general/alerts_marker_incidents.png',
+                iconPath: 'resources/region-images/general/' + markerImage + '.png',
                 iconSize: [57, 37]
             });
         }
@@ -55932,6 +56193,8 @@ Ext.define("escape.view.page.ContentPage", {
     },
     //
     buildPage: function(content) {
+        console.log('show page');
+        console.log(content);
         this.setContent(content);
         var items = [];
         for (var i = 0; i < content.productLists.length; i++) {
@@ -55964,33 +56227,36 @@ Ext.define("escape.view.page.ContentPage", {
             }
         }
         var pageItems = escape.model.Content.buildItems(content);
-        // add share this app button
-        var urlBreakdown = this.getContentPath().split('/');
-        if (urlBreakdown[urlBreakdown.length - 1].indexOf('about-destination-nsw') != -1) {
-            var appStoreURL;
-            var googlePlayURL;
-            for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
-                var link = content.page['External-Links'][l];
-                if (link.Name.indexOf("Apple App Store")) {
-                    appStoreURL = link.Url;
+        // Don't show share button when offline.
+        if (Ext.device.Connection.isOnline()){
+            // add share this app button
+            var urlBreakdown = this.getContentPath().split('/');
+            if (urlBreakdown[urlBreakdown.length - 1].indexOf('about-destination-nsw') != -1) {
+                var appStoreURL;
+                var googlePlayURL;
+                for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
+                    var link = content.page['External-Links'][l];
+                    if (link.Name.indexOf("Apple App Store")) {
+                        appStoreURL = link.Url;
+                    }
+                    if (link.Name.indexOf("Google Play")) {
+                        googlePlayURL = link.Url;
+                    }
                 }
-                if (link.Name.indexOf("Google Play")) {
-                    googlePlayURL = link.Url;
-                }
+                var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
+                AppSettings.defualtShareData.link = appLink;
+                pageItems.pop();
+                pageItems.push({
+                    margin: 10,
+                    xtype: 'button',
+                    text: 'Share this App',
+                    cls: 'shareAppBtn',
+                    action: 'shareApp'
+                });
+                pageItems.push({
+                    xtype: 'footer'
+                });
             }
-            var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
-            AppSettings.defualtShareData.link = appLink;
-            pageItems.pop();
-            pageItems.push({
-                margin: 10,
-                xtype: 'button',
-                text: 'Share this App',
-                cls: 'shareAppBtn',
-                action: 'shareApp'
-            });
-            pageItems.push({
-                xtype: 'footer'
-            });
         }
         //var fullItems = menuItems.concat(items);
         var viewportSize = Ext.Viewport.getSize();
@@ -56076,11 +56342,6 @@ Ext.define("escape.model.ContentPage", {
             mapping: 'Children',
             type: 'array',
             defaultValue: []
-        }, {
-            name: 'externalLinks',
-            mapping: 'Page.External-Links',
-            type: 'array',
-            defaultValue: []
         },{
             name: 'page',
             mapping: 'Page',
@@ -56129,6 +56390,7 @@ Ext.define('escape.controller.ContentPage', {
         });
     },
     loadContent: function(contentPage) {
+        console.log('loadContent');
         var linkbreakDown = contentPage.getContentPath().split('smartphoneapps');
         contentPage.setPageTrackingId('smartphoneapps' + linkbreakDown[linkbreakDown.length - 1]);
         contentPage.setItems({
@@ -56165,14 +56427,24 @@ Ext.define('escape.controller.ContentPage', {
 
     },
     loadMustDos: function(url, contentPage) {
-        var selfRef = this;
-         escape.model.Content.getContentPageData(url, {
-            success: function(content) {
-                 selfRef.mustDosLoaded(content.getData(), contentPage);
-            },
-            error: function(error) {},
-            scope: this
-        });
+        // Don't show must do's if offline.
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            var cardView = contentPage.getComponent('cardView');
+            var contentArea = cardView.getComponent('contents');
+            contentArea.setPadding(0);
+            contentArea.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            var selfRef = this;
+             escape.model.Content.getContentPageData(url, {
+                success: function(content) {
+                     selfRef.mustDosLoaded(url, contentPage);
+                },
+                error: function(error) {},
+                scope: this
+            });
+        }
     },
 
     mustDosLoaded: function(content, contentPage) {
@@ -57848,7 +58120,7 @@ Ext.define("escape.view.page.Product", {
             name: product.Name,
             defaultMessage: 'Having a great time at ' + product.Name,
             description: 'Check out ' + product.Name + ' at ' + AppSettings.displayWebsiteURL,
-            emailBody: 'Hi, I saw ' + product.Name + ' on the Sydney App from ' + AppSettings.displayWebsiteURL + ' and thought you might like to check it out. ' + AppSettings.websiteURL + product['Full Path'],
+            emailBody: 'Hi, I saw ' + product.Name + ' on the ' + AppSettings.appAreaName + ' App from ' + AppSettings.displayWebsiteURL + ' and thought you might like to check it out. ' + AppSettings.websiteURL + product['Full Path'],
             link: AppSettings.websiteURL + product['Full Path'],
             picture: imageURL
         };
@@ -63374,7 +63646,7 @@ Ext.define("escape.view.page.ItineraryDay", {
                 title: escape.utils.Translator.translate('Things to do'),
                 sectionId: 'thingsToDoSection'
             }, {
-                title: escape.utils.Translator.translate('Food & Wine'),
+                title: escape.utils.Translator.translate('Dining & Entertainment'),
                 sectionId: 'foodAndWineSection'
             }, {
                 title: escape.utils.Translator.translate('Accommodation'),
@@ -65702,26 +65974,28 @@ Ext.define("escape.view.page.CurrencyConverter", {
     },
     // load the currencys
     openView: function() {
-        this.setItems({
-            xtype: 'loadingDisplay'
-        });
-        // check to see if the product is a favourite or not
-        var selfRef = this;
-        escape.model.Currency.loadDefaults({
-            success: function() {
-                selfRef.loadOrginal();
-            },
-            error: function(error) {
-                selfRef.setItems({
-                    xtype: 'loadError'
-                });
-            },
-            scope: this
-        });
-
-
-
-
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+            var offlineHeight = window.innerHeight;
+            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            this.setItems({
+                xtype: 'loadingDisplay'
+            });
+            // check to see if the product is a favourite or not
+            var selfRef = this;
+            escape.model.Currency.loadDefaults({
+                success: function() {
+                    selfRef.loadOrginal();
+                },
+                error: function(error) {
+                    selfRef.setItems({
+                        xtype: 'loadError'
+                    });
+                },
+                scope: this
+            });
+        }
     },
     loadOrginal: function() {
         this.setItems({
@@ -65857,22 +66131,28 @@ Ext.define("escape.view.page.Weather", {
 
     },
     getTheWeather: function(refresh) {
-        this.setItems({
-            xtype: 'loadingDisplay'
-        });
-        // check to see if the product is a favourite or not
-        var selfRef = this;
-        escape.model.Weather.getFullWeather(refresh, {
-            success: function() {
-                selfRef.build();
-            },
-            error: function(error) {
-                selfRef.setItems({
-                    xtype: 'loadError'
-                });
-            },
-            scope: this
-        });
+        if (!Ext.device.Connection.isOnline()) {
+            // show offline messgae
+            var offlineHeight = window.innerHeight; // Set to window height
+            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+        } else {
+            this.setItems({
+                xtype: 'loadingDisplay'
+            });
+            // check to see if the product is a favourite or not
+            var selfRef = this;
+            escape.model.Weather.getFullWeather(refresh, {
+                success: function() {
+                    selfRef.build();
+                },
+                error: function(error) {
+                    selfRef.setItems({
+                        xtype: 'loadError'
+                    });
+                },
+                scope: this
+            });
+        }
     },
     // build the weather page
     build: function() {
@@ -65929,7 +66209,7 @@ Ext.define("escape.view.page.Weather", {
                 labelAlign: 'top',
                 options: weatherOptions,
                 value: stationId,
-                width: Ext.Viewport.getSize().width - 160
+                width: Ext.Viewport.getSize().width - 140
             }]
         }, {
             xtype: 'container',
@@ -66113,7 +66393,7 @@ Ext.define("escape.view.page.Search", {
                         value: -1
                     },{
                         text: '1 km',
-                        value: 5
+                        value: 1
                     }, {
                         text: '5 km',
                         value: 5
