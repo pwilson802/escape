@@ -65,6 +65,7 @@ Ext.define("escape.view.page.Page", {
         this.closeView();
     },
     reOpenView: function() {
+         this.fireEvent('reOpenView', this);
     },
     closeView: function() {}
    

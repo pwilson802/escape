@@ -1,7 +1,7 @@
 Ext.define("escape.view.page.Search", {
     extend: 'escape.view.page.Page',
     xtype: 'searchPage',
-    requires: ['Ext.field.Select', 'Ext.form.Panel'],
+    requires: ['Ext.field.Select', 'Ext.form.Panel','Ext.field.DatePicker'],
     config: {
         cls: 'searchPage formPage',
         collectionType: null,
@@ -39,7 +39,6 @@ Ext.define("escape.view.page.Search", {
         }
         //
         var savedValues =  this.getSearchValues();
-        console.log(savedValues);
         var seachString = (savedValues) ? savedValues.search : '';
         var aroundMeValue = (savedValues) ? savedValues.distance : -1;
         var destinationValue = (savedValues) ? savedValues.destination : 'all';

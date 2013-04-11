@@ -79,29 +79,28 @@ Ext.define('escape.controller.Search', {
     },
 
     queryChange: function() {
-       // if (Ext.os.is.iOS) {
-            connectionStrong = true;
-            // make sure the user has a strong enough connection
-            var connectionType = Ext.device.Connection.getType();
-            if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
-               // connectionStrong = false;
-            }
-            if (connectionStrong) {
-                // make sure the query is long enough
-                var query = this.getSearchField().getValue();
-                // make sure the query is long enough
-                if (query.length > 0) {
-                    // cancel any running delays
-                    if (this.getQueryDelay()) {
-                        this.getQueryDelay().cancel();
-                    }
-                    // wait for a delay then load the query compeltion
-                    this.getQueryDelay().delay(300);
+        // if (Ext.os.is.iOS) {
+        connectionStrong = true;
+        // make sure the user has a strong enough connection
+        var connectionType = Ext.device.Connection.getType();
+        if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
+            // connectionStrong = false;
+        }
+        if (connectionStrong) {
+            // make sure the query is long enough
+            var query = this.getSearchField().getValue();
+            // make sure the query is long enough
+            if (query.length > 0) {
+                // cancel any running delays
+                if (this.getQueryDelay()) {
+                    this.getQueryDelay().cancel();
                 }
+                // wait for a delay then load the query compeltion
+                this.getQueryDelay().delay(300);
             }
+        }
 
         //}
-
     },
     loadQueryCompletion: function() {
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('searchPage') != -1) {
@@ -136,9 +135,6 @@ Ext.define('escape.controller.Search', {
         // make sure we are still on the right page
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('searchPage') != -1) {
             // make sure the panel has been set up
-           
-
-
             var selfRef = this;
             var suggestionsData = [];
             var query = this.getSearchField().getValue();
@@ -152,166 +148,175 @@ Ext.define('escape.controller.Search', {
             }
             if (suggestionsData.length) {
                 var height = (suggestionsData.length == 1) ? 49 : 98;
-                if (this.getSuggestionsPanel()){
+                if (this.getSuggestionsPanel()) {
                     this.getSuggestionsPanel().setStyle('display:block');
                     this.getSuggestionsPanel().setHidden(false);
                     this.getSuggestionsPanel().setHeight(height);
                     this.getSuggestionsPanel().getComponent('suggestionList').setHeight(height);
                     this.getSuggestionsStore().removeAll();
                     this.getSuggestionsStore().add(suggestionsData);
-                } else {
-                }
-                 
+                } else {}
+
             }
         }
     },
-    hideSuggestionsDelay: function(){
+    hideSuggestionsDelay: function() {
         var selfRef = this;
         var task = Ext.create('Ext.util.DelayedTask', function() {
-                    selfRef.hideSuggestions();
-                });
+            selfRef.hideSuggestions();
+        });
         task.delay(500);
     },
 
     hideSuggestions: function() {
-       // if (Ext.os.is.iOS) {
-         if (this.getSuggestionsPanel()) {
-             this.getSuggestionsPanel().setStyle('display:none');
+        // if (Ext.os.is.iOS) {
+        if (this.getSuggestionsPanel()) {
+            this.getSuggestionsPanel().setStyle('display:none');
             //var viewportsize = Ext.Viewport.getSize();
-           // this.getSuggestionsPanel().setTop(viewportsize.height);
+            // this.getSuggestionsPanel().setTop(viewportsize.height);
         }
         //}
     },
     removeSuggestions: function() {
-       // if (Ext.os.is.iOS) {
-            if (this.getSuggestionsPanel()) {
-                var selfRef = this;
-                var task = Ext.create('Ext.util.DelayedTask', function() {
-                    Ext.Viewport.remove(selfRef.getSuggestionsPanel(), true);
-                });
-                task.delay(200);
-            }
-       // }
-
+        // if (Ext.os.is.iOS) {
+        if (this.getSuggestionsPanel()) {
+            var selfRef = this;
+            var task = Ext.create('Ext.util.DelayedTask', function() {
+                Ext.Viewport.remove(selfRef.getSuggestionsPanel(), true);
+            });
+            task.delay(200);
+        }
+        // }
     },
 
     setUpQueryCompletion: function() {
-            if (!this.getSuggestionsPanel()) {
-                var selfRef = this;
-                var suggestionsStore = Ext.create('Ext.data.Store', {
-                    model: 'escape.model.QueryCompletion'
-                });
-                this.setSuggestionsStore(suggestionsStore);
-                // add the suggestion list
-                var viewportsize = Ext.Viewport.getSize();
-                var suggestionsListDisplay = Ext.create('Ext.List', {
-                    itemTpl: '{suggestion}',
-                    itemId: 'suggestionList',
-                    cls: 'suggestionList',
-                    store: suggestionsStore,
-                    onItemDisclosure: true,
-                    height: 98
-                });
-                // build the panel
-                var listPanel = Ext.create('Ext.Panel', {
-                    masked: false,
-                    cls: 'suggestionPanel',
-                    width: viewportsize.width - 80,
-                    height: 98,
-                    top: 90,
-                    left: 40,
-                    hidden: true
-                });
-                listPanel.add(suggestionsListDisplay);
-                this.setSuggestionsPanel(listPanel);
-                // add panel
-                Ext.Viewport.add(listPanel);
-                // define the query delay
-                var task = Ext.create('Ext.util.DelayedTask', function() {
-                    selfRef.loadQueryCompletion();
-                });
-                this.setQueryDelay(task);
-            }
+        if (!this.getSuggestionsPanel()) {
+            var selfRef = this;
+            var suggestionsStore = Ext.create('Ext.data.Store', {
+                model: 'escape.model.QueryCompletion'
+            });
+            this.setSuggestionsStore(suggestionsStore);
+            // add the suggestion list
+            var viewportsize = Ext.Viewport.getSize();
+            var suggestionsListDisplay = Ext.create('Ext.List', {
+                itemTpl: '{suggestion}',
+                itemId: 'suggestionList',
+                cls: 'suggestionList',
+                store: suggestionsStore,
+                onItemDisclosure: true,
+                height: 98
+            });
+            // build the panel
+            var listPanel = Ext.create('Ext.Panel', {
+                masked: false,
+                cls: 'suggestionPanel',
+                width: viewportsize.width - 80,
+                height: 98,
+                top: 90,
+                left: 40,
+                hidden: true
+            });
+            listPanel.add(suggestionsListDisplay);
+            this.setSuggestionsPanel(listPanel);
+            // add panel
+            Ext.Viewport.add(listPanel);
+            // define the query delay
+            var task = Ext.create('Ext.util.DelayedTask', function() {
+                selfRef.loadQueryCompletion();
+            });
+            this.setQueryDelay(task);
+        }
     },
     loadOptions: function() {
+        console.log('loadOptions');
         var selfRef = this;
-        if (!this.getSearchBuilt()){
+        if (!this.getSearchBuilt()) {
+
             this.getSearchBuilt(true);
             if (Ext.device.Connection.isOnline()) {
-                //
-                 this.setUpQueryCompletion();
-            // check to see if dates need to be added
-            var collectionType = this.getSearchPage().getCollectionType();
-            if (collectionType == 'event') {
-                var todaysDate = new Date();
-                var maxDate = new Date();
-                maxDate.setFullYear(maxDate.getFullYear() + 2);
-                var items = [{
-                    xtype: 'datepickerfield',
-                    label: 'From',
-                    name: 'fromDate',
-                    dateFormat: 'd/m/Y',
-                   // value: new Date(),
-                    picker: {
-                        yearFrom: todaysDate.getFullYear(),
-                        yearTo: maxDate.getFullYear()
-                    },
-                    listeners: {
-                        element: 'label',
-                        tap: function() {
-                            this.getPicker().show();
+                console.log('loadOptions go ahead');
+
+                // check to see if dates need to be added
+                var collectionType = this.getSearchPage().getCollectionType();
+                if (collectionType == 'event') {
+                    var todaysDate = new Date();
+                    var maxDate = new Date();
+                    maxDate.setFullYear(maxDate.getFullYear() + 2);
+                    var items = [{
+                        xtype: 'datepickerfield',
+                        label: 'From',
+                        name: 'fromDate',
+                        dateFormat: 'd/m/Y',
+                        // value: new Date(),
+                        picker: {
+                            yearFrom: todaysDate.getFullYear(),
+                            yearTo: maxDate.getFullYear()
+                        },
+                        listeners: {
+                            element: 'label',
+                            tap: function() {
+                                this.getPicker().show();
+                            }
                         }
-                    }
-                }, {
-                    xtype: 'datepickerfield',
-                    label: 'To',
-                    name: 'toDate',
-                    dateFormat: 'd/m/Y',
-                   // value: new Date(),
-                    picker: {
-                        yearFrom: todaysDate.getFullYear(),
-                        yearTo: maxDate.getFullYear()
-                    },
-                    listeners: {
-                        element: 'label',
-                        tap: function() {
-                            this.getPicker().show();
+                    }, {
+                        xtype: 'datepickerfield',
+                        label: 'To',
+                        name: 'toDate',
+                        dateFormat: 'd/m/Y',
+                        // value: new Date(),
+                        picker: {
+                            yearFrom: todaysDate.getFullYear(),
+                            yearTo: maxDate.getFullYear()
+                        },
+                        listeners: {
+                            element: 'label',
+                            tap: function() {
+                                this.getPicker().show();
+                            }
                         }
-                    }
-                }];
-                this.getSearchForm().getComponent('searchOptions').add(items);
+                    }];
+                    this.getSearchForm().getComponent('searchOptions').add(items);
+                }
+                // request the aviabile options by loading one results set
+                var params = this.getSearchParams();
+                console.log(params);
+                params.query = '';
+                // perform the seach
+                var optionsSearch = Ext.create('escape.store.ProductSearch');
+                // add the extra paramaters to the search
+                optionsSearch.getProxy().setExtraParams(params);
+                // only request one result
+                optionsSearch.setPageSize(1);
+                console.log(optionsSearch);
+                // request results
+                console.log('loadPage');
+                optionsSearch.loadPage(1, {
+                    callback: function(records, operation, success) {
+                        console.log('optionsSearch: ' + success);
+                        // the operation object contains all of the details of the load operation
+                        if (success) {
+                            selfRef.buildOptions(records[0].getData());
+                        } else {
+                            // fails silently
+                            console.log('fails silently');
+                        }
+                    },
+                    scope: this
+                });
+                // set up query completion
+                this.setUpQueryCompletion();
             }
-            // request the aviabile options by loading one results set
-            var params = this.getSearchParams();
-            params.query = '';
-            // perform the seach
-            var optionsSearch = Ext.create('escape.store.ProductSearch');
-            // add the extra paramaters to the search
-            optionsSearch.getProxy().setExtraParams(params);
-            // only request one result
-            optionsSearch.setPageSize(1);
-            // request results
-            optionsSearch.loadPage(1, {
-                callback: function(records, operation, success) {
-                    // the operation object contains all of the details of the load operation
-                    if (success) {
-                        selfRef.buildOptions(records[0].getData());
-                    } else {
-                        // fails silently
-                    }
-                },
-                scope: this
-            });
         }
-        }
-        
+
     },
     /***
      * Build the return optins for this search type
      */
     buildOptions: function(options) {
         var collectionType = this.getCollectionType();
-
+        console.log(options);
+        console.log(collectionType);
+        console.log(options.type);
         if (options.type) {
             this.addOption('Type', options.type);
         }
@@ -427,12 +432,14 @@ Ext.define('escape.controller.Search', {
 
     getSearchParams: function() {
         var params = {};
+        console.log('collectionType: ' + collectionType);
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
         this.setCollectionType(collectionType);
         if (collectionType === 'restaurants') {
             params.collection = 'restaurants'; //'prototype-dnsw-' +
             params.form = 'mobile-restaurant-json';
+            params.meta_C_not = 'dest';
         } else if (collectionType === 'deals') {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
@@ -441,9 +448,11 @@ Ext.define('escape.controller.Search', {
         } else if (collectionType == 'vic') {
             params.collection = 'visitor-information-centres'; //'prototype-dnsw-' +
             params.form = 'mobile-vic-json';
+            params.meta_C_not = 'dest';
         } else if (collectionType) {
             params.collection = collectionType; //'prototype-dnsw-' +
             params.form = 'mobile-' + collectionType + '-json';
+            params.meta_C_not = 'dest';
         } else {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
@@ -453,6 +462,7 @@ Ext.define('escape.controller.Search', {
     },
 
     defineSearch: function(geoLocation) {
+        console.log('defineSearch');
         // craete the results store
         var store = Ext.create('Ext.data.Store', {
             model: 'escape.model.ProductResult'
