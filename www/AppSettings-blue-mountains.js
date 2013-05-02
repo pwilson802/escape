@@ -205,17 +205,17 @@ AppSettings.attractionCats = [
     imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+    contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts-and-culture'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
