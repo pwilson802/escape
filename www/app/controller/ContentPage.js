@@ -79,7 +79,7 @@ Ext.define('escape.controller.ContentPage', {
             var selfRef = this;
              escape.model.Content.getContentPageData(url, {
                 success: function(content) {
-                     selfRef.mustDosLoaded(url, contentPage);
+                     selfRef.mustDosLoaded(content, contentPage);
                 },
                 error: function(error) {},
                 scope: this
@@ -89,7 +89,7 @@ Ext.define('escape.controller.ContentPage', {
 
     mustDosLoaded: function(content, contentPage) {
         if (this.getCurrentSection() == 'mustDo') {
-            var linksStartBreakdown = content.description.split('<a href="');
+            var linksStartBreakdown = content.raw.Page.Content.split('<a href="');
             var output = '';
             var mustDoItems = [];
             for (var i = 0; i < linksStartBreakdown.length; i++) {
