@@ -57,19 +57,21 @@ Ext.define("escape.view.page.ContentPage", {
             // add share this app button
             var urlBreakdown = this.getContentPath().split('/');
             if (urlBreakdown[urlBreakdown.length - 1].indexOf('about-destination-nsw') != -1) {
-                var appStoreURL;
-                var googlePlayURL;
-                for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
-                    var link = content.page['External-Links'][l];
-                    if (link.Name.indexOf("Apple App Store")) {
-                        appStoreURL = link.Url;
+                if (content.page.hasOwnProperty("External-Links")) {
+                    var appStoreURL;
+                    var googlePlayURL;
+                    for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
+                        var link = content.page['External-Links'][l];
+                        if (link.Name.indexOf("Apple App Store")) {
+                            appStoreURL = link.Url;
+                        }
+                        if (link.Name.indexOf("Google Play")) {
+                            googlePlayURL = link.Url;
+                        }
                     }
-                    if (link.Name.indexOf("Google Play")) {
-                        googlePlayURL = link.Url;
-                    }
+                    var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
+                    AppSettings.defualtShareData.link = appLink;
                 }
-                var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
-                AppSettings.defualtShareData.link = appLink;
                 pageItems.pop();
                 pageItems.push({
                     margin: 10,
