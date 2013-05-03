@@ -61,7 +61,7 @@ Ext.define('escape.controller.Sharing', {
             // use android share plugin
             window.plugins.share.show({
                 subject: sharingData.name,
-                text: sharingData.defaultMessage + ' ' + sharingData.link
+                text: (sharingData.defaultMessage + ' ' + sharingData.link)
             }, function() {}, // Success function
 
             function() {} // Failure function
@@ -75,7 +75,7 @@ Ext.define('escape.controller.Sharing', {
     sendEmail: function() {
         var sharingData = this.getSharingData();
         var subject = sharingData.name;
-        var body = sharingData.emailBody;
+        var body = sharingData.emailBody + ' ' + sharingData.link;
         try {
             window.plugins.emailComposer.showEmailComposer(subject, body);
         } catch (e) {
