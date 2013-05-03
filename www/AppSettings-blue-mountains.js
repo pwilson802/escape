@@ -185,6 +185,9 @@ AppSettings.homeImgs = [{
 }, {
     imagePath: AppSettings.imgfolder+'home5.jpg',
     altText: 'Destination NSW'
+}, {
+    imagePath: AppSettings.imgfolder+'home6.jpg',
+    altText: 'Destination NSW'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [

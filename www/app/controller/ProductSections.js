@@ -239,7 +239,7 @@ Ext.define('escape.controller.ProductSections', {
             var productList = '';
             var values = url.split('/product-list-generator/')[1].split('&');
             var params = {};
-            var producType = 'attraction';
+            var productType = 'attraction';
             for (var i = 0; i < values.length; i++) {
                 var param = values[i].split('=');
                 if (param[0] == 'product_types') {
@@ -265,6 +265,7 @@ Ext.define('escape.controller.ProductSections', {
                 params: params,
                 success: function(response) {
                     productList = (JSON.parse(response.responseText));
+                    console.log(productList);
                     selfRef.productListLoaded(productList, productSubSection, producType);
 
                 },
@@ -293,7 +294,8 @@ Ext.define('escape.controller.ProductSections', {
     },
     openProductListItem: function(openProductListItem) {
         var data = openProductListItem.getData();
-
+        console.log('openProductListItem');
+        console.log(data);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: String(data.type).toProperCase(),
             xtype: 'productPage',
