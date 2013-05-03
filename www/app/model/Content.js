@@ -61,7 +61,7 @@ Ext.define("escape.model.Content", {
         var loadLocal = true;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(url);
-        escape.model.ContentPage.load(0, {
+        escape.model.ContentPage.load(1, {
             success: function(content) {
                 // save first
                 this.saveRemoteContent(url, content);
