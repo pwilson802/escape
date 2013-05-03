@@ -291,7 +291,7 @@ AppSettings.mainMenu = [{
     firstPage: {
         title: 'Dining & Entertainment',
         xtype: 'productSubSection',
-        contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+        contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
     }
 }, {
     title: 'Accommodation',
