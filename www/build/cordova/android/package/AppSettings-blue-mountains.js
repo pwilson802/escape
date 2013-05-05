@@ -61,7 +61,7 @@ AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' App',
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
     description: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
-    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName + '.',
+    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
     link: AppSettings.websiteURL,
     // maybe chnage picture
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
@@ -185,6 +185,9 @@ AppSettings.homeImgs = [{
 }, {
     imagePath: AppSettings.imgfolder+'home5.jpg',
     altText: 'Destination NSW'
+}, {
+    imagePath: AppSettings.imgfolder+'home6.jpg',
+    altText: 'Destination NSW'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [
@@ -205,17 +208,17 @@ AppSettings.attractionCats = [
     imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+    contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts-and-culture'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
@@ -288,7 +291,7 @@ AppSettings.mainMenu = [{
     firstPage: {
         title: 'Dining & Entertainment',
         xtype: 'productSubSection',
-        contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+        contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
     }
 }, {
     title: 'Accommodation',

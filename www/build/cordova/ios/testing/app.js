@@ -50572,7 +50572,7 @@ Ext.define('escape.controller.ProductSections', {
             var productList = '';
             var values = url.split('/product-list-generator/')[1].split('&');
             var params = {};
-            var producType = 'attraction';
+            var productType = 'attraction';
             for (var i = 0; i < values.length; i++) {
                 var param = values[i].split('=');
                 if (param[0] == 'product_types') {
@@ -50598,6 +50598,7 @@ Ext.define('escape.controller.ProductSections', {
                 params: params,
                 success: function(response) {
                     productList = (JSON.parse(response.responseText));
+                    console.log(productList);
                     selfRef.productListLoaded(productList, productSubSection, producType);
 
                 },
@@ -50626,7 +50627,8 @@ Ext.define('escape.controller.ProductSections', {
     },
     openProductListItem: function(openProductListItem) {
         var data = openProductListItem.getData();
-
+        console.log('openProductListItem');
+        console.log(data);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: String(data.type).toProperCase(),
             xtype: 'productPage',
@@ -51480,6 +51482,7 @@ Ext.define("escape.view.page.Page", {
         this.closeView();
     },
     reOpenView: function() {
+         this.fireEvent('reOpenView', this);
     },
     closeView: function() {}
    
@@ -54234,11 +54237,15 @@ Ext.define("escape.view.ui.MapDisplay", {
                 html: '<div id="' + this.getMapId() + '" style="width:100%; height:' + divHeight + ';"  class="mapHolder"></div>'
             });
         }
-        console.log('#'+this.getMapId());
+        console.log('#' + this.getMapId());
         var mapHolder = Ext.get(this.getMapId());
         console.log(mapHolder);
-        mapHolder.on('pinchStart', this.pinchStart, this);
-        mapHolder.on('pinchEnd', this.pinchStart, this);
+        mapHolder.on('pinchStart', function() {
+            console.log('# pinching starteed');
+        }, this);
+        mapHolder.on('pinchEnd', function() {
+            console.log('# pinching ended');
+        }, this);
 
         this.loadLibaries();
     },
@@ -56148,7 +56155,7 @@ Ext.define('escape.store.ProductSearch', {
     config: {
         model: 'escape.model.ProductSearch',
         proxy: {
-            type: 'ajaxcache',
+            type: 'ajax',
             cacheTimeout: AppSettings.caching.searchCacheLength,
             url: AppSettings.searchURL,
             startParam: 'start_rank',
@@ -56265,19 +56272,21 @@ Ext.define("escape.view.page.ContentPage", {
             // add share this app button
             var urlBreakdown = this.getContentPath().split('/');
             if (urlBreakdown[urlBreakdown.length - 1].indexOf('about-destination-nsw') != -1) {
-                var appStoreURL;
-                var googlePlayURL;
-                for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
-                    var link = content.page['External-Links'][l];
-                    if (link.Name.indexOf("Apple App Store")) {
-                        appStoreURL = link.Url;
+                if (content.page.hasOwnProperty("External-Links")) {
+                    var appStoreURL;
+                    var googlePlayURL;
+                    for (var l = content.page['External-Links'].length - 1; l >= 0; l--) {
+                        var link = content.page['External-Links'][l];
+                        if (link.Name.indexOf("Apple App Store")) {
+                            appStoreURL = link.Url;
+                        }
+                        if (link.Name.indexOf("Google Play")) {
+                            googlePlayURL = link.Url;
+                        }
                     }
-                    if (link.Name.indexOf("Google Play")) {
-                        googlePlayURL = link.Url;
-                    }
+                    var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
+                    AppSettings.defualtShareData.link = appLink;
                 }
-                var appLink = (Ext.os.is.iOS) ? appStoreURL : googlePlayURL;
-                AppSettings.defualtShareData.link = appLink;
                 pageItems.pop();
                 pageItems.push({
                     margin: 10,
@@ -56472,7 +56481,7 @@ Ext.define('escape.controller.ContentPage', {
             var selfRef = this;
              escape.model.Content.getContentPageData(url, {
                 success: function(content) {
-                     selfRef.mustDosLoaded(url, contentPage);
+                     selfRef.mustDosLoaded(content, contentPage);
                 },
                 error: function(error) {},
                 scope: this
@@ -56482,7 +56491,7 @@ Ext.define('escape.controller.ContentPage', {
 
     mustDosLoaded: function(content, contentPage) {
         if (this.getCurrentSection() == 'mustDo') {
-            var linksStartBreakdown = content.description.split('<a href="');
+            var linksStartBreakdown = content.raw.Page.Content.split('<a href="');
             var output = '';
             var mustDoItems = [];
             for (var i = 0; i < linksStartBreakdown.length; i++) {
@@ -58582,29 +58591,28 @@ Ext.define('escape.controller.Search', {
     },
 
     queryChange: function() {
-       // if (Ext.os.is.iOS) {
-            connectionStrong = true;
-            // make sure the user has a strong enough connection
-            var connectionType = Ext.device.Connection.getType();
-            if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
-               // connectionStrong = false;
-            }
-            if (connectionStrong) {
-                // make sure the query is long enough
-                var query = this.getSearchField().getValue();
-                // make sure the query is long enough
-                if (query.length > 0) {
-                    // cancel any running delays
-                    if (this.getQueryDelay()) {
-                        this.getQueryDelay().cancel();
-                    }
-                    // wait for a delay then load the query compeltion
-                    this.getQueryDelay().delay(300);
+        // if (Ext.os.is.iOS) {
+        connectionStrong = true;
+        // make sure the user has a strong enough connection
+        var connectionType = Ext.device.Connection.getType();
+        if (connectionType === Ext.device.NONE || connectionType === Ext.device.CELL_2G) {
+            // connectionStrong = false;
+        }
+        if (connectionStrong) {
+            // make sure the query is long enough
+            var query = this.getSearchField().getValue();
+            // make sure the query is long enough
+            if (query.length > 0) {
+                // cancel any running delays
+                if (this.getQueryDelay()) {
+                    this.getQueryDelay().cancel();
                 }
+                // wait for a delay then load the query compeltion
+                this.getQueryDelay().delay(300);
             }
+        }
 
         //}
-
     },
     loadQueryCompletion: function() {
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('searchPage') != -1) {
@@ -58639,9 +58647,6 @@ Ext.define('escape.controller.Search', {
         // make sure we are still on the right page
         if (escape.utils.AppVars.currentPage.getXTypes().indexOf('searchPage') != -1) {
             // make sure the panel has been set up
-           
-
-
             var selfRef = this;
             var suggestionsData = [];
             var query = this.getSearchField().getValue();
@@ -58655,166 +58660,175 @@ Ext.define('escape.controller.Search', {
             }
             if (suggestionsData.length) {
                 var height = (suggestionsData.length == 1) ? 49 : 98;
-                if (this.getSuggestionsPanel()){
+                if (this.getSuggestionsPanel()) {
                     this.getSuggestionsPanel().setStyle('display:block');
                     this.getSuggestionsPanel().setHidden(false);
                     this.getSuggestionsPanel().setHeight(height);
                     this.getSuggestionsPanel().getComponent('suggestionList').setHeight(height);
                     this.getSuggestionsStore().removeAll();
                     this.getSuggestionsStore().add(suggestionsData);
-                } else {
-                }
-                 
+                } else {}
+
             }
         }
     },
-    hideSuggestionsDelay: function(){
+    hideSuggestionsDelay: function() {
         var selfRef = this;
         var task = Ext.create('Ext.util.DelayedTask', function() {
-                    selfRef.hideSuggestions();
-                });
+            selfRef.hideSuggestions();
+        });
         task.delay(500);
     },
 
     hideSuggestions: function() {
-       // if (Ext.os.is.iOS) {
-         if (this.getSuggestionsPanel()) {
-             this.getSuggestionsPanel().setStyle('display:none');
+        // if (Ext.os.is.iOS) {
+        if (this.getSuggestionsPanel()) {
+            this.getSuggestionsPanel().setStyle('display:none');
             //var viewportsize = Ext.Viewport.getSize();
-           // this.getSuggestionsPanel().setTop(viewportsize.height);
+            // this.getSuggestionsPanel().setTop(viewportsize.height);
         }
         //}
     },
     removeSuggestions: function() {
-       // if (Ext.os.is.iOS) {
-            if (this.getSuggestionsPanel()) {
-                var selfRef = this;
-                var task = Ext.create('Ext.util.DelayedTask', function() {
-                    Ext.Viewport.remove(selfRef.getSuggestionsPanel(), true);
-                });
-                task.delay(200);
-            }
-       // }
-
+        // if (Ext.os.is.iOS) {
+        if (this.getSuggestionsPanel()) {
+            var selfRef = this;
+            var task = Ext.create('Ext.util.DelayedTask', function() {
+                Ext.Viewport.remove(selfRef.getSuggestionsPanel(), true);
+            });
+            task.delay(200);
+        }
+        // }
     },
 
     setUpQueryCompletion: function() {
-            if (!this.getSuggestionsPanel()) {
-                var selfRef = this;
-                var suggestionsStore = Ext.create('Ext.data.Store', {
-                    model: 'escape.model.QueryCompletion'
-                });
-                this.setSuggestionsStore(suggestionsStore);
-                // add the suggestion list
-                var viewportsize = Ext.Viewport.getSize();
-                var suggestionsListDisplay = Ext.create('Ext.List', {
-                    itemTpl: '{suggestion}',
-                    itemId: 'suggestionList',
-                    cls: 'suggestionList',
-                    store: suggestionsStore,
-                    onItemDisclosure: true,
-                    height: 98
-                });
-                // build the panel
-                var listPanel = Ext.create('Ext.Panel', {
-                    masked: false,
-                    cls: 'suggestionPanel',
-                    width: viewportsize.width - 80,
-                    height: 98,
-                    top: 90,
-                    left: 40,
-                    hidden: true
-                });
-                listPanel.add(suggestionsListDisplay);
-                this.setSuggestionsPanel(listPanel);
-                // add panel
-                Ext.Viewport.add(listPanel);
-                // define the query delay
-                var task = Ext.create('Ext.util.DelayedTask', function() {
-                    selfRef.loadQueryCompletion();
-                });
-                this.setQueryDelay(task);
-            }
+        if (!this.getSuggestionsPanel()) {
+            var selfRef = this;
+            var suggestionsStore = Ext.create('Ext.data.Store', {
+                model: 'escape.model.QueryCompletion'
+            });
+            this.setSuggestionsStore(suggestionsStore);
+            // add the suggestion list
+            var viewportsize = Ext.Viewport.getSize();
+            var suggestionsListDisplay = Ext.create('Ext.List', {
+                itemTpl: '{suggestion}',
+                itemId: 'suggestionList',
+                cls: 'suggestionList',
+                store: suggestionsStore,
+                onItemDisclosure: true,
+                height: 98
+            });
+            // build the panel
+            var listPanel = Ext.create('Ext.Panel', {
+                masked: false,
+                cls: 'suggestionPanel',
+                width: viewportsize.width - 80,
+                height: 98,
+                top: 90,
+                left: 40,
+                hidden: true
+            });
+            listPanel.add(suggestionsListDisplay);
+            this.setSuggestionsPanel(listPanel);
+            // add panel
+            Ext.Viewport.add(listPanel);
+            // define the query delay
+            var task = Ext.create('Ext.util.DelayedTask', function() {
+                selfRef.loadQueryCompletion();
+            });
+            this.setQueryDelay(task);
+        }
     },
     loadOptions: function() {
+        console.log('loadOptions');
         var selfRef = this;
-        if (!this.getSearchBuilt()){
+        if (!this.getSearchBuilt()) {
+
             this.getSearchBuilt(true);
             if (Ext.device.Connection.isOnline()) {
-                //
-                 this.setUpQueryCompletion();
-            // check to see if dates need to be added
-            var collectionType = this.getSearchPage().getCollectionType();
-            if (collectionType == 'event') {
-                var todaysDate = new Date();
-                var maxDate = new Date();
-                maxDate.setFullYear(maxDate.getFullYear() + 2);
-                var items = [{
-                    xtype: 'datepickerfield',
-                    label: 'From',
-                    name: 'fromDate',
-                    dateFormat: 'd/m/Y',
-                   // value: new Date(),
-                    picker: {
-                        yearFrom: todaysDate.getFullYear(),
-                        yearTo: maxDate.getFullYear()
-                    },
-                    listeners: {
-                        element: 'label',
-                        tap: function() {
-                            this.getPicker().show();
+                console.log('loadOptions go ahead');
+
+                // check to see if dates need to be added
+                var collectionType = this.getSearchPage().getCollectionType();
+                if (collectionType == 'event') {
+                    var todaysDate = new Date();
+                    var maxDate = new Date();
+                    maxDate.setFullYear(maxDate.getFullYear() + 2);
+                    var items = [{
+                        xtype: 'datepickerfield',
+                        label: 'From',
+                        name: 'fromDate',
+                        dateFormat: 'd/m/Y',
+                        // value: new Date(),
+                        picker: {
+                            yearFrom: todaysDate.getFullYear(),
+                            yearTo: maxDate.getFullYear()
+                        },
+                        listeners: {
+                            element: 'label',
+                            tap: function() {
+                                this.getPicker().show();
+                            }
                         }
-                    }
-                }, {
-                    xtype: 'datepickerfield',
-                    label: 'To',
-                    name: 'toDate',
-                    dateFormat: 'd/m/Y',
-                   // value: new Date(),
-                    picker: {
-                        yearFrom: todaysDate.getFullYear(),
-                        yearTo: maxDate.getFullYear()
-                    },
-                    listeners: {
-                        element: 'label',
-                        tap: function() {
-                            this.getPicker().show();
+                    }, {
+                        xtype: 'datepickerfield',
+                        label: 'To',
+                        name: 'toDate',
+                        dateFormat: 'd/m/Y',
+                        // value: new Date(),
+                        picker: {
+                            yearFrom: todaysDate.getFullYear(),
+                            yearTo: maxDate.getFullYear()
+                        },
+                        listeners: {
+                            element: 'label',
+                            tap: function() {
+                                this.getPicker().show();
+                            }
                         }
-                    }
-                }];
-                this.getSearchForm().getComponent('searchOptions').add(items);
+                    }];
+                    this.getSearchForm().getComponent('searchOptions').add(items);
+                }
+                // request the aviabile options by loading one results set
+                var params = this.getSearchParams();
+                console.log(params);
+                params.query = '';
+                // perform the seach
+                var optionsSearch = Ext.create('escape.store.ProductSearch');
+                // add the extra paramaters to the search
+                optionsSearch.getProxy().setExtraParams(params);
+                // only request one result
+                optionsSearch.setPageSize(1);
+                console.log(optionsSearch);
+                // request results
+                console.log('loadPage');
+                optionsSearch.loadPage(1, {
+                    callback: function(records, operation, success) {
+                        console.log('optionsSearch: ' + success);
+                        // the operation object contains all of the details of the load operation
+                        if (success) {
+                            selfRef.buildOptions(records[0].getData());
+                        } else {
+                            // fails silently
+                            console.log('fails silently');
+                        }
+                    },
+                    scope: this
+                });
+                // set up query completion
+                this.setUpQueryCompletion();
             }
-            // request the aviabile options by loading one results set
-            var params = this.getSearchParams();
-            params.query = '';
-            // perform the seach
-            var optionsSearch = Ext.create('escape.store.ProductSearch');
-            // add the extra paramaters to the search
-            optionsSearch.getProxy().setExtraParams(params);
-            // only request one result
-            optionsSearch.setPageSize(1);
-            // request results
-            optionsSearch.loadPage(1, {
-                callback: function(records, operation, success) {
-                    // the operation object contains all of the details of the load operation
-                    if (success) {
-                        selfRef.buildOptions(records[0].getData());
-                    } else {
-                        // fails silently
-                    }
-                },
-                scope: this
-            });
         }
-        }
-        
+
     },
     /***
      * Build the return optins for this search type
      */
     buildOptions: function(options) {
         var collectionType = this.getCollectionType();
-
+        console.log(options);
+        console.log(collectionType);
+        console.log(options.type);
         if (options.type) {
             this.addOption('Type', options.type);
         }
@@ -58930,12 +58944,14 @@ Ext.define('escape.controller.Search', {
 
     getSearchParams: function() {
         var params = {};
+        console.log('collectionType: ' + collectionType);
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
         this.setCollectionType(collectionType);
         if (collectionType === 'restaurants') {
             params.collection = 'restaurants'; //'prototype-dnsw-' +
             params.form = 'mobile-restaurant-json';
+            params.meta_C_not = 'dest';
         } else if (collectionType === 'deals') {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
@@ -58944,9 +58960,11 @@ Ext.define('escape.controller.Search', {
         } else if (collectionType == 'vic') {
             params.collection = 'visitor-information-centres'; //'prototype-dnsw-' +
             params.form = 'mobile-vic-json';
+            params.meta_C_not = 'dest';
         } else if (collectionType) {
             params.collection = collectionType; //'prototype-dnsw-' +
             params.form = 'mobile-' + collectionType + '-json';
+            params.meta_C_not = 'dest';
         } else {
             params.collection = 'tourism-nsw-meta';
             params.form = 'mobile-all-json';
@@ -58956,6 +58974,7 @@ Ext.define('escape.controller.Search', {
     },
 
     defineSearch: function(geoLocation) {
+        console.log('defineSearch');
         // craete the results store
         var store = Ext.create('Ext.data.Store', {
             model: 'escape.model.ProductResult'
@@ -66345,442 +66364,6 @@ Ext.define("escape.view.page.Weather", {
     }
 
 });
-Ext.define("escape.view.page.Search", {
-    extend: 'escape.view.page.Page',
-    xtype: 'searchPage',
-    requires: ['Ext.field.Select', 'Ext.form.Panel'],
-    config: {
-        cls: 'searchPage formPage',
-        collectionType: null,
-        pageTitle: 'Search',
-        rightBtn: 'hide',
-        layout: 'hbox',
-        items: [],
-        pageTypeId: 11,
-        pageTrackingId: 1,
-        searchValues: null,
-        hasInputs: true
-    },
-    reOpenView: function() {
-
-    },
-    closeView: function() {
-        //this.setItems([]);
-        //this.setIsBuilt(false);
-    },
-    openView: function() {
-        if (!Ext.device.Connection.isOnline()){
-            // show offline messgae
-             this.setItems([{xtype:'offlineMessage'}]);
-        } else {
-            // build destination options
-        var destinationOptions = [{
-            text: 'All',
-            value: AppSettings.destinationWebpath
-        }];
-        for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
-            destinationOptions.push({
-                text: AppSettings.appSubDestination[i],
-                value: AppSettings.appSubDestination[i].toLowerCase()
-            });
-        }
-        //
-        var savedValues =  this.getSearchValues();
-        console.log(savedValues);
-        var seachString = (savedValues) ? savedValues.search : '';
-        var aroundMeValue = (savedValues) ? savedValues.distance : -1;
-        var destinationValue = (savedValues) ? savedValues.destination : 'all';
-        this.setItems([{
-            xtype: 'formpanel',
-            layout: 'hbox',
-            width: '100%',
-            flex: 1,
-            items: [{
-                xtype: 'toolbar',
-                docked: 'top',
-                cls: 'searchBar',
-                layout: 'hbox',
-                items: [{
-                    xtype: 'searchfield',
-                    name: 'search',
-                    value: seachString,
-                    flex: 1
-                }]
-            }, {
-                xtype: 'container',
-                itemId: 'searchOptions',
-                cls: 'searchOptions',
-                flex: 1,
-                padding: '10px',
-                defaults: {
-                    margin: '0 0 10px 0'
-                },
-                items: [{
-                    xtype: 'selectField',
-                    label: 'Around me',
-                    labelWidth: '50%',
-                    name: 'distance',
-                    value : aroundMeValue,
-                    options: [{
-                        text: 'Off',
-                        value: -1
-                    },{
-                        text: '1 km',
-                        value: 1
-                    }, {
-                        text: '5 km',
-                        value: 5
-                    }, {
-                        text: '10 km',
-                        value: 10
-                    }, {
-                        text: '15 km',
-                        value: 15
-                    }, {
-                        text: '25 km',
-                        value: 25
-                    }, {
-                        text: '50 km',
-                        value: 50
-                    }, {
-                        text: '75 km',
-                        value: 75
-                    }, {
-                        text: '100 km',
-                        value: 100
-                    }, {
-                        text: '150 km',
-                        value: 150
-                    }, {
-                        text: '200 km',
-                        value: 200
-                    }]
-                }, {
-                    xtype: 'selectField',
-                    label: 'Destination',
-                    name: 'destination',
-                    labelWidth: '50%',
-                    options: destinationOptions,
-                    value: destinationValue
-                }]
-
-            }, {
-                xtype: 'container',
-                docked: 'bottom',
-                cls: 'btnsArea',
-                padding: '10px',
-                defaults: {
-                    margin: '10px 0 0 0'
-                },
-                items: [{
-                    xtype: 'button',
-                    text: 'Search',
-                    action: 'search',
-                    cls: 'search'
-                }]
-            }]
-        }]);
-        }
-        
-    }
-});
-Ext.define('escape.controller.GlobalActions', {
-    requires: ['escape.utils.AppVars', 'escape.view.page.Weather', 'escape.view.page.Search', 'escape.view.page.Directions', 'escape.view.page.MapTerms'],
-    extend: 'Ext.app.Controller',
-    config: {
-        refs: {
-            mainView: 'mainView',
-            searchPage: 'searchPage',
-            weatherPage: 'weatherPage'
-        },
-        control: {
-            'slidenavigationview': {
-                menuOpened: 'menuOpened',
-                menuClosed: 'menuClosed'
-            },
-            'section mask': {
-                tap: 'closeMenu'
-            },
-            'page button[action=showMenu]': {
-                tap: 'showMenu'
-            },
-            'section button[action=showMenu]': {
-                tap: 'showMenu'
-            },
-            'section button[action=scrollToTop]': {
-                tap: 'scrollTopTop'
-            },
-            'section button[cls="searchBtn iconBtn"]': {
-                tap: 'showSearch'
-            },
-            'section button[action=getDirections]': {
-                tap: function(btn) {
-                    this.showDirections(btn.config.address, btn.config.latlon);
-                }
-            },
-            'section button[action=makePhoneCall]': {
-                tap: function(btn) {
-                    this.makePhoneCall(btn.config.phoneNumber);
-                }
-            },
-            'section button[action=addToCalender]': {
-                tap: function(btn) {
-                    this.addToCalender(btn.getData());
-                }
-            },
-            'section button[action=sendEmail]': {
-                tap: function(btn) {
-                    this.sendEmail(btn.config.emailAddress);
-                }
-            },
-            'section button[action=goToLink]': {
-                tap: function(btn) {
-                    this.goToLink(btn.config.linkURL);
-                }
-            },
-            'section button[action=makeBooking]': {
-                tap: function(btn) {
-                    this.makeBooking(btn.config.bookingURL);
-                }
-            },
-            'section list[action=appList]': {
-                itemsingletap: function(list, index, element, record) {
-                    var data = record.getData();
-                    if (Ext.os.is.iOS) {
-                        window.open(data.link, '_blank');
-                    } else {
-                        try {
-                            cb = window.plugins.childBrowser;
-                            cb.showWebPage(data.link);
-                        } catch (e) {
-                            window.open(data.link, '_blank');
-                        }
-                    }
-
-                }
-            },
-            'section list[action=contactSheet]': {
-                itemsingletap: function(list, index, element, record) {
-                    var data = record.getData();
-                    switch (data.action) {
-                    case 'getDirections':
-                        this.showDirections(data.data.address, data.data.latlon);
-                        break;
-                    case 'sendEmail':
-                        this.sendEmail(data.data);
-                        break;
-                    case 'makePhoneCall':
-                        this.makePhoneCall(data.data);
-                        break;
-                    case 'goToLink':
-                        this.goToLink(data.data);
-                        break;
-                    case 'makeBooking':
-                        this.makeBooking(data.data);
-                        break;
-                    }
-                    list.deselectAll();
-                }
-            },
-            'weatherPage button[action=closeSearch]': {
-                tap: 'closeWeather'
-            },
-            'section button[cls="weatherBtn iconBtn"]': {
-                tap: 'showWeather'
-            },
-
-            'page button[action="showWeather"]': {
-                tap: 'showWeather'
-            },
-            'page button[action="changeSection"]': {
-                tap: 'buttonSectionChange'
-            },
-            'page list[action="changeSection"]': {
-                select: 'listSectionChange'
-            },
-            'selectfield label': {
-                tap: 'showSelectFieldOptions'
-            },
-            'page button[action=openMapTerms]': {
-                tap: 'showMapTerms'
-            },
-            'servicesAndFacilitiesDetails mapDisplay': {
-                markerSelected: 'showLargeMap'
-            },
-            'productPage mapDisplay': {
-                markerSelected: 'showLargeMap'
-            },
-            'panel': {
-                hide: 'removePanel'
-            }
-        }
-    },
-    menuOpened: function() {
-        if (escape.utils.AppVars.currentPage.getHasInputs()) {
-            // only run if the page has input fields
-            escape.utils.AppFuncs.unfousFields();
-        }
-        // add a close panel
-        escape.utils.AppVars.currentSection.setMasked(true);
-    },
-    menuClosed: function(){
-        escape.utils.AppVars.currentSection.setMasked(false);
-    },
-    removePanel: function(panel) {
-        var baseCls = panel.getBaseCls();
-        if (baseCls != 'x-sheet' && baseCls != 'x-msgbox') {
-            try {
-                Ext.Viewport.remove(panel, true);
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    },
-    showLargeMap: function(data) {
-        escape.utils.Tracking.trackEventOnCurrent(5);
-         var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: pageXtype,
-            latlon: data.latlon,
-            address: data.address
-        });
-
-    },
-
-    showSelectFieldOptions: function() {},
-    showMapTerms: function() {
-        // escape.utils.AppVars.currentSection.getNavigationView().push({
-        //     xtype: 'mapTerms'
-        // });
-    },
-    scrollTopTop: function() {
-        var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
-        if (currentPage.getScrollable()) {
-            currentPage.getScrollable().getScroller().scrollTo(0, 0, true);
-        }
-
-    },
-    showSearch: function(btn) {
-        var collectionType = escape.utils.AppVars.currentSection.getCollectionType();
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'searchPage',
-            collectionType: collectionType
-        });
-    },
-    addToCalender: function(data){
-         var title= data.title;
-         var location = data.address.Street + ', ' + data.address.Suburb + ', ' + data.address.State + ', ' + data.address.Postcode;
-         var notes = "My Notes";
-         var startDate = "2012-01-23 09:30:00";
-         var endDate = "2012-01-23 12:30:00";
-              
-         window.plugins.calendarPlugin.createEvent(title,location,notes,startDate,endDate);
-    },
-    showDirections: function(address, latlon) {
-       var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: pageXtype,
-            address: address,
-            latlon: latlon
-        });
-    },
-    makePhoneCall: function(phoneNumber) {
-        //var number = phoneNumber.split('(').join('').split(')').join('').split(' ').join('');
-        //window.plugins.phoneDialer.dial(phoneNumber);
-    },
-    sendEmail: function(emailAddress) {
-        try {
-            window.plugins.emailComposer.showEmailComposer("Enquiry", "via DNSW", emailAddress);
-        } catch (e) {
-            window.open('mailto:' + emailAddress, '_blank');
-        }
-        escape.utils.Tracking.trackEventOnCurrent(3);
-    },
-    goToLink: function(linkURL) {
-        try {
-            cb = window.plugins.childBrowser;
-            cb.showWebPage(linkURL);
-        } catch (e) {
-            window.open(linkURL, '_blank');
-        }
-        escape.utils.Tracking.trackEventOnCurrent(7);
-    },
-    makeBooking: function(linkURL) {
-        try {
-            cb = window.plugins.childBrowser;
-            cb.showWebPage(linkURL);
-        } catch (e) {
-            window.open(linkURL, '_blank');
-        }
-        escape.utils.Tracking.trackEventOnCurrent(8);
-    },
-    showShare: function(btn) {
-
-    },
-    buttonSectionChange: function(btn) {
-        sectionId = btn.initialConfig.sectionId;
-        options = btn.options;
-        this.getMainView().select(sectionId, options);
-    },
-    listSectionChange: function(list, item) {
-        sectionId = item.raw.sectionId;
-        options = item.raw.options;
-        this.getMainView().select(sectionId, options);
-    },
-    showMenu: function() {
-        this.getMainView().openContainer();
-    },
-    closeMenu: function(){
-        this.getMainView().toggleContainer();
-    },
-    showWeather: function() {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
-            xtype: 'weatherPage'
-        });
-
-    },
-    closeWeather: function() {
-        panel = this.getWeatherPage();
-        this.closePanel(panel);
-    },
-    // animates a panel off the screen then destorys it
-    closePanel: function(panel) {
-        var viewportSize = Ext.Viewport.getSize();
-        anim = Ext.create('Ext.Anim', {
-            autoClear: false,
-            from: {
-                'top': '0px'
-            },
-            to: {
-                'top': viewportSize.height + 'px'
-            },
-            delay: 0,
-            duration: 200,
-            after: function() {
-                var panel = Ext.ComponentQuery.query('#' + this.el.id)[0];
-                panel.destroy();
-            }
-        });
-        anim.run(panel.element);
-        //
-    },
-    // animates a panel on the the screen
-    showPanel: function(panel) {
-        var viewportSize = Ext.Viewport.getSize();
-        anim = Ext.create('Ext.Anim', {
-            autoClear: false,
-            from: {
-                'top': viewportSize.height + 'px'
-            },
-            to: {
-                'top': '0px'
-            },
-            delay: 0,
-            duration: 300
-        });
-        anim.run(panel.element);
-    }
-});
 Ext.define("escape.view.page.AddToItinerary", {
     extend: 'escape.view.page.Page',
     xtype: 'addToItineraryPage',
@@ -67799,6 +67382,441 @@ Ext.define('Ext.field.DatePicker', {
     }
 });
 
+Ext.define("escape.view.page.Search", {
+    extend: 'escape.view.page.Page',
+    xtype: 'searchPage',
+    requires: ['Ext.field.Select', 'Ext.form.Panel','Ext.field.DatePicker'],
+    config: {
+        cls: 'searchPage formPage',
+        collectionType: null,
+        pageTitle: 'Search',
+        rightBtn: 'hide',
+        layout: 'hbox',
+        items: [],
+        pageTypeId: 11,
+        pageTrackingId: 1,
+        searchValues: null,
+        hasInputs: true
+    },
+    reOpenView: function() {
+
+    },
+    closeView: function() {
+        //this.setItems([]);
+        //this.setIsBuilt(false);
+    },
+    openView: function() {
+        if (!Ext.device.Connection.isOnline()){
+            // show offline messgae
+             this.setItems([{xtype:'offlineMessage'}]);
+        } else {
+            // build destination options
+        var destinationOptions = [{
+            text: 'All',
+            value: AppSettings.destinationWebpath
+        }];
+        for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
+            destinationOptions.push({
+                text: AppSettings.appSubDestination[i],
+                value: AppSettings.appSubDestination[i].toLowerCase()
+            });
+        }
+        //
+        var savedValues =  this.getSearchValues();
+        var seachString = (savedValues) ? savedValues.search : '';
+        var aroundMeValue = (savedValues) ? savedValues.distance : -1;
+        var destinationValue = (savedValues) ? savedValues.destination : 'all';
+        this.setItems([{
+            xtype: 'formpanel',
+            layout: 'hbox',
+            width: '100%',
+            flex: 1,
+            items: [{
+                xtype: 'toolbar',
+                docked: 'top',
+                cls: 'searchBar',
+                layout: 'hbox',
+                items: [{
+                    xtype: 'searchfield',
+                    name: 'search',
+                    value: seachString,
+                    flex: 1
+                }]
+            }, {
+                xtype: 'container',
+                itemId: 'searchOptions',
+                cls: 'searchOptions',
+                flex: 1,
+                padding: '10px',
+                defaults: {
+                    margin: '0 0 10px 0'
+                },
+                items: [{
+                    xtype: 'selectField',
+                    label: 'Around me',
+                    labelWidth: '50%',
+                    name: 'distance',
+                    value : aroundMeValue,
+                    options: [{
+                        text: 'Off',
+                        value: -1
+                    },{
+                        text: '1 km',
+                        value: 1
+                    }, {
+                        text: '5 km',
+                        value: 5
+                    }, {
+                        text: '10 km',
+                        value: 10
+                    }, {
+                        text: '15 km',
+                        value: 15
+                    }, {
+                        text: '25 km',
+                        value: 25
+                    }, {
+                        text: '50 km',
+                        value: 50
+                    }, {
+                        text: '75 km',
+                        value: 75
+                    }, {
+                        text: '100 km',
+                        value: 100
+                    }, {
+                        text: '150 km',
+                        value: 150
+                    }, {
+                        text: '200 km',
+                        value: 200
+                    }]
+                }, {
+                    xtype: 'selectField',
+                    label: 'Destination',
+                    name: 'destination',
+                    labelWidth: '50%',
+                    options: destinationOptions,
+                    value: destinationValue
+                }]
+
+            }, {
+                xtype: 'container',
+                docked: 'bottom',
+                cls: 'btnsArea',
+                padding: '10px',
+                defaults: {
+                    margin: '10px 0 0 0'
+                },
+                items: [{
+                    xtype: 'button',
+                    text: 'Search',
+                    action: 'search',
+                    cls: 'search'
+                }]
+            }]
+        }]);
+        }
+        
+    }
+});
+Ext.define('escape.controller.GlobalActions', {
+    requires: ['escape.utils.AppVars', 'escape.view.page.Weather', 'escape.view.page.Search', 'escape.view.page.Directions', 'escape.view.page.MapTerms'],
+    extend: 'Ext.app.Controller',
+    config: {
+        refs: {
+            mainView: 'mainView',
+            searchPage: 'searchPage',
+            weatherPage: 'weatherPage'
+        },
+        control: {
+            'slidenavigationview': {
+                menuOpened: 'menuOpened',
+                menuClosed: 'menuClosed'
+            },
+            'section mask': {
+                tap: 'closeMenu'
+            },
+            'page button[action=showMenu]': {
+                tap: 'showMenu'
+            },
+            'section button[action=showMenu]': {
+                tap: 'showMenu'
+            },
+            'section button[action=scrollToTop]': {
+                tap: 'scrollTopTop'
+            },
+            'section button[cls="searchBtn iconBtn"]': {
+                tap: 'showSearch'
+            },
+            'section button[action=getDirections]': {
+                tap: function(btn) {
+                    this.showDirections(btn.config.address, btn.config.latlon);
+                }
+            },
+            'section button[action=makePhoneCall]': {
+                tap: function(btn) {
+                    this.makePhoneCall(btn.config.phoneNumber);
+                }
+            },
+            'section button[action=addToCalender]': {
+                tap: function(btn) {
+                    this.addToCalender(btn.getData());
+                }
+            },
+            'section button[action=sendEmail]': {
+                tap: function(btn) {
+                    this.sendEmail(btn.config.emailAddress);
+                }
+            },
+            'section button[action=goToLink]': {
+                tap: function(btn) {
+                    this.goToLink(btn.config.linkURL);
+                }
+            },
+            'section button[action=makeBooking]': {
+                tap: function(btn) {
+                    this.makeBooking(btn.config.bookingURL);
+                }
+            },
+            'section list[action=appList]': {
+                itemsingletap: function(list, index, element, record) {
+                    var data = record.getData();
+                    if (Ext.os.is.iOS) {
+                        window.open(data.link, '_blank');
+                    } else {
+                        try {
+                            cb = window.plugins.childBrowser;
+                            cb.showWebPage(data.link);
+                        } catch (e) {
+                            window.open(data.link, '_blank');
+                        }
+                    }
+
+                }
+            },
+            'section list[action=contactSheet]': {
+                itemsingletap: function(list, index, element, record) {
+                    var data = record.getData();
+                    switch (data.action) {
+                    case 'getDirections':
+                        this.showDirections(data.data.address, data.data.latlon);
+                        break;
+                    case 'sendEmail':
+                        this.sendEmail(data.data);
+                        break;
+                    case 'makePhoneCall':
+                        this.makePhoneCall(data.data);
+                        break;
+                    case 'goToLink':
+                        this.goToLink(data.data);
+                        break;
+                    case 'makeBooking':
+                        this.makeBooking(data.data);
+                        break;
+                    }
+                    list.deselectAll();
+                }
+            },
+            'weatherPage button[action=closeSearch]': {
+                tap: 'closeWeather'
+            },
+            'section button[cls="weatherBtn iconBtn"]': {
+                tap: 'showWeather'
+            },
+
+            'page button[action="showWeather"]': {
+                tap: 'showWeather'
+            },
+            'page button[action="changeSection"]': {
+                tap: 'buttonSectionChange'
+            },
+            'page list[action="changeSection"]': {
+                select: 'listSectionChange'
+            },
+            'selectfield label': {
+                tap: 'showSelectFieldOptions'
+            },
+            'page button[action=openMapTerms]': {
+                tap: 'showMapTerms'
+            },
+            'servicesAndFacilitiesDetails mapDisplay': {
+                markerSelected: 'showLargeMap'
+            },
+            'productPage mapDisplay': {
+                markerSelected: 'showLargeMap'
+            },
+            'panel': {
+                hide: 'removePanel'
+            }
+        }
+    },
+    menuOpened: function() {
+        if (escape.utils.AppVars.currentPage.getHasInputs()) {
+            // only run if the page has input fields
+            escape.utils.AppFuncs.unfousFields();
+        }
+        // add a close panel
+        escape.utils.AppVars.currentSection.setMasked(true);
+    },
+    menuClosed: function(){
+        escape.utils.AppVars.currentSection.setMasked(false);
+    },
+    removePanel: function(panel) {
+        var baseCls = panel.getBaseCls();
+        if (baseCls != 'x-sheet' && baseCls != 'x-msgbox') {
+            try {
+                Ext.Viewport.remove(panel, true);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    },
+    showLargeMap: function(data) {
+        escape.utils.Tracking.trackEventOnCurrent(5);
+         var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: pageXtype,
+            latlon: data.latlon,
+            address: data.address
+        });
+
+    },
+
+    showSelectFieldOptions: function() {},
+    showMapTerms: function() {
+        // escape.utils.AppVars.currentSection.getNavigationView().push({
+        //     xtype: 'mapTerms'
+        // });
+    },
+    scrollTopTop: function() {
+        var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
+        if (currentPage.getScrollable()) {
+            currentPage.getScrollable().getScroller().scrollTo(0, 0, true);
+        }
+
+    },
+    showSearch: function(btn) {
+        var collectionType = escape.utils.AppVars.currentSection.getCollectionType();
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'searchPage',
+            collectionType: collectionType
+        });
+    },
+    addToCalender: function(data){
+         var title= data.title;
+         var location = data.address.Street + ', ' + data.address.Suburb + ', ' + data.address.State + ', ' + data.address.Postcode;
+         var notes = "My Notes";
+         var startDate = "2012-01-23 09:30:00";
+         var endDate = "2012-01-23 12:30:00";
+              
+         window.plugins.calendarPlugin.createEvent(title,location,notes,startDate,endDate);
+    },
+    showDirections: function(address, latlon) {
+       var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: pageXtype,
+            address: address,
+            latlon: latlon
+        });
+    },
+    makePhoneCall: function(phoneNumber) {
+        //var number = phoneNumber.split('(').join('').split(')').join('').split(' ').join('');
+        //window.plugins.phoneDialer.dial(phoneNumber);
+    },
+    sendEmail: function(emailAddress) {
+        try {
+            window.plugins.emailComposer.showEmailComposer("Enquiry", "via DNSW", emailAddress);
+        } catch (e) {
+            window.open('mailto:' + emailAddress, '_blank');
+        }
+        escape.utils.Tracking.trackEventOnCurrent(3);
+    },
+    goToLink: function(linkURL) {
+        try {
+            cb = window.plugins.childBrowser;
+            cb.showWebPage(linkURL);
+        } catch (e) {
+            window.open(linkURL, '_blank');
+        }
+        escape.utils.Tracking.trackEventOnCurrent(7);
+    },
+    makeBooking: function(linkURL) {
+        try {
+            cb = window.plugins.childBrowser;
+            cb.showWebPage(linkURL);
+        } catch (e) {
+            window.open(linkURL, '_blank');
+        }
+        escape.utils.Tracking.trackEventOnCurrent(8);
+    },
+    showShare: function(btn) {
+
+    },
+    buttonSectionChange: function(btn) {
+        sectionId = btn.initialConfig.sectionId;
+        options = btn.options;
+        this.getMainView().select(sectionId, options);
+    },
+    listSectionChange: function(list, item) {
+        sectionId = item.raw.sectionId;
+        options = item.raw.options;
+        this.getMainView().select(sectionId, options);
+    },
+    showMenu: function() {
+        this.getMainView().openContainer();
+    },
+    closeMenu: function(){
+        this.getMainView().toggleContainer();
+    },
+    showWeather: function() {
+        escape.utils.AppVars.currentSection.getNavigationView().push({
+            xtype: 'weatherPage'
+        });
+
+    },
+    closeWeather: function() {
+        panel = this.getWeatherPage();
+        this.closePanel(panel);
+    },
+    // animates a panel off the screen then destorys it
+    closePanel: function(panel) {
+        var viewportSize = Ext.Viewport.getSize();
+        anim = Ext.create('Ext.Anim', {
+            autoClear: false,
+            from: {
+                'top': '0px'
+            },
+            to: {
+                'top': viewportSize.height + 'px'
+            },
+            delay: 0,
+            duration: 200,
+            after: function() {
+                var panel = Ext.ComponentQuery.query('#' + this.el.id)[0];
+                panel.destroy();
+            }
+        });
+        anim.run(panel.element);
+        //
+    },
+    // animates a panel on the the screen
+    showPanel: function(panel) {
+        var viewportSize = Ext.Viewport.getSize();
+        anim = Ext.create('Ext.Anim', {
+            autoClear: false,
+            from: {
+                'top': viewportSize.height + 'px'
+            },
+            to: {
+                'top': '0px'
+            },
+            delay: 0,
+            duration: 300
+        });
+        anim.run(panel.element);
+    }
+});
 Ext.define("escape.view.page.ItineraryEditor", {
     extend: 'escape.view.page.Page',
     xtype: 'itineraryEditorPage',
