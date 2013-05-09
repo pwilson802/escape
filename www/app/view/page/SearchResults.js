@@ -54,20 +54,3 @@ Ext.define("escape.view.page.SearchResults", {
 
     }
 });
-
-// {
-//                 xtype: 'container',
-//                 itemId: 'optionsArea',
-//                 docked: 'bottom',
-//                 cls: 'btnsArea',
-//                 padding: '10px',
-//                 defaults: {
-//                     margin: '0'
-//                 },
-//                 items: [{
-//                     xtype: 'button',
-//                     text: 'Load More Results',
-//                     action: 'loadMore',
-//                     cls: 'loadMore'
-//                 }]
-//             }

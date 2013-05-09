@@ -313,12 +313,14 @@ Ext.define('escape.controller.Search', {
      * Build the return optins for this search type
      */
     buildOptions: function(options) {
-        var collectionType = this.getCollectionType();
+       var collectionType = this.getSearchPage().getCollectionType();
         console.log(options);
         console.log(collectionType);
         console.log(options.type);
         if (options.type) {
             this.addOption('Type', options.type);
+        } else if (options.kind) {
+            this.addOption('Type', options.kind);
         }
         if (options.features && collectionType != 'deals') {
             this.addOption('Features', options.features);
@@ -495,6 +497,7 @@ Ext.define('escape.controller.Search', {
         params = this.checkOption(params, values.experience, 'h');
         params = this.checkOption(params, values.activities, 'J');
         params = this.checkOption(params, values.type, 'k');
+        params = this.checkOption(params, values.kind, 'k');
         // add date params if required
         if (values.fromDate) {
             //http://www.sydney.com/events/search?meta_d3=&meta_d4=9Oct2012
