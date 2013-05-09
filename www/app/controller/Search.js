@@ -322,19 +322,24 @@ Ext.define('escape.controller.Search', {
         } else if (options.kind) {
             this.addOption('Type', options.kind);
         }
-        if (options.features && collectionType != 'deals') {
+        if (options.features && collectionType != 'deals' && collectionType != 'accom') {
             this.addOption('Features', options.features);
         }
-        if (options.experiences && collectionType != 'deals') {
+        if (options.experiences && collectionType != 'deals' && collectionType != 'accom') {
             this.addOption('Experience', options.experiences);
         }
-        if (options.activities && collectionType != 'deals') {
+        if (options.activities && collectionType != 'deals' && collectionType != 'accom') {
             this.addOption('Activities', options.activities);
         }
         if (options.starRating && collectionType != 'deals') {
             this.addOption('Star Rating', options.starRating);
         }
-
+        // if (options.duration && collectionType == 'tour') {
+        //     this.addOption('Duration', options.duration);
+        // }
+        if (options.kind_2 && collectionType == 'tour') {
+            this.addOption('Kind', options.kind_2);
+        }
     },
 
     addOption: function(name, options) {
@@ -498,6 +503,9 @@ Ext.define('escape.controller.Search', {
         params = this.checkOption(params, values.activities, 'J');
         params = this.checkOption(params, values.type, 'k');
         params = this.checkOption(params, values.kind, 'k');
+        params = this.checkOption(params, values.kind_2, 'k');
+        params = this.checkOption(params, values.starRating, 's');
+
         // add date params if required
         if (values.fromDate) {
             //http://www.sydney.com/events/search?meta_d3=&meta_d4=9Oct2012

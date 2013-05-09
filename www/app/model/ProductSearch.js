@@ -21,6 +21,9 @@ Ext.define("escape.model.ProductSearch", {
             name: 'kind',
             mapping: 'By kind'
         }, {
+            name: 'kind_2',
+            mapping: 'Kind'
+        }, {
             name: 'starRating',
             mapping: 'Star Rating'
         }, {
@@ -51,6 +54,9 @@ Ext.define("escape.model.ProductSearch", {
         },{
             name:'type',
             mapping:'Type'
+        },{
+            name:'duration',
+            mapping:'Duration'
         }]
     }
 });
