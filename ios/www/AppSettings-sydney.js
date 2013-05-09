@@ -3,53 +3,52 @@
 /////////////////////////////////////////////////////////////////////
 AppSettings = {};
 // The Tilt and Co App ID used for tracking, get id from glen
-AppSettings.AppID = 6;
+AppSettings.AppID = 2;
 // The Apps area shown to the user
-AppSettings.appAreaName = 'Blue Mountains';
+AppSettings.appAreaName = 'Sydney';
 // path to load unqiue images for the app from
-AppSettings.imgfolder = 'resources/app-images/blue-mountains/';
+AppSettings.imgfolder = 'resources/app-images/sydney/';
 // Path to load images from
-AppSettings.regionImagePath = 'resources/region-images/green/';
+AppSettings.regionImagePath = 'resources/region-images/blue/';
 // Path to load offile maps from
 AppSettings.mapsTilesPath = AppSettings.imgfolder +'maptiles/';
 // offile maps max zoom level
 AppSettings.offlineMapsMaxZoom = 14;
 // Website URL sydney.com or visitnsw.com
-AppSettings.displayWebsiteURL = 'visitnsw.com';
-AppSettings.websiteURL = 'http://www.visitnsw.com/';
+AppSettings.displayWebsiteURL = 'sydney.com';
+AppSettings.websiteURL = 'http://www.sydney.com/';
 // The Area of the app which is used for services and faclitices searches
 AppSettings.appAddress = {
     state: 'nsw',
-    suburb: 'blue mountains'
+    suburb: 'sydney'
 };
 // The default map center
-AppSettings.center = [-33.71463,150.311508];
+AppSettings.center = [-33.8674869, 151.2069902];
 // The bound of the app, used to find products and services
 AppSettings.bounds = {
-    "left": 150.240784,
-    "bottom": -33.744897,
-    "right": 150.720062,
-    "top": -33.517354
+    "left": 150.55337081542,
+    "bottom": -36.119202120384,
+    "right": 151.80337081542,
+    "top": -35.494202120384
 };
 // used with the center for alerts search in KM
 AppSettings.radius = 100;
 // The detinations to perform all funnel back serches within
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
-AppSettings.destinationWebpath = '/blue-mountains/';
-// List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
-AppSettings.appSubDestination = ["Katoomba","Lithgow","Oberon"];
+AppSettings.destinationWebpath = '/sydney/';
+// look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
+AppSettings.appSubDestination = ["Sydney City", "Sydney North", "Sydney West", "Sydney South", "Sydney East", "Inner Sydney"];
 // The url of the squiz search
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
-// The name of the events calender in the database to search for events in
+// The name of the events calender in the database to serch for events in
 AppSettings.eventCalName = 'SYDNEY EVENTS CALENDAR';
-AppSettings.eventsIncludeFeatured = false;
+AppSettings.eventsIncludeFeatured = true;
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
-// matrix destination ids for this app - Get DNSW to provide
-// Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
-AppSettings.destinationIds = '324;335;4113;9;1;3;10;11;8;4115;4;336;12;6;4116;337;2;5;4117';
+// matrix destination ids for this app
+AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;295;296;297;298;299;300;301;302;303;304;305;306;308;309;310;311;312;313;314;315;316;317;318;319;320;321;332;406;407;408;409;410;411;4177;4178;4179;4180;4181;4182;4188;4190';
 // The smartphone cms section
 AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
-AppSettings.smartphoneCMSSection = 'blue-mountains';
+AppSettings.smartphoneCMSSection = 'sydney';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
@@ -61,9 +60,8 @@ AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' App',
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
     description: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
-    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
+    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName + '.',
     link: AppSettings.websiteURL,
-    // maybe chnage picture
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
 // FACEBOOK settings
@@ -91,23 +89,57 @@ AppSettings.twitter = {
 };
 //////////////////////////////////////////////////////////////////////
 // WEATHER List of the weather station to use for the App
-// Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 499,
-    lat: -33.7122,
-    lon: 150.3087,
-    name: 'Katoomba'
+    stationId: 517,
+    lat: -33.8607,
+    lon: 151.205,
+    name: 'Sydney'
+}, {
+    stationId: 516,
+    lat: -33.6908,
+    lon: 151.2253,
+    name: 'Terrey Hills'
+}, {
+    stationId: 518,
+    lat: -33.7917,
+    lon: 151.0181,
+    name: 'Parramatta'
+}, {
+    stationId: 525,
+    lat: -33.9214,
+    lon: 150.8861,
+    name: 'Liverpool'
+}, {
+    stationId: 625,
+    lat: -34.0542,
+    lon: 150.8772,
+    name: 'Campbelltown'
+}, {
+    stationId: 535,
+    lat: -34.3691,
+    lon: 150.9291,
+    name: 'Wollongong'
+}, {
+    stationId: 526,
+    lat: -33.6004,
+    lon: 150.7761,
+    name: 'Richmond'
+}, {
+    stationId: 528,
+    lat: -33.7195,
+    lon: 150.6783,
+    name: 'Penrith'
+}, {
+    stationId: 479,
+    lat: -33.3949,
+    lon: 151.3289,
+    name: 'Gosford'
 }, {
     stationId: 501,
     lat: -33.7065,
     lon: 150.5848,
     name: 'Springwood'
-}, {
-    stationId: 502,
-    lat: -33.4769,
-    lon: 150.1303,
-    name: 'Lithgow'
 }];
 //////////////////////////////////////////////////////////////////////
 // SERVICES
@@ -116,7 +148,7 @@ AppSettings.weatherStations = [{
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
     url: 'http://api.sensis.com.au/ob-20110511/prod/search',
-    location: "Blue Mountains NSW" // ** You will need to updated this
+    location: "Greater Sydney NSW" // ** You will need to updated this
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
@@ -166,63 +198,62 @@ AppSettings.poi = [{
 }, {
     label: 'Auto Electrictian'
 }];
+
+
+
+
 //////////////////////////////////////////////////////////////////////
 // APP CONTENTS
 /////////////////////////////////////////////////////////////////////
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: AppSettings.imgfolder+'home1.jpg',
-    altText: 'Hamilton Lund; Destination NSW'
+    imagePath: AppSettings.imgfolder+'content/dnsw1375318-399-c.jpg',
+    altText: 'North Sydney Olympic Pool by Kajo Merket'
 }, {
-    imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Hamilton Lund; Destination NSW'
+    imagePath: AppSettings.imgfolder+'content/dnsw1087014-399-c.jpg',
+    altText: 'Guillame at Bennelong with Opera sails by Steve Back'
 }, {
-    imagePath: AppSettings.imgfolder+'home3.jpg',
-    altText: 'James Horan; Destination NSW'
+    imagePath: AppSettings.imgfolder+'content/dnsw1375320-399-c.jpg',
+    altText: 'Sydney Harbour at twilight by Kajo Merket'
 }, {
-    imagePath: AppSettings.imgfolder+'home4.jpg',
-    altText: 'Chris Jones; Destination NSW'
+    imagePath: AppSettings.imgfolder+'content/dnsw1184096-399-c.jpg',
+    altText: 'Fireworks celebrating the new year in Sydney Harbour by Hamilton Lund'
 }, {
-    imagePath: AppSettings.imgfolder+'home5.jpg',
-    altText: 'Destination NSW'
-}, {
-    imagePath: AppSettings.imgfolder+'home6.jpg',
-    altText: 'Destination NSW'
+    imagePath: AppSettings.imgfolder+'content/dnsw1369455-399-c.jpg',
+    altText: 'View of Sydney Harbour from Bradley\'s Head, Mosman by Hamilton Lund'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
-AppSettings.attractionCats = [
-// {
-//     title: 'Beach Lifestyle',
-//     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-//     imgPath: AppSettings.imgfolder+'todo_beach.png',
-//     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
-// }, 
-{
+AppSettings.attractionCats = [{
+    title: 'Beach Lifestyle',
+    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
+    imgPath: AppSettings.imgfolder+'home_experience_e.png',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
+}, {
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
-    imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_c.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_b.png',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
+    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/shopping'
+    imgPath: AppSettings.imgfolder+'home_experience_d.png',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts-and-culture'
+    imgPath: AppSettings.imgfolder+'home_experience_a.png',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_f.png',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
 }];
 
@@ -245,17 +276,7 @@ AppSettings.mainMenu = [{
     firstPage: {
         xtype: 'contentPage',
         title: 'About ' + AppSettings.appAreaName,
-        contentPath: AppSettings.getSMPSectionURL() + '/about'
-    }
-}, {
-
-    title: 'Local Areas',
-    group: 'Group 1',
-    id: 'localSection',
-    firstPage: {
-        xtype: 'contentPage',
-        title: 'Local Areas',
-        contentPath: AppSettings.getSMPSectionURL() + '/local-areas'
+        contentPath: AppSettings.getSMPSectionURL() + '/about-sydney'
     }
 }, {
     title: 'My Itinerary',
@@ -291,7 +312,7 @@ AppSettings.mainMenu = [{
     firstPage: {
         title: 'Dining & Entertainment',
         xtype: 'productSubSection',
-        contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
+        contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
     }
 }, {
     title: 'Accommodation',
@@ -438,24 +459,24 @@ AppSettings.homeMenu = [{
                     cls: 'accomHome',
                     action: 'changeSection',
                     sectionId: 'accommodationSection'
-                }, { // Tours
+                }, {
                     xtype: 'button',
-                    html: "<span class='icon'></span><span>Tours</span>",
-                      cls: 'toursHome',
+                    html: "<span class='icon'></span><span>Events</span>",
+                      cls: 'eventsHome',
                     action: 'changeSection',
-                    sectionId: 'toursSection'
+                    sectionId: 'eventsSection'
                 }, {
                     xtype: 'button',
                     html: "<span class='icon'></span><span>My Itinerary</span>",
                     cls: 'itineraryHome',
                     action: 'changeSection',
                     sectionId: 'myItinerarySection'
-                }, { // Local Areas
+                }, {
                     xtype: 'button',
-                    html: "<span class='icon'></span><span>Local Areas</span>",
-                    cls: 'localHome',
+                    html: "<span class='icon'></span><span>Deals</span>",
+                    cls: 'dealsHome',
                     action: 'changeSection',
-                    sectionId: 'localSection'
+                    sectionId: 'dealsSection'
                 }];
 
 //////////////////////////////////////////////////////////////////////
