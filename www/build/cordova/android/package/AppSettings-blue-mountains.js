@@ -32,7 +32,7 @@ AppSettings.bounds = {
     "top": -33.517354
 };
 // used with the center for alerts search in KM
-AppSettings.radius = 100;
+AppSettings.radius = 50;
 // The detinations to perform all funnel back serches within
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.destinationWebpath = '/blue-mountains/';
