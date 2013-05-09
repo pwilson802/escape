@@ -314,21 +314,22 @@ Ext.define('escape.controller.Search', {
      */
     buildOptions: function(options) {
        var collectionType = this.getSearchPage().getCollectionType();
-        console.log(options);
         console.log(collectionType);
-        console.log(options.type);
+        console.log(options);
         if (options.type) {
             this.addOption('Type', options.type);
         } else if (options.kind) {
             this.addOption('Type', options.kind);
+        } else if (options.kind_2) {
+            this.addOption('Type', options.kind_2);
         }
         if (options.features && collectionType != 'deals' && collectionType != 'accom') {
             this.addOption('Features', options.features);
         }
-        if (options.experiences && collectionType != 'deals' && collectionType != 'accom') {
+        if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire') {
             this.addOption('Experience', options.experiences);
         }
-        if (options.activities && collectionType != 'deals' && collectionType != 'accom') {
+        if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants') {
             this.addOption('Activities', options.activities);
         }
         if (options.starRating && collectionType != 'deals') {
@@ -337,9 +338,6 @@ Ext.define('escape.controller.Search', {
         // if (options.duration && collectionType == 'tour') {
         //     this.addOption('Duration', options.duration);
         // }
-        if (options.kind_2 && collectionType == 'tour') {
-            this.addOption('Kind', options.kind_2);
-        }
     },
 
     addOption: function(name, options) {
@@ -439,9 +437,9 @@ Ext.define('escape.controller.Search', {
 
     getSearchParams: function() {
         var params = {};
-        console.log('collectionType: ' + collectionType);
         // set the serach to use the right collection
         var collectionType = this.getSearchPage().getCollectionType();
+        console.log('collectionType: ' + collectionType);        
         this.setCollectionType(collectionType);
         if (collectionType === 'restaurants') {
             params.collection = 'restaurants'; //'prototype-dnsw-' +
