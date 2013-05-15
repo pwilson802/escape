@@ -111,8 +111,6 @@ Ext.define("escape.view.ui.MapDisplay", {
                 width: 100,
                 zIndex: 1000
             });
-
-
             var controls = [];
             map = new EMS.Services.Map(this.getMapId(), {
                 controls: [],

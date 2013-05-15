@@ -215,37 +215,17 @@ AppSettings.poi = [{
 }, {
     label: 'Doctors'
 }, {
-    label: 'Dentist'
-}, {
-    label: 'Optometrist'
-}, {
     label: 'Chemists'
 }, {
     label: 'Service Stations'
 }, {
-    label: 'Veterinarian'
-}, {
     label: 'Post Office'
-}, {
-    label: 'Beaches'
 }, {
     label: 'Lookouts'
 }, {
     label: 'Toilets'
 }, {
     label: 'Supermarket'
-}, {
-    label: 'Hairdressers'
-}, {
-    label: 'Electrician'
-}, {
-    label: 'Plumber'
-}, {
-    label: 'Florist'
-}, {
-    label: 'Mechanics'
-}, {
-    label: 'Auto Electrictian'
 }];
 // The main menu for this app - Should only be updated by the developer
 AppSettings.mainMenu = [{
