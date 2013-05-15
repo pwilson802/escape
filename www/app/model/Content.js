@@ -18,7 +18,6 @@ Ext.define("escape.model.Content", {
         escape.model.UserSettings.getSetting('useOffline', {
             success: function(useOffline) {
                 if (useOffline === null) {
-                    // no user isDegrees has been selected
                     selfRef.setUseOffline(true);
                 } else {
                     var setting = true;

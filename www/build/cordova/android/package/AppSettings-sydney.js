@@ -60,7 +60,7 @@ AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' App',
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
     description: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
-    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in' + AppSettings.appAreaName + '.',
+    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
     link: AppSettings.websiteURL,
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
@@ -166,19 +166,11 @@ AppSettings.poi = [{
 }, {
     label: 'Doctors'
 }, {
-    label: 'Dentist'
-}, {
-    label: 'Optometrist'
-}, {
     label: 'Chemists'
 }, {
     label: 'Service Stations'
 }, {
-    label: 'Veterinarian'
-}, {
     label: 'Post Office'
-}, {
-    label: 'Beaches'
 }, {
     label: 'Lookouts'
 }, {
@@ -186,17 +178,7 @@ AppSettings.poi = [{
 }, {
     label: 'Supermarket'
 }, {
-    label: 'Hairdressers'
-}, {
-    label: 'Electrician'
-}, {
-    label: 'Plumber'
-}, {
     label: 'Florist'
-}, {
-    label: 'Mechanics'
-}, {
-    label: 'Auto Electrictian'
 }];
 
 
