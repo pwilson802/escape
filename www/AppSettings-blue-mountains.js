@@ -323,15 +323,6 @@ AppSettings.mainMenu = [{
         xtype: 'servicesAndFacilitiesPage'
     }
 }, {
-    title: 'Hire',
-    group: 'Group 3',
-    id: 'hireSection',
-    firstPage: {
-        title: 'Hire',
-        collectionType: 'hire',
-        xtype: 'searchPage'
-    }
-}, {
     title: 'Tours',
     group: 'Group 3',
     id: 'toursSection',
