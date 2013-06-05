@@ -1,6 +1,6 @@
 <?php
 //
-$cmsLocation = 'http://www.destinationnsw.com.au/smartphoneapps/sydney';
+$cmsLocation = 'http://www.destinationnsw.com.au/smartphoneapps/blue-mountains';
 // Connect
 $db = new SQLite3('cmsPages.db');
 // load a matrix feed

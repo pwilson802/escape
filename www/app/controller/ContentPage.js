@@ -67,6 +67,7 @@ Ext.define('escape.controller.ContentPage', {
 
     },
     loadMustDos: function(url, contentPage) {
+        console.log('loadMustDos');
         // Don't show must do's if offline.
         if (!Ext.device.Connection.isOnline()){
             // show offline messgae
@@ -88,11 +89,13 @@ Ext.define('escape.controller.ContentPage', {
     },
 
     mustDosLoaded: function(content, contentPage) {
+        var data = content.getData();
         if (this.getCurrentSection() == 'mustDo') {
-            var linksStartBreakdown = content.raw.Page.Content.split('<a href="');
+            var linksStartBreakdown = data.page.Content.split('<a href="');
             var output = '';
             var mustDoItems = [];
             for (var i = 0; i < linksStartBreakdown.length; i++) {
+
                 var linksEndBreakdown = linksStartBreakdown[i].split('</a>');
                 if (linksEndBreakdown.length > 1) {
                     // process the link
