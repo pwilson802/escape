@@ -355,6 +355,14 @@ AppSettings.mainMenu = [{
     firstPage: {
         title: 'Map',
         xtype: 'mapPage',
+        xtype: 'directionsPage',
+        address: {
+            Street: ' ',
+            Suburb: 'Katoomba',
+            State: 'NSW',
+            Postcode: 2780
+        },
+        latlon: AppSettings.center,
         zoomLevel: 11
     }
 }, {

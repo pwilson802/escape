@@ -22,118 +22,131 @@ Ext.define("escape.view.page.Directions", {
     openView: function() {
         var address = this.getAddress();
         var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
+        console.log(AppSettings.center);
 
-        var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
-            itemId: 'mapDisplay',
-            forceUseOffline: true,
-            height: Ext.Viewport.getSize().height - 143,
-            lat: Number(this.getLatlon()[0]),
-            lon: Number(this.getLatlon()[1]),
-            interaction: true,
-            markerAtCenter: true
-        });
-        this.setMapDisplay(mapDisplay);
 
-        this.setItems([{
-            xtype: 'loadingDisplay',
-            hidden:true
-        }, {
-            xtype: 'formpanel',
-            layout: 'hbox',
-            scrollable: false,
-            height: 100,
-            padding: 6,
-            items: [{
-                xtype: 'container',
+        if (!navigator.onLine) {
+            this.setItems([{
+                xtype: 'mapDisplay',
+                lat: Number(this.getLatlon()[0]),
+                lon: Number(this.getLatlon()[1]),
+                height: this.element.getHeight(),
+                interaction: true,
+                markerAtCenter: true
+            }]);
+        } else {
+            var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
+                itemId: 'mapDisplay',
+                forceUseOffline: true,
+                height: Ext.Viewport.getSize().height - 143,
+                lat: Number(this.getLatlon()[0]),
+                lon: Number(this.getLatlon()[1]),
+                interaction: true,
+                markerAtCenter: true
+            });
+            this.setMapDisplay(mapDisplay);
 
-                layout: 'vbox',
-                width: 45,
-                items: [{
-                    xtype: 'button',
-                    cls: 'switchDirection',
-                    action: 'switchDirection',
-                    width: 41,
-                    height: 41,
-                    margin: '20px 0 0 0'
-                }]
+            this.setItems([{
+                xtype: 'loadingDisplay',
+                hidden:true
             }, {
-                xtype: 'container',
-                padding: '0 6px',
-                flex: 6,
+                xtype: 'formpanel',
+                layout: 'hbox',
+                scrollable: false,
+                height: 100,
+                padding: 6,
                 items: [{
-                    xtype: 'textfield',
-                    name: 'startLocation',
-                    value: 'Current Location',
-                    label: 'Start:',
-                    margin: '0 0 6px 0',
-                    labelWidth: 55,
-                    height: 41
+                    xtype: 'container',
+
+                    layout: 'vbox',
+                    width: 45,
+                    items: [{
+                        xtype: 'button',
+                        cls: 'switchDirection',
+                        action: 'switchDirection',
+                        width: 41,
+                        height: 41,
+                        margin: '20px 0 0 0'
+                    }]
                 }, {
-                    xtype: 'textfield',
-                    name: 'endLocation',
-                    value: addressString,
-                    labelWidth: 55,
-                    label: 'End:',
-                    height: 41
+                    xtype: 'container',
+                    padding: '0 6px',
+                    flex: 6,
+                    items: [{
+                        xtype: 'textfield',
+                        name: 'startLocation',
+                        value: 'Current Location',
+                        label: 'Start:',
+                        margin: '0 0 6px 0',
+                        labelWidth: 55,
+                        height: 41
+                    }, {
+                        xtype: 'textfield',
+                        name: 'endLocation',
+                        value: addressString,
+                        labelWidth: 55,
+                        label: 'End:',
+                        height: 41
+                    }]
+                }, {
+                    xtype: 'container',
+                    width: 75,
+                    items: [{
+                        xtype: 'button',
+                        action: 'switchTranport',
+                        cls: 'car',
+                        height: 41,
+                        margin: '0 0 6px 0'
+                    }, {
+                        xtype: 'button',
+                        action: 'route',
+                        cls: 'search',
+                        text: 'Route',
+                        disabled: true,
+                        height: 41
+                    }]
+                }]
+            }, {
+                xtype: 'segmentedbutton',
+                layout: 'hbox',
+                allowMultiple: false,
+                allowDepress: false,
+                bottom: 10,
+                right: 10,
+                width: 80,
+                height: 41,
+                zIndex: 1000,
+                items: [{
+                    cls: 'mapBtn',
+                    type: 'map',
+                    pressed: true,
+                    flex: 1
+                }, {
+                    cls: 'listBtn',
+                    type: 'list',
+                    flex: 1
                 }]
             }, {
                 xtype: 'container',
-                width: 75,
-                items: [{
-                    xtype: 'button',
-                    action: 'switchTranport',
-                    cls: 'car',
-                    height: 41,
-                    margin: '0 0 6px 0'
-                }, {
-                    xtype: 'button',
-                    action: 'route',
-                    cls: 'search',
-                    text: 'Route',
-                    disabled: true,
-                    height: 41
-                }]
-            }]
-        }, {
-            xtype: 'segmentedbutton',
-            layout: 'hbox',
-            allowMultiple: false,
-            allowDepress: false,
-            bottom: 10,
-            right: 10,
-            width: 80,
-            height: 41,
-            zIndex: 1000,
-            items: [{
-                cls: 'mapBtn',
-                type: 'map',
-                pressed: true,
+                layout: 'card',
+                itemId: 'cardLayout',
                 flex: 1
-            }, {
-                cls: 'listBtn',
-                type: 'list',
-                flex: 1
-            }]
-        }, {
-            xtype: 'container',
-            layout: 'card',
-            itemId: 'cardLayout',
-            flex: 1
 
-        }]);
+            }]);
 
-        this.getComponent('cardLayout').add(mapDisplay);
-        this.getComponent('cardLayout').add({
-            xtype: 'container',
-            padding: '10px 10px 60px 10px',
-            itemId: 'listDisplay',
-            cls: 'directionsList',
-            html: '<h1>No route created</h1>',
-            scrollable: {
-                direction: 'vertical',
-                directionLock: true
-            }
-        });
-
+            this.getComponent('cardLayout').add(mapDisplay);
+            this.getComponent('cardLayout').add({
+                xtype: 'container',
+                padding: '10px 10px 60px 10px',
+                itemId: 'listDisplay',
+                cls: 'directionsList',
+                html: '<h1>No route created</h1>',
+                scrollable: {
+                    direction: 'vertical',
+                    directionLock: true
+                }
+            });
+    
+        }
     }
 });
