@@ -3,11 +3,11 @@
 /////////////////////////////////////////////////////////////////////
 AppSettings = {};
 // The Tilt and Co App ID used for tracking, get id from glen
-AppSettings.AppID = 6;
+AppSettings.AppID = 8;
 // The Apps area shown to the user
-AppSettings.appAreaName = 'Blue Mountains';
+AppSettings.appAreaName = 'South Coast';
 // path to load unqiue images for the app from
-AppSettings.imgfolder = 'resources/app-images/south-coast/';
+AppSettings.imgfolder = 'resources/app-images/south-coast-sydney/';
 // Path to load images from
 AppSettings.regionImagePath = 'resources/region-images/blue/';
 // Path to load offile maps from
@@ -46,9 +46,9 @@ AppSettings.eventsIncludeFeatured = false;
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
 // matrix destination ids for this app - Get DNSW to provide
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
-AppSettings.destinationIds = '324;335;4113;9;1;3;10;11;8;4115;4;336;12;6;4116;337;2;5;4117';
+AppSettings.destinationIds = '331;399;238;271;268;266;270;239;240;4171;269;267;400;4172;401;244;245;4212;246;247;248;4211;249;250;4213;251;252;253;254;276;255;275;4173;256;257;258;4207;259;260;261;262;403;272;241;242;243;274;4175;273;4210;4208;277;263;404;278;264;4176;279;265';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'south-coast';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
@@ -94,20 +94,30 @@ AppSettings.twitter = {
 // Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 499,
-    lat: -33.7122,
-    lon: 150.3087,
-    name: 'Katoomba'
+    stationId: 537,
+    lat: -34.5638,
+    lon: 150.79,
+    name: 'Albion Park'
 }, {
-    stationId: 501,
-    lat: -33.7065,
-    lon: 150.5848,
-    name: 'Springwood'
+    stationId: 535,
+    lat: -34.3691,
+    lon: 150.9291,
+    name: 'Wollongong'
 }, {
-    stationId: 502,
-    lat: -33.4769,
-    lon: 150.1303,
-    name: 'Lithgow'
+    stationId: 545,
+    lat: -35.7234,
+    lon: 150.1872,
+    name: 'Batemans Bay'
+}, {
+    stationId: 548,
+    lat: -36.6722,
+    lon: 149.8191,
+    name: 'Bega'
+}, {
+    stationId: 549,
+    lat: -36.9077,
+    lon: 149.8989,
+    name: 'Merimbula'
 }];
 //////////////////////////////////////////////////////////////////////
 // SERVICES
@@ -245,7 +255,7 @@ AppSettings.mainMenu = [{
     firstPage: {
         xtype: 'contentPage',
         title: 'About ' + AppSettings.appAreaName,
-        contentPath: AppSettings.getSMPSectionURL() + '/about'
+        contentPath: AppSettings.getSMPSectionURL() + '/about-south-coast'
     }
 }, {
 
