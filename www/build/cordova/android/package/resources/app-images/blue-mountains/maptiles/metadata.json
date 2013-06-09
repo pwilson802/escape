@@ -1,0 +1,11 @@
+{
+    "attribution": "Data \u00a9 OpenStreetMap (and) contributors, CC-BY-SA", 
+    "description": "", 
+    "bounds": "150.2408,-33.7449,150.7201,-33.5174", 
+    "name": "Australia", 
+    "minzoom": "0", 
+    "version": "1.0.0", 
+    "template": "", 
+    "maxzoom": "14", 
+    "center": "150.3108,-33.7117,11"
+}

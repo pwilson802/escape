@@ -172,22 +172,22 @@ AppSettings.poi = [{
 // Home Images
 AppSettings.homeImgs = [{
     imagePath: AppSettings.imgfolder+'home1.jpg',
-    altText: 'Hamilton Lund; Destination NSW'
+    altText: 'Aerial view of Capertee Valley in the Blue Mountains by Hamilton Lund'
 }, {
     imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Hamilton Lund; Destination NSW'
+    altText: 'Kanangra Falls in the Blue Mountains by Chris Jones'
 }, {
     imagePath: AppSettings.imgfolder+'home3.jpg',
-    altText: 'James Horan; Destination NSW'
+    altText: 'Fairmont Resort at Leura by James Horan'
 }, {
     imagePath: AppSettings.imgfolder+'home4.jpg',
-    altText: 'Chris Jones; Destination NSW'
+    altText: 'Gardens of Stone National Parks by Hamilton Lund'
 }, {
     imagePath: AppSettings.imgfolder+'home5.jpg',
-    altText: 'Destination NSW'
+    altText: 'Close up view of the Three Sisters by Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home6.jpg',
-    altText: 'Destination NSW'
+    altText: 'View across the Blue Lake to Jenolan Caves'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [
@@ -355,6 +355,14 @@ AppSettings.mainMenu = [{
     firstPage: {
         title: 'Map',
         xtype: 'mapPage',
+        xtype: 'directionsPage',
+        address: {
+            Street: ' ',
+            Suburb: 'Katoomba',
+            State: 'NSW',
+            Postcode: 2780
+        },
+        latlon: AppSettings.center,
         zoomLevel: 11
     }
 }, {
