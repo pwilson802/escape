@@ -450,8 +450,8 @@ AppSettings.homeMenu = [{
                     sectionId: 'accommodationSection'
                 }, { // Tours
                     xtype: 'button',
-                    html: "<span class='icon'></span><span>Tours</span>",
-                      cls: 'toursHome',
+                    html: "<span class='icon'></span><span>Events</span>",
+                      cls: 'eventsHome',
                     action: 'changeSection',
                     sectionId: 'toursSection'
                 }, {
