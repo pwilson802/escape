@@ -43,7 +43,7 @@ Ext.define("escape.model.Map", {
     },
 
     loadFiles: function(online,callback, scope){
-        if (online){
+        if ((online) && (navigator.onLine)) { // Ensure we are 100% online.
             this.loadRequiredFiles(callback, scope);
         } else {
             this.loadOfflineRequiredFiles(callback, scope);
@@ -62,7 +62,9 @@ Ext.define("escape.model.Map", {
             LazyLoad.js([whereIsOpenLayers, ems, iPhoneDefaults], function() {
                 selfRef.onlineFilesLoaded = true;
                 selfRef.offlineFilesLoaded = false;
-                Ext.callback(callback.success, scope, []);
+                // Ext.callback(callback.success, scope, []);
+                var task = new Ext.util.DelayedTask(function(){Ext.callback(callback.success, scope, []);});
+                task.delay(1); // Ensures that the lazy load is completed before moving on.
             });
         }
     },
@@ -79,7 +81,9 @@ Ext.define("escape.model.Map", {
             LazyLoad.js([js], function() {
                 selfRef.offlineFilesLoaded = true;
                  selfRef.onlineFilesLoaded = false;
-                Ext.callback(callback.success, scope, []);
+                // Ext.callback(callback.success, scope, []);
+                var task = new Ext.util.DelayedTask(function(){Ext.callback(callback.success, scope, []);});
+                task.delay(1); // Ensures that the lazy load is completed before moving on.
             });
         }
     }

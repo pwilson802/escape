@@ -24,28 +24,32 @@ Ext.define("escape.view.page.Directions", {
         var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
         console.log(AppSettings.center);
 
-
-        if (!navigator.onLine) {
-            this.setItems([{
-                xtype: 'mapDisplay',
-                lat: Number(this.getLatlon()[0]),
-                lon: Number(this.getLatlon()[1]),
-                height: this.element.getHeight(),
-                interaction: true,
-                markerAtCenter: true
-            }]);
-        } else {
             var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
                 itemId: 'mapDisplay',
-                forceUseOffline: true,
+                // forceUseOffline: true,
                 height: Ext.Viewport.getSize().height - 143,
-                lat: Number(this.getLatlon()[0]),
-                lon: Number(this.getLatlon()[1]),
+                lat: Number(AppSettings.center[0]),
+                lon: Number(AppSettings.center[1]),
                 interaction: true,
                 markerAtCenter: true
             });
             this.setMapDisplay(mapDisplay);
 
+        if (!navigator.onLine) {
+
+            this.setItems([{
+                xtype: 'loadingDisplay',
+                hidden:true
+            }, {
+                xtype: 'container',
+                layout: 'card',
+                itemId: 'cardLayout',
+                flex: 1
+
+            }]);
+            mapDisplay.setHeight(this.element.getHeight());
+            this.getComponent('cardLayout').add(mapDisplay);
+        } else {
             this.setItems([{
                 xtype: 'loadingDisplay',
                 hidden:true
