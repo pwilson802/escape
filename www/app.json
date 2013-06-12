@@ -73,14 +73,14 @@
      * Extra resources to be copied along when build
      */
     "extras": [
-        "resources/region-images/green",
-        "resources/app-images/blue-mountains/",
+        "resources/region-images/blue",
+        "resources/app-images/south-coast/",
         "resources/region-images/general",
         "resources/icons",
         "resources/fonts",
         "resources/js",
         "config.xml",
-        "AppSettings-blue-mountains.js"
+        "AppSettings-south-coast.js"
     ],
 
     /**

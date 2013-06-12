@@ -1,8 +1,8 @@
 <resources>
 
-    <string name="app_name">Sydney</string>
-    <string name="hello_world">Sydney</string>
-    <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">Sydney</string>
+    <string name="app_name">Blue Mountains</string>
+    <string name="hello_world">Blue Mountains</string>
+    <string name="menu_settings">Blue Mountains</string>
+    <string name="title_activity_main">Blue Mountains</string>
 
 </resources>
