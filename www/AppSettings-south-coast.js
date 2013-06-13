@@ -456,7 +456,7 @@ AppSettings.homeMenu = [{
                     html: "<span class='icon'></span><span>Events</span>",
                       cls: 'eventsHome',
                     action: 'changeSection',
-                    sectionId: 'toursSection'
+                    sectionId: 'eventsSection'
                 }, {
                     xtype: 'button',
                     html: "<span class='icon'></span><span>My Itinerary</span>",
