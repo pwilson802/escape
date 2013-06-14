@@ -30,6 +30,7 @@ Ext.define("escape.model.WhereIsPOI", {
         var query = {};
         // the keyword to search by
         query.keyword = this.query;
+        console.log('this.distance: ' + this.distance);
         if (this.distance != -1) {
             // convert your lat lon into a EMS lat lon
             var latlon = new EMS.LonLat(this.geoLocation.longitude, this.geoLocation.latitude);
@@ -58,9 +59,14 @@ Ext.define("escape.model.WhereIsPOI", {
             query.bounds = bounds.asWGS84();
         } else {
             // search within the app bounds
-            bounds = new OpenLayers.Bounds(AppSettings.bounds.left, AppSettings.bounds.bottom, AppSettings.bounds.right, AppSettings.bounds.top);
-            query.bounds = bounds.asWGS84();
+            console.log('AppSettings.bounds.top: ' + AppSettings.bounds.top);
+            console.log('AppSettings.bounds.bottom: ' + AppSettings.bounds.bottom);
+            bounds = new OpenLayers.Bounds();
+            bounds.extend(new OpenLayers.LonLat(AppSettings.bounds.left,AppSettings.bounds.top));
+            bounds.extend(new OpenLayers.LonLat(AppSettings.bounds.right,AppSettings.bounds.bottom));
+            query.bounds = bounds;
         }
+        console.info(bounds);
         // the amount of results to be returned
         query.size = this.pageSize;
         this.query = query;
@@ -69,6 +75,7 @@ Ext.define("escape.model.WhereIsPOI", {
         var selfRef = this;
         var geocoder = new EMS.Services.Geocoder();
         // request the search
+        console.log(this.query);
         geocoder.poiSearch(this.query, function(poiResults) {
             selfRef.resultsLoaded(poiResults);
         });
