@@ -126,7 +126,7 @@ AppSettings.weatherStations = [{
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
     url: 'http://api.sensis.com.au/ob-20110511/prod/search',
-    location: "Blue Mountains NSW" // ** You will need to updated this
+    location: "Southcoast NSW" // ** You will need to updated this
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
@@ -454,7 +454,7 @@ AppSettings.homeMenu = [{
                 }, { // Tours
                     xtype: 'button',
                     html: "<span class='icon'></span><span>Events</span>",
-                      cls: 'eventsHome',
+                    cls: 'eventsHome',
                     action: 'changeSection',
                     sectionId: 'eventsSection'
                 }, {

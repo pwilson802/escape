@@ -1,0 +1,1 @@
+var Share=function(){};Share.prototype.show=function(b,c,a){return cordova.exec(function(d){c(d)},function(d){a(d)},"Share","",[b])};if(!window.plugins){window.plugins={}}if(!window.plugins.share){window.plugins.share=new Share()};
