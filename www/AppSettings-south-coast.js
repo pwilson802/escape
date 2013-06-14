@@ -13,7 +13,7 @@ AppSettings.regionImagePath = 'resources/region-images/blue/';
 // Path to load offile maps from
 AppSettings.mapsTilesPath = AppSettings.imgfolder +'maptiles/';
 // offile maps max zoom level
-AppSettings.offlineMapsMaxZoom = 14;
+AppSettings.offlineMapsMaxZoom = 13;
 // Website URL sydney.com or visitnsw.com
 AppSettings.displayWebsiteURL = 'visitnsw.com';
 AppSettings.websiteURL = 'http://www.visitnsw.com/';

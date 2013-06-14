@@ -13,7 +13,7 @@ AppSettings.regionImagePath = 'resources/region-images/blue/';
 // Path to load offile maps from
 AppSettings.mapsTilesPath = AppSettings.imgfolder +'maptiles/';
 // offile maps max zoom level
-AppSettings.offlineMapsMaxZoom = 14;
+AppSettings.offlineMapsMaxZoom = 13;
 // Website URL sydney.com or visitnsw.com
 AppSettings.displayWebsiteURL = 'visitnsw.com';
 AppSettings.websiteURL = 'http://www.visitnsw.com/';
@@ -26,10 +26,10 @@ AppSettings.appAddress = {
 AppSettings.center = [-34.425288,150.892839];
 // The bound of the app, used to find products and services
 AppSettings.bounds = {
-    "left": 148.9743,
-    "bottom": -37.9342,
-    "right": 151.3034,
-    "top": -34.0331
+    "left": 149.770904,
+    "bottom":-37.50101,
+    "right": 151.141233,
+    "top": -34.109531
 };
 // used with the center for alerts search in KM
 AppSettings.radius = 50;
@@ -126,7 +126,7 @@ AppSettings.weatherStations = [{
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
     url: 'http://api.sensis.com.au/ob-20110511/prod/search',
-    location: "Blue Mountains NSW" // ** You will need to updated this
+    location: "South Coast NSW" // ** You will need to updated this
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
