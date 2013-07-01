@@ -21,6 +21,41 @@ Ext.define("escape.view.page.Search", {
         //this.setItems([]);
         //this.setIsBuilt(false);
     },
+
+    // Ensures town validity when the area value is changed.
+    destinationChange: function(e, newValue, oldValue, eOpts) {
+        if (newValue != oldValue) {
+            // If we have a new area, we're going to have to reload the towns.
+            var townOptions = [{ 
+                text: 'All',
+                value: ''
+            }];
+            for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
+                currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
+                if ((newValue.raw.text == AppSettings.appSubDestination[i].name)||(newValue.raw.text == 'All')) { // If we find the town we need, or are on 'All'
+                    for (var k = 0; k < AppSettings.appSubDestination[i].towns.length; k++) {
+                        townOptions.push({
+                            text: AppSettings.appSubDestination[i].towns[k].name,
+                            value: currentTown + '/' + AppSettings.appSubDestination[i].towns[k].name.toLowerCase()
+                        });
+                    }
+                }
+            }
+            if (newValue.raw.text == 'All') { // If we have selected all the destinations we want all the towns too
+                this.getParent().innerItems[2].setValue('All');
+            }
+            this.getParent().innerItems[2].setOptions(townOptions);
+        } 
+    },
+
+    // Ensures area validity when the towns value is changed.
+    townChange: function(e, newValue, oldValue, eOpts) {
+        if (newValue.raw.text != 'All') { // No need to change destination if we have selected all the towns
+            var selected = newValue.raw.value.split('/'); // Get the URL stored on that town
+            this.getParent().innerItems[1].setValue(selected[0]); // Change the destination to match the town
+        }
+    },
+
     openView: function() {
         if (!Ext.device.Connection.isOnline()){
             // show offline messgae
@@ -33,10 +68,26 @@ Ext.define("escape.view.page.Search", {
         }];
         for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
             destinationOptions.push({
-                text: AppSettings.appSubDestination[i],
-                value: AppSettings.appSubDestination[i].toLowerCase()
+                text: AppSettings.appSubDestination[i].name,
+                value: AppSettings.appSubDestination[i].name.toLowerCase()
             });
         }
+
+        var townOptions = [{
+            text: 'All',
+            value: ''
+        }];
+        var currentTown;
+        for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
+            currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
+            for (var k = 0; k < AppSettings.appSubDestination[i].towns.length; k++) {
+                townOptions.push({
+                    text: AppSettings.appSubDestination[i].towns[k].name,
+                    value: currentTown + '/' + AppSettings.appSubDestination[i].towns[k].name.toLowerCase()
+                });
+            }
+        }
+
         //
         var savedValues =  this.getSearchValues();
         var seachString = (savedValues) ? savedValues.search : '';
@@ -109,11 +160,24 @@ Ext.define("escape.view.page.Search", {
                     }]
                 }, {
                     xtype: 'selectField',
-                    label: 'Destination',
+                    label: 'Area',
                     name: 'destination',
                     labelWidth: '50%',
                     options: destinationOptions,
-                    value: destinationValue
+                    value: destinationValue,
+                    listeners:{
+                        change: this.destinationChange
+                    }
+                }, {
+                    xtype: 'selectField',
+                    label: 'Town',
+                    name: 'town',
+                    labelWidth: '50%',
+                    options: townOptions,
+                    value: 'All',
+                    listeners:{
+                        change: this.townChange
+                    }
                 }]
 
             }, {

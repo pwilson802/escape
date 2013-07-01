@@ -504,6 +504,9 @@ Ext.define('escape.controller.Search', {
         } else {
             // limit the serch to the users destination
             params.meta_D_phrase_sand = values.destination;
+            if (values.town != '') { // If the town has been set (not all), we should use that value
+                params.meta_D_phrase_sand = values.town;
+            } 
         }
 
         // check to see if extra options are selected
