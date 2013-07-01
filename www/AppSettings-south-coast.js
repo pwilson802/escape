@@ -37,7 +37,7 @@ AppSettings.radius = 50;
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.destinationWebpath = '/south-coast/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
-AppSettings.appSubDestination = ["Wollongong and Surrounds","Shellharbour","Kiama Area","Jervis Bay & Shoalhaven","Batemans Bay & Eurobodalla","Merimbula and Saphire Coast"];
+AppSettings.appSubDestination = ["Wollongong and Surrounds","Shellharbour","Kiama Area","Jervis Bay and Shoalhaven","Batemans Bay and Eurobodalla","Merimbula & Saphire Coast"];
 // The url of the squiz search
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 // The name of the events calender in the database to search for events in
