@@ -208,35 +208,41 @@ AppSettings.attractionCats = [
     title: 'Beach Lifestyle',
     subheading: 'On the ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle',
+    relatedSearchSelection: 'Beach'
 }, {
     title: 'Nature and Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + "'s great outdoors",
     imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
     // hideInSubSections: true,
     // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks',
+    relatedSearchSelection: 'Nature based'
 }, {
     title: 'Food and Wine',
     subheading: 'Food and wine on the ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
     hideInSubSections: true,
-    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine',
+    relatedSearchSelection: 'Food and Wine'
 }, {
     title: 'Adventure and Sport',
     subheading: 'Plenty of fun and adventure on the ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/adventure-and-sports'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/adventure-and-sports',
+    relatedSearchSelection: 'Sport'
 }, {
     title: 'Local Heritage and Arts',
     subheading: 'Enjoy local heritage and arts on the ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/local-heritage-and-art'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/local-heritage-and-art',
+    relatedSearchSelection: 'Historic/Heritage'
 }, {
     title: 'Family Experiences',
     subheading: AppSettings.appAreaName + ' is the perfect playground for a family holiday',
     imgPath: AppSettings.imgfolder+'home_experience_f.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-experiences'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-experiences',
+    relatedSearchSelection: 'Family Friendly'
 }];
 
 
