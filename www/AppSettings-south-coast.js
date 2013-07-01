@@ -288,18 +288,21 @@ AppSettings.poi = [{
 // Home Images
 AppSettings.homeImgs = [{
     imagePath: AppSettings.imgfolder+'home1.jpg',
-    altText: 'View over paddocks, Bega Valley by Destination NSW'
+    altText: 'Murrays Beach at Jervis Bay, near Green Patch'
 }, {
     imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Seacliff Bridge, Grand Pacific Drive by Tourism Wollongong'
+    altText: 'View over paddocks, Bega Valley by Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home3.jpg',
-    altText: 'Kangaroos at Pebbly Beach, Murramarang National Park by Murray Vanderveer'
+    altText: 'Seacliff Bridge, Grand Pacific Drive by Tourism Wollongong'
 }, {
     imagePath: AppSettings.imgfolder+'home4.jpg',
-    altText: 'Macquarie Pass National Park, Shellharbour by Destination NSW'
+    altText: 'Kangaroos at Pebbly Beach, Murramarang National Park by Murray Vanderveer'
 }, {
     imagePath: AppSettings.imgfolder+'home5.jpg',
+    altText: 'Macquarie Pass National Park, Shellharbour by Destination NSW'
+}, {
+    imagePath: AppSettings.imgfolder+'home6.jpg',
     altText: 'Whale watching, Montague Island, Narooma by Tourism Eurobodalla'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
