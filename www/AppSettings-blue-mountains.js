@@ -37,7 +37,40 @@ AppSettings.radius = 50;
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.destinationWebpath = '/blue-mountains/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
-AppSettings.appSubDestination = ["Katoomba","Lithgow","Oberon"];
+AppSettings.appSubDestination = [{
+    name: "Katoomba-Area",
+    towns: [{
+        name: "Blackheath"
+    }, {
+        name: "Faulconbridge"
+    }, {
+        name: "Katoomba"
+    }, { 
+        name: "Leura"
+    }, {
+        name: "Megalong Valley"
+    }, {
+        name: "Mount Victoria"
+    }, {
+        name: "Springwood"
+    }, {
+        name: "Wentworth Falls"
+    }]
+}, {
+    name: "Lithgow-Area",
+    towns: [{
+        name: "Hartley"
+    }, {
+        name: "Lithgow"
+    }]
+}, {
+    name: "Oberon-Area",
+    towns: [{
+        name: "Jenolan Caves"
+    }, {
+        name: "Oberon"
+    }]
+}];
 // The url of the squiz search
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 // The name of the events calender in the database to search for events in
