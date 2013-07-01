@@ -316,6 +316,16 @@ Ext.define('escape.controller.Search', {
        var collectionType = this.getSearchPage().getCollectionType();
         console.log(collectionType);
         console.log(options);
+
+        var activeItem = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
+        var searchProperty = 'All';
+        if (('searchProperty' in activeItem) && (activeItem.searchProperty)) {
+            searchProperty = activeItem.searchProperty;
+        }
+        console.log(searchProperty);
+        console.log(this.getSearchForm().getComponent('searchOptions'));
+
+
         if (options.type) {
             this.addOption('Type', options.type);
         } else if (options.kind) {
@@ -327,7 +337,7 @@ Ext.define('escape.controller.Search', {
             this.addOption('Features', options.features);
         }
         if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire') {
-            this.addOption('Experience', options.experiences);
+            this.addOption('Experience', options.experiences, searchProperty);
         }
         if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants') {
             this.addOption('Activities', options.activities);
@@ -340,7 +350,7 @@ Ext.define('escape.controller.Search', {
         // }
     },
 
-    addOption: function(name, options) {
+    addOption: function(name, options, defaultValue) {
         var choices = [];
         for (var key in options) {
             if (key !== '__NULL__') {
@@ -378,7 +388,9 @@ Ext.define('escape.controller.Search', {
                 presetValue = 'all';
             }
         }
-
+        if ((defaultValue) && (defaultValue != 'All')){
+            presetValue = defaultValue;
+        }
         if (choices.length > 2) {
             // add a destinations
             var selectfield = {

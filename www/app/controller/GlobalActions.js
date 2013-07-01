@@ -176,9 +176,16 @@ Ext.define('escape.controller.GlobalActions', {
     },
     showSearch: function(btn) {
         var collectionType = escape.utils.AppVars.currentSection.getCollectionType();
+        console.log(escape.utils.AppVars.currentSection.getNavigationView());
+        var activeItem = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
+        var searchProperty;
+        if (('relatedSearchSelection' in activeItem) && (activeItem.relatedSearchSelection)) {
+            searchProperty = activeItem.relatedSearchSelection;
+        }
         escape.utils.AppVars.currentSection.getNavigationView().push({
             xtype: 'searchPage',
-            collectionType: collectionType
+            collectionType: collectionType,
+            searchProperty: searchProperty
         });
     },
     addToCalender: function(data){

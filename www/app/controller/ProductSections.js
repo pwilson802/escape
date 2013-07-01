@@ -64,6 +64,7 @@ Ext.define('escape.controller.ProductSections', {
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: record.data.title,
             contentPath: record.data.contentPath,
+            relatedSearchSelection: record.data.relatedSearchSelection,
             xtype: 'productSubSection'
         });
     },
