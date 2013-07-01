@@ -37,7 +37,113 @@ AppSettings.radius = 50;
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.destinationWebpath = '/south-coast/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
-AppSettings.appSubDestination = ["Wollongong and Surrounds","Shellharbour","Kiama Area","Jervis Bay and Shoalhaven","Batemans Bay and Eurobodalla","Merimbula & Saphire Coast"];
+AppSettings.appSubDestination = [{
+    name: "Wollongong and Surrounds",
+    towns: [{
+        name: 'Bulli'
+    }, {
+        name: 'Stanwell Park'
+    }, {
+        name: 'Thirroul'
+    }, {
+        name: 'Wollongong'
+    }]
+}, {
+    name: "Shellharbour",
+    towns: [{
+        name: 'Shellharbour'
+    }, {
+        name: 'Albion Park'
+    }]
+}, {
+    name: "Kiama Area",
+    towns: [{
+        name: 'Gerringong'
+    }, {
+        name: 'Gerroa'
+    }, {
+        name: 'Jamberoo'
+    }, {
+        name: 'Kiama'
+    }]
+}, {
+    name: "Jervis Bay and Shoalhaven",
+    towns: [{
+        name: 'Bawley Point'
+    }, {
+        name: 'Berry'
+    }, {
+        name: 'Callala Bay'
+    }, {
+        name: 'Culburra Beach'
+    }, {
+        name: 'Currarong'
+    }, {
+        name: 'Huskisson'
+    }, {
+        name: 'Hyams Beach'
+    }, {
+        name: 'Jervis Bay'
+    }, {
+        name: 'Kangaroo Valley'
+    }, {
+        name: 'Lake Conjola'
+    }, {
+        name: 'Milton'
+    }, {
+        name: 'Mollymook'
+    }, {
+        name: 'Nowra'
+    }, {
+        name: 'Sanctuary Point'
+    }, {
+        name: 'Shoalhaven Heads'
+    }, {
+        name: 'St Georges Basin'
+    }, {
+        name: 'Sussex Inlet'
+    }, {
+        name: 'Ulladulla'
+    }, {
+        name: 'Vincentia'
+    }]
+}, {
+    name: "Batemans Bay and Eurobodalla",
+    towns: [{
+        name: 'Batemans Bay'
+    }, {
+        name: 'Bodalla'
+    }, {
+        name: 'Broulee'
+    }, {
+        name: 'Central Tilba'
+    }, {
+        name: 'Mogo'
+    }, {
+        name: 'Moruya'
+    }, {
+        name: 'Narooma'
+    }, {
+        name: 'Tilba Tilba'
+    }, {
+        name: 'Tuross Head'
+    }]
+}, {
+    name: "Merimbula and Sapphire Coast",
+    towns: [{
+        name: 'Bega'
+    }, {
+        name: 'Bermagui'
+    }, {
+        name: 'Eden'
+    }, {
+        name: 'Merimbula'
+    }, {
+        name: 'Pambula'
+    }, {
+        name: 'Tathra'
+    }]
+}];
 // The url of the squiz search
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 // The name of the events calender in the database to search for events in
