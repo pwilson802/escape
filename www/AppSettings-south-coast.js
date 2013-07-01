@@ -288,19 +288,19 @@ AppSettings.poi = [{
 // Home Images
 AppSettings.homeImgs = [{
     imagePath: AppSettings.imgfolder+'home1.jpg',
-    altText: 'Hamilton Lund; Destination NSW'
+    altText: 'View over paddocks, Bega Valley by Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Hamilton Lund; Destination NSW'
+    altText: 'Seacliff Bridge, Grand Pacific Drive by Tourism Wollongong'
 }, {
     imagePath: AppSettings.imgfolder+'home3.jpg',
-    altText: 'James Horan; Destination NSW'
+    altText: 'Kangaroos at Pebbly Beach, Murramarang National Park by Murray Vanderveer'
 }, {
     imagePath: AppSettings.imgfolder+'home4.jpg',
-    altText: 'Chris Jones; Destination NSW'
+    altText: 'Macquarie Pass National Park, Shellharbour by Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home5.jpg',
-    altText: 'Destination NSW'
+    altText: 'Whale watching, Montague Island, Narooma by Tourism Eurobodalla'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [
