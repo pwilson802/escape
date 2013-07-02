@@ -26,10 +26,7 @@ Ext.define("escape.view.page.Search", {
     destinationChange: function(e, newValue, oldValue, eOpts) {
         if (newValue != oldValue) {
             // If we have a new area, we're going to have to reload the towns.
-            var townOptions = [{ 
-                text: 'All',
-                value: ''
-            }];
+            var townOptions = [];
             for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
                 currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
                 if ((newValue.raw.text == AppSettings.appSubDestination[i].name)||(newValue.raw.text == 'All')) { // If we find the town we need, or are on 'All'
@@ -41,6 +38,16 @@ Ext.define("escape.view.page.Search", {
                     }
                 }
             }
+            townOptions.sort(function(a, b) {
+                var textA = a.text.toUpperCase();
+                var textB = b.text.toUpperCase();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            });
+            
+            townOptions.unshift({
+                text: 'All',
+                value: ''
+            });
             if (newValue.raw.text == 'All') { // If we have selected all the destinations we want all the towns too
                 this.getParent().innerItems[2].setValue('All');
             }
@@ -73,10 +80,7 @@ Ext.define("escape.view.page.Search", {
             });
         }
 
-        var townOptions = [{
-            text: 'All',
-            value: ''
-        }];
+        var townOptions = [];
         var currentTown;
         for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
             currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
@@ -87,6 +91,17 @@ Ext.define("escape.view.page.Search", {
                 });
             }
         }
+
+        townOptions.sort(function(a, b) {
+            var textA = a.text.toUpperCase();
+            var textB = b.text.toUpperCase();
+            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        });
+
+        townOptions.unshift({
+            text: 'All',
+            value: ''
+        });
 
         //
         var savedValues =  this.getSearchValues();
