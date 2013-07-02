@@ -18,7 +18,7 @@
 
 $app-image-path: '../app-images/south-coast';
 $general-path: '../region-images/general';
-
+$footer-image: 'visitnsw_footer_logo';
 
 $base-color : #f9f7f3;
 $page-bg-color : #f9f7f3;
@@ -329,11 +329,11 @@ p {
 	height:160px;
 	background: url(#{$image-path}/linen_bg.png);
 	.border {
-		background:url(#{$image-path}/footer_pattern.png) repeat-x;
+		background:url(#{$general-path}/footer_pattern.png) repeat-x;
 		height:31px;
 	}
 	.logo {
-		background:url(#{$image-path}/footer_logo.png) center center no-repeat;
+		background:url(#{$general-path}/#{$footer-image}.png) center center no-repeat;
 		width:100%;
 		height:120px;
 	}
@@ -3714,7 +3714,7 @@ p {
 			-webkit-background-size: 7px 31px; 
 		}
 		.logo {
-			background-image:url(#{$image-path}/footer_logo@2x.png);
+			background-image:url(#{$general-path}/#{$footer-image}@2x.png);
 			-webkit-background-size: 158px 46px; 
 		}
 	}
