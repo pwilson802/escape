@@ -37,7 +37,113 @@ AppSettings.radius = 50;
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.destinationWebpath = '/south-coast/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
-AppSettings.appSubDestination = ["Wollongong and Surrounds","Shellharbour","Kiama Area","Jervis Bay & Shoalhaven","Batemans Bay & Eurobodalla","Merimbula and Saphire Coast"];
+AppSettings.appSubDestination = [{
+    name: "Wollongong and Surrounds",
+    towns: [{
+        name: 'Bulli'
+    }, {
+        name: 'Stanwell Park'
+    }, {
+        name: 'Thirroul'
+    }, {
+        name: 'Wollongong'
+    }]
+}, {
+    name: "Shellharbour",
+    towns: [{
+        name: 'Shellharbour'
+    }, {
+        name: 'Albion Park'
+    }]
+}, {
+    name: "Kiama Area",
+    towns: [{
+        name: 'Gerringong'
+    }, {
+        name: 'Gerroa'
+    }, {
+        name: 'Jamberoo'
+    }, {
+        name: 'Kiama'
+    }]
+}, {
+    name: "Jervis Bay and Shoalhaven",
+    towns: [{
+        name: 'Bawley Point'
+    }, {
+        name: 'Berry'
+    }, {
+        name: 'Callala Bay'
+    }, {
+        name: 'Culburra Beach'
+    }, {
+        name: 'Currarong'
+    }, {
+        name: 'Huskisson'
+    }, {
+        name: 'Hyams Beach'
+    }, {
+        name: 'Jervis Bay'
+    }, {
+        name: 'Kangaroo Valley'
+    }, {
+        name: 'Lake Conjola'
+    }, {
+        name: 'Milton'
+    }, {
+        name: 'Mollymook'
+    }, {
+        name: 'Nowra'
+    }, {
+        name: 'Sanctuary Point'
+    }, {
+        name: 'Shoalhaven Heads'
+    }, {
+        name: 'St Georges Basin'
+    }, {
+        name: 'Sussex Inlet'
+    }, {
+        name: 'Ulladulla'
+    }, {
+        name: 'Vincentia'
+    }]
+}, {
+    name: "Batemans Bay and Eurobodalla",
+    towns: [{
+        name: 'Batemans Bay'
+    }, {
+        name: 'Bodalla'
+    }, {
+        name: 'Broulee'
+    }, {
+        name: 'Central Tilba'
+    }, {
+        name: 'Mogo'
+    }, {
+        name: 'Moruya'
+    }, {
+        name: 'Narooma'
+    }, {
+        name: 'Tilba Tilba'
+    }, {
+        name: 'Tuross Head'
+    }]
+}, {
+    name: "Merimbula and Sapphire Coast",
+    towns: [{
+        name: 'Bega'
+    }, {
+        name: 'Bermagui'
+    }, {
+        name: 'Eden'
+    }, {
+        name: 'Merimbula'
+    }, {
+        name: 'Pambula'
+    }, {
+        name: 'Tathra'
+    }]
+}];
 // The url of the squiz search
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 // The name of the events calender in the database to search for events in
@@ -182,19 +288,22 @@ AppSettings.poi = [{
 // Home Images
 AppSettings.homeImgs = [{
     imagePath: AppSettings.imgfolder+'home1.jpg',
-    altText: 'Hamilton Lund; Destination NSW'
+    altText: 'Murrays Beach at Jervis Bay, near Green Patch'
 }, {
     imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Hamilton Lund; Destination NSW'
+    altText: 'View over paddocks, Bega Valley by Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home3.jpg',
-    altText: 'James Horan; Destination NSW'
+    altText: 'Seacliff Bridge, Grand Pacific Drive by Tourism Wollongong'
 }, {
     imagePath: AppSettings.imgfolder+'home4.jpg',
-    altText: 'Chris Jones; Destination NSW'
+    altText: 'Kangaroos at Pebbly Beach, Murramarang National Park by Murray Vanderveer'
 }, {
     imagePath: AppSettings.imgfolder+'home5.jpg',
-    altText: 'Destination NSW'
+    altText: 'Macquarie Pass National Park, Shellharbour by Destination NSW'
+}, {
+    imagePath: AppSettings.imgfolder+'home6.jpg',
+    altText: 'Whale watching, Montague Island, Narooma by Tourism Eurobodalla'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [
@@ -208,35 +317,41 @@ AppSettings.attractionCats = [
     title: 'Beach Lifestyle',
     subheading: 'On the ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle',
+    relatedSearchSelection: 'Beach'
 }, {
     title: 'Nature and Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + "'s great outdoors",
     imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
     // hideInSubSections: true,
     // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks',
+    relatedSearchSelection: 'Nature based'
 }, {
     title: 'Food and Wine',
     subheading: 'Food and wine on the ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
     hideInSubSections: true,
-    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine'
+    contentPath: AppSettings.getSMPSectionURL() + '/food-and-wine',
+    relatedSearchSelection: 'Food and Wine'
 }, {
     title: 'Adventure and Sport',
     subheading: 'Plenty of fun and adventure on the ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/adventure-and-sports'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/adventure-and-sports',
+    relatedSearchSelection: 'Sport'
 }, {
     title: 'Local Heritage and Arts',
     subheading: 'Enjoy local heritage and arts on the ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/local-heritage-and-art'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/local-heritage-and-art',
+    relatedSearchSelection: 'Historic/Heritage'
 }, {
     title: 'Family Experiences',
     subheading: AppSettings.appAreaName + ' is the perfect playground for a family holiday',
     imgPath: AppSettings.imgfolder+'home_experience_f.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-experiences'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-experiences',
+    relatedSearchSelection: 'Family Friendly'
 }];
 
 
