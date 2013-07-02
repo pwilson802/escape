@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Blue Mountains.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>South Coast copy 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 		<key>South Coast copy.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -17,6 +27,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>000FD06C1782912700A3C3B2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>00376B1C178251BB00469595</key>
 		<dict>
 			<key>primary</key>

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00376B1C178251BB00469595"
-               BuildableName = "South Coast.app"
+               BuildableName = "Blue Mountains.app"
                BlueprintName = "Blue Mountains"
                ReferencedContainer = "container:South Coast.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "South Coast.app"
+            BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
             ReferencedContainer = "container:South Coast.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "South Coast.app"
+            BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
             ReferencedContainer = "container:South Coast.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "South Coast.app"
+            BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
             ReferencedContainer = "container:South Coast.xcodeproj">
          </BuildableReference>
