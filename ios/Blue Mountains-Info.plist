@@ -5,19 +5,19 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>South Coast</string>
+	<string>Blue Mountains</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>sth/Icon-57.png</string>
-		<string>sth/Icon-114.png</string>
-		<string>sth/Icon-72.png</string>
-		<string>sth/Icon-72@2x.png</string>
-		<string>sth/Icon.png</string>
+		<string>blu/Icon-57.png</string>
+		<string>blu/Icon-114.png</string>
+		<string>blu/Icon-72.png</string>
+		<string>blu/Icon-72@2x.png</string>
+		<string>blu/Icon.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.tiltandco.dnsw.spp.southcoast</string>
+	<string>com.tiltandco.dnsw.spp.bluemountains</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -37,7 +37,7 @@
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
 	<key>UILaunchImageFile</key>
-	<string>sth/Default.png</string>
+	<string>blu/Default.png</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

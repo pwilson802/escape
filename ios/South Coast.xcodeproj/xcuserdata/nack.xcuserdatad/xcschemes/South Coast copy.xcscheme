@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "Sydney.app"
-               BlueprintName = "Sydney"
-               ReferencedContainer = "container:Sydney.xcodeproj">
+               BlueprintIdentifier = "00376B1C178251BB00469595"
+               BuildableName = "South Coast.app"
+               BlueprintName = "Blue Mountains"
+               ReferencedContainer = "container:South Coast.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BlueprintIdentifier = "00376B1C178251BB00469595"
             BuildableName = "South Coast.app"
-            BlueprintName = "South Coast"
+            BlueprintName = "Blue Mountains"
             ReferencedContainer = "container:South Coast.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -51,9 +51,9 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BlueprintIdentifier = "00376B1C178251BB00469595"
             BuildableName = "South Coast.app"
-            BlueprintName = "South Coast"
+            BlueprintName = "Blue Mountains"
             ReferencedContainer = "container:South Coast.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -69,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Sydney.app"
-            BlueprintName = "Sydney"
-            ReferencedContainer = "container:Sydney.xcodeproj">
+            BlueprintIdentifier = "00376B1C178251BB00469595"
+            BuildableName = "South Coast.app"
+            BlueprintName = "Blue Mountains"
+            ReferencedContainer = "container:South Coast.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
