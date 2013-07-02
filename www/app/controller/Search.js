@@ -333,13 +333,13 @@ Ext.define('escape.controller.Search', {
         } else if (options.kind_2) {
             this.addOption('Type', options.kind_2);
         }
-        if (options.features && collectionType != 'deals' && collectionType != 'accom') {
+        if (options.features && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'all' && collectionType) {
             this.addOption('Features', options.features);
         }
-        if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire') {
+        if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire' && collectionType != 'event' ) {
             this.addOption('Experience', options.experiences, searchProperty);
         }
-        if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants') {
+        if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants' && collectionType != 'event' && collectionType != 'all' && collectionType) {
             this.addOption('Activities', options.activities);
         }
         if (options.starRating && collectionType != 'deals') {
