@@ -18,7 +18,6 @@
 		000FD0771782912700A3C3B2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B792CC37160805CB00BD25D7 /* ChildBrowser.bundle */; };
 		000FD0791782912700A3C3B2 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B792CC3C160805CB00BD25D7 /* ChildBrowserViewController.xib */; };
-		000FD07A1782912700A3C3B2 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2F502BFD16CAFB9F00050BE4 /* cmsPages.db */; };
 		000FD07B1782912700A3C3B2 /* sth in Resources */ = {isa = PBXBuildFile; fileRef = 00376B7117825C1C00469595 /* sth */; };
 		000FD07D1782912700A3C3B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		000FD07E1782912700A3C3B2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
@@ -49,6 +48,7 @@
 		000FD0981782912700A3C3B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
 		000FD0991782912700A3C3B2 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		000FD09A1782912700A3C3B2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		000FD0A4178291C900A3C3B2 /* syd in Resources */ = {isa = PBXBuildFile; fileRef = 000FD0A3178291C900A3C3B2 /* syd */; };
 		00376B1F178251BB00469595 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
 		00376B20178251BB00469595 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 3053AC6E109B7857006FCFE7 /* VERSION */; };
 		00376B21178251BB00469595 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30E1352610E2C1420031B30D /* Cordova.plist */; };
@@ -60,7 +60,6 @@
 		00376B27178251BB00469595 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		00376B28178251BB00469595 /* ChildBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B792CC37160805CB00BD25D7 /* ChildBrowser.bundle */; };
 		00376B29178251BB00469595 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B792CC3C160805CB00BD25D7 /* ChildBrowserViewController.xib */; };
-		00376B2B178251BB00469595 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2F502BFD16CAFB9F00050BE4 /* cmsPages.db */; };
 		00376B38178251BB00469595 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		00376B39178251BB00469595 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		00376B3A178251BB00469595 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
@@ -92,6 +91,9 @@
 		00376B55178251BB00469595 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		00376B7017825BF300469595 /* blu in Resources */ = {isa = PBXBuildFile; fileRef = 00376B6F17825BF300469595 /* blu */; };
 		00376B7217825C1C00469595 /* sth in Resources */ = {isa = PBXBuildFile; fileRef = 00376B7117825C1C00469595 /* sth */; };
+		004319901783B5D500D8417D /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0043198F1783B5D500D8417D /* cmsPages.db */; };
+		004319911783B5D500D8417D /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0043198F1783B5D500D8417D /* cmsPages.db */; };
+		004319921783B5D500D8417D /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0043198F1783B5D500D8417D /* cmsPages.db */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -101,7 +103,6 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		2F1322CF1665B8FB00CBBAE4 /* calendarPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F1322CD1665B8FB00CBBAE4 /* calendarPlugin.m */; };
 		2F1322D11665BB4100CBBAE4 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1322D01665BB4100CBBAE4 /* EventKit.framework */; };
-		2F502BFE16CAFB9F00050BE4 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2F502BFD16CAFB9F00050BE4 /* cmsPages.db */; };
 		2F502BFF16CAFC9300050BE4 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F502BF816CAFB6900050BE4 /* libCordova.a */; };
 		301BF570109A69640062928A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
 		301BF5B5109A6A2B0062928A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B4109A6A2B0062928A /* AddressBook.framework */; };
@@ -162,10 +163,12 @@
 /* Begin PBXFileReference section */
 		000FD09E1782912700A3C3B2 /* South Coast copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "South Coast copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		000FD09F1782912800A3C3B2 /* Sydney-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Sydney-Info.plist"; path = "/Users/nack/Sites/git/escape/ios/Sydney-Info.plist"; sourceTree = "<absolute>"; };
+		000FD0A3178291C900A3C3B2 /* syd */ = {isa = PBXFileReference; lastKnownFileType = folder; name = syd; path = "../app-icons/syd"; sourceTree = "<group>"; };
 		00376B59178251BB00469595 /* Blue Mountains.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Blue Mountains.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00376B5A178251BB00469595 /* Blue Mountains-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Blue Mountains-Info.plist"; path = "/Users/nack/Sites/git/escape/ios/Blue Mountains-Info.plist"; sourceTree = "<absolute>"; };
 		00376B6F17825BF300469595 /* blu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = blu; path = "../app-icons/blu"; sourceTree = "<group>"; };
 		00376B7117825C1C00469595 /* sth */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sth; path = "../app-icons/sth"; sourceTree = "<group>"; };
+		0043198F1783B5D500D8417D /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -179,7 +182,6 @@
 		2F1322CE1665B8FB00CBBAE4 /* calendarPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = calendarPlugin.h; path = ../../../plugins/ios/calendarPlugin.h; sourceTree = "<group>"; };
 		2F1322D01665BB4100CBBAE4 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		2F502BED16CAFB6900050BE4 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
-		2F502BFD16CAFB9F00050BE4 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
 		301BF5B4109A6A2B0062928A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		301BF5B6109A6A2B0062928A /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
@@ -351,6 +353,7 @@
 				00376B6F17825BF300469595 /* blu */,
 				00376B7117825C1C00469595 /* sth */,
 				8D1107310486CEB800E47090 /* South Coast-Info.plist */,
+				000FD0A3178291C900A3C3B2 /* syd */,
 				00376B5A178251BB00469595 /* Blue Mountains-Info.plist */,
 				000FD09F1782912800A3C3B2 /* Sydney-Info.plist */,
 				2F502BED16CAFB6900050BE4 /* CordovaLib.xcodeproj */,
@@ -383,7 +386,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2F502BFD16CAFB9F00050BE4 /* cmsPages.db */,
+				0043198F1783B5D500D8417D /* cmsPages.db */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
 				1F766FDB13BBADB100FB74C0 /* en.lproj */,
@@ -618,8 +621,9 @@
 				000FD0771782912700A3C3B2 /* Localizable.strings in Resources */,
 				000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */,
 				000FD0791782912700A3C3B2 /* ChildBrowserViewController.xib in Resources */,
-				000FD07A1782912700A3C3B2 /* cmsPages.db in Resources */,
 				000FD07B1782912700A3C3B2 /* sth in Resources */,
+				000FD0A4178291C900A3C3B2 /* syd in Resources */,
+				004319921783B5D500D8417D /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,8 +642,8 @@
 				00376B27178251BB00469595 /* Localizable.strings in Resources */,
 				00376B28178251BB00469595 /* ChildBrowser.bundle in Resources */,
 				00376B29178251BB00469595 /* ChildBrowserViewController.xib in Resources */,
-				00376B2B178251BB00469595 /* cmsPages.db in Resources */,
 				00376B7017825BF300469595 /* blu in Resources */,
+				004319911783B5D500D8417D /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,8 +662,8 @@
 				30A0434914DC770100060A13 /* Localizable.strings in Resources */,
 				B792CC41160805CB00BD25D7 /* ChildBrowser.bundle in Resources */,
 				B792CC44160805CB00BD25D7 /* ChildBrowserViewController.xib in Resources */,
-				2F502BFE16CAFB9F00050BE4 /* cmsPages.db in Resources */,
 				00376B7217825C1C00469595 /* sth in Resources */,
+				004319901783B5D500D8417D /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

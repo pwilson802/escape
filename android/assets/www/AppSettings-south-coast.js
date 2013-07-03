@@ -38,33 +38,25 @@ AppSettings.radius = 50;
 AppSettings.destinationWebpath = '/south-coast/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
-    name: "Wollongong and Surrounds",
+    name: "Batemans Bay and Eurobodalla",
     towns: [{
-        name: 'Bulli'
+        name: 'Batemans Bay'
     }, {
-        name: 'Stanwell Park'
+        name: 'Bodalla'
     }, {
-        name: 'Thirroul'
+        name: 'Broulee'
     }, {
-        name: 'Wollongong'
-    }]
-}, {
-    name: "Shellharbour",
-    towns: [{
-        name: 'Shellharbour'
+        name: 'Central Tilba'
     }, {
-        name: 'Albion Park'
-    }]
-}, {
-    name: "Kiama Area",
-    towns: [{
-        name: 'Gerringong'
+        name: 'Mogo'
     }, {
-        name: 'Gerroa'
+        name: 'Moruya'
     }, {
-        name: 'Jamberoo'
+        name: 'Narooma'
     }, {
-        name: 'Kiama'
+        name: 'Tilba Tilba'
+    }, {
+        name: 'Tuross Head'
     }]
 }, {
     name: "Jervis Bay and Shoalhaven",
@@ -108,25 +100,15 @@ AppSettings.appSubDestination = [{
         name: 'Vincentia'
     }]
 }, {
-    name: "Batemans Bay and Eurobodalla",
+    name: "Kiama Area",
     towns: [{
-        name: 'Batemans Bay'
+        name: 'Gerringong'
     }, {
-        name: 'Bodalla'
+        name: 'Gerroa'
     }, {
-        name: 'Broulee'
+        name: 'Jamberoo'
     }, {
-        name: 'Central Tilba'
-    }, {
-        name: 'Mogo'
-    }, {
-        name: 'Moruya'
-    }, {
-        name: 'Narooma'
-    }, {
-        name: 'Tilba Tilba'
-    }, {
-        name: 'Tuross Head'
+        name: 'Kiama'
     }]
 }, {
     name: "Merimbula and Sapphire Coast",
@@ -142,6 +124,24 @@ AppSettings.appSubDestination = [{
         name: 'Pambula'
     }, {
         name: 'Tathra'
+    }]
+}, {
+    name: "Shellharbour",
+    towns: [{
+        name: 'Shellharbour'
+    }, {
+        name: 'Albion Park'
+    }]
+}, {
+    name: "Wollongong and Surrounds",
+    towns: [{
+        name: 'Bulli'
+    }, {
+        name: 'Stanwell Park'
+    }, {
+        name: 'Thirroul'
+    }, {
+        name: 'Wollongong'
     }]
 }];
 // The url of the squiz search
