@@ -136,7 +136,7 @@ Ext.define("escape.view.page.Search", {
                 items: [{
                     xtype: 'selectField',
                     label: 'Around me',
-                    labelWidth: '50%',
+                    labelWidth: '100px',
                     name: 'distance',
                     value : aroundMeValue,
                     options: [{
@@ -177,7 +177,7 @@ Ext.define("escape.view.page.Search", {
                     xtype: 'selectField',
                     label: 'Area',
                     name: 'destination',
-                    labelWidth: '50%',
+                    labelWidth: '100px',
                     options: destinationOptions,
                     value: destinationValue,
                     listeners:{
@@ -187,7 +187,7 @@ Ext.define("escape.view.page.Search", {
                     xtype: 'selectField',
                     label: 'Town',
                     name: 'town',
-                    labelWidth: '50%',
+                    labelWidth: '100px',
                     options: townOptions,
                     value: 'All',
                     listeners:{

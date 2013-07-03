@@ -32,7 +32,7 @@ $include-default-icons : false;
 
 @import 'sencha-touch/default/all';
 @import "compass/utilities/general/clearfix";
-
+$form-label-background-color : #FFFFFF;
 // You may remove any of the following modules that you
 // do not use in order to create a smaller css file.
 @include sencha-panel;
@@ -124,6 +124,7 @@ p {
 	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 }
 .x-form-label {
+	background: #ffffff !important;
 	font-family:"HelveticaNeue-Regular", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans;
 }
 .x-sheet-action {

@@ -396,7 +396,7 @@ Ext.define('escape.controller.Search', {
             var selectfield = {
                 xtype: 'selectField',
                 label: name,
-                labelWidth: '50%',
+                labelWidth: '100px',
                 name: name.toLowerCase(),
                 options: choices,
                 value: presetValue
