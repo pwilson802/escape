@@ -268,6 +268,11 @@ Ext.define("escape.model.Content", {
                 items: caroselImages
             });
         }
+        items.push({
+            xtype: 'button',
+            cls: 'searchBar iconBar',
+            text: 'Search for more like this'
+        });
         // create map
         if (content.geolocation !== null) {
             items.push({

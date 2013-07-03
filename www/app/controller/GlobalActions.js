@@ -27,6 +27,9 @@ Ext.define('escape.controller.GlobalActions', {
             'section button[cls="searchBtn iconBtn"]': {
                 tap: 'showSearch'
             },
+            'section button[cls="searchBar iconBar"]': {
+                tap: 'showSearch'
+            },
             'section button[action=getDirections]': {
                 tap: function(btn) {
                     this.showDirections(btn.config.address, btn.config.latlon);
