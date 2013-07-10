@@ -6,6 +6,9 @@ Ext.define('escape.controller.Section', {
         rightBtn: null,
         oldPage: null,
         newPage: null,
+        refs: {
+            mainView: 'mainView'
+        },
         control: {
             'slidenavigationview': {
                 menuClosed: 'menuClosed'
@@ -57,6 +60,37 @@ Ext.define('escape.controller.Section', {
             firstPage.title = null;
         }
         navView.push(firstPage);
+        var selfRef = this;
+        // check for an open swipe
+        section.element.on({
+            swipe: function(e, node) {
+                var direction = e.direction;
+                var vaildSwipe = true;
+
+
+                var targets = e.changedTouches[0].targets;
+                for (var i = 0; i < targets.length; i++) {
+                    var target = targets[i];
+                    var el = Ext.get(target);
+                    if (el.hasCls('x-carousel')) {
+                        vaildSwipe = false;
+                        break;
+                    }
+                };
+                if (vaildSwipe) {
+                    if (direction == 'right') {
+                        if (selfRef.getMainView().isClosed()) {
+                            selfRef.getMainView().toggleContainer();
+                        }
+                    }
+                    if (direction == 'left') {
+                        if (!selfRef.getMainView().isClosed()) {
+                            selfRef.getMainView().toggleContainer();
+                        }
+                    }
+                }
+            }
+        });
     },
     menuClosed: function() {
         var page = escape.utils.AppVars.currentPage;

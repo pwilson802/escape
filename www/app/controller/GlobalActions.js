@@ -5,7 +5,8 @@ Ext.define('escape.controller.GlobalActions', {
         refs: {
             mainView: 'mainView',
             searchPage: 'searchPage',
-            weatherPage: 'weatherPage'
+            weatherPage: 'weatherPage',
+            mask: 'section mask'
         },
         control: {
             'slidenavigationview': {
@@ -13,7 +14,8 @@ Ext.define('escape.controller.GlobalActions', {
                 menuClosed: 'menuClosed'
             },
             'section mask': {
-                tap: 'closeMenu'
+                tap: 'closeMenu',
+                swipe: 'closeMenu'
             },
             'page button[action=showMenu]': {
                 tap: 'showMenu'
@@ -139,6 +141,19 @@ Ext.define('escape.controller.GlobalActions', {
         }
         // add a close panel
         escape.utils.AppVars.currentSection.setMasked(true);
+        var m = escape.utils.AppVars.currentSection.getMasked();
+        var selfRef = this;
+        console.log(m.element);
+        m.element.on({
+            swipe: function(e, node) {
+                var direction = e.direction;
+                var vaildSwipe = true;
+                if (direction == 'left') {
+                    selfRef.getMainView().toggleContainer();
+                }
+
+            }
+        });
     },
     menuClosed: function(){
         escape.utils.AppVars.currentSection.setMasked(false);
