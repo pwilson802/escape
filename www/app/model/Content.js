@@ -210,6 +210,12 @@ Ext.define("escape.model.Content", {
                             url: childLink.Url,
                             type: 'mustDo'
                         });
+                    } else if (childLink.Url.indexOf('dont-miss') != -1) {
+                        content.productLists.push({
+                            name: 'Don\'t Miss',
+                            url: childLink.Url,
+                            type: 'productList'
+                        });
                     } else {
                         newChirldren.push(childLink);
                     }
@@ -238,16 +244,6 @@ Ext.define("escape.model.Content", {
             }
             // remove any product list
             content.page['External-Links'] = newExternalLinks;
-        }
-        // Parse Children for any must dos (These are internal in south coast/blue mountains)
-        for (var i = 0; i < content["children"].length; i++) {
-            if (content["children"][i].Name.indexOf('Don\'t Miss') >= 0) {
-                content.productLists.push({
-                    name: 'Don\'t Miss',
-                    url: content["children"][i].Url,
-                    type: 'productList'
-                });
-            }
         }
         return content;
     },
