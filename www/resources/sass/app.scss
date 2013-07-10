@@ -972,7 +972,8 @@ p {
 		background-color:#f4f3f1;
 		background-image:url('#{$image-path}/arrow_cell.png') !important;
 		background-repeat:no-repeat;
-		background-position: right 18px;
+		background-position: right 15px;
+		line-height: 21px;
 	}
 	.x-list-item.x-item-selected .x-list-item-label,
 	.x-list-item.x-item-pressing .x-list-item-label,
@@ -1306,11 +1307,12 @@ p {
 		background-repeat: no-repeat;
 		background-position: right 20px;
 		h3 {
-			margin : 25px 30px 0 0px;
-			padding:8px 0 0 0;
+			margin : 25px 35px 0 0px;
+			padding:8px 0 5px 0;
 			font-size:16px;
 			color:#323840;
 			font-family:"HelveticaNeue-Bold";
+			line-height: 20px;
 		}
 		h4 {
 			margin : -9px 0 5px 0;
