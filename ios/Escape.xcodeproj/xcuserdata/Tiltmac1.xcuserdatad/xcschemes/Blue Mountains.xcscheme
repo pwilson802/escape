@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0450"
+   LastUpgradeVersion = "0460"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "Sydney.app"
+               BlueprintIdentifier = "00376B1C178251BB00469595"
+               BuildableName = "Blue Mountains.app"
                BlueprintName = "Blue Mountains"
-               ReferencedContainer = "container:Blue Mountains.xcodeproj">
+               ReferencedContainer = "container:Escape.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Sydney.app"
+            BlueprintIdentifier = "00376B1C178251BB00469595"
+            BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:Blue Mountains.xcodeproj">
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Sydney.app"
+            BlueprintIdentifier = "00376B1C178251BB00469595"
+            BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:Blue Mountains.xcodeproj">
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -69,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Sydney.app"
+            BlueprintIdentifier = "00376B1C178251BB00469595"
+            BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:Blue Mountains.xcodeproj">
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
