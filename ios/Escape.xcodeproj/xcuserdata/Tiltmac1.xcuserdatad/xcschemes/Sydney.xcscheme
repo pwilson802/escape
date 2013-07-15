@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "Escape.app"
+               BuildableName = "South Coast.app"
                BlueprintName = "South Coast"
                ReferencedContainer = "container:Escape.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "000FD06C1782912700A3C3B2"
-               BuildableName = "Escape copy.app"
+               BuildableName = "Sydney.app"
                BlueprintName = "Sydney"
                ReferencedContainer = "container:Escape.xcodeproj">
             </BuildableReference>
