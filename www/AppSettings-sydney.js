@@ -37,7 +37,25 @@ AppSettings.radius = 100;
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.destinationWebpath = '/sydney/';
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
-AppSettings.appSubDestination = ["Sydney City", "Sydney North", "Sydney West", "Sydney South", "Sydney East", "Inner Sydney"];
+AppSettings.appSubDestination = [{
+    name: "Sydney City",
+    towns: []
+}, {
+    name: "Sydney North",
+    towns: []
+}, {
+    name: "Sydney West",
+    towns: []
+}, {
+    name: "Sydney South",
+    towns: []
+}, {
+    name: "Sydney East",
+    towns: []
+}, {
+    name: "Inner Sydney",
+    towns: []
+}];
 // The url of the squiz search
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
 // The name of the events calender in the database to serch for events in
