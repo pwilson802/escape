@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Blue Mountains.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>South Coast.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 		<key>Sydney.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +22,16 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>000FD06C1782912700A3C3B2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>00376B1C178251BB00469595</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1D6058900D05DD3D006BFB54</key>
 		<dict>
 			<key>primary</key>
