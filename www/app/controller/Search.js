@@ -331,7 +331,7 @@ Ext.define('escape.controller.Search', {
         } else if (options.kind) {
             this.addOption('Type', options.kind);
         } else if (options.kind_2) {
-            this.addOption('Type', options.kind_2);
+            this.addOption('Experience', options.kind_2);
         }
         if (options.features && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'all' && collectionType) {
             this.addOption('Features', options.features);
