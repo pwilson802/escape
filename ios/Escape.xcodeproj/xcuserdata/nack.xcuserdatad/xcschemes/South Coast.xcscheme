@@ -7,6 +7,20 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "00376B1C178251BB00469595"
+               BuildableName = "Blue Mountains.app"
+               BlueprintName = "Blue Mountains"
+               ReferencedContainer = "container:South Coast.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"
@@ -14,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00376B1C178251BB00469595"
-               BuildableName = "Blue Mountains.app"
-               BlueprintName = "Blue Mountains"
-               ReferencedContainer = "container:South Coast.xcodeproj">
+               BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+               BuildableName = "South Coast.app"
+               BlueprintName = "South Coast"
+               ReferencedContainer = "container:Escape.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +46,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "Blue Mountains.app"
-            BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BuildableName = "South Coast.app"
+            BlueprintName = "South Coast"
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +65,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "Blue Mountains.app"
-            BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BuildableName = "South Coast.app"
+            BlueprintName = "South Coast"
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -69,10 +83,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "Blue Mountains.app"
-            BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BuildableName = "South Coast.app"
+            BlueprintName = "South Coast"
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

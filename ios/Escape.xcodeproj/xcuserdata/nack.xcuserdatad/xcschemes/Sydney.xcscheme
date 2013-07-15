@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Sydney.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "000FD06C1782912700A3C3B2"
+               BuildableName = "Sydney.app"
+               BlueprintName = "Sydney"
+               ReferencedContainer = "container:Escape.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -32,10 +46,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "South Coast.app"
-            BlueprintName = "South Coast"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            BlueprintIdentifier = "000FD06C1782912700A3C3B2"
+            BuildableName = "Sydney.app"
+            BlueprintName = "Sydney"
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +65,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "South Coast.app"
-            BlueprintName = "South Coast"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            BlueprintIdentifier = "000FD06C1782912700A3C3B2"
+            BuildableName = "Sydney.app"
+            BlueprintName = "Sydney"
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -69,10 +83,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BlueprintIdentifier = "000FD06C1782912700A3C3B2"
             BuildableName = "Sydney.app"
             BlueprintName = "Sydney"
-            ReferencedContainer = "container:Sydney.xcodeproj">
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

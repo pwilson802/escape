@@ -7,6 +7,20 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "YES"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "00376B1C178251BB00469595"
+               BuildableName = "Blue Mountains.app"
+               BlueprintName = "Blue Mountains"
+               ReferencedContainer = "container:South Coast.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"
@@ -17,7 +31,7 @@
                BlueprintIdentifier = "00376B1C178251BB00469595"
                BuildableName = "Blue Mountains.app"
                BlueprintName = "Blue Mountains"
-               ReferencedContainer = "container:South Coast.xcodeproj">
+               ReferencedContainer = "container:Escape.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +49,7 @@
             BlueprintIdentifier = "00376B1C178251BB00469595"
             BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -54,7 +68,7 @@
             BlueprintIdentifier = "00376B1C178251BB00469595"
             BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,7 +86,7 @@
             BlueprintIdentifier = "00376B1C178251BB00469595"
             BuildableName = "Blue Mountains.app"
             BlueprintName = "Blue Mountains"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
