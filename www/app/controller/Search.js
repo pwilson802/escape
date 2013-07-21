@@ -317,6 +317,27 @@ Ext.define('escape.controller.Search', {
         console.log(collectionType);
         console.log(options);
 
+        if (options.duration) {
+            // Make a new object for filtered durations (without full stops)
+            var filteredDuration = {};
+            if (options.duration['Extended.']) {
+                filteredDuration['Extended'] = options.duration['Extended.'];
+            }
+            if (options.duration['Full Day.']) {
+                filteredDuration['Full Day'] = options.duration['Full Day.'];
+            }
+            if (options.duration['Half Day or less.']) {
+                filteredDuration['Half Day or less'] = options.duration['Half Day or less.'];
+            }
+            if (options.duration['Night.']) {
+                filteredDuration['Night'] = options.duration['Night.'];
+            }
+            if (options.duration['Tailored.']) {
+                filteredDuration['Tailored'] = options.duration['Tailored.'];
+            }
+            options.duration = filteredDuration;
+        }
+
         var activeItem = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
         var searchProperty = 'All';
         if (('searchProperty' in activeItem) && (activeItem.searchProperty)) {
@@ -345,9 +366,9 @@ Ext.define('escape.controller.Search', {
         if (options.starRating && collectionType != 'deals') {
             this.addOption('Star Rating', options.starRating);
         }
-        // if (options.duration && collectionType == 'tour') {
-        //     this.addOption('Duration', options.duration);
-        // }
+        if (options.duration && collectionType == 'tour') {
+            this.addOption('Duration', options.duration);
+        }
     },
 
     addOption: function(name, options, defaultValue) {
@@ -518,6 +539,7 @@ Ext.define('escape.controller.Search', {
         params = this.checkOption(params, values.kind, 'k');
         params = this.checkOption(params, values.kind_2, 'k');
         params = this.checkOption(params, values.starRating, 's');
+        params = this.checkOption(params, values.duration, 'f');
 
         // add date params if required
         if (values.fromDate) {
