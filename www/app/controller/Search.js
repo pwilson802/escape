@@ -345,12 +345,8 @@ Ext.define('escape.controller.Search', {
         }
 
         if (!onHomePage) { // We don't want any search options on the home page.
-            var activeItem = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
-            var searchProperty = 'All';
-            if (('searchProperty' in activeItem) && (activeItem.searchProperty)) {
-                searchProperty = activeItem.searchProperty;
-            }
-            console.log(searchProperty);
+            var searchProperty = (escape.utils.AppVars.thingsToDoSearchType) ? escape.utils.AppVars.thingsToDoSearchType : 'All';
+            console.log('Search Property ' + searchProperty);
             console.log(this.getSearchForm().getComponent('searchOptions'));
 
             if (collectionType && collectionType != 'attr') {
