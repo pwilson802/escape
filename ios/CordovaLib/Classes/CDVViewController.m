@@ -694,11 +694,13 @@
     {
         if ( [UIScreen mainScreen].bounds.size.height == 568 )
         {
+            center.y += MIN(statusBarFrame.size.width, statusBarFrame.size.height) / 2;
             orientedLaunchImageFile = [NSString stringWithFormat:@"%@-568h", launchImageFile];
         }
         else
         {
             orientedLaunchImageFile = launchImageFile;
+            
         }
     }
     
