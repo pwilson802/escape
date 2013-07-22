@@ -346,13 +346,14 @@ Ext.define('escape.controller.Search', {
         console.log(searchProperty);
         console.log(this.getSearchForm().getComponent('searchOptions'));
 
-
-        if (options.type) {
-            this.addOption('Type', options.type);
-        } else if (options.kind) {
-            this.addOption('Type', options.kind);
-        } else if (options.kind_2) {
-            this.addOption('Experience', options.kind_2);
+        if (collectionType && collectionType != 'attr') {
+            if (options.type) {
+                this.addOption('Type', options.type);
+            } else if (options.kind) {
+                this.addOption('Type', options.kind);
+            } else if (options.kind_2) {
+                this.addOption('Type ', options.kind_2);
+            }
         }
         if (options.features && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'all' && collectionType) {
             this.addOption('Features', options.features);
@@ -360,10 +361,10 @@ Ext.define('escape.controller.Search', {
         if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire' && collectionType != 'event' ) {
             this.addOption('Experience', options.experiences, searchProperty);
         }
-        if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants' && collectionType != 'event' && collectionType != 'all' && collectionType) {
+        if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants' && collectionType != 'event' && collectionType != 'all' && collectionType && collectionType != 'attr') {
             this.addOption('Activities', options.activities);
         }
-        if (options.starRating && collectionType != 'deals') {
+        if (options.starRating && collectionType != 'deals' && collectionType) {
             this.addOption('Star Rating', options.starRating);
         }
         if (options.duration && collectionType == 'tour') {
@@ -534,6 +535,7 @@ Ext.define('escape.controller.Search', {
         params = this.checkOption(params, values.destinations, 'r');
         params = this.checkOption(params, values.features, 'f');
         params = this.checkOption(params, values.experience, 'h');
+        params = this.checkOption(params, values['type '], 'h');
         params = this.checkOption(params, values.activities, 'J');
         params = this.checkOption(params, values.type, 'k');
         params = this.checkOption(params, values.kind, 'k');
