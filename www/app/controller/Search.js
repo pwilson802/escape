@@ -337,38 +337,46 @@ Ext.define('escape.controller.Search', {
             }
             options.duration = filteredDuration;
         }
-
-        var activeItem = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
-        var searchProperty = 'All';
-        if (('searchProperty' in activeItem) && (activeItem.searchProperty)) {
-            searchProperty = activeItem.searchProperty;
-        }
-        console.log(searchProperty);
-        console.log(this.getSearchForm().getComponent('searchOptions'));
-
-        if (collectionType && collectionType != 'attr') {
-            if (options.type) {
-                this.addOption('Type', options.type);
-            } else if (options.kind) {
-                this.addOption('Type', options.kind);
-            } else if (options.kind_2) {
-                this.addOption('Type ', options.kind_2);
+        var onHomePage = false;
+        if (collectionType === null) {
+            if (escape.utils.AppVars.currentSection.getNavigationView().getPreviousItem().getXTypes().indexOf('homePage') != -1) {
+                onHomePage = true;
             }
         }
-        if (options.features && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'all' && collectionType) {
-            this.addOption('Features', options.features);
-        }
-        if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire' && collectionType != 'event' ) {
-            this.addOption('Experience', options.experiences, searchProperty);
-        }
-        if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants' && collectionType != 'event' && collectionType != 'all' && collectionType && collectionType != 'attr') {
-            this.addOption('Activities', options.activities);
-        }
-        if (options.starRating && collectionType != 'deals' && collectionType) {
-            this.addOption('Star Rating', options.starRating);
-        }
-        if (options.duration && collectionType == 'tour') {
-            this.addOption('Duration', options.duration);
+
+        if (!onHomePage) { // We don't want any search options on the home page.
+            var activeItem = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
+            var searchProperty = 'All';
+            if (('searchProperty' in activeItem) && (activeItem.searchProperty)) {
+                searchProperty = activeItem.searchProperty;
+            }
+            console.log(searchProperty);
+            console.log(this.getSearchForm().getComponent('searchOptions'));
+
+            if (collectionType && collectionType != 'attr') {
+                if (options.type) {
+                    this.addOption('Type', options.type);
+                } else if (options.kind) {
+                    this.addOption('Type', options.kind);
+                } else if (options.kind_2) {
+                    this.addOption('Type ', options.kind_2);
+                }
+            }
+            if (options.features && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'all' && collectionType) {
+                this.addOption('Features', options.features);
+            }
+            if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire' && collectionType != 'event' ) {
+                this.addOption('Experience', options.experiences, searchProperty);
+            }
+            if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants' && collectionType != 'event' && collectionType != 'all' && collectionType && collectionType != 'attr') {
+                this.addOption('Activities', options.activities);
+            }
+            if (options.starRating && collectionType != 'deals' && collectionType) {
+                this.addOption('Star Rating', options.starRating);
+            }
+            if (options.duration && collectionType == 'tour') {
+                this.addOption('Duration', options.duration);
+            }
         }
     },
 
