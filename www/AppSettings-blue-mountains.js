@@ -234,29 +234,34 @@ AppSettings.attractionCats = [
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
     imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks',
+    relatedSearchSelection: 'Nature based'
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
+    contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment',
+    relatedSearchSelection: 'Food and Wine'
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/shopping'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/shopping',
+    relatedSearchSelection: 'Shopping'
 }, {
     title: 'Arts & Culture',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts-and-culture'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts-and-culture',
+    relatedSearchSelection: 'The Arts'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays'
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays',
+    relatedSearchSelection: 'Family Friendly'
 }];
 
 

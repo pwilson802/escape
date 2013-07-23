@@ -30,7 +30,6 @@ Ext.define("escape.model.WhereIsPOI", {
         var query = {};
         // the keyword to search by
         query.keyword = this.query;
-        console.log('this.distance: ' + this.distance);
         if (this.distance != -1) {
             // convert your lat lon into a EMS lat lon
             var latlon = new EMS.LonLat(this.geoLocation.longitude, this.geoLocation.latitude);
@@ -66,7 +65,6 @@ Ext.define("escape.model.WhereIsPOI", {
             bounds.extend(new OpenLayers.LonLat(AppSettings.bounds.right,AppSettings.bounds.bottom));
             query.bounds = bounds;
         }
-        console.info(bounds);
         // the amount of results to be returned
         query.size = this.pageSize;
         this.query = query;

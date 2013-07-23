@@ -65,6 +65,7 @@ Ext.define('escape.controller.ProductSections', {
         if (record.data.relatedSearchSelection) {
             escape.utils.AppVars.thingsToDoSearchType = record.data.relatedSearchSelection;
         }
+        console.log('CategorySelected, Things to do type ' + escape.utils.AppVars.thingsToDoSearchType);
         escape.utils.AppVars.currentSection.getNavigationView().push({
             pageTitle: record.data.title,
             contentPath: record.data.contentPath,
