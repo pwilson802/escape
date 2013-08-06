@@ -13,9 +13,11 @@ Ext.define("escape.model.WhereIsPOI", {
         this.loadLibaries();
     },
     loadLibaries: function() {
+        console.log('loadLibaries');
         var selfRef = this;
         escape.model.Map.loadRequiredFiles({
             success: function(results) {
+                console.log('libaries loaded');
                 EMS.Util.getDomain = function() {
                     return "destinationnsw.com.au";
                 };
@@ -72,6 +74,7 @@ Ext.define("escape.model.WhereIsPOI", {
         this.query = query;
     },
     runQuery: function() {
+        console.log('runQuery');
         var selfRef = this;
         var geocoder = new EMS.Services.Geocoder();
         // request the search
