@@ -4,6 +4,7 @@ Ext.define('escape.utils.AppVars', {
     currentSection: null,
     currentPage: null,
     childbrowser: null,
+    thingsToDoSearchType: null,
     // The funnel back destination webpath. Used to match funnelback collections names to the matrix ones
     collectionMapping: [{
         name: 'Accommodation',

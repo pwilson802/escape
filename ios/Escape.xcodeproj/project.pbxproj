@@ -91,9 +91,9 @@
 		00376B55178251BB00469595 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		00376B7017825BF300469595 /* blu in Resources */ = {isa = PBXBuildFile; fileRef = 00376B6F17825BF300469595 /* blu */; };
 		00376B7217825C1C00469595 /* sth in Resources */ = {isa = PBXBuildFile; fileRef = 00376B7117825C1C00469595 /* sth */; };
-		004319901783B5D500D8417D /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0043198F1783B5D500D8417D /* cmsPages.db */; };
-		004319911783B5D500D8417D /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0043198F1783B5D500D8417D /* cmsPages.db */; };
-		004319921783B5D500D8417D /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0043198F1783B5D500D8417D /* cmsPages.db */; };
+		009E5BF917A5F08E0014597F /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 009E5BF817A5F08E0014597F /* cmsPages.db */; };
+		009E5BFA17A5F08E0014597F /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 009E5BF817A5F08E0014597F /* cmsPages.db */; };
+		009E5BFB17A5F08E0014597F /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 009E5BF817A5F08E0014597F /* cmsPages.db */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -170,7 +170,7 @@
 		00376B59178251BB00469595 /* Blue Mountains.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Blue Mountains.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00376B6F17825BF300469595 /* blu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = blu; path = "../app-icons/blu"; sourceTree = "<group>"; };
 		00376B7117825C1C00469595 /* sth */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sth; path = "../app-icons/sth"; sourceTree = "<group>"; };
-		0043198F1783B5D500D8417D /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
+		009E5BF817A5F08E0014597F /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -389,7 +389,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0043198F1783B5D500D8417D /* cmsPages.db */,
+				009E5BF817A5F08E0014597F /* cmsPages.db */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
 				1F766FDB13BBADB100FB74C0 /* en.lproj */,
@@ -626,8 +626,8 @@
 				000FD0791782912700A3C3B2 /* ChildBrowserViewController.xib in Resources */,
 				000FD07B1782912700A3C3B2 /* sth in Resources */,
 				000FD0A4178291C900A3C3B2 /* syd in Resources */,
-				004319921783B5D500D8417D /* cmsPages.db in Resources */,
 				2FA580AE1794B2BC0023ADE3 /* Sydney-Info.plist in Resources */,
+				009E5BFB17A5F08E0014597F /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,8 +647,8 @@
 				00376B28178251BB00469595 /* ChildBrowser.bundle in Resources */,
 				00376B29178251BB00469595 /* ChildBrowserViewController.xib in Resources */,
 				00376B7017825BF300469595 /* blu in Resources */,
-				004319911783B5D500D8417D /* cmsPages.db in Resources */,
 				2FA580AD1794B1C60023ADE3 /* Blue Mountains-Info.plist in Resources */,
+				009E5BFA17A5F08E0014597F /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,8 +668,8 @@
 				B792CC41160805CB00BD25D7 /* ChildBrowser.bundle in Resources */,
 				B792CC44160805CB00BD25D7 /* ChildBrowserViewController.xib in Resources */,
 				00376B7217825C1C00469595 /* sth in Resources */,
-				004319901783B5D500D8417D /* cmsPages.db in Resources */,
 				2FA580B11794B57B0023ADE3 /* South Coast-Info.plist in Resources */,
+				009E5BF917A5F08E0014597F /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -58,3 +58,5 @@ android/assets/www/
 android/bin/
 
 ios/www/
+
+www/build/

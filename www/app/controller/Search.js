@@ -317,37 +317,63 @@ Ext.define('escape.controller.Search', {
         console.log(collectionType);
         console.log(options);
 
-        var activeItem = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
-        var searchProperty = 'All';
-        if (('searchProperty' in activeItem) && (activeItem.searchProperty)) {
-            searchProperty = activeItem.searchProperty;
+        if (options.duration) {
+            // Make a new object for filtered durations (without full stops)
+            var filteredDuration = {};
+            if (options.duration['Extended.']) {
+                filteredDuration['Extended'] = options.duration['Extended.'];
+            }
+            if (options.duration['Full Day.']) {
+                filteredDuration['Full Day'] = options.duration['Full Day.'];
+            }
+            if (options.duration['Half Day or less.']) {
+                filteredDuration['Half Day or less'] = options.duration['Half Day or less.'];
+            }
+            if (options.duration['Night.']) {
+                filteredDuration['Night'] = options.duration['Night.'];
+            }
+            if (options.duration['Tailored.']) {
+                filteredDuration['Tailored'] = options.duration['Tailored.'];
+            }
+            options.duration = filteredDuration;
         }
-        console.log(searchProperty);
-        console.log(this.getSearchForm().getComponent('searchOptions'));
+        var onHomePage = false;
+        if (collectionType === null) {
+            if (escape.utils.AppVars.currentSection.getNavigationView().getPreviousItem().getXTypes().indexOf('homePage') != -1) {
+                onHomePage = true;
+            }
+        }
 
+        if (!onHomePage) { // We don't want any search options on the home page.
+            var searchProperty = (escape.utils.AppVars.thingsToDoSearchType) ? escape.utils.AppVars.thingsToDoSearchType : 'All';
+            console.log('Search Property ' + searchProperty);
+            console.log(this.getSearchForm().getComponent('searchOptions'));
 
-        if (options.type) {
-            this.addOption('Type', options.type);
-        } else if (options.kind) {
-            this.addOption('Type', options.kind);
-        } else if (options.kind_2) {
-            this.addOption('Experience', options.kind_2);
+            if (collectionType && collectionType != 'attr') {
+                if (options.type) {
+                    this.addOption('Type', options.type);
+                } else if (options.kind) {
+                    this.addOption('Type', options.kind);
+                } else if (options.kind_2) {
+                    this.addOption('Type ', options.kind_2);
+                }
+            }
+            if (options.features && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'all' && collectionType) {
+                this.addOption('Features', options.features);
+            }
+            if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire' && collectionType != 'event' ) {
+                this.addOption('Experience', options.experiences, searchProperty);
+            }
+            if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants' && collectionType != 'event' && collectionType != 'all' && collectionType && collectionType != 'attr') {
+                this.addOption('Activities', options.activities);
+            }
+            if (options.starRating && collectionType != 'deals' && collectionType) {
+                this.addOption('Star Rating', options.starRating);
+            }
+            if (options.duration && collectionType == 'tour') {
+                this.addOption('Duration', options.duration);
+            }
         }
-        if (options.features && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'all' && collectionType) {
-            this.addOption('Features', options.features);
-        }
-        if (options.experiences && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'hire' && collectionType != 'event' ) {
-            this.addOption('Experience', options.experiences, searchProperty);
-        }
-        if (options.activities && collectionType != 'deals' && collectionType != 'accom' && collectionType != 'restaurants' && collectionType != 'event' && collectionType != 'all' && collectionType) {
-            this.addOption('Activities', options.activities);
-        }
-        if (options.starRating && collectionType != 'deals') {
-            this.addOption('Star Rating', options.starRating);
-        }
-        // if (options.duration && collectionType == 'tour') {
-        //     this.addOption('Duration', options.duration);
-        // }
     },
 
     addOption: function(name, options, defaultValue) {
@@ -513,11 +539,13 @@ Ext.define('escape.controller.Search', {
         params = this.checkOption(params, values.destinations, 'r');
         params = this.checkOption(params, values.features, 'f');
         params = this.checkOption(params, values.experience, 'h');
+        params = this.checkOption(params, values['type '], 'h');
         params = this.checkOption(params, values.activities, 'J');
         params = this.checkOption(params, values.type, 'k');
         params = this.checkOption(params, values.kind, 'k');
         params = this.checkOption(params, values.kind_2, 'k');
         params = this.checkOption(params, values.starRating, 's');
+        params = this.checkOption(params, values.duration, 'f');
 
         // add date params if required
         if (values.fromDate) {

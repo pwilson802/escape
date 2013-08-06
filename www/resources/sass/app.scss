@@ -3864,4 +3864,23 @@ p {
 	}
 }
 
+/* iPhone 5 Retina regardless of IOS version */
+@media (device-height : 568px) 
+   and (device-width : 320px) 
+   and (-webkit-min-device-pixel-ratio: 2) {
+	body {
+	    background-image: url(#{$app-image-path}/Default-568h@2x.png) !important;
+	    background-repeat: no-repeat;
+	    background-size: 100%;
+	    background-position: 0 -20px;
+	}
+}
 
+@media only screen and (min-device-width: 560px) and (max-device-width: 1136px) and (-webkit-min-device-pixel-ratio: 2) {
+	body {
+	    background-image: url(#{$app-image-path}/Default-568h@2x.png) !important;
+	    background-repeat: no-repeat;
+	    background-size: 100%;
+	    background-position: 0 -20px;
+	}
+}
