@@ -93,11 +93,15 @@ AppSettings.getSMPSectionURL = function() {
 AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' App',
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
-    description: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
-    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
-    link: AppSettings.websiteURL,
+    description: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
+    emailBody: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
+    appleStoreLink :'http://redir.tiltandco.net/escape/bluemountains/itunes',
+    googlePlayLink: 'http://redir.tiltandco.net/escape/bluemountains/googleplay',
     // maybe chnage picture
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
+   
+  
+   
 };
 // FACEBOOK settings
 AppSettings.facebook = {
@@ -369,7 +373,9 @@ AppSettings.mainMenu = [{
         collectionType: 'tour',
         xtype: 'searchPage'
     }
-}, {
+},
+/**
+{
     title: 'Deals',
     group: 'Group 3',
     id: 'dealsSection',
@@ -378,7 +384,8 @@ AppSettings.mainMenu = [{
         collectionType: 'deals',
         xtype: 'searchPage'
     }
-}, {
+}, **/
+{
     title: 'Alerts',
     group: 'Group 4',
     id: 'alertsSection',
@@ -448,7 +455,7 @@ AppSettings.mainMenu = [{
         contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
     }
 }, {
-    title: 'Other NSW Apps',
+    title: 'Other DNSW Apps',
     group: 'Group 5',
     id: 'otherAppsSection',
     firstPage: {

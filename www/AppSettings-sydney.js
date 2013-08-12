@@ -77,9 +77,11 @@ AppSettings.getSMPSectionURL = function() {
 AppSettings.defualtShareData = {
     name: AppSettings.appAreaName + ' App',
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
-    description: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
-    emailBody: 'The ' + AppSettings.appAreaName + ' App has been devloped by Destination NSW to assist visitors in planning their journey in ' + AppSettings.appAreaName + '.',
-    link: AppSettings.websiteURL,
+    description: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to ' + AppSettings.appAreaName + '.',
+    emailBody: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to ' + AppSettings.appAreaName + '.',
+    //link: AppSettings.websiteURL,
+    appleStoreLink :'https://itunes.apple.com/au/app/sydney-australia-official/id575072873?mt=8',
+    googlePlayLink: 'https://play.google.com/store/apps/details?id=com.dnsw.spp.sydney&hl=en',
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
 };
 // FACEBOOK settings
@@ -432,7 +434,7 @@ AppSettings.mainMenu = [{
         contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
     }
 }, {
-    title: 'Other NSW Apps',
+    title: 'Other DNSW Apps',
     group: 'Group 5',
     id: 'otherAppsSection',
     firstPage: {

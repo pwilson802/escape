@@ -46,7 +46,13 @@ Ext.define('escape.controller.Sharing', {
 
         if (!sharingData) {
             sharingData = AppSettings.defualtShareData;
+            if (Ext.os.is.iOS) {
+                sharingData.link = sharingData.appleStoreLink;
+            } else {
+                sharingData.link = sharingData.googlePlayLink;
+            }
         }
+        console.log(sharingData);
         // set share type
         if (!window.plugins.share) {
             // android sharing not  found
@@ -63,6 +69,7 @@ Ext.define('escape.controller.Sharing', {
                 subject: sharingData.name,
                 text: (sharingData.defaultMessage + ' ' + sharingData.link)
             }, function() {}, // Success function
+
 
             function() {} // Failure function
             );
