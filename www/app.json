@@ -74,14 +74,14 @@
      */
     "extras": [
         "resources/region-images/blue",
-        "resources/app-images/south-coast/",
+        "resources/app-images/sydney/",
         "resources/region-images/general",
         "resources/icons",
         "resources/sql",
         "resources/fonts",
         "resources/js",
         "config.xml",
-        "AppSettings-south-coast.js"
+        "AppSettings-sydney.js"
     ],
 
     /**

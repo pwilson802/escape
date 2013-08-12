@@ -22,14 +22,17 @@ Ext.define("escape.view.page.Directions", {
     openView: function() {
         var address = this.getAddress();
         var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
-        console.log(AppSettings.center);
+
+
+            var lat = this.getLatlon()[0];
+            var lon = this.getLatlon()[1];
 
             var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
                 itemId: 'mapDisplay',
                 // forceUseOffline: true,
                 height: Ext.Viewport.getSize().height - 143,
-                lat: Number(AppSettings.center[0]),
-                lon: Number(AppSettings.center[1]),
+                lat: lat,
+                lon: lon,
                 interaction: true,
                 markerAtCenter: true
             });
@@ -80,7 +83,7 @@ Ext.define("escape.view.page.Directions", {
                         xtype: 'textfield',
                         name: 'startLocation',
                         value: 'Current Location',
-                        label: 'Start:',
+                        placeHolder : 'Start:',
                         margin: '0 0 6px 0',
                         labelWidth: 55,
                         height: 41
@@ -89,7 +92,7 @@ Ext.define("escape.view.page.Directions", {
                         name: 'endLocation',
                         value: addressString,
                         labelWidth: 55,
-                        label: 'End:',
+                        placeHolder : 'End:',
                         height: 41
                     }]
                 }, {
