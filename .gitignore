@@ -31,6 +31,8 @@ www/resources/.DS_Store
 
 android/assets/.DS_Store
 
+android/assets/www/
+
 icons/.DS_Store
 
 ios/CordovaLib/.DS_Store
