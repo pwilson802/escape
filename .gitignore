@@ -33,6 +33,8 @@ android/assets/.DS_Store
 
 android/assets/www/
 
+www/build/
+
 icons/.DS_Store
 
 ios/CordovaLib/.DS_Store
