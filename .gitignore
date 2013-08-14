@@ -60,3 +60,6 @@ android/bin/
 ios/www/
 
 www/build/
+
+cmsDownloader/cms/
+cmsDownloader/cms_compressed/
