@@ -434,11 +434,11 @@ AppSettings.mainMenu = [{
         contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
     }
 }, {
-    title: 'Other DNSW Apps',
+    title: 'Other NSW Apps',
     group: 'Group 5',
     id: 'otherAppsSection',
     firstPage: {
-        title: 'Other DNSW apps',
+        title: 'Other NSW apps',
         xtype: 'otherAppsPage'
     }
 }, {
