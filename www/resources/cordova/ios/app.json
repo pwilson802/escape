@@ -19,6 +19,9 @@
 		},
 		{
 			"path": "cordova/calendar.js"
+		},
+		{
+			"path": "cordova/GAPlugin.js"
 		}
 	]
 }

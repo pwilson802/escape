@@ -28,6 +28,8 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>GAPlugin</key>
+		<string>GAPlugin</string>
 		<key>calendarPlugin</key>
 		<string>calendarPlugin</string>
 		<key>TwitterPlugin</key>
