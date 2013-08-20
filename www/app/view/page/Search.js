@@ -64,6 +64,10 @@ Ext.define("escape.view.page.Search", {
     },
 
     openView: function() {
+
+        this.setPageTrackingId(this.getCollectionType());
+
+
         if (!Ext.device.Connection.isOnline()){
             // show offline messgae
              this.setItems([{xtype:'offlineMessage'}]);

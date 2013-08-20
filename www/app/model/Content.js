@@ -38,7 +38,6 @@ Ext.define("escape.model.Content", {
     },
     // based on the users setting and connectivity will return the local page data
     getContentPageData: function(url, callback, scope) {
-        console.log('getContentPageData');
         var loadLocal = true;
         if (Ext.device.Connection.isOnline()) {
             if (!this.getUseOffline()) {
@@ -55,8 +54,6 @@ Ext.define("escape.model.Content", {
 
     },
     loadRemoteContent: function(url, callback, scope, page) {
-        console.log('loadRemoteContent');
-        console.log(url);
         var loadLocal = true;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(url);
@@ -87,7 +84,6 @@ Ext.define("escape.model.Content", {
             }, function(t, e) {}, [contentTitle, updateTime, JSON.stringify(content.raw), url]);
         } else {
             // error updating the content try insertint it
-            console.log("Insert into pages");
             db.queryDB('INSERT INTO Pages (name,url,date_modified,JSON_data) VALUES (?,?,?,?)', function(t, rs) {
                 // the content was updated succeesfully
             }, function(t, e) {
@@ -96,7 +92,6 @@ Ext.define("escape.model.Content", {
         }
     },
     loadLocalContent: function(url, callback, scope) {
-        console.log('loadLocalContent');
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         db.queryDB('SELECT * FROM Pages WHERE url = (?)', function(t, rs) {
@@ -118,7 +113,6 @@ Ext.define("escape.model.Content", {
                 }
             }
             //
-            console.log('useLocal: ' + useLocal);
             if (useLocal) {
                 selfRef.processLocalData(page, callback, scope);
             } else {
@@ -132,11 +126,8 @@ Ext.define("escape.model.Content", {
         }, [url]);
     },
     processLocalData: function(page, callback, scope) {
-        console.log('processLocalData');
-        console.log(page);
         // build and map page data
         var localData = JSON.parse(page.JSON_data);
-        console.log(localData);
         var pageData = {};
         pageData.title = localData.Page.Title;
         pageData.description = localData.Page.Content;
@@ -164,7 +155,6 @@ Ext.define("escape.model.Content", {
     loadLocalImages: function(ids, pageData, callback, scope) {
         var selfRef = this;
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
-
         var SQL = 'SELECT * FROM Images WHERE';
         for (var i = ids.length - 1; i >= 0; i--) {
             SQL += '  id = ' + ids[i];

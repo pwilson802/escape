@@ -13,5 +13,9 @@
 		{
 			"path": "cordova/share.js"
 		}
+		,
+		{
+			"path": "cordova/GAPlugin.js"
+		}
 	]
 }

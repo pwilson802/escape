@@ -73,6 +73,9 @@ Ext.define('escape.controller.ProductSections', {
         });
     },
     loadContent: function(productSubSection) {
+        var linkbreakDown = productSubSection.getContentPath().split('smartphoneapps');
+        console.log('smartphoneapps' + linkbreakDown[linkbreakDown.length - 1]);
+        productSubSection.setPageTrackingId('smartphoneapps' + linkbreakDown[linkbreakDown.length - 1]);
         var selfRef = this;
         // load the content data
         escape.model.Content.getContentPageData(productSubSection.getContentPath(), {

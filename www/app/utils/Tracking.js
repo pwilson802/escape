@@ -5,8 +5,11 @@ Ext.define('escape.utils.Tracking', {
     uploadSize: 10,
     RegID: 0,
     trackEvent: function(pageCode, pageId, eventId) {
-
         this.insertTracking(pageCode, pageId, eventId);
+        // track google events
+        if (AppSettings.GoogleAnalyticsAccount){
+            escape.utils.GoogleAnalytics.trackEvent(pageCode, pageId, eventId);
+        }
     },
     trackEventOnCurrent: function(eventId) {
         var trackBy = escape.utils.AppVars.currentPage;

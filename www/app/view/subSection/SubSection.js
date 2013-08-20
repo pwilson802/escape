@@ -12,6 +12,8 @@ Ext.define("escape.view.subSection.SubSection", {
         fullscreen: true,
         pageTitle: '',
         rightBtn: "searchBtn",
+        pageTypeId: 0,
+        pageTrackingId: 0,
         hasInputs: false,
         cardViewItemId: 0,
         cardView: null,
@@ -54,6 +56,8 @@ Ext.define("escape.view.subSection.SubSection", {
             // get the item to add to
             this.openView();
             this.fireEvent('openView', this);
+            // after the view has opened and set up track the open event
+            escape.utils.Tracking.trackEvent(this.getPageTypeId(), this.getPageTrackingId(), 1);
         }
     },
 

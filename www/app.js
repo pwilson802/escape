@@ -9,7 +9,7 @@ Ext.application({
         mainView: 'mainView'
     },
     name: 'escape',
-    requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars','Ext.data.ArrayStore','Ext.device.Geolocation','Ext.device.Connection', 'escape.override.Mask'],
+    requires: ['escape.utils.Translator', 'escape.utils.Img', 'Ext.MessageBox', 'escape.utils.DatabaseManager', 'escape.utils.Tracking', 'escape.utils.AppFuncs', 'escape.utils.AppVars','Ext.data.ArrayStore','Ext.device.Geolocation','Ext.device.Connection', 'escape.override.Mask','escape.utils.GoogleAnalytics','escape.override.Component'],
     views: ['Main', 'section.Section', 'page.OtherApps', 'page.AddToCalender', 'page.Home', 'page.Alerts', 'page.AlertDetails', 'page.FeaturedList', 'page.Events', 'page.LikeALocal', 'subSection.MapList', 'page.Settings', 'page.MyItinerary', 'page.MyFavourites', 'page.ThingsToDoCatigories', 'page.ServicesAndFacilities', 'escape.view.page.ThingsToDoType', 'escape.view.ui.Footer', 'page.CurrencyConverter', 'page.ContentPage', 'ui.SelectField', 'page.Map', 'ui.OfflineMessage'],
     controllers: ['Map', 'GlobalActions', 'Settings','Page', 'Section', 'Search', 'Alerts', 'Sharing', 'Itinerarys', 'ItineraryViewer', 'Product', 'ProductSections', 'Events', 'ServicesAndFacilities', 'CurrencyConverter', 'Weather', 'MyFavourites', 'ContentPage', 'Directions'],
 
@@ -88,6 +88,11 @@ Ext.application({
             } catch (e) {
 
             }
+            // set up tracking
+            if (AppSettings.GoogleAnalyticsAccount){
+                escape.utils.GoogleAnalytics.start(AppSettings.GoogleAnalyticsAccount);
+            }
+            
         }
     },
     startApp: function() {
@@ -124,6 +129,8 @@ Ext.application({
             },
             scope: this
         });
+        //
+
     },
 
     onUpdated: function() {

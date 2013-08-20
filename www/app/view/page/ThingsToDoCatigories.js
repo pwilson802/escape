@@ -8,7 +8,9 @@ Ext.define("escape.view.page.ThingsToDoCatigories", {
         scrollable: {
             direction: 'vertical',
             directionLock: true
-        }
+        },
+        pageTypeId: 20,
+        pageTrackingId: 20
     },
     openView: function() {
         var listData = [];

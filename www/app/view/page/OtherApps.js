@@ -4,6 +4,8 @@ Ext.define("escape.view.page.OtherApps", {
     requires: [],
     config: {
         rightBtn: '',
+        pageTypeId: 19,
+        pageTrackingId: 19,
         scrollable: {
             direction: 'vertical',
             directionLock: true

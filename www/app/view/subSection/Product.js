@@ -5,6 +5,7 @@ Ext.define("escape.view.subSection.Product", {
     config: {
         content: null,
         cardViewItemId: 1,
+        pageTypeId: 1,
         contentPath: '',
         items: [{
             xtype: 'loadingDisplay'

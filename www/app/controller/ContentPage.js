@@ -30,7 +30,6 @@ Ext.define('escape.controller.ContentPage', {
         });
     },
     loadContent: function(contentPage) {
-        console.log('loadContent');
         var linkbreakDown = contentPage.getContentPath().split('smartphoneapps');
         contentPage.setPageTrackingId('smartphoneapps' + linkbreakDown[linkbreakDown.length - 1]);
         contentPage.setItems({
@@ -67,7 +66,6 @@ Ext.define('escape.controller.ContentPage', {
 
     },
     loadMustDos: function(url, contentPage) {
-        console.log('loadMustDos');
         // Don't show must do's if offline.
         if (!Ext.device.Connection.isOnline()){
             // show offline messgae
