@@ -1,4 +1,4 @@
-package com.tiltandco.dnsw.spp.bluemountains;
+package com.tiltandco.dnsw.spp.sydney;
 
 import java.io.File;
 import java.io.FileOutputStream;
