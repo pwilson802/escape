@@ -83,6 +83,7 @@ Ext.define('escape.controller.Sharing', {
         var sharingData = this.getSharingData();
         var subject = sharingData.name;
         var body = sharingData.emailBody + ' ' + sharingData.link;
+        
         try {
             window.plugins.emailComposer.showEmailComposer(subject, body);
         } catch (e) {

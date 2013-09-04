@@ -838,7 +838,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -860,7 +861,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -871,7 +873,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -891,7 +894,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

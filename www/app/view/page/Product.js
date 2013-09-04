@@ -125,7 +125,7 @@ Ext.define("escape.view.page.Product", {
             name: product.Name,
             defaultMessage: 'Having a great time at ' + product.Name,
             description: 'Check out ' + product.Name + ' at ' + AppSettings.displayWebsiteURL,
-            emailBody: 'Hi, I saw ' + product.Name + ' on the ' + AppSettings.appAreaName + ' App from ' + AppSettings.displayWebsiteURL + ' and thought you might like to check it out. ' + AppSettings.websiteURL + product['Full Path'],
+            emailBody: 'Hi, I saw ' + product.Name + ' on the ' + AppSettings.appAreaName + ' App from ' + AppSettings.displayWebsiteURL + ' and thought you might like to check it out.',
             link: AppSettings.websiteURL + product['Full Path'],
             picture: imageURL
         };
