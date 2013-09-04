@@ -40,22 +40,104 @@ AppSettings.destinationWebpath = '/sydney/';
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.appSubDestination = [{
     name: "Sydney City",
-    towns: []
+    towns: [{
+        name: 'Chinatown and Haymarket'
+    }, {
+        name: 'Circular Quay'
+    }, {
+        name: 'City Centre'
+    }, {
+        name: 'Darling Harbour'
+    }, {
+        name: 'Potts Point and Woolloomooloo'
+    }, {
+        name: 'Pyrmont'
+    }, {
+        name: 'The Rocks'
+    }, {
+        name: 'Sydney Harbour'
+    }, {
+        name: 'Kings Cross'
+    }, {
+        name: 'Walsh Bay'
+    }]
 }, {
     name: "Sydney North",
-    towns: []
+    towns: [{
+        name: 'Hawkesbury'
+    }, {
+        name: 'Manly'
+    }, {
+        name: 'Mosman'
+    }, {
+        name: 'Northern Beaches'
+    }, {
+        name: 'Palm Beach'
+    }, {
+        name: 'Windsor'
+    }]
 }, {
     name: "Sydney West",
-    towns: []
+    towns: [{
+        name: 'Appin'
+    }, {
+        name: 'Cabramatta'
+    }, {
+        name: 'Camden'
+    }, {
+        name: 'Campbelltown'
+    }, {
+        name: 'Parramatta'
+    }, {
+        name: 'Penrith'
+    }, {
+        name: 'Picton'
+    }, {
+        name: 'Sydney Olympic Park'
+    }, {
+        name: 'Thirlmere'
+    }]
 }, {
     name: "Sydney South",
-    towns: []
+    towns: [{
+        name: 'Bundeena'
+    }, {
+        name: 'Cronulla'
+    }, {
+        name: 'Mascot'
+    }]
 }, {
     name: "Sydney East",
-    towns: []
+    towns: [{
+        name: 'Bondi'
+    }, {
+        name: 'Watsons Bay '
+    }, {
+        name: 'Coogee'
+    }, {
+        name: 'Double Bay'
+    }, {
+        name: 'Moore Park'
+    }]
 }, {
     name: "Inner Sydney",
-    towns: []
+    towns: [{
+        name: 'Balmain'
+    }, {
+        name: 'Darlinghurst'
+    }, {
+        name: 'Glebe'
+    }, {
+        name: 'Leichhardt'
+    }, {
+        name: 'Newtown'
+    }, {
+        name: 'Paddington'
+    }, {
+        name: 'Surry Hills'
+    }, {
+        name: 'Redfern and Waterloo'
+    }]
 }];
 // The url of the squiz search
 AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
