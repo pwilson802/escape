@@ -1,0 +1,11 @@
+{
+    "attribution": "Data \u00a9 OpenStreetMap (and) contributors, CC-BY-SA", 
+    "description": "", 
+    "bounds": "151.1594,-33.5591,151.6675,-33.0702", 
+    "name": "CentralCoast", 
+    "minzoom": "0", 
+    "version": "1.0.0", 
+    "template": "", 
+    "maxzoom": "13", 
+    "center": "151.3311,-33.432,10"
+}
