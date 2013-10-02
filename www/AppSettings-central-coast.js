@@ -9,7 +9,7 @@ AppSettings.appAreaName = 'Central Coast';
 // path to load unqiue images for the app from
 AppSettings.imgfolder = 'resources/app-images/central-coast/';
 // Path to load images from
-AppSettings.regionImagePath = 'resources/region-images/green/';
+AppSettings.regionImagePath = 'resources/region-images/blue/';
 // Path to load offile maps from
 AppSettings.mapsTilesPath = AppSettings.imgfolder +'maptiles/';
 // offile maps max zoom level
@@ -23,16 +23,16 @@ AppSettings.appAddress = {
     suburb: 'central coast'
 };
 // The default map center
-AppSettings.center = [-33.71463,150.311508];
+AppSettings.center = [-33.424887,151.342269];
 // The bound of the app, used to find products and services
 AppSettings.bounds = {
-    "left": 150.240784,
-    "bottom": -33.744897,
-    "right": 150.720062,
-    "top": -33.517354
+    "left": 151.1594,
+    "bottom": -33.0702,
+    "right": 151.6675,
+    "top": -33.5591
 };
 // used with the center for alerts search in KM
-AppSettings.radius = 50;
+AppSettings.radius = 40;
 // The detinations to perform all funnel back serches within
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
 AppSettings.destinationWebpath = '/central-coast/';
@@ -78,8 +78,8 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '4220;371;142;145;144;4201;4146;141;189;4221;190;4204;4222;143;191;199;183;4202';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
-AppSettings.smartphoneCMSSection = 'blue-mountains';
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
+AppSettings.smartphoneCMSSection = 'central-coast';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
@@ -196,61 +196,55 @@ AppSettings.poi = [{
 // Home Images
 AppSettings.homeImgs = [{
     imagePath: AppSettings.imgfolder+'home1.jpg',
-    altText: 'Aerial view of Capertee Valley in the Blue Mountains by Hamilton Lund'
+    altText: 'Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Kanangra Falls in the Blue Mountains by Chris Jones'
+    altText: 'Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home3.jpg',
-    altText: 'Fairmont Resort at Leura by James Horan'
+    altText: 'Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home4.jpg',
-    altText: 'Gardens of Stone National Parks by Hamilton Lund'
-}, {
-    imagePath: AppSettings.imgfolder+'home5.jpg',
-    altText: 'Close up view of the Three Sisters by Destination NSW'
-}, {
-    imagePath: AppSettings.imgfolder+'home6.jpg',
-    altText: 'View across the Blue Lake to Jenolan Caves'
+    altText: 'Destination NSW'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [
-// {
-//     title: 'Beach Lifestyle',
-//     subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-//     imgPath: AppSettings.imgfolder+'todo_beach.png',
-//     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beach-lifestyle'
-// }, 
 {
+    title: 'Beaches',
+    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
+    imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beaches',
+    relatedSearchSelection: 'beach'
+}, {
     title: 'Nature & Parks',
     subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
-    imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks',
     relatedSearchSelection: 'Nature based'
 }, {
-    title: 'Dining & Entertainment',
-    subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
-    hideInSubSections: true,
-    // hides this section from subsections as it has it's own section
-    contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment',
-    relatedSearchSelection: 'Food and Wine'
-}, {
+//     title: 'Dining & Entertainment',
+//     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
+//     imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
+//     hideInSubSections: true,
+//     // hides this section from subsections as it has it's own section
+//     contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment',
+//     relatedSearchSelection: 'Food and Wine'
+// }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/shopping',
+    // imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping',
     relatedSearchSelection: 'Shopping'
 }, {
-    title: 'Arts & Culture',
+    title: 'Arts, Culture and Heritage',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts-and-culture',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture-and-heritage',
     relatedSearchSelection: 'The Arts'
 }, {
     title: 'Family Holidays',
     subheading: 'Family travel in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays',
     relatedSearchSelection: 'Family Friendly'
 }];
@@ -274,7 +268,7 @@ AppSettings.mainMenu = [{
     firstPage: {
         xtype: 'contentPage',
         title: 'About ' + AppSettings.appAreaName,
-        contentPath: AppSettings.getSMPSectionURL() + '/about'
+        contentPath: AppSettings.getSMPSectionURL() + '/about-central-coast-nsw'
     }
 }, {
 
@@ -352,6 +346,15 @@ AppSettings.mainMenu = [{
         xtype: 'servicesAndFacilitiesPage'
     }
 }, {
+    title: 'Hire',
+    group: 'Group 3',
+    id: 'hireSection',
+    firstPage: {
+        title: 'Hire',
+        collectionType: 'hire',
+        xtype: 'searchPage'
+    }
+}, {
     title: 'Tours',
     group: 'Group 3',
     id: 'toursSection',
@@ -386,13 +389,12 @@ AppSettings.mainMenu = [{
     id: 'areaMap',
     firstPage: {
         title: 'Map',
-        xtype: 'mapPage',
         xtype: 'directionsPage',
         address: {
-            Street: ' ',
-            Suburb: 'Katoomba',
+            Street: '',
+            Suburb: 'Gosford',
             State: 'NSW',
-            Postcode: 2780
+            Postcode: 2250
         },
         latlon: AppSettings.center,
         zoomLevel: 11
@@ -413,16 +415,6 @@ AppSettings.mainMenu = [{
         title: 'Currency Converter',
         xtype: 'currencyConverterPage'
     }
-}, {
-    title: 'Transport Info',
-    group: 'Group 5',
-    id: 'tranportSection',
-    firstPage: {
-        title: 'Transport Info',
-        xtype: 'contentPage',
-        contentPath: AppSettings.getSMPSectionURL() + '/transport-information'
-    }
-
 }, {
     title: 'Visitor Information Centres',
     group: 'Group 5',
@@ -471,9 +463,9 @@ AppSettings.homeMenu = [{
                     sectionId: 'accommodationSection'
                 }, { // Tours
                     xtype: 'button',
-                    html: "<span class='icon'></span><span>Tours</span>",
-                      cls: 'toursHome',
-                    action: 'changeSection',
+                    html: "<span class='icon'></span><span>Events</span>",
+                      cls: 'eventsHome',
+                    action: 'eventsSection',
                     sectionId: 'toursSection'
                 }, {
                     xtype: 'button',
