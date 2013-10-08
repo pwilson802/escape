@@ -88,6 +88,55 @@
 		00376B55178251BB00469595 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		00376B7017825BF300469595 /* blu in Resources */ = {isa = PBXBuildFile; fileRef = 00376B6F17825BF300469595 /* blu */; };
 		00376B7217825C1C00469595 /* sth in Resources */ = {isa = PBXBuildFile; fileRef = 00376B7117825C1C00469595 /* sth */; };
+		0084215A1804B93A00038781 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
+		0084215B1804B93A00038781 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 3053AC6E109B7857006FCFE7 /* VERSION */; };
+		0084215C1804B93A00038781 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30E1352610E2C1420031B30D /* Cordova.plist */; };
+		0084215D1804B93A00038781 /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3072F99613A8081B00425683 /* Capture.bundle */; };
+		0084215E1804B93A00038781 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
+		0084215F1804B93A00038781 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
+		008421601804B93A00038781 /* ChildBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B792CC37160805CB00BD25D7 /* ChildBrowser.bundle */; };
+		008421611804B93A00038781 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B792CC3C160805CB00BD25D7 /* ChildBrowserViewController.xib */; };
+		008421621804B93A00038781 /* sth in Resources */ = {isa = PBXBuildFile; fileRef = 00376B7117825C1C00469595 /* sth */; };
+		008421631804B93A00038781 /* syd in Resources */ = {isa = PBXBuildFile; fileRef = 000FD0A3178291C900A3C3B2 /* syd */; };
+		008421641804B93A00038781 /* Sydney-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 000FD09F1782912800A3C3B2 /* Sydney-Info.plist */; };
+		008421651804B93A00038781 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 009E5BF817A5F08E0014597F /* cmsPages.db */; };
+		008421671804B93A00038781 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		008421681804B93A00038781 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
+		008421691804B93A00038781 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
+		0084216A1804B93A00038781 /* ChildBrowserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B792CC39160805CB00BD25D7 /* ChildBrowserCommand.m */; };
+		0084216B1804B93A00038781 /* ChildBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B792CC3B160805CB00BD25D7 /* ChildBrowserViewController.m */; };
+		0084216C1804B93A00038781 /* SQLitePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = B792CC40160805CB00BD25D7 /* SQLitePlugin.m */; };
+		0084216D1804B93A00038781 /* TwitterPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = B73840BE160C29EB008B16F7 /* TwitterPlugin.m */; };
+		0084216E1804B93A00038781 /* EmailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = B73840C8160C42E9008B16F7 /* EmailComposer.m */; };
+		0084216F1804B93A00038781 /* calendarPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F1322CD1665B8FB00CBBAE4 /* calendarPlugin.m */; };
+		008421701804B93A00038781 /* GAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA49EF17C2F622007341F7 /* GAPlugin.m */; };
+		008421721804B93A00038781 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F502BF816CAFB6900050BE4 /* libCordova.a */; };
+		008421731804B93A00038781 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1322D01665BB4100CBBAE4 /* EventKit.framework */; };
+		008421741804B93A00038781 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73840CA160C4313008B16F7 /* MessageUI.framework */; };
+		008421751804B93A00038781 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73840C2160C2A83008B16F7 /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		008421761804B93A00038781 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73840C0160C2A5B008B16F7 /* Twitter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		008421771804B93A00038781 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B792CC4C16080EAD00BD25D7 /* libsqlite3.dylib */; };
+		008421781804B93A00038781 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		008421791804B93A00038781 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0084217A1804B93A00038781 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		0084217B1804B93A00038781 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B4109A6A2B0062928A /* AddressBook.framework */; };
+		0084217C1804B93A00038781 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B6109A6A2B0062928A /* AddressBookUI.framework */; };
+		0084217D1804B93A00038781 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B8109A6A2B0062928A /* AudioToolbox.framework */; };
+		0084217E1804B93A00038781 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5BA109A6A2B0062928A /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0084217F1804B93A00038781 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5BC109A6A2B0062928A /* CFNetwork.framework */; };
+		008421801804B93A00038781 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5BE109A6A2B0062928A /* CoreLocation.framework */; };
+		008421811804B93A00038781 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C0109A6A2B0062928A /* MediaPlayer.framework */; };
+		008421821804B93A00038781 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C2109A6A2B0062928A /* QuartzCore.framework */; };
+		008421831804B93A00038781 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
+		008421841804B93A00038781 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
+		008421851804B93A00038781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		008421861804B93A00038781 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A651396C574F88808F954A /* CoreData.framework */; };
+		008421871804B93A00038781 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
+		008421911804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
+		008421921804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
+		008421931804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
+		008421941804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
+		008421961804BD2400038781 /* cen in Resources */ = {isa = PBXBuildFile; fileRef = 008421951804BD2400038781 /* cen */; };
 		009E5BF917A5F08E0014597F /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 009E5BF817A5F08E0014597F /* cmsPages.db */; };
 		009E5BFA17A5F08E0014597F /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 009E5BF817A5F08E0014597F /* cmsPages.db */; };
 		009E5BFB17A5F08E0014597F /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 009E5BF817A5F08E0014597F /* cmsPages.db */; };
@@ -174,6 +223,9 @@
 		00376B59178251BB00469595 /* Blue Mountains.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Blue Mountains.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00376B6F17825BF300469595 /* blu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = blu; path = "../app-icons/blu"; sourceTree = "<group>"; };
 		00376B7117825C1C00469595 /* sth */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sth; path = "../app-icons/sth"; sourceTree = "<group>"; };
+		0084218B1804B93A00038781 /* Sydney copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sydney copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		008421901804B94E00038781 /* Central Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Central Coast-Info.plist"; sourceTree = "<group>"; };
+		008421951804BD2400038781 /* cen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = cen; path = "../app-icons/cen"; sourceTree = "<group>"; };
 		009E5BF817A5F08E0014597F /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -297,6 +349,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		008421711804B93A00038781 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				008421721804B93A00038781 /* libCordova.a in Frameworks */,
+				008421731804B93A00038781 /* EventKit.framework in Frameworks */,
+				008421741804B93A00038781 /* MessageUI.framework in Frameworks */,
+				008421751804B93A00038781 /* Accounts.framework in Frameworks */,
+				008421761804B93A00038781 /* Twitter.framework in Frameworks */,
+				008421771804B93A00038781 /* libsqlite3.dylib in Frameworks */,
+				008421781804B93A00038781 /* Foundation.framework in Frameworks */,
+				008421791804B93A00038781 /* UIKit.framework in Frameworks */,
+				0084217A1804B93A00038781 /* CoreGraphics.framework in Frameworks */,
+				0084217B1804B93A00038781 /* AddressBook.framework in Frameworks */,
+				0084217C1804B93A00038781 /* AddressBookUI.framework in Frameworks */,
+				0084217D1804B93A00038781 /* AudioToolbox.framework in Frameworks */,
+				0084217E1804B93A00038781 /* AVFoundation.framework in Frameworks */,
+				0084217F1804B93A00038781 /* CFNetwork.framework in Frameworks */,
+				008421801804B93A00038781 /* CoreLocation.framework in Frameworks */,
+				008421811804B93A00038781 /* MediaPlayer.framework in Frameworks */,
+				008421821804B93A00038781 /* QuartzCore.framework in Frameworks */,
+				008421831804B93A00038781 /* SystemConfiguration.framework in Frameworks */,
+				008421841804B93A00038781 /* MobileCoreServices.framework in Frameworks */,
+				008421851804B93A00038781 /* CoreMedia.framework in Frameworks */,
+				008421861804B93A00038781 /* CoreData.framework in Frameworks */,
+				008421871804B93A00038781 /* GoogleAnalytics.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -347,6 +428,7 @@
 				1D6058910D05DD3D006BFB54 /* South Coast.app */,
 				00376B59178251BB00469595 /* Blue Mountains.app */,
 				000FD09E1782912700A3C3B2 /* Sydney.app */,
+				0084218B1804B93A00038781 /* Sydney copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -372,10 +454,12 @@
 			children = (
 				2FA580B01794B57B0023ADE3 /* South Coast-Info.plist */,
 				2FA580AC1794B1C60023ADE3 /* Blue Mountains-Info.plist */,
+				008421901804B94E00038781 /* Central Coast-Info.plist */,
 				00376B6F17825BF300469595 /* blu */,
 				00376B7117825C1C00469595 /* sth */,
 				000FD0A3178291C900A3C3B2 /* syd */,
 				000FD09F1782912800A3C3B2 /* Sydney-Info.plist */,
+				008421951804BD2400038781 /* cen */,
 				2F502BED16CAFB6900050BE4 /* CordovaLib.xcodeproj */,
 				2F1322D01665BB4100CBBAE4 /* EventKit.framework */,
 				B73840CA160C4313008B16F7 /* MessageUI.framework */,
@@ -553,6 +637,24 @@
 			productReference = 00376B59178251BB00469595 /* Blue Mountains.app */;
 			productType = "com.apple.product-type.application";
 		};
+		008421571804B93A00038781 /* Central Coast */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 008421881804B93A00038781 /* Build configuration list for PBXNativeTarget "Central Coast" */;
+			buildPhases = (
+				008421581804B93A00038781 /* Touch www folder */,
+				008421591804B93A00038781 /* Resources */,
+				008421661804B93A00038781 /* Sources */,
+				008421711804B93A00038781 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Central Coast";
+			productName = SydneyGuide;
+			productReference = 0084218B1804B93A00038781 /* Sydney copy.app */;
+			productType = "com.apple.product-type.application";
+		};
 		1D6058900D05DD3D006BFB54 /* South Coast */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "South Coast" */;
@@ -606,6 +708,7 @@
 				1D6058900D05DD3D006BFB54 /* South Coast */,
 				00376B1C178251BB00469595 /* Blue Mountains */,
 				000FD06C1782912700A3C3B2 /* Sydney */,
+				008421571804B93A00038781 /* Central Coast */,
 			);
 		};
 /* End PBXProject section */
@@ -644,6 +747,7 @@
 				000FD0711782912700A3C3B2 /* Cordova.plist in Resources */,
 				000FD0721782912700A3C3B2 /* Capture.bundle in Resources */,
 				000FD0731782912700A3C3B2 /* Localizable.strings in Resources */,
+				008421931804B94E00038781 /* Central Coast-Info.plist in Resources */,
 				000FD0751782912700A3C3B2 /* MainViewController.xib in Resources */,
 				000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */,
 				000FD0791782912700A3C3B2 /* ChildBrowserViewController.xib in Resources */,
@@ -658,6 +762,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				008421921804B94E00038781 /* Central Coast-Info.plist in Resources */,
 				00376B1F178251BB00469595 /* www in Resources */,
 				00376B20178251BB00469595 /* VERSION in Resources */,
 				00376B21178251BB00469595 /* Cordova.plist in Resources */,
@@ -675,10 +780,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		008421591804B93A00038781 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0084215A1804B93A00038781 /* www in Resources */,
+				0084215B1804B93A00038781 /* VERSION in Resources */,
+				0084215C1804B93A00038781 /* Cordova.plist in Resources */,
+				0084215D1804B93A00038781 /* Capture.bundle in Resources */,
+				0084215E1804B93A00038781 /* Localizable.strings in Resources */,
+				008421941804B94E00038781 /* Central Coast-Info.plist in Resources */,
+				0084215F1804B93A00038781 /* MainViewController.xib in Resources */,
+				008421961804BD2400038781 /* cen in Resources */,
+				008421601804B93A00038781 /* ChildBrowser.bundle in Resources */,
+				008421611804B93A00038781 /* ChildBrowserViewController.xib in Resources */,
+				008421621804B93A00038781 /* sth in Resources */,
+				008421631804B93A00038781 /* syd in Resources */,
+				008421641804B93A00038781 /* Sydney-Info.plist in Resources */,
+				008421651804B93A00038781 /* cmsPages.db in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				008421911804B94E00038781 /* Central Coast-Info.plist in Resources */,
 				301BF570109A69640062928A /* www in Resources */,
 				3053AC6F109B7857006FCFE7 /* VERSION in Resources */,
 				30E1352710E2C1420031B30D /* Cordova.plist in Resources */,
@@ -714,6 +841,20 @@
 			shellScript = "touch -cm ${PROJECT_DIR}/www";
 		};
 		00376B1D178251BB00469595 /* Touch www folder */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Touch www folder";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "touch -cm ${PROJECT_DIR}/www";
+		};
+		008421581804B93A00038781 /* Touch www folder */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -775,6 +916,23 @@
 				00376B3F178251BB00469595 /* EmailComposer.m in Sources */,
 				00376B40178251BB00469595 /* calendarPlugin.m in Sources */,
 				2FDA49F717C2F622007341F7 /* GAPlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		008421661804B93A00038781 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				008421671804B93A00038781 /* main.m in Sources */,
+				008421681804B93A00038781 /* AppDelegate.m in Sources */,
+				008421691804B93A00038781 /* MainViewController.m in Sources */,
+				0084216A1804B93A00038781 /* ChildBrowserCommand.m in Sources */,
+				0084216B1804B93A00038781 /* ChildBrowserViewController.m in Sources */,
+				0084216C1804B93A00038781 /* SQLitePlugin.m in Sources */,
+				0084216D1804B93A00038781 /* TwitterPlugin.m in Sources */,
+				0084216E1804B93A00038781 /* EmailComposer.m in Sources */,
+				0084216F1804B93A00038781 /* calendarPlugin.m in Sources */,
+				008421701804B93A00038781 /* GAPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -963,6 +1121,74 @@
 			};
 			name = Release;
 		};
+		008421891804B93A00038781 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
+					"\"$(OBJROOT)/UninstalledProducts/include\"",
+					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"$(CORDOVALIB)/Classes",
+				);
+				INFOPLIST_FILE = "Central Coast-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Sydney/Plugins/com.adobe.plugins.GAPlugin\"",
+					"\"$(SRCROOT)/../plugins/ios/ga\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "Sydney copy";
+				PROVISIONING_PROFILE = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		0084218A1804B93A00038781 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
+					"\"$(OBJROOT)/UninstalledProducts/include\"",
+					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"$(CORDOVALIB)/Classes",
+				);
+				INFOPLIST_FILE = "Central Coast-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Sydney/Plugins/com.adobe.plugins.GAPlugin\"",
+					"\"$(SRCROOT)/../plugins/ios/ga\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "Sydney copy";
+				PROVISIONING_PROFILE = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1116,6 +1342,15 @@
 			buildConfigurations = (
 				00376B57178251BB00469595 /* Debug */,
 				00376B58178251BB00469595 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		008421881804B93A00038781 /* Build configuration list for PBXNativeTarget "Central Coast" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				008421891804B93A00038781 /* Debug */,
+				0084218A1804B93A00038781 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

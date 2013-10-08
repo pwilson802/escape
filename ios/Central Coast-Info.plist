@@ -10,11 +10,11 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>blu/Icon-57.png</string>
-		<string>blu/Icon-114.png</string>
-		<string>blu/Icon-72.png</string>
-		<string>blu/Icon-72@2x.png</string>
-		<string>blu/Icon.png</string>
+		<string>cen/Icon-57.png</string>
+		<string>cen/Icon-114.png</string>
+		<string>cen/Icon-72.png</string>
+		<string>cen/Icon-72@2x.png</string>
+		<string>cen/Icon.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.tiltandco.dnsw.spp.centralcoast</string>
@@ -37,7 +37,7 @@
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
 	<key>UILaunchImageFile</key>
-	<string>blu/Default.png</string>
+	<string>cen/Default.png</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

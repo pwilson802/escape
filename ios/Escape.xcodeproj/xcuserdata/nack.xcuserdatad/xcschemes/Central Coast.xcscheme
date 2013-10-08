@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0460"
+   LastUpgradeVersion = "0500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "000FD06C1782912700A3C3B2"
-               BuildableName = "South Coast copy.app"
-               BlueprintName = "Sydney"
-               ReferencedContainer = "container:South Coast.xcodeproj">
+               BlueprintIdentifier = "008421571804B93A00038781"
+               BuildableName = "Sydney copy.app"
+               BlueprintName = "Central Coast"
+               ReferencedContainer = "container:Escape.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "000FD06C1782912700A3C3B2"
-            BuildableName = "South Coast copy.app"
-            BlueprintName = "Sydney"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            BlueprintIdentifier = "008421571804B93A00038781"
+            BuildableName = "Sydney copy.app"
+            BlueprintName = "Central Coast"
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "000FD06C1782912700A3C3B2"
-            BuildableName = "South Coast copy.app"
-            BlueprintName = "Sydney"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            BlueprintIdentifier = "008421571804B93A00038781"
+            BuildableName = "Sydney copy.app"
+            BlueprintName = "Central Coast"
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -69,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "000FD06C1782912700A3C3B2"
-            BuildableName = "South Coast copy.app"
-            BlueprintName = "Sydney"
-            ReferencedContainer = "container:South Coast.xcodeproj">
+            BlueprintIdentifier = "008421571804B93A00038781"
+            BuildableName = "Sydney copy.app"
+            BlueprintName = "Central Coast"
+            ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
