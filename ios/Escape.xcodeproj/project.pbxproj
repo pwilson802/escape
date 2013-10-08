@@ -680,6 +680,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 420;
+				TargetAttributes = {
+					008421571804B93A00038781 = {
+						DevelopmentTeam = ASW5WVHNWT;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Escape" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1126,8 +1131,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1149,8 +1154,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Sydney copy";
-				PROVISIONING_PROFILE = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				PROVISIONING_PROFILE = "A445AA60-470D-4103-B26D-101A4692F050";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A445AA60-470D-4103-B26D-101A4692F050";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1161,8 +1166,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -1182,8 +1187,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Sydney copy";
-				PROVISIONING_PROFILE = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				PROVISIONING_PROFILE = "A445AA60-470D-4103-B26D-101A4692F050";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A445AA60-470D-4103-B26D-101A4692F050";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1256,7 +1261,7 @@
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1293,7 +1298,7 @@
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
