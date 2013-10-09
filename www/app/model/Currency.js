@@ -180,8 +180,19 @@ Ext.define("escape.model.Currency", {
     },
     // get converstion rate
     getConverstionRate: function(codeFrom, codeTo) {
+        console.log(this.converstions);
+        console.log('codeFrom: ' + codeFrom);
+        console.log('codeTo: ' + codeTo);
         var fromCurrency = this.converstions[codeFrom];
         var toCurrency = this.converstions[codeTo];
+        console.log('### From');
+        for(var i in fromCurrency){
+            console.log(i + ': ' + fromCurrency[i]);
+        }
+        console.log('### To');
+        for(var r in toCurrency){
+            console.log(r + ': ' + toCurrency[r]);
+        }
         var rate = (1 * fromCurrency.valueToUSD) / (1 * toCurrency.valueToUSD);
         return rate;
     },
