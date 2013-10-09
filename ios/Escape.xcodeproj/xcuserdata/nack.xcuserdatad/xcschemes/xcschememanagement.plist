@@ -9,12 +9,10 @@
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
-		<key>South Coast copy 2.xcscheme</key>
+		<key>Central Coast.xcscheme</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>7</integer>
 		</dict>
 		<key>South Coast.xcscheme</key>
 		<dict>
@@ -37,6 +35,11 @@
 			<true/>
 		</dict>
 		<key>00376B1C178251BB00469595</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>008421571804B93A00038781</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -4,6 +4,7 @@
 AppSettings = {};
 // The Tilt and Co App ID used for tracking, get id from glen
 AppSettings.AppID = 8;
+AppSettings.GoogleAnalyticsAccount = 'UA-1267923-59';
 // The Apps area shown to the user
 AppSettings.appAreaName = 'South Coast';
 // path to load unqiue images for the app from

@@ -61,6 +61,12 @@ Ext.application({
         var scopeRef = this;
         if (!this.deviceReady) {
              this.deviceReady = true;
+            // iOS 7 Status Bar Fix
+            if (window.device) {
+                if (parseFloat(window.device.version) > 7.0) {
+                    document.body.style.marginTop = "20px";
+                }
+            }
             // listen for back button pressed (Android)
             document.addEventListener("backbutton", function() {
                 scopeRef.onBackBtnPressed();

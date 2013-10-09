@@ -63,6 +63,7 @@
         invokeString = [url absoluteString];
 		NSLog(@"SydneyGuide launchOptions = %@", url);
     }    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
