@@ -4,6 +4,7 @@
 AppSettings = {};
 // The Tilt and Co App ID used for tracking, get id from glen
 AppSettings.AppID = 9;
+AppSettings.GoogleAnalyticsAccount = 'UA-1267923-61';
 // The Apps area shown to the user
 AppSettings.appAreaName = 'Central Coast';
 // path to load unqiue images for the app from
@@ -78,7 +79,7 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '4220;371;142;145;144;4201;4146;141;189;4221;190;4204;4222;143;191;199;183;4202';
 // The smartphone cms section
-AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'central-coast';
 AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
