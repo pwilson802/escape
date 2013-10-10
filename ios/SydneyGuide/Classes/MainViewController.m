@@ -104,6 +104,7 @@
 
 - (void) webViewDidFinishLoad:(UIWebView*) theWebView 
 {
+      NSLog(@"webViewDidFinishLoad.");
      // only valid if ___PROJECTNAME__-Info.plist specifies a protocol to handle
      if (self.invokeString)
      {
@@ -124,8 +125,12 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     success = [fileManager fileExistsAtPath:cmsFile];
     if(!success) {
+         NSLog(@"Success: database copied accross.");
         NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:dbNameCMS];
         [fileManager copyItemAtPath:databasePathFromApp toPath:cmsFile error:nil];
+    } else {
+        NSLog(@"ERROR: database failed to copy.");
+
     }
     [fileManager release];
     // end copy Databases

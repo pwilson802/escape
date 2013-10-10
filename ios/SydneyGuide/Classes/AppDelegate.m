@@ -62,8 +62,14 @@
     if (url && [url isKindOfClass:[NSURL class]]) {
         invokeString = [url absoluteString];
 		NSLog(@"SydneyGuide launchOptions = %@", url);
-    }    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    NSString *version = [[UIDevice currentDevice] systemVersion];
+    BOOL isAtLeast7 = [version floatValue] >= 7.0;
+//    if (isAtLeast7){
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//    }
+    
+    
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];

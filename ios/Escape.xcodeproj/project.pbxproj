@@ -136,7 +136,6 @@
 		008421931804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421941804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421961804BD2400038781 /* cen in Resources */ = {isa = PBXBuildFile; fileRef = 008421951804BD2400038781 /* cen */; };
-		00AD9C4B1805153800DE4A73 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 00AD9C4A1805153800DE4A73 /* cmsPages.db */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -150,6 +149,12 @@
 		2FA580AD1794B1C60023ADE3 /* Blue Mountains-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA580AC1794B1C60023ADE3 /* Blue Mountains-Info.plist */; };
 		2FA580AE1794B2BC0023ADE3 /* Sydney-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 000FD09F1782912800A3C3B2 /* Sydney-Info.plist */; };
 		2FA580B11794B57B0023ADE3 /* South Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA580B01794B57B0023ADE3 /* South Coast-Info.plist */; };
+		2FAAB2A318051E1500A6F9D1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A651396C574F88808F954A /* CoreData.framework */; };
+		2FAAB2A718051E1E00A6F9D1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A651396C574F88808F954A /* CoreData.framework */; };
+		2FAAB2B218054D2D00A6F9D1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */; };
+		2FAAB2B318054D2D00A6F9D1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */; };
+		2FAAB2B418054D2D00A6F9D1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */; };
+		2FAAB2B518054D2D00A6F9D1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */; };
 		2FDA49EC17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
 		2FDA49ED17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
 		2FDA49EE17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
@@ -223,7 +228,6 @@
 		0084218B1804B93A00038781 /* Sydney copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sydney copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008421901804B94E00038781 /* Central Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Central Coast-Info.plist"; sourceTree = "<group>"; };
 		008421951804BD2400038781 /* cen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = cen; path = "../app-icons/cen"; sourceTree = "<group>"; };
-		00AD9C4A1805153800DE4A73 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -239,6 +243,7 @@
 		2F502BED16CAFB6900050BE4 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		2FA580AC1794B1C60023ADE3 /* Blue Mountains-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Blue Mountains-Info.plist"; sourceTree = "<group>"; };
 		2FA580B01794B57B0023ADE3 /* South Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "South Coast-Info.plist"; sourceTree = "<group>"; };
+		2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = GoogleAnalytics.a; path = ../plugins/ios/ga/GoogleAnalytics.a; sourceTree = "<group>"; };
 		2FDA49EF17C2F622007341F7 /* GAPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAPlugin.m; path = ../../../plugins/ios/ga/GAPlugin.m; sourceTree = "<group>"; };
 		2FDA49F017C2F622007341F7 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAI.h; path = ../../../plugins/ios/ga/GAI.h; sourceTree = "<group>"; };
@@ -322,6 +327,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FAAB2A318051E1500A6F9D1 /* CoreData.framework in Frameworks */,
 				00376B42178251BB00469595 /* libCordova.a in Frameworks */,
 				00376B43178251BB00469595 /* EventKit.framework in Frameworks */,
 				00376B44178251BB00469595 /* MessageUI.framework in Frameworks */,
@@ -379,6 +385,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FAAB2A718051E1E00A6F9D1 /* CoreData.framework in Frameworks */,
 				2F502BFF16CAFC9300050BE4 /* libCordova.a in Frameworks */,
 				2F1322D11665BB4100CBBAE4 /* EventKit.framework in Frameworks */,
 				B73840CB160C4313008B16F7 /* MessageUI.framework in Frameworks */,
@@ -487,7 +494,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				00AD9C4A1805153800DE4A73 /* cmsPages.db */,
+				2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
 				1F766FDB13BBADB100FB74C0 /* en.lproj */,
@@ -756,6 +763,7 @@
 				000FD07B1782912700A3C3B2 /* sth in Resources */,
 				000FD0A4178291C900A3C3B2 /* syd in Resources */,
 				2FA580AE1794B2BC0023ADE3 /* Sydney-Info.plist in Resources */,
+				2FAAB2B418054D2D00A6F9D1 /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,6 +785,7 @@
 				00376B29178251BB00469595 /* ChildBrowserViewController.xib in Resources */,
 				00376B7017825BF300469595 /* blu in Resources */,
 				2FA580AD1794B1C60023ADE3 /* Blue Mountains-Info.plist in Resources */,
+				2FAAB2B318054D2D00A6F9D1 /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,6 +806,7 @@
 				008421621804B93A00038781 /* sth in Resources */,
 				008421631804B93A00038781 /* syd in Resources */,
 				008421641804B93A00038781 /* Sydney-Info.plist in Resources */,
+				2FAAB2B518054D2D00A6F9D1 /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -808,7 +818,6 @@
 				301BF570109A69640062928A /* www in Resources */,
 				3053AC6F109B7857006FCFE7 /* VERSION in Resources */,
 				30E1352710E2C1420031B30D /* Cordova.plist in Resources */,
-				00AD9C4B1805153800DE4A73 /* cmsPages.db in Resources */,
 				3072F99713A8081B00425683 /* Capture.bundle in Resources */,
 				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,
 				1F766FE213BBADB100FB74C0 /* Localizable.strings in Resources */,
@@ -819,6 +828,7 @@
 				B792CC44160805CB00BD25D7 /* ChildBrowserViewController.xib in Resources */,
 				00376B7217825C1C00469595 /* sth in Resources */,
 				2FA580B11794B57B0023ADE3 /* South Coast-Info.plist in Resources */,
+				2FAAB2B218054D2D00A6F9D1 /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
