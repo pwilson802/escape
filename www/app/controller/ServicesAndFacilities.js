@@ -95,14 +95,14 @@ Ext.define('escape.controller.ServicesAndFacilities', {
     },
     showDetails: function(list, record) {
         var pageType = (this.getIsWhereIsSearch()) ? 'servicesAndFacilitiesDetails' : 'servicesAndFacilitiesBusinessDetails';
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: pageType,
             resultsData: record.getData()
         });
     },
     markerSelected: function(data) {
         var pageType = (this.getIsWhereIsSearch()) ? 'servicesAndFacilitiesDetails' : 'servicesAndFacilitiesBusinessDetails';
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: pageType,
             resultsData: data
         });
@@ -123,7 +123,7 @@ Ext.define('escape.controller.ServicesAndFacilities', {
         this.setResultsPage(1);
         // add the results page
         if (values.keyword !== '' && values.keyword !== null) {
-            escape.utils.AppVars.currentSection.getNavigationView().push({
+            this.getApplication().getController('Section').pushPage({
                 xtype: 'sevicesAndFacilitiesResultsPage'
             });
         }

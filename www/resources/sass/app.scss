@@ -3049,6 +3049,14 @@ p {
 		background-image: url(#{$app-image-path}/Splash_Portrait@2x.png);
 		@include background-size(400px 460px !important); 
 	}
+
+	.x-button.iconBtn {
+		@include background-size(44px 73px); 
+		
+	}
+	.weatherBtn {
+		@include background-size(32px 76px !important);
+	}
 	
 	.btnsContainer {
 	
@@ -3295,12 +3303,7 @@ p {
 			@include background-size(44px 73px !important); 
 		}
 	}
-	.x-button.iconBtn {
-		@include background-size(44px 73px !important); 
-		&.weatherBtn {
-			@include background-size(32px 76px !important);
-		}
-	}
+
 
 	.contactList {
 		.x-list-item-label {

@@ -181,7 +181,7 @@ Ext.define('escape.controller.Events', {
         var webpathBreakdown = data.Webpath.split('/');
         var productId = webpathBreakdown[webpathBreakdown.length - 1];
         // load the map page
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: collection.name,
             xtype: 'productPage',
             productId: productId,

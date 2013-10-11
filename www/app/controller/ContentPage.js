@@ -22,7 +22,7 @@ Ext.define('escape.controller.ContentPage', {
     },
     productSelected: function(list, record) {
         var data = record.getData();
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: data.type.toProperCase(),
             xtype: 'productPage',
             productId: data.productId,
@@ -162,7 +162,7 @@ Ext.define('escape.controller.ContentPage', {
             // let the list overwrite the page type
             xtype = list.subPageXtype;
         }
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: data.Name,
             xtype: xtype,
             contentPath: data.Url

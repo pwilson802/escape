@@ -434,7 +434,7 @@ Ext.define('escape.controller.Search', {
     search: function() {
         this.hideSuggestions();
         // add the results page
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: 'searchResultsPage'
         });
     },
@@ -798,7 +798,7 @@ Ext.define('escape.controller.Search', {
         var webpathBreakdown = data.Webpath.split('/');
         var productId = webpathBreakdown[webpathBreakdown.length - 1];
         // load the map page
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: collection.name,
             xtype: 'productPage',
             productId: productId,

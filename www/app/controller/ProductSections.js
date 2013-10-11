@@ -72,9 +72,8 @@ Ext.define('escape.controller.ProductSections', {
             pageTitle: record.data.title,
             contentPath: record.data.contentPath,
             xtype: 'productSubSection'
-        })
+        });
 
-        escape.utils.AppVars.currentSection.getNavigationView().push();
     },
     loadContent: function(productSubSection) {
         var linkbreakDown = productSubSection.getContentPath().split('smartphoneapps');
@@ -355,7 +354,7 @@ Ext.define('escape.controller.ProductSections', {
         var data = openProductListItem.getData();
         console.log('openProductListItem');
         console.log(data);
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: String(data.type).toProperCase(),
             xtype: 'productPage',
             productId: data.productId,
@@ -364,7 +363,7 @@ Ext.define('escape.controller.ProductSections', {
     },
     productSelected: function(list, record) {
         var data = record.getData();
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: String(data.producType).toProperCase().removePuralS(),
             xtype: 'productPage',
             productId: data['Web Path'],

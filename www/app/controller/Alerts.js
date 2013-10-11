@@ -135,7 +135,7 @@ Ext.define('escape.controller.Alerts', {
         });
     },
     showSetting: function() {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: 'Alert Settings',
             xtype: 'alertSettingsPage',
             feeds: this.getFeeds()
@@ -246,7 +246,7 @@ Ext.define('escape.controller.Alerts', {
     },
 
     showAlert: function(data) {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: 'Alert Details',
             xtype: 'alertDetailsPage',
             alertData: data

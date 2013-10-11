@@ -26,7 +26,7 @@ Ext.define('escape.controller.Product', {
         var productType = productPage.getProductType();
         var productData = productPage.getProductData();
         var productName = productData.Name;
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: 'addToItineraryPage',
             productId: productId,
             productType: productType,

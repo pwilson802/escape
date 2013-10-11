@@ -171,7 +171,7 @@ Ext.define('escape.controller.GlobalActions', {
     showLargeMap: function(data) {
         escape.utils.Tracking.trackEventOnCurrent(5);
          var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: pageXtype,
             latlon: data.latlon,
             address: data.address
@@ -181,7 +181,7 @@ Ext.define('escape.controller.GlobalActions', {
 
     showSelectFieldOptions: function() {},
     showMapTerms: function() {
-        // escape.utils.AppVars.currentSection.getNavigationView().push({
+        // this.getApplication().getController('Section').pushPage({
         //     xtype: 'mapTerms'
         // });
     },
@@ -194,7 +194,7 @@ Ext.define('escape.controller.GlobalActions', {
     },
     showSearch: function(btn) {
         var collectionType = escape.utils.AppVars.currentSection.getCollectionType();
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: 'searchPage',
             collectionType: collectionType
         });
@@ -210,7 +210,7 @@ Ext.define('escape.controller.GlobalActions', {
     },
     showDirections: function(address, latlon) {
        var pageXtype =  (Ext.device.Connection.isOnline()) ? 'directionsPage' : 'mapPage';
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: pageXtype,
             address: address,
             latlon: latlon
@@ -266,7 +266,7 @@ Ext.define('escape.controller.GlobalActions', {
         this.getMainView().toggleContainer();
     },
     showWeather: function() {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: 'weatherPage'
         });
 

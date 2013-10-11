@@ -180,7 +180,7 @@ Ext.define('escape.controller.Itinerarys', {
         var productName = this.getAddToItineraryPage().getProductName();
 
 
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             pageTitle: 'Create a new Itinerary',
             xtype: 'itineraryEditorPage',
             productAddData: {
@@ -405,7 +405,7 @@ Ext.define('escape.controller.Itinerarys', {
     showItinerary: function(itinerary) {
         this.setCurrentItineray(itinerary);
         escape.utils.AppVars.currentSection.getTopText().setHtml(itinerary.name);
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: 'itinerarySubSection',
             pageTitle: itinerary.name,
             itinerary: itinerary

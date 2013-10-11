@@ -167,7 +167,7 @@ Ext.define('escape.controller.ItineraryViewer', {
         this.getItinerarySubSection().setViewType('notes');
         var dayPage = this.getItinerarySubSection().getCardView().getActiveItem();
         dayPage.loadNotes();
-        // escape.utils.AppVars.currentSection.getNavigationView().push({
+        // this.getApplication().getController('Section').pushPage({
         //     xtype: 'ItineraryNotesPage',
         //     itineraryId: dayPage.getItineraryId(),
         //     dayNum: dayPage.getDayNum()
@@ -293,7 +293,7 @@ Ext.define('escape.controller.ItineraryViewer', {
         }
     },
     productMarkerSelected: function(productData) {
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: 'productPage',
             pageTitle: String(productData.type).toProperCase(),
             productId: productData.productId,
@@ -302,7 +302,7 @@ Ext.define('escape.controller.ItineraryViewer', {
     },
     productSelected: function(list, record) {
         var productData = record.getData();
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+        this.getApplication().getController('Section').pushPage({
             xtype: 'productPage',
             pageTitle: String(productData.type).toProperCase(),
             productId: productData.productId,
