@@ -31,6 +31,13 @@ Ext.define('escape.controller.Section', {
 
         }
     },
+    pushPage: function(config) {
+        var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
+        if (currentPage.xtype != config.xtype || (config.xtype == 'pageList' && currentPage.viewId != config.viewId)) {
+            var pages = escape.utils.AppVars.currentSection.getNavigationView().getItems();
+            escape.utils.AppVars.currentSection.getNavigationView().push(config);
+        }
+    },
     sectionActivated: function(section) {
         escape.utils.AppVars.currentSection = section;
         // add the scroll to top button
@@ -119,7 +126,11 @@ Ext.define('escape.controller.Section', {
         }
     },
     itemHidden: function(hiddenPage) {
+        console.log('itemHidden');
+        console.log('hiddenPage.getId(): ' + hiddenPage.getId());
+
         if (this.getOldPage()) {
+            console.log('this.getOldPage().getId(): ' + this.getOldPage().getId());
             if (hiddenPage.getId() == this.getOldPage().getId()) {
                 this.getNewPage().viewOpened();
             }

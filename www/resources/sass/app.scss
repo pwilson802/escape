@@ -235,10 +235,7 @@ p {
 }
 .appImg,
 .contentImg {
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+	@include background-size(cover);
 	background-position: center center;
 }
 
@@ -609,8 +606,7 @@ p {
 		 @include border-radius(20px);
 		 margin-left:15px !important;
 		.x-component-outer {
-			-webkit-border-radius: 1em;
-			border-radius: 1em;
+			@include border-radius(1em);
 		}
 	}
 	
@@ -1165,10 +1161,7 @@ p {
 		}
 
 		div.img {
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover;
+			@include background-size(cover);
 			background-position: center center;
 			background-repeat:none;
 			height:88px;
@@ -1328,10 +1321,7 @@ p {
 		height:88px;
 		width:100%;
 		background:#f2f2f2;
-		-webkit-background-size: cover;
-		-moz-background-size: cover;
-		-o-background-size: cover;
-		background-size: cover;
+		@include background-size(cover);
 		background-position: center center;
 		
 	}
@@ -1471,7 +1461,7 @@ p {
 			width:70px;
 			height:60px;
 			float:left;
-			-webkit-background-size: 54px 54px;
+			@include background-size(54px 54px !important);
 			background-repeat:no-repeat;
 			background-position:  5px center;
 		
@@ -2919,7 +2909,7 @@ p {
 			background-color:#f7f5f1;
 			.x-form-label {
 				font-size:14px;
-				background:none;
+				background:transparent !important;
 				padding:0;
 				margin:0 0 0 10px;
 				font-weight: normal;
@@ -3057,11 +3047,9 @@ p {
        (min-resolution: 1.2dppx)              /* The Future */ {
 	body {
 		background-image: url(#{$app-image-path}/Splash_Portrait@2x.png);
-		-webkit-background-size: 400px 460px; 
+		@include background-size(400px 460px !important); 
 	}
-	.weatherBtn {
-		-webkit-background-size: 32px 76px !important;
-	}
+	
 	.btnsContainer {
 	
 	.x-button {
@@ -3071,7 +3059,7 @@ p {
 			.x-button-label {
 				span.icon  {
 					background-image:url(#{$image-path}/ico_home_btn_accom@2x.png);
-					-webkit-background-size: 14px 11px;
+					@include background-size(14px 11px !important);
 				}
 			}
 		}
@@ -3079,7 +3067,7 @@ p {
 			.x-button-label {
 				span.icon  {
 					background-image:url(#{$image-path}/ico_home_btn_events@2x.png);
-					-webkit-background-size: 12px 13px;
+					@include background-size(12px 13px !important);
 				}
 			}
 		}
@@ -3089,8 +3077,8 @@ p {
 				span.icon  {
 					//width:35px;
 					background-image:url(#{$image-path}/ico_home_btn_tours@2x.png);
-					//-webkit-background-size: 28px 14px;
-					-webkit-background-size: 14px 14px;
+					//@include background-size(28px 14px;
+					@include background-size(14px 14px !important);
 				}
 			}
 		}
@@ -3099,7 +3087,7 @@ p {
 				span.icon  {
 					//width:35px;
 					background-image:url(#{$image-path}/ico_home_btn_itinerary_book@2x.png);
-					-webkit-background-size: 11px 14px;
+					@include background-size(11px 14px !important);
 				}
 			}
 		}
@@ -3110,7 +3098,7 @@ p {
 				span.icon  {
 					width: 35px;
 					background-image:url(#{$image-path}/ico_home_btn_itinerary@2x.png);
-					-webkit-background-size: 28px 14px;
+					@include background-size(28px 14px !important);
 				}
 			}
 		}
@@ -3118,7 +3106,7 @@ p {
 			.x-button-label {
 				span.icon  {
 					background-image:url(#{$image-path}/ico_home_btn_deal@2x.png);
-					-webkit-background-size: 22px 18px;
+					@include background-size(22px 18px !important);
 				}
 			}
 		}
@@ -3129,28 +3117,28 @@ p {
 
 	.createItineraryBtnLarge {
 		background-image:url('#{$image-path}/itinerary_badge_add@2x.png') !important;
-	    -webkit-background-size: 130px 151px;
+	    @include background-size(130px 151px !important);
 	}
 
 
 	.x-toolbar.pageNav {
 		.x-button {
 			background-image:url(#{$image-path}/btn_arrow_area_next@2x.png);
-			-webkit-background-size: 8px 15px; 
+			@include background-size(8px 15px !important); 
 		}
 		.x-button.backBtn {
 			background-image:url(#{$image-path}/btn_arrow_area_prev@2x.png);
-			-webkit-background-size: 8px 15px; 
+			@include background-size(8px 15px !important); 
 		}
 		.x-button.x-button-pressed.nextBtn,
 		.x-button.x-button-pressing.nextBtn {
 			background-image:url(#{$image-path}/btn_arrow_area_next_o@2x.png);
-			-webkit-background-size: 8px 15px;
+			@include background-size(8px 15px !important);
 		}
 		.x-button.x-button-pressed.backBtn,
 		.x-button.x-button-pressing.backBtn {
 			background-image:url(#{$image-path}/btn_arrow_area_prev_o@2x.png);
-			-webkit-background-size: 8px 15px;
+			@include background-size(8px 15px !important);
 		}
 	}
 
@@ -3159,18 +3147,18 @@ p {
 	.bgTexture,
 	.x-scroll-container {
 		background: url(#{$image-path}/linen_bg@2x.png);
-		-webkit-background-size: 333px 500px; 
+		@include background-size(333px 500px !important); 
 	}
 
 	.badge {
 		background-image: url(#{$app-image-path}/badge_home@2x.png);
-		-webkit-background-size: 118px 118px; 
+		@include background-size(118px 118px !important); 
 	}
 
 	.btnsHomeContainer {
 		.x-button {
 			&.weatherHome {
-				-webkit-background-size: 35px 35px;
+				@include background-size(35px 35px !important);
 			}
 			&.icon_1 {
 			background-image:url(#{$image-path}/we_ico_1_sml@2x.png)
@@ -3225,17 +3213,17 @@ p {
 		}
 			&.dealsHome {
 				background-image:url(#{$image-path}/ico_home_deals@2x.png);
-				-webkit-background-size: 40px 110px;
+				@include background-size(40px 110px !important);
 			}
 			&.tipsHome {
 				background-image:url(#{$image-path}/ico_home_tips@2x.png);
-				-webkit-background-size: 18px 66px;
+				@include background-size(18px 66px !important);
 			}
 		}
 	}
 	.x-carousel {
 		background:url(#{$image-path}/gallery_bg@2x.png) repeat-x;
-		-webkit-background-size: 64px 200px;
+		@include background-size(64px 200px !important);
 	}
 
 
@@ -3247,73 +3235,77 @@ p {
 	}
 	.closeBtn {
 		background-image:url('#{$image-path}/btn_close@2x.png');
-		-webkit-background-size: 31px 73px; 
+		@include background-size(31px 73px !important); 
 	}
 	.shareBtn {
 		background-image: url('#{$image-path}/btn_share@2x.png');
 	}
 	.refreshBtn {
 		background-image: url('#{$image-path}/btn_refresh@2x.png');
-		-webkit-background-size: 43px 73px; 
+		@include background-size(43px 73px !important); 
 	}
 	.shareAppBtn {
 		.x-button-label {
 			background-image: url('#{$image-path}/btn_share@2x.png');
-			-webkit-background-size: 44px 73px; 
+			@include background-size(44px 73px !important); 
 		}
 
 	}
 	.editBtn {
 		background-image: url('#{$image-path}/btn_edit@2x.png');
-		-webkit-background-size: 24px 69px !important; 
+		@include background-size(24px 69px !important); 
 	}
 	.favoriteBtn {
 		background-image: url('#{$image-path}/btn_favourite@2x.png');
-		-webkit-background-size: 50px 110px; 
+		@include background-size(50px 110px !important); 
 	}
 	.dealBtn {
 		background: url('#{$image-path}/deal_flag@2x.png');
-		-webkit-background-size: 94px 56px;
+		@include background-size(94px 56px !important);
 	}
 	.itinerayBtn {
 		background-image: url('#{$image-path}/btn_itinerary@2x.png');
-		-webkit-background-size: 50px 110px; 
+		@include background-size(50px 110px !important); 
 	}
 	.directionsBtn {
 		background-image: url('#{$image-path}/btn_contactsheet_map@2x.png');
-		-webkit-background-size: 45px 102px; 
+		@include background-size(45px 102px !important); 
 	}
 	.callBtn {
 		a {
 			background-image: url('#{$image-path}/btn_contactsheet_phone@2x.png');
-		    -webkit-background-size: 45px 102px; 	
+		    @include background-size(45px 102px !important); 	
 		}
 	}
 	.emailBtn {
 		background-image: url('#{$image-path}/btn_contactsheet_mail@2x.png');
-		-webkit-background-size: 45px 102px; 
+		@include background-size(45px 102px !important); 
 	}
 	.linkBtn {
 		background-image: url('#{$image-path}/btn_contactsheet_web@2x.png');
-		-webkit-background-size: 45px 102px; 
+		@include background-size(45px 102px !important); 
 	}
 	.bookingBtn {
 		background-image: url('#{$image-path}/btn_contactsheet_book@2x.png');
-		-webkit-background-size: 45px 102px; 
+		@include background-size(45px 102px !important); 
 	}
 	.x-navigationview {
 		.x-button-back {
 			background-image:url('#{$image-path}/btn_back@2x.png');
-			-webkit-background-size: 44px 73px; 
+			@include background-size(44px 73px !important); 
 		}
 	}
 	.x-button.iconBtn {
-		-webkit-background-size: 44px 73px; 
+		@include background-size(44px 73px !important); 
+		&.weatherBtn {
+			@include background-size(32px 76px !important);
+		}
 	}
+
 	.contactList {
 		.x-list-item-label {
 			div {
-				-webkit-background-size: 27px 27px;
+				@include background-size(27px 27px !important);
 			}
 			div.emailIcon {
 				background-image: url(#{$image-path}/ico_email@2x.png);
@@ -3332,7 +3324,7 @@ p {
 		.x-list-item.x-item-pressing .x-list-item-label div.emailIcon,
 		.x-list-item.x-item-pressed .x-list-item-label div.emailIcon {
 					background-image: url(#{$image-path}/ico_email_o@2x.png);
-					-webkit-background-size: 27px 27px;
+					@include background-size(27px 27px !important);
 		}
 
 
@@ -3340,27 +3332,27 @@ p {
 		.x-list-item.x-item-pressing .x-list-item-label div.directionsIcon,
 		.x-list-item.x-item-pressed .x-list-item-label div.directionsIcon {
 			background-image: url(#{$image-path}/ico_map_o@2x.png);
-				-webkit-background-size: 27px 27px;
+				@include background-size(27px 27px !important);
 		}
 
 		.x-list-item.x-item-selected .x-list-item-label div.callIcon,
 		.x-list-item.x-item-pressing .x-list-item-label div.callIcon,
 		.x-list-item.x-item-pressed .x-list-item-label div.callIcon {
 				background-image: url(#{$image-path}/ico_phone_o@2x.png);
-				-webkit-background-size: 27px 27px;
+				@include background-size(27px 27px !important);
 		}
 	}
 	.pageList,
 	.selectionList {
 		.x-list-item-label {
 			background-image:url('#{$image-path}/arrow_cell@2x.png') !important;	
-			-webkit-background-size: 21px 13px; 
+			@include background-size(21px 13px !important); 
 		}
 		.x-list-item.x-item-selected .x-list-item-label,
 		.x-list-item.x-item-pressing .x-list-item-label,
 		.x-list-item.x-item-pressed .x-list-item-label {
 			background-image:url('#{$image-path}/arrow_cell_o@2x.png') !important;
-			-webkit-background-size: 21px 13px;
+			@include background-size(21px 13px !important);
 		}
 	}
 	.imgList {
@@ -3368,42 +3360,42 @@ p {
 
 		.x-list-item-label {
 			background-image: url(#{$image-path}/btn_arrow_table@2x.png);
-			-webkit-background-size: 30px 15px; 
+			@include background-size(30px 15px !important); 
 		}
 		.x-list-item.x-item-selected .x-list-item-label,
 		.x-list-item.x-item-pressed .x-list-item-label{
 			background-image: url(#{$image-path}/btn_arrow_table@2x.png);
-			-webkit-background-size: 30px 15px; 
+			@include background-size(30px 15px !important); 
 		}
 
 	}
 
 	.homeList {
 		background-image: url(#{$image-path}/home_top_pattern@2x.png);
-		-webkit-background-size: 7px 31px; 
+		@include background-size(7px 31px !important); 
 	
 	}
 
 	
 	.x-segmentedbutton {
 		background: url(#{$image-path}/linen_bg@2x.png);
-		-webkit-background-size: 333px 500px; 
+		@include background-size(333px 500px !important); 
 		.x-segmentedbutton-inner {
 			background: url(#{$image-path}/linen_bg@2x.png);
-		    -webkit-background-size: 333px 500px; 
+		    @include background-size(333px 500px !important); 
 		}
 		.x-button {
 			&.mapBtn {
 				background-image:url(#{$image-path}/segmentedControl_map@2x.png);
-				-webkit-background-size: 11px 83px; 
+				@include background-size(11px 83px !important); 
 			}
 			&.listBtn {
 				background-image:url(#{$image-path}/segmentedControl_list@2x.png);
-				-webkit-background-size: 20px 83px; 
+				@include background-size(20px 83px !important); 
 			}
 			&.notesBtn {
 				background-image:url(#{$image-path}/segmentedControl_notes@2x.png);
-				-webkit-background-size: 20px 83px; 
+				@include background-size(20px 83px !important); 
 			}
 		}
 	}
@@ -3411,22 +3403,22 @@ p {
 	.btnsArea {
 		.favoritesBtnLarge {
 			background-image: url(#{$image-path}/ico_add_favs@2x.png) !important;
-			-webkit-background-size: 31px 83px;
+			@include background-size(31px 83px !important);
 		}
 		.itinerayBtnLarge {
 			background-image: url(#{$image-path}/ico_add_itinerary@2x.png) !important;
-			-webkit-background-size: 49px 83px;
+			@include background-size(49px 83px !important);
 		}
 	}
 	.x-loading-spinner {
 		background: url(#{$image-path}/loader@2x.png);
-		-webkit-background-size: 40px 40px;
+		@include background-size(40px 40px !important);
 	}
 
 	.currencyConverterPage {
 		.converstion {
 			.currencyBtn {
-				-webkit-background-size: 53px 33px;
+				@include background-size(53px 33px !important);
 				&.aud {
 					background-image:url('#{$image-path}/currency_flag_aud@2x.png');
 				}
@@ -3447,7 +3439,7 @@ p {
 			
 			.swapBtn {
 				background-image:url('#{$image-path}/currency_switch@2x.png');
-				-webkit-background-size: 55px 122px;
+				@include background-size(55px 122px !important);
 			}
 			
 		}
@@ -3455,7 +3447,7 @@ p {
 	.weatherPanel {
 		background:#d0c4b4;
 		.todaysWeather {
-		    -webkit-background-size: 135px 135px; 
+		    @include background-size(135px 135px !important); 
 		    &.icon_1 {
 			background-image:url(#{$image-path}/we_ico_1_lge@2x.png)
 			}
@@ -3510,11 +3502,11 @@ p {
 			.info {
 				h4 {
 					background-image:url(#{$image-path}/ico_rain_amount@2x.png);
-				   -webkit-background-size: 13px 13px;
+				   @include background-size(13px 13px !important);
 				}
 				h4.wind {
 					background:url(#{$image-path}/ico_wind_amount@2x.png) no-repeat 0px 5px;
-				   -webkit-background-size: 13px 13px;
+				   @include background-size(13px 13px !important);
 				}
 			}
 
@@ -3522,13 +3514,13 @@ p {
 
 		.weatherForcast {
 			background: url(#{$image-path}/linen_bg@2x.png);
-		 	-webkit-background-size: 333px 500px; 
+		 	@include background-size(333px 500px !important); 
 			.x-scroll-scroller {
 				//background-image: url(#{$image-path}/we_bg_rpt@2x.png);
-				-webkit-background-size: 40px 40px;
+				@include background-size(40px 40px !important);
 			}
 			.weatherDay {
-				-webkit-background-size: 48px 48px;
+				@include background-size(48px 48px !important);
 				&.icon_1 {
 				background-image:url(#{$image-path}/we_ico_1_med@2x.png)
 				}
@@ -3585,11 +3577,11 @@ p {
 	}
 	.x-toggle {
 		background-image: url(#{$image-path}/we_temp@2x.png);
-		-webkit-background-size: 57px 15px;
+		@include background-size(57px 15px !important);
 	}
 	.switchOnOff {
 		.x-toggle {
-			-webkit-background-size: 100px 14px;
+			@include background-size(100px 14px !important);
 			background-image: url(#{$image-path}/alert_toggle@2x.png);
 		}
 
@@ -3597,40 +3589,40 @@ p {
 		
 	.noFavourites {
 		background-image: url(#{$image-path}/favs_no_badge@2x.png);
-		-webkit-background-size: 107px 146px;
+		@include background-size(107px 146px !important);
 	}
 	.noResults {
 		background: url(#{$general-path}/no_results_badge@2x.png) no-repeat center center;	
-		-webkit-background-size: 107px 146px;
+		@include background-size(107px 146px !important);
 	}
 	.favsAddedMsg {
 		background-image: url(#{$image-path}/fav_added_icon@2x.png) !important;
-		-webkit-background-size: 86px 79px;
+		@include background-size(86px 79px !important);
 	}
 	.removedAddedMsg {
 		background-image: url(#{$image-path}/fav_removed_icon@2x.png) !important;
-		-webkit-background-size: 86px 79px;
+		@include background-size(86px 79px !important);
 	}
 	.loadingDisplay {
-			-webkit-background-size: 86px 79px;
+			@include background-size(86px 79px !important);
 	}
 
 	.radioList {
 		.x-list-item-label {
 			background-image:url('#{$image-path}/radio_btn_off@2x.png') !important;
-			-webkit-background-size: 25px 27px;
+			@include background-size(25px 27px !important);
 		}
 		.x-list-item.x-item-selected .x-list-item-label,
 		.x-list-item.x-item-pressing .x-list-item-label,
 		.x-list-item.x-item-pressed .x-list-item-label {
 			background-image:url('#{$image-path}/radio_btn_on@2x.png') !important;
-			-webkit-background-size: 25px 27px;
+			@include background-size(25px 27px !important);
 		}
 	}
 	
 	.loadError {
 		background-image: url(#{$image-path}/error_icon@2x.png);
-		-webkit-background-size: 89px 76px;
+		@include background-size(89px 76px !important);
 	}
 	
 	.bing-logo {
@@ -3643,96 +3635,96 @@ p {
 		}
 		.x-list-item-label {
 			background-image:url('#{$image-path}/arrow_cell@2x.png') !important;
-			-webkit-background-size: 21px 13px;
+			@include background-size(21px 13px !important);
 			div {
 				background-image:url(#{$image-path}/itinerary_list_ico@2x.png);
-			    -webkit-background-size: 43px 53px;
+			    @include background-size(43px 53px !important);
 			}
 		}
 
 		.x-list-item.x-item-pressed .x-list-item-label{
-			-webkit-background-size: 21px 13px;
+			@include background-size(21px 13px !important);
 		}
 		
 		.x-list-disclosure {
 			background-image:url('#{$image-path}/itinerary_item_edit_white@2x.png');
-			-webkit-background-size: 40px 40px;
+			@include background-size(40px 40px !important);
 		}
 	}
 	
 	.favouritesList,
 	.itineraryList {
 		background: #cbbdab url('#{$image-path}/pattern_sand@2x.png');
-		-webkit-background-size: 150px 150px;
+		@include background-size(150px 150px !important);
 		
 		.x-list-disclosure {
 			background-image:url('#{$image-path}/itinerary_item_edit_white@2x.png');
-			-webkit-background-size: 29px 29px;
+			@include background-size(29px 29px !important);
 		}
 	}
 	
 	.x-clear-icon {
 		background: url('#{$image-path}/icon_clearfeild@2x.png') no-repeat 8px 9px;
-		-webkit-background-size: 19px 19px;
+		@include background-size(19px 19px !important);
 	}
 	
 	.x-field-search .x-field-input::before {
 		background: url('#{$image-path}/icon_search_sml@2x.png') no-repeat 0px 0px;
-		-webkit-background-size: 14px 15px;
+		@include background-size(14px 15px !important);
 	}
 
 	#myFavouritesSection {
 		.x-layout-card-item {
 			background: #dfdfdf url('#{$image-path}/pattern_favs@2x.png');
-			-webkit-background-size: 150px 150px;
+			@include background-size(150px 150px !important);
 		}
 		.x-scroll-scroller {
 			background: #dfdfdf url('#{$image-path}/pattern_favs@2x.png');
-			-webkit-background-size: 150px 150px;
+			@include background-size(150px 150px !important);
 		}
 	}
 
 	#myItinerarySection {
 		.x-layout-card-item {
 			background: #cbbdab url('#{$image-path}/pattern_sand@2x.png');
-			-webkit-background-size: 150px 150px;
+			@include background-size(150px 150px !important);
 			
 		}
 		.x-scroll-scroller {
 			background: #cbbdab url('#{$image-path}/pattern_sand@2x.png');
-			-webkit-background-size: 150px 150px;
+			@include background-size(150px 150px !important);
 		}
 	}
 	
 	.itineraryInstructions {
 		background: url('#{$image-path}/ico_itinerary_badge@2x.png') center 0 no-repeat;
-		-webkit-background-size: 107px 105px;
+		@include background-size(107px 105px !important);
 	}
 	
 	.footer {
 		background: url(#{$image-path}/linen_bg@2x.png);
-		-webkit-background-size: 333px 500px;
+		@include background-size(333px 500px !important);
 		.border {
 			background-image:url(#{$image-path}/footer_pattern@2x.png);
-			-webkit-background-size: 7px 31px; 
+			@include background-size(7px 31px !important); 
 		}
 		.logo {
 			background-image:url(#{$general-path}/#{$footer-image}@2x.png);
-			-webkit-background-size: 158px 46px; 
+			@include background-size(158px 46px !important); 
 		}
 	}
 
 	.x-field-select {
 		background-image:url(#{$image-path}/arrow_select@2x.png);
-		-webkit-background-size: 29px 13px; 
+		@include background-size(29px 13px !important); 
 	}
 	.mapDisplay {
 		background-image: url(#{$image-path}/linen_bg@2x.png);
-		-webkit-background-size: 333px 500px; 
+		@include background-size(333px 500px !important);
 		&.mapLarge {
 			.mapHolder {
 				background-image: url(#{$image-path}/map_loading_badge@2x.png);
-				-webkit-background-size: 107px 146px; 
+				@include background-size(107px 146px !important); 
 				
 			}
 		}
@@ -3740,47 +3732,47 @@ p {
 	}
 	.offlineMessage {
 		background-image: url(#{$image-path}/linen_bg@2x.png);
-		-webkit-background-size: 333px 500px; 
+		@include background-size(333px 500px !important); 
 		.x-innerhtml  {
 			background: url(#{$image-path}/no_internet_badge@2x.png) no-repeat 0 20px;
-			-webkit-background-size: 107px 146px; 
+			@include background-size(107px 146px !important); 
 
 		}
 	}
 	.noResults {
 		background-image: url(#{$image-path}/linen_bg@2x.png);
-		-webkit-background-size: 333px 500px; 
+		@include background-size(333px 500px !important); 
 		.x-innerhtml  {
 			background: url(#{$general-path}/no_results_badge@2x.png) no-repeat 0 20px;
-			-webkit-background-size: 107px 146px; 
+			@include background-size(107px 146px !important); 
 		}
 
 		.x-inner {
 			background: url(#{$general-path}/no_results_badge@2x.png) no-repeat 0 20px;
-			-webkit-background-size: 107px 146px; 	
+			@include background-size(107px 146px !important); 	
 			background-position: center;		
 		}
 	}
 	.refreshBtn {
 		background-image: url('#{$image-path}/btn_refresh@2x.png');
-		-webkit-background-size: 43px 73px; 
+		@include background-size(43px 73px !important); 
 	}
 	.suggestionList {
 		.x-list-disclosure {
 			background-image:url('#{$image-path}/icon_suggestion_arrow@2x.png');
-			-webkit-background-size: 40px 40px; 
+			@include background-size(40px 40px !important); 
 		}
 	}
 	.refreshBtn {
 		background-image: url('#{$image-path}/btn_refresh@2x.png') !important;
-		-webkit-background-size: 43px 73px; 
+		@include background-size(43px 73px !important); 
 	}
 
 	.alertSettingsPage {
 		
 		.x-form-label {
 			background-image: url(#{$image-path}/alerts_marker_incidents@2x.png);
-			-webkit-background-size: 50px 37px;
+			@include background-size(50px 37px !important);
 		}
 		.incidents {
 			.x-form-label {
@@ -3817,33 +3809,33 @@ p {
 	.alerts {
 		.incident {
 			background-image: url(#{$image-path}/alerts_ico_incidents@2x.png);
-			-webkit-background-size: 52px 54px;
+			@include background-size(52px 54px !important);
 		}
 		.roadwork {
 			background-image: url(#{$image-path}/alerts_ico_roadworks@2x.png);
-			-webkit-background-size: 52px 54px;
+			@include background-size(52px 54px !important);
 		}
 		.alpinecondition {
 			background-image: url(#{$image-path}/alerts_ico_alpine@2x.png);
-			-webkit-background-size: 52px 54px;
+			@include background-size(52px 54px !important);
 		}
 		.majorevent {
 			background-image: url(#{$image-path}/alerts_ico_events@2x.png);
-			-webkit-background-size: 52px 54px;
+			@include background-size(52px 54px !important);
 		}
 		.flood {
 			background-image: url(#{$image-path}/alerts_ico_flood@2x.png);
-			-webkit-background-size: 52px 54px;
+			@include background-size(52px 54px !important);
 		}
 		.fire {
 			background-image: url(#{$image-path}/alerts_ico_fire@2x.png);
-			-webkit-background-size: 52px 54px;
+			@include background-size(52px 54px !important);
 		}
 	}
 	.alertDetailsPage {
 		.actionHeader {
 			background-image: url(#{$image-path}/alerts_ico_incidents@2x.png);
-			-webkit-background-size: 52px 54px;
+			@include background-size(52px 54px !important);
 			
 			&.roadwork {
 			background-image: url(#{$image-path}/alerts_ico_roadworks@2x.png);

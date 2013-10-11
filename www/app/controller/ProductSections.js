@@ -66,11 +66,15 @@ Ext.define('escape.controller.ProductSections', {
             escape.utils.AppVars.thingsToDoSearchType = record.data.relatedSearchSelection;
         }
         console.log('CategorySelected, Things to do type ' + escape.utils.AppVars.thingsToDoSearchType);
-        escape.utils.AppVars.currentSection.getNavigationView().push({
+
+
+        this.getApplication().getController('Section').pushPage({
             pageTitle: record.data.title,
             contentPath: record.data.contentPath,
             xtype: 'productSubSection'
-        });
+        })
+
+        escape.utils.AppVars.currentSection.getNavigationView().push();
     },
     loadContent: function(productSubSection) {
         var linkbreakDown = productSubSection.getContentPath().split('smartphoneapps');
@@ -80,7 +84,7 @@ Ext.define('escape.controller.ProductSections', {
         // load the content data
         escape.model.Content.getContentPageData(productSubSection.getContentPath(), {
             success: function(content) {
-                 selfRef.buildSubSection(productSubSection, content.getData());
+                selfRef.buildSubSection(productSubSection, content.getData());
             },
             error: function(error) {},
             scope: this
@@ -161,15 +165,18 @@ Ext.define('escape.controller.ProductSections', {
     loadMustDos: function(url, productSubSection) {
         var selfRef = this;
         // Don't load must do's if offline.
-        if (!Ext.device.Connection.isOnline()){
+        if (!Ext.device.Connection.isOnline()) {
             // show offline messgae
             var offlineHeight = window.innerHeight;
             productSubSection.getCardView().getComponent('contents').setPadding(0);
-            productSubSection.getCardView().getComponent('contents').setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+            productSubSection.getCardView().getComponent('contents').setItems([{
+                height: offlineHeight,
+                xtype: 'offlineMessage'
+            }]);
         } else {
             escape.model.Content.getContentPageData(url, {
                 success: function(content) {
-                     selfRef.mustDosLoaded(content.getData(), productSubSection);
+                    selfRef.mustDosLoaded(content.getData(), productSubSection);
                 },
                 error: function(error) {},
                 scope: this
@@ -236,11 +243,14 @@ Ext.define('escape.controller.ProductSections', {
     },
     loadProductList: function(url, productSubSection) {
         // Don't load must do's if offline.
-        if (!Ext.device.Connection.isOnline()){
+        if (!Ext.device.Connection.isOnline()) {
             // show offline messgae
             var offlineHeight = window.innerHeight;
             productSubSection.getCardView().getComponent('contents').setPadding(0);
-            productSubSection.getCardView().getComponent('contents').setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+            productSubSection.getCardView().getComponent('contents').setItems([{
+                height: offlineHeight,
+                xtype: 'offlineMessage'
+            }]);
         } else {
             if (url.indexOf('/product-list-generator/') >= 0) { // Make sure the product list generator exists
                 // If the links are generated for us.
@@ -290,13 +300,13 @@ Ext.define('escape.controller.ProductSections', {
                     success: function(response) {
                         productList = (JSON.parse(response.responseText)); // Parse response
                         var internalDontMiss = productList.Page.Content;
-                        if (internalDontMiss){
+                        if (internalDontMiss) {
                             var productList = [];
-                                try {
+                            try {
                                 // Get the JSON array
-                                internalDontMiss = internalDontMiss.substring(internalDontMiss.indexOf('['),internalDontMiss.lastIndexOf(']')+1);
+                                internalDontMiss = internalDontMiss.substring(internalDontMiss.indexOf('['), internalDontMiss.lastIndexOf(']') + 1);
                                 // Replace &quote;'s
-                                internalDontMiss = internalDontMiss.replace(/&quot;/g,'"');
+                                internalDontMiss = internalDontMiss.replace(/&quot;/g, '"');
                                 // Parse our new JSON
                                 internalDontMiss = (JSON.parse(internalDontMiss));
                                 console.log(internalDontMiss);
@@ -307,12 +317,12 @@ Ext.define('escape.controller.ProductSections', {
                                         producType: 'productList'
                                     });
                                 }
-                            } catch (event){
+                            } catch (event) {
                                 console.log(event);
                             }
                             console.log(productList);
                         }
-                        
+
                         var producType = "attractions";
                         selfRef.productListLoaded(productList, productSubSection, producType);
 

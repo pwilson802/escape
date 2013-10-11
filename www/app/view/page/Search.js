@@ -14,14 +14,6 @@ Ext.define("escape.view.page.Search", {
         searchValues: null,
         hasInputs: true
     },
-    reOpenView: function() {
-
-    },
-    closeView: function() {
-        //this.setItems([]);
-        //this.setIsBuilt(false);
-    },
-
     // Ensures town validity when the area value is changed.
     destinationChange: function(e, newValue, oldValue, eOpts) {
         if (newValue != oldValue) {
@@ -52,7 +44,7 @@ Ext.define("escape.view.page.Search", {
                 this.getParent().innerItems[2].setValue('All');
             }
             this.getParent().innerItems[2].setOptions(townOptions);
-        } 
+        }
     },
 
     // Ensures area validity when the towns value is changed.

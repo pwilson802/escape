@@ -33,7 +33,6 @@ Ext.define('escape.controller.MyFavourites', {
         }
     },
     loadList: function(myFavouritesPage) {
-
         if (myFavouritesPage.getIsBuilt()) {
             var selfRef = this;
             // load items products from the database

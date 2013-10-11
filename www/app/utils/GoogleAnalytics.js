@@ -34,9 +34,15 @@ Ext.define('escape.utils.GoogleAnalytics', {
                     pagePath = 'search/'+value;
                 }
             }
-            console.log('!!! pagePath: ' + pagePath);
-            this.trackPage(pagePath);
+            if (pagePath){
+                this.trackPage(pagePath);
+            }
+            
         }
+        eventType = (eventType) ? eventType :  'na';
+        category = (category) ? category : 'na';
+        value = (value) ? value : 0;
+
         try {
             gaPlugin = window.plugins.gaPlugin;
             gaPlugin.trackEvent(this.trackEventSucess, this.trackEventFailure, category, eventType, 'value', value);

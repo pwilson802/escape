@@ -128,6 +128,17 @@
          NSLog(@"Success: database copied accross.");
         NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:dbNameCMS];
         [fileManager copyItemAtPath:databasePathFromApp toPath:cmsFile error:nil];
+        
+        // Set iCloud flags on the zip.
+        NSError *error = nil;
+        NSURL *url = [NSURL fileURLWithPath:cmsFile];
+        BOOL success = [url setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
+        if(!success){
+            NSLog(@"iCloud Exclusion Failure: %@", error);
+        } else {
+            NSLog(@"iCloud Exclusion Success");
+        }
+
     } else {
         NSLog(@"ERROR: database failed to copy.");
 
