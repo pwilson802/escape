@@ -15,7 +15,6 @@
 		000FD0751782912700A3C3B2 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
 		000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B792CC37160805CB00BD25D7 /* ChildBrowser.bundle */; };
 		000FD0791782912700A3C3B2 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B792CC3C160805CB00BD25D7 /* ChildBrowserViewController.xib */; };
-		000FD07B1782912700A3C3B2 /* sth in Resources */ = {isa = PBXBuildFile; fileRef = 00376B7117825C1C00469595 /* sth */; };
 		000FD07D1782912700A3C3B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		000FD07E1782912700A3C3B2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		000FD07F1782912700A3C3B2 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
@@ -51,10 +50,7 @@
 		00376B21178251BB00469595 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30E1352610E2C1420031B30D /* Cordova.plist */; };
 		00376B22178251BB00469595 /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3072F99613A8081B00425683 /* Capture.bundle */; };
 		00376B23178251BB00469595 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
-		00376B24178251BB00469595 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDF13BBADB100FB74C0 /* Localizable.strings */; };
 		00376B25178251BB00469595 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
-		00376B26178251BB00469595 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434314DC770100060A13 /* Localizable.strings */; };
-		00376B27178251BB00469595 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		00376B28178251BB00469595 /* ChildBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B792CC37160805CB00BD25D7 /* ChildBrowser.bundle */; };
 		00376B29178251BB00469595 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B792CC3C160805CB00BD25D7 /* ChildBrowserViewController.xib */; };
 		00376B38178251BB00469595 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -86,7 +82,6 @@
 		00376B53178251BB00469595 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
 		00376B54178251BB00469595 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		00376B55178251BB00469595 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		00376B7017825BF300469595 /* blu in Resources */ = {isa = PBXBuildFile; fileRef = 00376B6F17825BF300469595 /* blu */; };
 		00376B7217825C1C00469595 /* sth in Resources */ = {isa = PBXBuildFile; fileRef = 00376B7117825C1C00469595 /* sth */; };
 		0084215A1804B93A00038781 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
 		0084215B1804B93A00038781 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 3053AC6E109B7857006FCFE7 /* VERSION */; };
@@ -96,9 +91,6 @@
 		0084215F1804B93A00038781 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
 		008421601804B93A00038781 /* ChildBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B792CC37160805CB00BD25D7 /* ChildBrowser.bundle */; };
 		008421611804B93A00038781 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B792CC3C160805CB00BD25D7 /* ChildBrowserViewController.xib */; };
-		008421621804B93A00038781 /* sth in Resources */ = {isa = PBXBuildFile; fileRef = 00376B7117825C1C00469595 /* sth */; };
-		008421631804B93A00038781 /* syd in Resources */ = {isa = PBXBuildFile; fileRef = 000FD0A3178291C900A3C3B2 /* syd */; };
-		008421641804B93A00038781 /* Sydney-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 000FD09F1782912800A3C3B2 /* Sydney-Info.plist */; };
 		008421671804B93A00038781 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		008421681804B93A00038781 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		008421691804B93A00038781 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
@@ -131,8 +123,6 @@
 		008421851804B93A00038781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		008421861804B93A00038781 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A651396C574F88808F954A /* CoreData.framework */; };
 		008421871804B93A00038781 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
-		008421911804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
-		008421921804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421931804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421941804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421961804BD2400038781 /* cen in Resources */ = {isa = PBXBuildFile; fileRef = 008421951804BD2400038781 /* cen */; };
@@ -161,6 +151,30 @@
 		2FDA49F617C2F622007341F7 /* GAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA49EF17C2F622007341F7 /* GAPlugin.m */; };
 		2FDA49F717C2F622007341F7 /* GAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA49EF17C2F622007341F7 /* GAPlugin.m */; };
 		2FDA49F817C2F622007341F7 /* GAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA49EF17C2F622007341F7 /* GAPlugin.m */; };
+		2FEF93FA1807CF8F00A230F2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93E21807CF8F00A230F2 /* Default-568h@2x.png */; };
+		2FEF93FB1807CF8F00A230F2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93E31807CF8F00A230F2 /* Default.png */; };
+		2FEF93FC1807CF8F00A230F2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93E41807CF8F00A230F2 /* Default@2x.png */; };
+		2FEF93FD1807CF8F00A230F2 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93E51807CF8F00A230F2 /* Icon-29.png */; };
+		2FEF93FE1807CF8F00A230F2 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93E61807CF8F00A230F2 /* Icon-40.png */; };
+		2FEF93FF1807CF8F00A230F2 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93E71807CF8F00A230F2 /* Icon-40@2x.png */; };
+		2FEF94001807CF8F00A230F2 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93E81807CF8F00A230F2 /* Icon-50.png */; };
+		2FEF94011807CF8F00A230F2 /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93E91807CF8F00A230F2 /* Icon-57.png */; };
+		2FEF94021807CF8F00A230F2 /* Icon-58.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93EA1807CF8F00A230F2 /* Icon-58.png */; };
+		2FEF94031807CF8F00A230F2 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93EB1807CF8F00A230F2 /* Icon-60.png */; };
+		2FEF94041807CF8F00A230F2 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93EC1807CF8F00A230F2 /* Icon-60@2x.png */; };
+		2FEF94051807CF8F00A230F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93ED1807CF8F00A230F2 /* Icon-72.png */; };
+		2FEF94061807CF8F00A230F2 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93EE1807CF8F00A230F2 /* Icon-72@2x.png */; };
+		2FEF94071807CF8F00A230F2 /* Icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93EF1807CF8F00A230F2 /* Icon-114.png */; };
+		2FEF94081807CF8F00A230F2 /* Icon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F01807CF8F00A230F2 /* Icon-512.png */; };
+		2FEF94091807CF8F00A230F2 /* Icon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F11807CF8F00A230F2 /* Icon-1024.png */; };
+		2FEF940A1807CF8F00A230F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F21807CF8F00A230F2 /* Icon.png */; };
+		2FEF940B1807CF8F00A230F2 /* Splash_Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F31807CF8F00A230F2 /* Splash_Portrait.png */; };
+		2FEF940C1807CF8F00A230F2 /* Splash_Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F41807CF8F00A230F2 /* Splash_Portrait@2x.png */; };
+		2FEF940D1807CF8F00A230F2 /* Icon-40.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F51807CF8F00A230F2 /* Icon-40.jpg */; };
+		2FEF940E1807CF8F00A230F2 /* Icon-58.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F61807CF8F00A230F2 /* Icon-58.jpg */; };
+		2FEF940F1807CF8F00A230F2 /* Icon-72.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F71807CF8F00A230F2 /* Icon-72.jpg */; };
+		2FEF94101807CF8F00A230F2 /* Icon-72@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F81807CF8F00A230F2 /* Icon-72@2x.jpg */; };
+		2FEF94111807CF8F00A230F2 /* Icon-512.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2FEF93F91807CF8F00A230F2 /* Icon-512.jpg */; };
 		301BF570109A69640062928A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
 		301BF5B5109A6A2B0062928A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B4109A6A2B0062928A /* AddressBook.framework */; };
 		301BF5B7109A6A2B0062928A /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B6109A6A2B0062928A /* AddressBookUI.framework */; };
@@ -223,7 +237,6 @@
 		000FD09F1782912800A3C3B2 /* Sydney-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sydney-Info.plist"; sourceTree = "<group>"; };
 		000FD0A3178291C900A3C3B2 /* syd */ = {isa = PBXFileReference; lastKnownFileType = folder; name = syd; path = "../app-icons/syd"; sourceTree = "<group>"; };
 		00376B59178251BB00469595 /* Blue Mountains.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Blue Mountains.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		00376B6F17825BF300469595 /* blu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = blu; path = "../app-icons/blu"; sourceTree = "<group>"; };
 		00376B7117825C1C00469595 /* sth */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sth; path = "../app-icons/sth"; sourceTree = "<group>"; };
 		0084218B1804B93A00038781 /* Sydney copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sydney copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008421901804B94E00038781 /* Central Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Central Coast-Info.plist"; sourceTree = "<group>"; };
@@ -252,6 +265,30 @@
 		2FDA49F317C2F622007341F7 /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITransaction.h; path = ../../../plugins/ios/ga/GAITransaction.h; sourceTree = "<group>"; };
 		2FDA49F417C2F622007341F7 /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITransactionItem.h; path = ../../../plugins/ios/ga/GAITransactionItem.h; sourceTree = "<group>"; };
 		2FDA49F517C2F622007341F7 /* GAPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAPlugin.h; path = ../../../plugins/ios/ga/GAPlugin.h; sourceTree = "<group>"; };
+		2FEF93E21807CF8F00A230F2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../app-icons/blu/Default-568h@2x.png"; sourceTree = "<group>"; };
+		2FEF93E31807CF8F00A230F2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = "../app-icons/blu/Default.png"; sourceTree = "<group>"; };
+		2FEF93E41807CF8F00A230F2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../app-icons/blu/Default@2x.png"; sourceTree = "<group>"; };
+		2FEF93E51807CF8F00A230F2 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-29.png"; path = "../app-icons/blu/Icon-29.png"; sourceTree = "<group>"; };
+		2FEF93E61807CF8F00A230F2 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-40.png"; path = "../app-icons/blu/Icon-40.png"; sourceTree = "<group>"; };
+		2FEF93E71807CF8F00A230F2 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-40@2x.png"; path = "../app-icons/blu/Icon-40@2x.png"; sourceTree = "<group>"; };
+		2FEF93E81807CF8F00A230F2 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-50.png"; path = "../app-icons/blu/Icon-50.png"; sourceTree = "<group>"; };
+		2FEF93E91807CF8F00A230F2 /* Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-57.png"; path = "../app-icons/blu/Icon-57.png"; sourceTree = "<group>"; };
+		2FEF93EA1807CF8F00A230F2 /* Icon-58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-58.png"; path = "../app-icons/blu/Icon-58.png"; sourceTree = "<group>"; };
+		2FEF93EB1807CF8F00A230F2 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-60.png"; path = "../app-icons/blu/Icon-60.png"; sourceTree = "<group>"; };
+		2FEF93EC1807CF8F00A230F2 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-60@2x.png"; path = "../app-icons/blu/Icon-60@2x.png"; sourceTree = "<group>"; };
+		2FEF93ED1807CF8F00A230F2 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "../app-icons/blu/Icon-72.png"; sourceTree = "<group>"; };
+		2FEF93EE1807CF8F00A230F2 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72@2x.png"; path = "../app-icons/blu/Icon-72@2x.png"; sourceTree = "<group>"; };
+		2FEF93EF1807CF8F00A230F2 /* Icon-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-114.png"; path = "../app-icons/blu/Icon-114.png"; sourceTree = "<group>"; };
+		2FEF93F01807CF8F00A230F2 /* Icon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-512.png"; path = "../app-icons/blu/Icon-512.png"; sourceTree = "<group>"; };
+		2FEF93F11807CF8F00A230F2 /* Icon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-1024.png"; path = "../app-icons/blu/Icon-1024.png"; sourceTree = "<group>"; };
+		2FEF93F21807CF8F00A230F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = "../app-icons/blu/Icon.png"; sourceTree = "<group>"; };
+		2FEF93F31807CF8F00A230F2 /* Splash_Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Splash_Portrait.png; path = "../app-icons/blu/Splash_Portrait.png"; sourceTree = "<group>"; };
+		2FEF93F41807CF8F00A230F2 /* Splash_Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Splash_Portrait@2x.png"; path = "../app-icons/blu/Splash_Portrait@2x.png"; sourceTree = "<group>"; };
+		2FEF93F51807CF8F00A230F2 /* Icon-40.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Icon-40.jpg"; path = "../app-icons/blu/Icon-40.jpg"; sourceTree = "<group>"; };
+		2FEF93F61807CF8F00A230F2 /* Icon-58.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Icon-58.jpg"; path = "../app-icons/blu/Icon-58.jpg"; sourceTree = "<group>"; };
+		2FEF93F71807CF8F00A230F2 /* Icon-72.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Icon-72.jpg"; path = "../app-icons/blu/Icon-72.jpg"; sourceTree = "<group>"; };
+		2FEF93F81807CF8F00A230F2 /* Icon-72@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Icon-72@2x.jpg"; path = "../app-icons/blu/Icon-72@2x.jpg"; sourceTree = "<group>"; };
+		2FEF93F91807CF8F00A230F2 /* Icon-512.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Icon-512.jpg"; path = "../app-icons/blu/Icon-512.jpg"; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
 		301BF5B4109A6A2B0062928A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		301BF5B6109A6A2B0062928A /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
@@ -456,10 +493,10 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				2FEF93E11807CF6A00A230F2 /* blu */,
 				2FA580B01794B57B0023ADE3 /* South Coast-Info.plist */,
 				2FA580AC1794B1C60023ADE3 /* Blue Mountains-Info.plist */,
 				008421901804B94E00038781 /* Central Coast-Info.plist */,
-				00376B6F17825BF300469595 /* blu */,
 				00376B7117825C1C00469595 /* sth */,
 				000FD0A3178291C900A3C3B2 /* syd */,
 				000FD09F1782912800A3C3B2 /* Sydney-Info.plist */,
@@ -541,6 +578,37 @@
 				2F502BFC16CAFB6900050BE4 /* CordovaLibApp.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2FEF93E11807CF6A00A230F2 /* blu */ = {
+			isa = PBXGroup;
+			children = (
+				2FEF93E21807CF8F00A230F2 /* Default-568h@2x.png */,
+				2FEF93E31807CF8F00A230F2 /* Default.png */,
+				2FEF93E41807CF8F00A230F2 /* Default@2x.png */,
+				2FEF93E51807CF8F00A230F2 /* Icon-29.png */,
+				2FEF93E61807CF8F00A230F2 /* Icon-40.png */,
+				2FEF93E71807CF8F00A230F2 /* Icon-40@2x.png */,
+				2FEF93E81807CF8F00A230F2 /* Icon-50.png */,
+				2FEF93E91807CF8F00A230F2 /* Icon-57.png */,
+				2FEF93EA1807CF8F00A230F2 /* Icon-58.png */,
+				2FEF93EB1807CF8F00A230F2 /* Icon-60.png */,
+				2FEF93EC1807CF8F00A230F2 /* Icon-60@2x.png */,
+				2FEF93ED1807CF8F00A230F2 /* Icon-72.png */,
+				2FEF93EE1807CF8F00A230F2 /* Icon-72@2x.png */,
+				2FEF93EF1807CF8F00A230F2 /* Icon-114.png */,
+				2FEF93F01807CF8F00A230F2 /* Icon-512.png */,
+				2FEF93F11807CF8F00A230F2 /* Icon-1024.png */,
+				2FEF93F21807CF8F00A230F2 /* Icon.png */,
+				2FEF93F31807CF8F00A230F2 /* Splash_Portrait.png */,
+				2FEF93F41807CF8F00A230F2 /* Splash_Portrait@2x.png */,
+				2FEF93F51807CF8F00A230F2 /* Icon-40.jpg */,
+				2FEF93F61807CF8F00A230F2 /* Icon-58.jpg */,
+				2FEF93F71807CF8F00A230F2 /* Icon-72.jpg */,
+				2FEF93F81807CF8F00A230F2 /* Icon-72@2x.jpg */,
+				2FEF93F91807CF8F00A230F2 /* Icon-512.jpg */,
+			);
+			name = blu;
 			sourceTree = "<group>";
 		};
 		307C750510C5A3420062BCA9 /* Plugins */ = {
@@ -760,7 +828,6 @@
 				000FD0751782912700A3C3B2 /* MainViewController.xib in Resources */,
 				000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */,
 				000FD0791782912700A3C3B2 /* ChildBrowserViewController.xib in Resources */,
-				000FD07B1782912700A3C3B2 /* sth in Resources */,
 				000FD0A4178291C900A3C3B2 /* syd in Resources */,
 				2FA580AE1794B2BC0023ADE3 /* Sydney-Info.plist in Resources */,
 				2FAAB2B418054D2D00A6F9D1 /* cmsPages.db in Resources */,
@@ -771,21 +838,40 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008421921804B94E00038781 /* Central Coast-Info.plist in Resources */,
 				00376B1F178251BB00469595 /* www in Resources */,
 				00376B20178251BB00469595 /* VERSION in Resources */,
 				00376B21178251BB00469595 /* Cordova.plist in Resources */,
 				00376B22178251BB00469595 /* Capture.bundle in Resources */,
 				00376B23178251BB00469595 /* Localizable.strings in Resources */,
-				00376B24178251BB00469595 /* Localizable.strings in Resources */,
 				00376B25178251BB00469595 /* MainViewController.xib in Resources */,
-				00376B26178251BB00469595 /* Localizable.strings in Resources */,
-				00376B27178251BB00469595 /* Localizable.strings in Resources */,
 				00376B28178251BB00469595 /* ChildBrowser.bundle in Resources */,
 				00376B29178251BB00469595 /* ChildBrowserViewController.xib in Resources */,
-				00376B7017825BF300469595 /* blu in Resources */,
 				2FA580AD1794B1C60023ADE3 /* Blue Mountains-Info.plist in Resources */,
 				2FAAB2B318054D2D00A6F9D1 /* cmsPages.db in Resources */,
+				2FEF93FA1807CF8F00A230F2 /* Default-568h@2x.png in Resources */,
+				2FEF93FB1807CF8F00A230F2 /* Default.png in Resources */,
+				2FEF93FC1807CF8F00A230F2 /* Default@2x.png in Resources */,
+				2FEF93FD1807CF8F00A230F2 /* Icon-29.png in Resources */,
+				2FEF93FE1807CF8F00A230F2 /* Icon-40.png in Resources */,
+				2FEF93FF1807CF8F00A230F2 /* Icon-40@2x.png in Resources */,
+				2FEF94001807CF8F00A230F2 /* Icon-50.png in Resources */,
+				2FEF94011807CF8F00A230F2 /* Icon-57.png in Resources */,
+				2FEF94021807CF8F00A230F2 /* Icon-58.png in Resources */,
+				2FEF94031807CF8F00A230F2 /* Icon-60.png in Resources */,
+				2FEF94041807CF8F00A230F2 /* Icon-60@2x.png in Resources */,
+				2FEF94051807CF8F00A230F2 /* Icon-72.png in Resources */,
+				2FEF94061807CF8F00A230F2 /* Icon-72@2x.png in Resources */,
+				2FEF94071807CF8F00A230F2 /* Icon-114.png in Resources */,
+				2FEF94081807CF8F00A230F2 /* Icon-512.png in Resources */,
+				2FEF94091807CF8F00A230F2 /* Icon-1024.png in Resources */,
+				2FEF940A1807CF8F00A230F2 /* Icon.png in Resources */,
+				2FEF940B1807CF8F00A230F2 /* Splash_Portrait.png in Resources */,
+				2FEF940C1807CF8F00A230F2 /* Splash_Portrait@2x.png in Resources */,
+				2FEF940D1807CF8F00A230F2 /* Icon-40.jpg in Resources */,
+				2FEF940E1807CF8F00A230F2 /* Icon-58.jpg in Resources */,
+				2FEF940F1807CF8F00A230F2 /* Icon-72.jpg in Resources */,
+				2FEF94101807CF8F00A230F2 /* Icon-72@2x.jpg in Resources */,
+				2FEF94111807CF8F00A230F2 /* Icon-512.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,9 +889,6 @@
 				008421961804BD2400038781 /* cen in Resources */,
 				008421601804B93A00038781 /* ChildBrowser.bundle in Resources */,
 				008421611804B93A00038781 /* ChildBrowserViewController.xib in Resources */,
-				008421621804B93A00038781 /* sth in Resources */,
-				008421631804B93A00038781 /* syd in Resources */,
-				008421641804B93A00038781 /* Sydney-Info.plist in Resources */,
 				2FAAB2B518054D2D00A6F9D1 /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -814,7 +897,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008421911804B94E00038781 /* Central Coast-Info.plist in Resources */,
 				301BF570109A69640062928A /* www in Resources */,
 				3053AC6F109B7857006FCFE7 /* VERSION in Resources */,
 				30E1352710E2C1420031B30D /* Cordova.plist in Resources */,
@@ -1105,7 +1187,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -1125,6 +1208,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Blue Mountains";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
