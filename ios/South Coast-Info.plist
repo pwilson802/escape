@@ -10,21 +10,21 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>sth/Icon-57.png</string>
-		<string>sth/Icon-114.png</string>
-		<string>sth/Icon-72.png</string>
-		<string>sth/Icon-72@2x.png</string>
-		<string>sth/Icon.png</string>
-		<string>sth/Icon.png</string>
-		<string>sth/Icon-60.png</string>
-		<string>sth/Icon-60@2x.png</string>
-		<string>sth/Icon-40.png</string>
-		<string>sth/Icon-40@2x.png</string>
-		<string>sth/Icon-29.png</string>
-		<string>sth/Icon-58.png</string>
+		<string>Icon-57.png</string>
+		<string>Icon-114.png</string>
+		<string>Icon-72.png</string>
+		<string>Icon-72@2x.png</string>
+		<string>Icon.png</string>
+		<string>Icon.png</string>
+		<string>Icon-60.png</string>
+		<string>Icon-60@2x.png</string>
+		<string>Icon-40.png</string>
+		<string>Icon-40@2x.png</string>
+		<string>Icon-29.png</string>
+		<string>Icon-58.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.tiltandco.dnsw.spp.southcoast</string>
+	<string>au.com.dnsw.spp.tilt.southcoast</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -32,31 +32,29 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.3</string>
+	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSMainNibFile</key>
-	<string></string>
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
 	<key>UILaunchImageFile</key>
-	<string>sth/Default.png</string>
+	<string>Default.png</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
