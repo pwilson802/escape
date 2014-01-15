@@ -125,6 +125,10 @@
 		008421931804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421941804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421961804BD2400038781 /* cen in Resources */ = {isa = PBXBuildFile; fileRef = 008421951804BD2400038781 /* cen */; };
+		0D8CBB721885EA7000147F0B /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0D8CBB711885EA7000147F0B /* cmsPages.db */; };
+		0D8CBB731885EA7000147F0B /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0D8CBB711885EA7000147F0B /* cmsPages.db */; };
+		0D8CBB741885EA7000147F0B /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0D8CBB711885EA7000147F0B /* cmsPages.db */; };
+		0D8CBB751885EA7000147F0B /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0D8CBB711885EA7000147F0B /* cmsPages.db */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -169,10 +173,6 @@
 		2FA580B11794B57B0023ADE3 /* South Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA580B01794B57B0023ADE3 /* South Coast-Info.plist */; };
 		2FAAB2A318051E1500A6F9D1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A651396C574F88808F954A /* CoreData.framework */; };
 		2FAAB2A718051E1E00A6F9D1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A651396C574F88808F954A /* CoreData.framework */; };
-		2FAAB2B218054D2D00A6F9D1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */; };
-		2FAAB2B318054D2D00A6F9D1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */; };
-		2FAAB2B418054D2D00A6F9D1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */; };
-		2FAAB2B518054D2D00A6F9D1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */; };
 		2FDA49EC17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
 		2FDA49ED17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
 		2FDA49EE17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
@@ -268,6 +268,7 @@
 		0084218B1804B93A00038781 /* Sydney copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sydney copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008421901804B94E00038781 /* Central Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Central Coast-Info.plist"; sourceTree = "<group>"; };
 		008421951804BD2400038781 /* cen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = cen; path = "../app-icons/cen"; sourceTree = "<group>"; };
+		0D8CBB711885EA7000147F0B /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -312,7 +313,6 @@
 		2F502BED16CAFB6900050BE4 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		2FA580AC1794B1C60023ADE3 /* Blue Mountains-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Blue Mountains-Info.plist"; sourceTree = "<group>"; };
 		2FA580B01794B57B0023ADE3 /* South Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "South Coast-Info.plist"; sourceTree = "<group>"; };
-		2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = GoogleAnalytics.a; path = ../plugins/ios/ga/GoogleAnalytics.a; sourceTree = "<group>"; };
 		2FDA49EF17C2F622007341F7 /* GAPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GAPlugin.m; path = ../../../plugins/ios/ga/GAPlugin.m; sourceTree = "<group>"; };
 		2FDA49F017C2F622007341F7 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAI.h; path = ../../../plugins/ios/ga/GAI.h; sourceTree = "<group>"; };
@@ -587,7 +587,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2FAAB2B118054D2D00A6F9D1 /* cmsPages.db */,
+				0D8CBB711885EA7000147F0B /* cmsPages.db */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
 				1F766FDB13BBADB100FB74C0 /* en.lproj */,
@@ -849,6 +849,9 @@
 					008421571804B93A00038781 = {
 						DevelopmentTeam = ASW5WVHNWT;
 					};
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = ASW5WVHNWT;
+					};
 				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Escape" */;
@@ -922,8 +925,8 @@
 				000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */,
 				000FD0791782912700A3C3B2 /* ChildBrowserViewController.xib in Resources */,
 				000FD0A4178291C900A3C3B2 /* syd in Resources */,
+				0D8CBB741885EA7000147F0B /* cmsPages.db in Resources */,
 				2FA580AE1794B2BC0023ADE3 /* Sydney-Info.plist in Resources */,
-				2FAAB2B418054D2D00A6F9D1 /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -940,10 +943,10 @@
 				00376B28178251BB00469595 /* ChildBrowser.bundle in Resources */,
 				00376B29178251BB00469595 /* ChildBrowserViewController.xib in Resources */,
 				2FA580AD1794B1C60023ADE3 /* Blue Mountains-Info.plist in Resources */,
-				2FAAB2B318054D2D00A6F9D1 /* cmsPages.db in Resources */,
 				2FEF93FA1807CF8F00A230F2 /* Default-568h@2x.png in Resources */,
 				2FEF93FB1807CF8F00A230F2 /* Default.png in Resources */,
 				2FEF93FC1807CF8F00A230F2 /* Default@2x.png in Resources */,
+				0D8CBB731885EA7000147F0B /* cmsPages.db in Resources */,
 				2FEF93FD1807CF8F00A230F2 /* Icon-29.png in Resources */,
 				2FEF93FE1807CF8F00A230F2 /* Icon-40.png in Resources */,
 				2FEF93FF1807CF8F00A230F2 /* Icon-40@2x.png in Resources */,
@@ -980,9 +983,9 @@
 				008421941804B94E00038781 /* Central Coast-Info.plist in Resources */,
 				0084215F1804B93A00038781 /* MainViewController.xib in Resources */,
 				008421961804BD2400038781 /* cen in Resources */,
+				0D8CBB751885EA7000147F0B /* cmsPages.db in Resources */,
 				008421601804B93A00038781 /* ChildBrowser.bundle in Resources */,
 				008421611804B93A00038781 /* ChildBrowserViewController.xib in Resources */,
-				2FAAB2B518054D2D00A6F9D1 /* cmsPages.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1002,7 +1005,6 @@
 				B792CC41160805CB00BD25D7 /* ChildBrowser.bundle in Resources */,
 				B792CC44160805CB00BD25D7 /* ChildBrowserViewController.xib in Resources */,
 				2FA580B11794B57B0023ADE3 /* South Coast-Info.plist in Resources */,
-				2FAAB2B218054D2D00A6F9D1 /* cmsPages.db in Resources */,
 				2F3216AA180CD7D500DB76A1 /* Default-568h@2x.png in Resources */,
 				2F3216AB180CD7D500DB76A1 /* Default.png in Resources */,
 				2F3216AC180CD7D500DB76A1 /* Default@2x.png in Resources */,
@@ -1019,6 +1021,7 @@
 				2F3216BB180CD7D500DB76A1 /* Icon-57.png in Resources */,
 				2F3216BC180CD7D500DB76A1 /* Icon-58.jpg in Resources */,
 				2F3216BD180CD7D500DB76A1 /* Icon-58.png in Resources */,
+				0D8CBB721885EA7000147F0B /* cmsPages.db in Resources */,
 				2F3216BE180CD7D500DB76A1 /* Icon-60.jpg in Resources */,
 				2F3216BF180CD7D500DB76A1 /* Icon-60.png in Resources */,
 				2F3216C0180CD7D500DB76A1 /* Icon-60@2x.jpg in Resources */,
@@ -1363,8 +1366,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Sydney copy";
-				PROVISIONING_PROFILE = "A445AA60-470D-4103-B26D-101A4692F050";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A445AA60-470D-4103-B26D-101A4692F050";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DCD92C55-0B5D-4A08-A066-0F829F65CB62";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1396,8 +1399,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Sydney copy";
-				PROVISIONING_PROFILE = "A445AA60-470D-4103-B26D-101A4692F050";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A445AA60-470D-4103-B26D-101A4692F050";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DCD92C55-0B5D-4A08-A066-0F829F65CB62";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1408,7 +1411,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1440,8 +1443,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -1472,7 +1475,7 @@
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1509,7 +1512,7 @@
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
