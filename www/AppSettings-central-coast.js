@@ -93,8 +93,8 @@ AppSettings.defualtShareData = {
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
     description: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
     emailBody: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
-    appleStoreLink :'http://redir.tiltandco.net/escape/bluemountains/itunes',
-    googlePlayLink: 'http://redir.tiltandco.net/escape/bluemountains/googleplay',
+    appleStoreLink :'http://redir.tiltandco.net/escape/centralcoast/itunes',
+    googlePlayLink: 'http://redir.tiltandco.net/escape/centralcoast/googleplay',
     // maybe chnage picture
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
    
@@ -223,14 +223,14 @@ AppSettings.attractionCats = [
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks',
     relatedSearchSelection: 'Nature based'
 }, {
-//     title: 'Dining & Entertainment',
-//     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-//     imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
-//     hideInSubSections: true,
-//     // hides this section from subsections as it has it's own section
-//     contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment',
-//     relatedSearchSelection: 'Food and Wine'
-// }, {
+    title: 'Dining & Entertainment',
+    subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
+    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
+    hideInSubSections: true,
+    // hides this section from subsections as it has it's own section
+    contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment',
+    relatedSearchSelection: 'Food and Wine'
+}, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
     // imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
