@@ -5,6 +5,8 @@ Ext.define("escape.model.Weather", {
     lastBriefUpdatedDate: null,
     reloadIn: 1 * 60 * 15 * 1000,
     // time is in minliseconds set for 15 mins
+    cache: null,
+    lastUpdated: 0,
     weatherData: null,
     currentTemp: null,
     currentDate: null,
@@ -207,7 +209,7 @@ Ext.define("escape.model.Weather", {
                         // check to see if we need to reload the weather
                         var dateNow = new Date();
                         var diff = dateNow - selfRef.lastUpdatedDate;
-                        if (diff > selfRef.reloadIn || selfRef.forcatsByDay.length <= 1 ||  !selfRef.weatherData) {
+                        if (diff > selfRef.reloadIn || selfRef.forcatsByDay.length <= 1 || !selfRef.weatherData) {
                             /// reload the current data is old or the fullweather has not been loaded
                             selfRef.checkLocation(callback, scope);
                         } else {
@@ -245,7 +247,7 @@ Ext.define("escape.model.Weather", {
 
     // Loads the full weather including the forcasts
     loadWeather: function(lat, lon, callback, scope) {
-
+        console.log('Get weather');
         var selfRef = this;
         // load the waeather
         var regID = escape.utils.Tracking.getRegID();
@@ -283,6 +285,7 @@ Ext.define("escape.model.Weather", {
 
     fullWeatherLoaded: function(weatherData, callback, scope) {
         var selfRef = this;
+        console.log('Get weather');
         this.weatherData = weatherData;
         this.todaysDate = new Date(parseInt(weatherData.Date.substr(6)));
         this.currentTemp = weatherData.TempCurrent;
@@ -302,8 +305,8 @@ Ext.define("escape.model.Weather", {
             stationId: selfRef.getStationId(),
             lastUpdated: selfRef.lastUpdatedDate.getTime(),
             forcatsByDay: selfRef.forcatsByDay,
-            weatherData : selfRef.weatherData,
-            todaysDate : selfRef.todaysDate.getTime()
+            weatherData: selfRef.weatherData,
+            todaysDate: selfRef.todaysDate.getTime()
         }), {
             success: function(newValue) {},
             error: function(error) {},
@@ -365,13 +368,15 @@ Ext.define("escape.model.Weather", {
     // load a small weather packet for the home page
     loadBriefWeather: function(lat, lon, callback, scope) {
         //http://ws2.tiltandco.net/RestServiceImpl.svc/WeatherBrief
+
         var selfRef = this;
         var regID = escape.utils.Tracking.getRegID();
         //
         var stationId = this.getStationId();
-        if (stationId === 0 && lat === 0) {
+        if (stationId === 0) {
             stationId = AppSettings.weatherStations[0].stationId;
         }
+        console.log('Brief', stationId, lon, AppSettings.weatherStations);
         // load the waeather
         Ext.Ajax.useDefaultXhrHeader = false;
         Ext.Ajax.request({
@@ -414,7 +419,36 @@ Ext.define("escape.model.Weather", {
         this.lastBriefUpdatedDate = new Date();
         Ext.callback(callback.success, scope);
         //
+    },
+
+
+    get: function(callback, scope) {
+        // Use our cache if we can.
+        if (new Date() - this.lastUpdated < this.reloadIn && this.cache && callback.forceUpdate !== true) {
+            Ext.callback(callback.success, scope, [this.cache]);
+            return;
+        }
+
+        var selfRef = this;
+        Ext.Ajax.useDefaultXhrHeader = false;
+        Ext.Ajax.request({
+            url: 'http://services.tiltandco.net/weather/forecast',
+            method: "GET",
+            params: {
+                "site": 86373,
+                "lat": AppSettings.center[0],
+                "lng": AppSettings.center[1],
+                "nocache": new Date().getTime()
+            },
+            success: function(response) {
+                var weatherData = JSON.parse(response.responseText);
+                selfRef.cache = weatherData;
+                selfRef.lastUpdated = new Date();
+                Ext.callback(callback.success, scope, [weatherData]);
+            },
+            failure: function() {
+                Ext.callback(callback.error, scope);
+            }
+        });
     }
-
-
 });

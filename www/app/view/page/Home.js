@@ -3,7 +3,7 @@ Ext.define("escape.view.page.Home", {
     xtype: 'homePage',
     requires: ['Ext.Img', 'Ext.carousel.Carousel', 'escape.view.ui.AppImage', 'escape.view.ui.WeatherBtn'],
     config: {
-        cls:'homePage',
+        cls: 'homePage',
         addToItemId: 1,
         rightBtn: 'searchBtn',
         title: AppSettings.appAreaName,
@@ -27,8 +27,8 @@ Ext.define("escape.view.page.Home", {
         this.openView();
     },
     closeView: function() {
-       // this.setHomeBuilt(false);
-       // this.removeAll(true,true);
+        // this.setHomeBuilt(false);
+        // this.removeAll(true,true);
         this.removeWeatherBtn();
     },
     reOpenView: function() {
@@ -77,12 +77,21 @@ Ext.define("escape.view.page.Home", {
             }]);
             // load the brief weather
             var selfRef = this;
+
             escape.model.Weather.getBriefWeather({
                 success: function() {
                     selfRef.showWeather();
                 },
                 error: function(error) {},
                 scope: this
+            });
+            escape.model.Weather.get({
+                success: function(weather) {
+                    console.log(weather);
+                },
+                error: function() {},
+                scope: this,
+                forceUpdate: false
             });
         }
     },
@@ -91,8 +100,8 @@ Ext.define("escape.view.page.Home", {
         var currentPage = escape.utils.AppVars.currentPage;
         // make sure we are in the home section
         if (currentPage.config.xtype == 'homePage') {
-            var wm = escape.model.Weather;
-            var today = wm.forcatsByDay[0];
+            // var wm = escape.model.Weather;
+            var today = escape.model.Weather.forcatsByDay[0];
             if (today) {
                 // get the weather btn
                 var weatherBtn = currenctSection.getComponent('weatherBtn');
@@ -114,7 +123,7 @@ Ext.define("escape.view.page.Home", {
                 if (escape.utils.Img.retinaAvailable()) {
                     imagaeName = 'we_ico_' + today.icon + '_sml@2x';
                 }
-                weatherBtn.setStyle('background-image:url('+AppSettings.regionImagePath+'' + imagaeName + '.png)');
+                weatherBtn.setStyle('background-image:url(' + AppSettings.regionImagePath + '' + imagaeName + '.png)');
             }
 
         }
