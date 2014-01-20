@@ -1,11 +1,10 @@
 {
     "attribution": "Data \u00a9 OpenStreetMap (and) contributors, CC-BY-SA", 
-    "description": "", 
-    "bounds": "151.1594,-33.5591,151.6675,-33.0702", 
-    "name": "CentralCoast", 
+    "name": "OSM Bright", 
+    "bounds": "151.0318,-33.562,151.7377,-32.9891", 
     "minzoom": "0", 
     "version": "1.0.0", 
     "template": "", 
-    "maxzoom": "13", 
-    "center": "151.3311,-33.432,10"
+    "maxzoom": "14", 
+    "description": ""
 }
