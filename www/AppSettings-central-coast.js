@@ -133,11 +133,6 @@ AppSettings.weatherStations = [{
     lat: -33.4351,
     lon: 151.3614,
     name: 'Gosford'
-}, {
-    stationId: 66059,
-    lat: -33.6907,
-    lon: 151.2252,
-    name: 'Terry Hills'
 }];
 //////////////////////////////////////////////////////////////////////
 // SERVICES
@@ -230,7 +225,7 @@ AppSettings.attractionCats = [
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_f.jpg',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment',
@@ -238,7 +233,7 @@ AppSettings.attractionCats = [
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    // imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping',
     relatedSearchSelection: 'Shopping'
 }, {
