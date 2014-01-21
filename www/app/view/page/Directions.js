@@ -23,39 +23,33 @@ Ext.define("escape.view.page.Directions", {
         var address = this.getAddress();
         var addressString = address.Street + ' ' + address.Suburb + ' ' + address.State + ' ' + address.Postcode;
 
+        var lat = this.getLatlon()[0];
+        var lon = this.getLatlon()[1];
 
-            var lat = this.getLatlon()[0];
-            var lon = this.getLatlon()[1];
-
+        if (Ext.device.Connection.isOnline() === false || escape.model.Map.getUseOffline()) {
+            this.setItems([{
+                xtype: 'mapDisplay',
+                lat: Number(this.getLatlon()[0]),
+                lon: Number(this.getLatlon()[1]),
+                height: this.element.getHeight(),
+                interaction: true,
+                markerAtCenter: true
+            }]);
+        } else {
             var mapDisplay = Ext.create('escape.view.ui.MapDisplay', {
                 itemId: 'mapDisplay',
-                // forceUseOffline: true,
+                forceUseOffline: true,
                 height: Ext.Viewport.getSize().height - 143,
-                lat: lat,
-                lon: lon,
+                lat: Number(this.getLatlon()[0]),
+                lon: Number(this.getLatlon()[1]),
                 interaction: true,
                 markerAtCenter: true
             });
             this.setMapDisplay(mapDisplay);
 
-        if (!navigator.onLine) {
-
             this.setItems([{
                 xtype: 'loadingDisplay',
-                hidden:true
-            }, {
-                xtype: 'container',
-                layout: 'card',
-                itemId: 'cardLayout',
-                flex: 1
-
-            }]);
-            mapDisplay.setHeight(this.element.getHeight());
-            this.getComponent('cardLayout').add(mapDisplay);
-        } else {
-            this.setItems([{
-                xtype: 'loadingDisplay',
-                hidden:true
+                hidden: true
             }, {
                 xtype: 'formpanel',
                 layout: 'hbox',
@@ -83,7 +77,7 @@ Ext.define("escape.view.page.Directions", {
                         xtype: 'textfield',
                         name: 'startLocation',
                         value: 'Current Location',
-                        placeHolder : 'Start:',
+                        placeHolder: 'Start:',
                         margin: '0 0 6px 0',
                         labelWidth: 55,
                         height: 41
@@ -92,7 +86,7 @@ Ext.define("escape.view.page.Directions", {
                         name: 'endLocation',
                         value: addressString,
                         labelWidth: 55,
-                        placeHolder : 'End:',
+                        placeHolder: 'End:',
                         height: 41
                     }]
                 }, {
@@ -153,7 +147,7 @@ Ext.define("escape.view.page.Directions", {
                     directionLock: true
                 }
             });
-    
+
         }
     }
 });
