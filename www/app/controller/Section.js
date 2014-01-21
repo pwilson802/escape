@@ -80,7 +80,7 @@ Ext.define('escape.controller.Section', {
                 for (var i = 0; i < targets.length; i++) {
                     var target = targets[i];
                     var el = Ext.get(target);
-                    if (el.hasCls('x-carousel')) {
+                    if (el.hasCls('x-carousel') || el.hasCls('weatherForcast')) {
                         vaildSwipe = false;
                         break;
                     }
