@@ -2933,64 +2933,65 @@ p {
 		.x-scroll-scroller {
 			background: url(#{$image-path}/linen_bg.png);
 		}
-		.weatherDay {
+		.weatherDay .x-dataview-item {
+			padding:10px;
 			width:120px;
 			height:140px;
 			
 			background-repeat: no-repeat;
 			background-position: 12px 70px;
 			
-			&.icon_1 {
-			background-image:url(#{$image-path}/we_ico_1_med.png)
-		}
-		&.icon_2 {
-			background-image:url(#{$image-path}/we_ico_2_med.png)
-		}
-		&.icon_3 {
-			background-image:url(#{$image-path}/we_ico_3_med.png)
-		}
-		&.icon_4 {
-			background-image:url(#{$image-path}/we_ico_4_med.png)
-		}
-		&.icon_5 {
-			background-image:url(#{$image-path}/we_ico_5_med.png)
-		}
-		&.icon_6 {
-			background-image:url(#{$image-path}/we_ico_6_med.png)
-		}
-		&.icon_7 {
-			background-image:url(#{$image-path}/we_ico_7_med.png)
-		}
-		&.icon_8 {
-			background-image:url(#{$image-path}/we_ico_8_med.png)
-		}
-		&.icon_9 {
-			background-image:url(#{$image-path}/we_ico_9_med.png)
-		}
-		&.icon_10 {
-			background-image:url(#{$image-path}/we_ico_10_med.png)
-		}
-		&.icon_11 {
-			background-image:url(#{$image-path}/we_ico_11_med.png)
-		}
-		&.icon_12 {
-			background-image:url(#{$image-path}/we_ico_12_med.png)
-		}
-		&.icon_13 {
-			background-image:url(#{$image-path}/we_ico_13_med.png)
-		}
-		&.icon_14 {
-			background-image:url(#{$image-path}/we_ico_14_med.png)
-		}
-		&.icon_15 {
-			background-image:url(#{$image-path}/we_ico_15_med.png)
-		}
-		&.icon_16 {
-			background-image:url(#{$image-path}/we_ico_16_med.png)
-		}
-		&.icon_17 {
-			background-image:url(#{$image-path}/we_ico_17_med.png)
-		}
+			.icon_1 {
+				background-image:url(#{$image-path}/we_ico_1_med.png)
+			}
+			.icon_2 {
+				background-image:url(#{$image-path}/we_ico_2_med.png)
+			}
+			.icon_3 {
+				background-image:url(#{$image-path}/we_ico_3_med.png)
+			}
+			.icon_4 {
+				background-image:url(#{$image-path}/we_ico_4_med.png)
+			}
+			.icon_5 {
+				background-image:url(#{$image-path}/we_ico_5_med.png)
+			}
+			.icon_6 {
+				background-image:url(#{$image-path}/we_ico_6_med.png)
+			}
+			.icon_7 {
+				background-image:url(#{$image-path}/we_ico_7_med.png)
+			}
+			.icon_8 {
+				background-image:url(#{$image-path}/we_ico_8_med.png)
+			}
+			.icon_9 {
+				background-image:url(#{$image-path}/we_ico_9_med.png)
+			}
+			.icon_10 {
+				background-image:url(#{$image-path}/we_ico_10_med.png)
+			}
+			.icon_11 {
+				background-image:url(#{$image-path}/we_ico_11_med.png)
+			}
+			.icon_12 {
+				background-image:url(#{$image-path}/we_ico_12_med.png)
+			}
+			.icon_13 {
+				background-image:url(#{$image-path}/we_ico_13_med.png)
+			}
+			.icon_14 {
+				background-image:url(#{$image-path}/we_ico_14_med.png)
+			}
+			.icon_15 {
+				background-image:url(#{$image-path}/we_ico_15_med.png)
+			}
+			.icon_16 {
+				background-image:url(#{$image-path}/we_ico_16_med.png)
+			}
+			.icon_17 {
+				background-image:url(#{$image-path}/we_ico_17_med.png)
+			}
 		
 
 			
@@ -3018,6 +3019,9 @@ p {
 				height:30px;
 			}
 			.details {
+				background-repeat: no-repeat;
+				background-position: left center;
+				height: 80px;
 				margin: 15px 0 0 0;
 				border-top:1px solid #c8c9ca;
 				.extremes {

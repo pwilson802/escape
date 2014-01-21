@@ -27,8 +27,8 @@ Ext.define('escape.controller.Weather', {
             }
         }
     },
-    reloadWeather: function(){
-       this.getWeatherPage().getTheWeather(true);
+    reloadWeather: function() {
+        this.getWeatherPage().getTheWeather(true);
 
     },
     // a language has been selected
@@ -40,13 +40,13 @@ Ext.define('escape.controller.Weather', {
         }
         try {
             this.getWeatherPage().tempMeasureChange();
-           // this.getHomePage().showWeather();
+            // this.getHomePage().showWeather();
         } catch (e) {
 
         }
     },
     // a language has been selected
-    stationChanges: function(field,newValue) {
+    stationChanges: function(field, newValue) {
         escape.model.Weather.setStationId(newValue.getData().value);
         try {
             this.getWeatherPage().getTheWeather(true);

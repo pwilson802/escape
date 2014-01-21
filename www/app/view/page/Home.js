@@ -32,7 +32,17 @@ Ext.define("escape.view.page.Home", {
         this.removeWeatherBtn();
     },
     reOpenView: function() {
-        this.showWeather();
+        var selfRef = this;
+        escape.model.Weather.get({
+            success: function(weather) {
+                console.log(weather);
+                selfRef.showWeather(weather);
+            },
+            error: function() {},
+            scope: this,
+            forceUpdate: false,
+            getClosest: true
+        });
     },
 
     openView: function() {
@@ -77,31 +87,25 @@ Ext.define("escape.view.page.Home", {
             }]);
             // load the brief weather
             var selfRef = this;
-
-            escape.model.Weather.getBriefWeather({
-                success: function() {
-                    selfRef.showWeather();
-                },
-                error: function(error) {},
-                scope: this
-            });
             escape.model.Weather.get({
                 success: function(weather) {
                     console.log(weather);
+                    selfRef.showWeather(weather);
                 },
                 error: function() {},
                 scope: this,
-                forceUpdate: false
+                forceUpdate: false,
+                getClosest: true
             });
         }
     },
-    showWeather: function() {
+    showWeather: function(weather) {
         var currenctSection = escape.utils.AppVars.currentSection;
         var currentPage = escape.utils.AppVars.currentPage;
         // make sure we are in the home section
         if (currentPage.config.xtype == 'homePage') {
             // var wm = escape.model.Weather;
-            var today = escape.model.Weather.forcatsByDay[0];
+            var today = weather.days[0];
             if (today) {
                 // get the weather btn
                 var weatherBtn = currenctSection.getComponent('weatherBtn');
@@ -119,11 +123,11 @@ Ext.define("escape.view.page.Home", {
                     });
                 }
                 // set the icon
-                var imagaeName = 'we_ico_' + today.icon + '_sml';
+                var icon = 'we_ico_' + today.icon + '_sml';
                 if (escape.utils.Img.retinaAvailable()) {
-                    imagaeName = 'we_ico_' + today.icon + '_sml@2x';
+                    icon = 'we_ico_' + today.icon + '_sml@2x';
                 }
-                weatherBtn.setStyle('background-image:url(' + AppSettings.regionImagePath + '' + imagaeName + '.png)');
+                weatherBtn.setStyle('background-image:url(' + AppSettings.regionImagePath + '' + icon + '.png)');
             }
 
         }
