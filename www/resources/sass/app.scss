@@ -3526,57 +3526,74 @@ p {
 				//background-image: url(#{$image-path}/we_bg_rpt@2x.png);
 				@include background-size(40px 40px !important);
 			}
-			.weatherDay {
-				@include background-size(48px 48px !important);
-				&.icon_1 {
-				background-image:url(#{$image-path}/we_ico_1_med@2x.png)
+			.weatherDay .x-dataview-item {
+				
+				.icon_1 {
+					@include background-size(48px 48px !important);
+					background-image:url(#{$image-path}/we_ico_1_med@2x.png)
 				}
-				&.icon_2 {
+				.icon_2 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_2_med@2x.png)
 				}
-				&.icon_3 {
+				.icon_3 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_3_med@2x.png)
 				}
-				&.icon_4 {
+				.icon_4 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_4_med@2x.png)
 				}
-				&.icon_5 {
+				.icon_5 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_5_med@2x.png)
 				}
-				&.icon_6 {
+				.icon_6 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_6_med@2x.png)
 				}
-				&.icon_7 {
+				.icon_7 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_7_med@2x.png)
 				}
-				&.icon_8 {
+				.icon_8 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_8_med@2x.png)
 				}
-				&.icon_9 {
+				.icon_9 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_9_med@2x.png)
 				}
-				&.icon_10 {
+				.icon_10 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_10_med@2x.png)
 				}
-				&.icon_11 {
+				.icon_11 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_11_med@2x.png)
 				}
-				&.icon_12 {
+				.icon_12 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_12_med@2x.png)
 				}
-				&.icon_13 {
+				.icon_13 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_13_med@2x.png)
 				}
-				&.icon_14 {
+				.icon_14 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_14_med@2x.png)
 				}
-				&.icon_15 {
+				.icon_15 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_15_med@2x.png)
 				}
-				&.icon_16 {
+				.icon_16 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_16_med@2x.png)
 				}
-				&.icon_17 {
+				.icon_17 {
+					@include background-size(48px 48px !important);
 					background-image:url(#{$image-path}/we_ico_17_med@2x.png)
 				}
 			}

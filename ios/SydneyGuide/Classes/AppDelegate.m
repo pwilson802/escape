@@ -65,9 +65,9 @@
     }
     NSString *version = [[UIDevice currentDevice] systemVersion];
     BOOL isAtLeast7 = [version floatValue] >= 7.0;
-//    if (isAtLeast7){
-//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-//    }
+    if (isAtLeast7){
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
     
     
     
