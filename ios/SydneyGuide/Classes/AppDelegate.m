@@ -30,7 +30,7 @@
 
 #import <Cordova/CDVPlugin.h>
 #import <Cordova/CDVURLProtocol.h>
-
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
 
@@ -43,10 +43,20 @@
 	 **/
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage]; 
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(someMethod:)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
         
     [CDVURLProtocol registerURLProtocol];
     
     return [super init];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [FBSettings setDefaultAppID:111];
+    [FBAppEvents activateApp];
 }
 
 #pragma UIApplicationDelegate implementation

@@ -125,6 +125,18 @@
 		008421931804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421941804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421961804BD2400038781 /* cen in Resources */ = {isa = PBXBuildFile; fileRef = 008421951804BD2400038781 /* cen */; };
+		0D08B4961890DE1E000496B3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B4951890DE1E000496B3 /* FacebookSDK.framework */; };
+		0D08B4971890DE1F000496B3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B4951890DE1E000496B3 /* FacebookSDK.framework */; };
+		0D08B4981890DE1F000496B3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B4951890DE1E000496B3 /* FacebookSDK.framework */; };
+		0D08B4991890DE1F000496B3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B4951890DE1E000496B3 /* FacebookSDK.framework */; };
+		0D08B49E1890DFC4000496B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49D1890DFC3000496B3 /* AdSupport.framework */; };
+		0D08B4A01890DFCD000496B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49F1890DFCD000496B3 /* Social.framework */; };
+		0D08B4A11890DFD5000496B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49D1890DFC3000496B3 /* AdSupport.framework */; };
+		0D08B4A21890DFDB000496B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49F1890DFCD000496B3 /* Social.framework */; };
+		0D08B4A31890DFE5000496B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49D1890DFC3000496B3 /* AdSupport.framework */; };
+		0D08B4A41890DFF5000496B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49F1890DFCD000496B3 /* Social.framework */; };
+		0D08B4A51890DFFD000496B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49D1890DFC3000496B3 /* AdSupport.framework */; };
+		0D08B4A61890E002000496B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49F1890DFCD000496B3 /* Social.framework */; };
 		0D8CBB721885EA7000147F0B /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0D8CBB711885EA7000147F0B /* cmsPages.db */; };
 		0D8CBB731885EA7000147F0B /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0D8CBB711885EA7000147F0B /* cmsPages.db */; };
 		0D8CBB741885EA7000147F0B /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0D8CBB711885EA7000147F0B /* cmsPages.db */; };
@@ -268,6 +280,9 @@
 		0084218B1804B93A00038781 /* Sydney copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sydney copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008421901804B94E00038781 /* Central Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Central Coast-Info.plist"; sourceTree = "<group>"; };
 		008421951804BD2400038781 /* cen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = cen; path = "../app-icons/cen"; sourceTree = "<group>"; };
+		0D08B4951890DE1E000496B3 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		0D08B49D1890DFC3000496B3 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		0D08B49F1890DFCD000496B3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		0D8CBB711885EA7000147F0B /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -391,6 +406,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D08B4981890DE1F000496B3 /* FacebookSDK.framework in Frameworks */,
+				0D08B4A41890DFF5000496B3 /* Social.framework in Frameworks */,
+				0D08B4A31890DFE5000496B3 /* AdSupport.framework in Frameworks */,
 				000FD0871782912700A3C3B2 /* libCordova.a in Frameworks */,
 				000FD0881782912700A3C3B2 /* EventKit.framework in Frameworks */,
 				000FD0891782912700A3C3B2 /* MessageUI.framework in Frameworks */,
@@ -420,6 +438,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D08B4971890DE1F000496B3 /* FacebookSDK.framework in Frameworks */,
+				0D08B4A21890DFDB000496B3 /* Social.framework in Frameworks */,
+				0D08B4A11890DFD5000496B3 /* AdSupport.framework in Frameworks */,
 				2FAAB2A318051E1500A6F9D1 /* CoreData.framework in Frameworks */,
 				00376B42178251BB00469595 /* libCordova.a in Frameworks */,
 				00376B43178251BB00469595 /* EventKit.framework in Frameworks */,
@@ -449,6 +470,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D08B4991890DE1F000496B3 /* FacebookSDK.framework in Frameworks */,
+				0D08B4A61890E002000496B3 /* Social.framework in Frameworks */,
+				0D08B4A51890DFFD000496B3 /* AdSupport.framework in Frameworks */,
 				008421721804B93A00038781 /* libCordova.a in Frameworks */,
 				008421731804B93A00038781 /* EventKit.framework in Frameworks */,
 				008421741804B93A00038781 /* MessageUI.framework in Frameworks */,
@@ -478,6 +502,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D08B4961890DE1E000496B3 /* FacebookSDK.framework in Frameworks */,
+				0D08B4A01890DFCD000496B3 /* Social.framework in Frameworks */,
+				0D08B49E1890DFC4000496B3 /* AdSupport.framework in Frameworks */,
 				2FAAB2A718051E1E00A6F9D1 /* CoreData.framework in Frameworks */,
 				2F502BFF16CAFC9300050BE4 /* libCordova.a in Frameworks */,
 				2F1322D11665BB4100CBBAE4 /* EventKit.framework in Frameworks */,
@@ -563,6 +590,7 @@
 				B73840C2160C2A83008B16F7 /* Accounts.framework */,
 				B73840C0160C2A5B008B16F7 /* Twitter.framework */,
 				B792CC4C16080EAD00BD25D7 /* libsqlite3.dylib */,
+				0D08B4951890DE1E000496B3 /* FacebookSDK.framework */,
 				301BF56E109A69640062928A /* www */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				307C750510C5A3420062BCA9 /* Plugins */,
@@ -606,6 +634,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D08B49F1890DFCD000496B3 /* Social.framework */,
+				0D08B49D1890DFC3000496B3 /* AdSupport.framework */,
 				2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -1214,6 +1244,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/n/Tilt/escape/ios,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1249,6 +1283,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/n/Tilt/escape/ios,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
 				GCC_VERSION = "";
@@ -1281,6 +1319,10 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/n/Tilt/escape/ios,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1314,6 +1356,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/n/Tilt/escape/ios,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
 				GCC_VERSION = "";
@@ -1346,6 +1392,10 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/n/Tilt/escape/ios,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1381,6 +1431,10 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/n/Tilt/escape/ios,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
 				GCC_VERSION = "";
@@ -1413,6 +1467,10 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/n/Tilt/escape/ios,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1446,6 +1504,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/n/Tilt/escape/ios,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
 				GCC_VERSION = "";
