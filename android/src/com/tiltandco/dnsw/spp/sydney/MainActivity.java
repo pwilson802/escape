@@ -11,6 +11,11 @@ import android.app.Activity;
 import org.apache.cordova.*;
 
 public class MainActivity extends DroidGap {
+	 @Override   
+	    protected void onResume() {
+	        super.onResume();
+	        com.facebook.AppEventsLogger.activateApp(this, "facebookid");
+	    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
