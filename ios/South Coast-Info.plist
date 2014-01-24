@@ -24,7 +24,7 @@
 		<string>Icon-58.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>au.com.dnsw.spp.tilt.southcoast</string>
+	<string>com.tiltandco.dnsw.spp.centralcoast</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
