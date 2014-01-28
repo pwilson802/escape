@@ -81,7 +81,7 @@ Ext.define("escape.model.Weather", {
     checkDegrees: function(callback, scope) {
         // Check to see if the user has picked a temp measurement
         var selfRef = this;
-                    console.log('Set setting isdegrees');
+                    // console.log('Set setting isdegrees');
         escape.model.UserSettings.getSetting('isDegrees', {
             success: function(isDegrees) {
                 if (isDegrees === null) {
@@ -181,7 +181,7 @@ Ext.define("escape.model.Weather", {
     },
 
     convert: function() {
-        console.log('Are we in degrees C', this.getIsDegrees());
+        // console.log('Are we in degrees C', this.getIsDegrees());
         this.cache.currentTemperature = this.convertTempature(this.cache.currentTemperature);
         for (var i = this.cache.days.length - 1; i >= 0; i--) {
             if (this.cache.days[i].max) {
@@ -204,7 +204,7 @@ Ext.define("escape.model.Weather", {
         if (callback.getClosest && callback.getClosest === true) {
             Ext.device.Geolocation.getCurrentPosition({
                 success: function(position) {
-                    console.log('Location', position);
+                    // console.log('Location', position);
                     var userLocation = {
                         lat: position.coords.latitude,
                         lon: position.coords.longitude
@@ -214,9 +214,9 @@ Ext.define("escape.model.Weather", {
                     var closestName = AppSettings.weatherStations[0].name;
                     for (var i = 1; i < AppSettings.weatherStations.length; i++) {
                         var distance = selfRef.distanceFormula(userLocation, AppSettings.weatherStations[i]);
-                        console.log('Distance', distance, AppSettings.weatherStations[i].stationId);
+                        // console.log('Distance', distance, AppSettings.weatherStations[i].stationId);
                         if (distance < closestDistance) {
-                            console.log('Save as closest');
+                            // console.log('Save as closest');
                             closestDistance = distance;
                             closestStation = AppSettings.weatherStations[i].stationId;
                             closestName = AppSettings.weatherStations[i].name;
@@ -237,7 +237,7 @@ Ext.define("escape.model.Weather", {
     },
     loadDegrees: function(callback, scope) {
         var selfRef = this;
-        console.log(this.getIsDegrees() );
+        // console.log(this.getIsDegrees() );
         if (this.getIsDegrees() === null) {
             this.checkDegrees({
                 success: function() {
@@ -281,7 +281,7 @@ Ext.define("escape.model.Weather", {
                     day.setDate(day.getDate() + 1);
                 }
                 selfRef.cache = weatherData;
-                console.log(selfRef.getIsDegrees());
+                // console.log(selfRef.getIsDegrees());
                 if (selfRef.getIsDegrees() === false) {
                     weatherData = selfRef.convert();
                 }

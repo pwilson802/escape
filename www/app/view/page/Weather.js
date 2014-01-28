@@ -64,28 +64,26 @@ Ext.define("escape.view.page.Weather", {
 
         // var initStationValue = -1;
         // // build the weather locations
-        var closesName = 'Closest';
+        var closestLabel = 'Closest';
         var closestName = escape.model.Weather.closestName;
         var closestId = escape.model.Weather.closestName;
         if (closestName) {
-            closesName += ' (' + closestName + ')';
+            closestLabel += ' (' + closestName + ')';
             weatherOptions.push({
                 value: stationId,
-                text: closesName
+                text: closestLabel
             });
         }
         // var weatherOptions = [];
         for (var i = 0; i < AppSettings.weatherStations.length; i++) {
             var station = AppSettings.weatherStations[i];
-            if (station.name != closesName) {
+            if (station.name != closestName) {
                 weatherOptions.push({
                     value: station.stationId,
                     text: station.name
                 });
             }
         }
-        console.log('Just Did', weather.siteId);
-        console.log('Closest', stationId);
 
         var toggleValue = (escape.model.Weather.getIsDegrees()) ? 1 : 0;
 
@@ -181,10 +179,10 @@ Ext.define("escape.view.page.Weather", {
         }
 
         todaysWeather += '<h2>' + today.term + '</h2><p>' + forcastDetails + '</p>';
-        if (weather.rainFall != -9999) {
+        if (weather.rainFall != -9999 && weather.rainFall) {
             todaysWeather += '<h4 class="rain">' + Math.round(weather.rainFall) + ' mm</h4>';
         }
-        if (weather.windSpeedKmh != -9999) {
+        if (weather.windSpeedKmh != -9999 && weather.windSpeedKmh && weather.windDirection) {
             todaysWeather += '<h4 class="wind">' + weather.windSpeedKmh + ' KM/H ' + weather.windDirection + '</h4></div>';
         }
         return todaysWeather;
