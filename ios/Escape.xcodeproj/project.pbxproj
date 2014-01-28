@@ -137,10 +137,10 @@
 		0D08B4A41890DFF5000496B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49F1890DFCD000496B3 /* Social.framework */; };
 		0D08B4A51890DFFD000496B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49D1890DFC3000496B3 /* AdSupport.framework */; };
 		0D08B4A61890E002000496B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49F1890DFCD000496B3 /* Social.framework */; };
-		0DBB20861891E007004701F1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB20851891E007004701F1 /* cmsPages.db */; };
-		0DBB20871891E007004701F1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB20851891E007004701F1 /* cmsPages.db */; };
-		0DBB20881891E007004701F1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB20851891E007004701F1 /* cmsPages.db */; };
-		0DBB20891891E007004701F1 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBB20851891E007004701F1 /* cmsPages.db */; };
+		0DBDAEDF189778E300541C6E /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAEDE189778E300541C6E /* cmsPages.db */; };
+		0DBDAEE0189778E300541C6E /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAEDE189778E300541C6E /* cmsPages.db */; };
+		0DBDAEE1189778E300541C6E /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAEDE189778E300541C6E /* cmsPages.db */; };
+		0DBDAEE2189778E300541C6E /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAEDE189778E300541C6E /* cmsPages.db */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -283,7 +283,7 @@
 		0D08B4951890DE1E000496B3 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		0D08B49D1890DFC3000496B3 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		0D08B49F1890DFCD000496B3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		0DBB20851891E007004701F1 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
+		0DBDAEDE189778E300541C6E /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -615,7 +615,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0DBB20851891E007004701F1 /* cmsPages.db */,
+				0DBDAEDE189778E300541C6E /* cmsPages.db */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
 				1F766FDB13BBADB100FB74C0 /* en.lproj */,
@@ -876,6 +876,9 @@
 			attributes = {
 				LastUpgradeCheck = 420;
 				TargetAttributes = {
+					000FD06C1782912700A3C3B2 = {
+						DevelopmentTeam = ASW5WVHNWT;
+					};
 					008421571804B93A00038781 = {
 						DevelopmentTeam = ASW5WVHNWT;
 					};
@@ -955,7 +958,7 @@
 				000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */,
 				000FD0791782912700A3C3B2 /* ChildBrowserViewController.xib in Resources */,
 				000FD0A4178291C900A3C3B2 /* syd in Resources */,
-				0DBB20881891E007004701F1 /* cmsPages.db in Resources */,
+				0DBDAEE1189778E300541C6E /* cmsPages.db in Resources */,
 				2FA580AE1794B2BC0023ADE3 /* Sydney-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -976,7 +979,7 @@
 				2FEF93FA1807CF8F00A230F2 /* Default-568h@2x.png in Resources */,
 				2FEF93FB1807CF8F00A230F2 /* Default.png in Resources */,
 				2FEF93FC1807CF8F00A230F2 /* Default@2x.png in Resources */,
-				0DBB20871891E007004701F1 /* cmsPages.db in Resources */,
+				0DBDAEE0189778E300541C6E /* cmsPages.db in Resources */,
 				2FEF93FD1807CF8F00A230F2 /* Icon-29.png in Resources */,
 				2FEF93FE1807CF8F00A230F2 /* Icon-40.png in Resources */,
 				2FEF93FF1807CF8F00A230F2 /* Icon-40@2x.png in Resources */,
@@ -1013,7 +1016,7 @@
 				008421941804B94E00038781 /* Central Coast-Info.plist in Resources */,
 				0084215F1804B93A00038781 /* MainViewController.xib in Resources */,
 				008421961804BD2400038781 /* cen in Resources */,
-				0DBB20891891E007004701F1 /* cmsPages.db in Resources */,
+				0DBDAEE2189778E300541C6E /* cmsPages.db in Resources */,
 				008421601804B93A00038781 /* ChildBrowser.bundle in Resources */,
 				008421611804B93A00038781 /* ChildBrowserViewController.xib in Resources */,
 			);
@@ -1051,7 +1054,7 @@
 				2F3216BB180CD7D500DB76A1 /* Icon-57.png in Resources */,
 				2F3216BC180CD7D500DB76A1 /* Icon-58.jpg in Resources */,
 				2F3216BD180CD7D500DB76A1 /* Icon-58.png in Resources */,
-				0DBB20861891E007004701F1 /* cmsPages.db in Resources */,
+				0DBDAEDF189778E300541C6E /* cmsPages.db in Resources */,
 				2F3216BE180CD7D500DB76A1 /* Icon-60.jpg in Resources */,
 				2F3216BF180CD7D500DB76A1 /* Icon-60.png in Resources */,
 				2F3216C0180CD7D500DB76A1 /* Icon-60@2x.jpg in Resources */,
@@ -1241,8 +1244,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1268,8 +1271,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				PROVISIONING_PROFILE = "AF23E9E7-F12D-4CB2-8113-CFB09077C4EE";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1280,8 +1282,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1305,8 +1307,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5C264C6-F846-475B-AA62-84DB5DB2D1CB";
+				PROVISIONING_PROFILE = "AF23E9E7-F12D-4CB2-8113-CFB09077C4EE";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1562,7 +1563,7 @@
 					"-all_load",
 					"-Obj-C",
 				);
-				PROVISIONING_PROFILE = "91AC9BAE-BA8B-4EB8-BB5D-D4EC78A00B27";
+				PROVISIONING_PROFILE = "AF23E9E7-F12D-4CB2-8113-CFB09077C4EE";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1599,7 +1600,7 @@
 					"-all_load",
 					"-Obj-C",
 				);
-				PROVISIONING_PROFILE = "91AC9BAE-BA8B-4EB8-BB5D-D4EC78A00B27";
+				PROVISIONING_PROFILE = "AF23E9E7-F12D-4CB2-8113-CFB09077C4EE";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "";
