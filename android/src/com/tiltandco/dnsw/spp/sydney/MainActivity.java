@@ -14,7 +14,7 @@ public class MainActivity extends DroidGap {
 	 @Override   
 	    protected void onResume() {
 	        super.onResume();
-	        com.facebook.AppEventsLogger.activateApp(this, "facebookid");
+	        com.facebook.AppEventsLogger.activateApp(this, "1399922596928528");
 	    }
 
     @Override
