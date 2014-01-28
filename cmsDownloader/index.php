@@ -5,7 +5,7 @@ $cmsLocation = 'http://www.destinationnsw.com.au/smartphoneapps/sydney';
 $db = new SQLite3('cmsPages.db');
 // load a matrix feed
 function loadJSON($url){
-	$string = file_get_contents($url);
+	$string = file_get_contents($url . '?no-cache=22');
 	$string = str_replace(' 	/', "/", $string);
 	//echo $string. '<br>';
 	$json_a=json_decode($string,true);
@@ -41,7 +41,7 @@ function addImage($imageName,$altText){
 // save an image to the file system
 function saveImage($url,$imageName){
 	$img = 'cms/'.$imageName;
-	file_put_contents($img, file_get_contents($url));
+	// file_put_contents($img, file_get_contents($url));
 }
 // give a JSON link will save a product
 function savePage($url){
