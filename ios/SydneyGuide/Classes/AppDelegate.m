@@ -44,20 +44,24 @@
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage]; 
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(someMethod:)
-//                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
     
     [CDVURLProtocol registerURLProtocol];
     
     return [super init];
 }
 
-//- (void)applicationDidBecomeActive:(UIApplication *)application
-//{
-////    [FBSettings setDefaultAppID:111];
-////    [FBAppEvents activateApp];
-//}
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
+    NSLog(@"Facebook Call");
+    [FBSettings setDefaultAppID:@"1399922596928528"];
+    [FBAppEvents activateApp];
+}
 
 #pragma UIApplicationDelegate implementation
 

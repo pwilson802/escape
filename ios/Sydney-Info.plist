@@ -62,6 +62,19 @@
 	<string>syd/Default.png</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>FacebookAppID</key>
+	<string>1399922596928528</string>
+	<key>FacebookDisplayName</key>
+	<string>Sydney Australia Offical Guide</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1399922596928528</string>
+			</array>
+		</dict>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
