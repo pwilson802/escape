@@ -67,3 +67,5 @@ www/build/
 
 cmsDownloader/cms/
 cmsDownloader/cms_compressed/
+cmsDownloader/cmsPages.db
+
