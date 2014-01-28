@@ -129,10 +129,10 @@ AppSettings.twitter = {
 // Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 479,
-    lat: -33.3949,
-    lon: 151.3289,
-    name: 'GOSFORD'
+    stationId: 61425,
+    lat: -33.4351,
+    lon: 151.3614,
+    name: 'Gosford'
 }];
 //////////////////////////////////////////////////////////////////////
 // SERVICES
@@ -225,7 +225,7 @@ AppSettings.attractionCats = [
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_f.jpg',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment',
@@ -233,7 +233,7 @@ AppSettings.attractionCats = [
 }, {
     title: 'Fashion & Shopping',
     subheading: 'Shopping in ' + AppSettings.appAreaName,
-    // imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
+    imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping',
     relatedSearchSelection: 'Shopping'
 }, {

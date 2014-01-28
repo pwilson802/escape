@@ -30,7 +30,7 @@
 
 #import <Cordova/CDVPlugin.h>
 #import <Cordova/CDVURLProtocol.h>
-
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
 
@@ -43,10 +43,24 @@
 	 **/
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage]; 
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-        
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+    
     [CDVURLProtocol registerURLProtocol];
     
     return [super init];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
+    NSLog(@"Facebook Call");
+    [FBSettings setDefaultAppID:@"1399922596928528"];
+    [FBAppEvents activateApp];
 }
 
 #pragma UIApplicationDelegate implementation
@@ -65,9 +79,9 @@
     }
     NSString *version = [[UIDevice currentDevice] systemVersion];
     BOOL isAtLeast7 = [version floatValue] >= 7.0;
-//    if (isAtLeast7){
-//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-//    }
+    if (isAtLeast7){
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
     
     
     

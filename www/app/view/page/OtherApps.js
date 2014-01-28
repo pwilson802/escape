@@ -23,28 +23,31 @@ Ext.define("escape.view.page.OtherApps", {
         if (!Ext.device.Connection.isOnline()) {
             // show offline messgae
             var offlineHeight = window.innerHeight; // Set to window height
-            this.setItems([{height:offlineHeight, xtype:'offlineMessage'}]);
+            this.setItems([{
+                height: offlineHeight,
+                xtype: 'offlineMessage'
+            }]);
         } else {
             this.getApps();
         }
     },
 
     /**
-    *   Attempt to load the other apps from DNSW's global content
-    *   The response has to be parsed then converted to a JSON object
-    */
+     *   Attempt to load the other apps from DNSW's global content
+     *   The response has to be parsed then converted to a JSON object
+     */
 
     getApps: function() {
-        var otherApps;
+        var otherApps = [];
         var selfref = this;
 
         this.setItems([{
             xtype: 'loadingDisplay'
-        }])
+        }]);
 
         Ext.Ajax.request({
             method: 'GET',
-            url: 'http://www.destinationnsw.com.au/smartphoneapps/global-content/other-dnsw-apps?no-cache=0',
+            url: 'http://www.destinationnsw.com.au/smartphoneapps/global-content/other-dnsw-apps?no-cache=' + new Date(),
             success: function(response) {
                 try {
                     var productList = (JSON.parse(response.responseText));
@@ -53,11 +56,17 @@ Ext.define("escape.view.page.OtherApps", {
                     body = body.replace(/<.*/g, "");
                     body = body.replace(/&quot;/g, '"');
                     body = (JSON.parse(body));
-                    otherApps = body;
+                    // otherApps = body;
 
+                    var apps = [];
+                    console.log(body);
                     /* Add correct store to app */
-                    for (var i = otherApps.length - 1; i >= 0; i--) {
-                        otherApps[i].link = (!Ext.os.is.iOS) ? otherApps[i].googlePlay : otherApps[i].appleAppStrore;
+                    for (var i = 0; i < body.length; i++) {
+                        if (body[i].name != AppSettings.appAreaName) {
+                            // Exclude if this is that app
+                            body[i].link = (!Ext.os.is.iOS) ? body[i].googlePlay : body[i].appleAppStrore;
+                            otherApps.push(body[i]);
+                        }
                     }
 
                     var viewText = 'View on the App Store';
@@ -80,15 +89,15 @@ Ext.define("escape.view.page.OtherApps", {
                     }]);
 
                 } catch (e) {
-                      selfref.setItems([{
+                    selfref.setItems([{
                         xtype: 'loadError'
-                    }])                  
+                    }]);
                 }
             },
-            failure: function (response) {
+            failure: function(response) {
                 selfref.setItems([{
                     xtype: 'loadError'
-                }])
+                }]);
             }
         });
     }

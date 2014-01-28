@@ -101,26 +101,26 @@ Ext.define('escape.utils.Tracking', {
             var selfRef = this;
             // send the tracking
             Ext.Ajax.useDefaultXhrHeader = false;
-            Ext.Ajax.request({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/BulkLogActivity',
-                method: "POST",
-                jsonData: trackingObj,
-                success: function(response) {
-                    var regData = JSON.parse(Ext.decode(response.responseText));
-                    if (regData.EvtID > 0) {
-                        selfRef.deleteTrackingEvents(rows);
-                    } else {
-                        selfRef.sendingTracking = false;
-                    }
+            // Ext.Ajax.request({
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     url: 'http://ws2.tiltandco.net/RestServiceImpl.svc/BulkLogActivity',
+            //     method: "POST",
+            //     jsonData: trackingObj,
+            //     success: function(response) {
+            //         var regData = JSON.parse(Ext.decode(response.responseText));
+            //         if (regData.EvtID > 0) {
+            //             selfRef.deleteTrackingEvents(rows);
+            //         } else {
+            //             selfRef.sendingTracking = false;
+            //         }
 
-                },
-                failure: function(response, opts) {
-                    selfRef.sendingTracking = false;
-                }
-            });
+            //     },
+            //     failure: function(response, opts) {
+            //         selfRef.sendingTracking = false;
+            //     }
+            // });
         }
 
     },
