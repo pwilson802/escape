@@ -20,7 +20,10 @@ Ext.define("escape.view.page.Weather", {
         this.setNavTitle(this.getPageTitle());
 
     },
-    getTheWeather: function(refresh) {
+    getTheWeather: function(stationId) {
+        if (stationId) {
+            escape.model.Weather.stationId = stationId;
+        }
         if (!Ext.device.Connection.isOnline()) {
             // show offline messgae
             var offlineHeight = window.innerHeight; // Set to window height
@@ -43,8 +46,7 @@ Ext.define("escape.view.page.Weather", {
                         xtype: 'loadError'
                     });
                 },
-                scope: this,
-                forceUpdate: refresh
+                scope: this
             });
         }
     },
@@ -53,28 +55,37 @@ Ext.define("escape.view.page.Weather", {
         // console.log(weather);
         // get the weather model
         // var wm = escape.model.Weather;
-        var stationId = escape.model.Weather.getStationId();
+        var stationId = escape.model.Weather.closestId;
         if (stationId === null) {
             stationId = AppSettings.weatherStations[0].stationId;
         }
+
+        var weatherOptions = [];
+
         // var initStationValue = -1;
         // // build the weather locations
-        // var closesName = 'Closest';
-        // if (stationId === 0) {
-        //     closesName += ' (' + wm.weatherData.SiteName + ')';
-        // }
-        // var weatherOptions = [{
-        //     value: 0,
-        //     text: closesName
-        // }];
-        var weatherOptions = [];
-        for (var i = 0; i < AppSettings.weatherStations.length; i++) {
-            var station = AppSettings.weatherStations[i];
+        var closesName = 'Closest';
+        var closestName = escape.model.Weather.closestName;
+        var closestId = escape.model.Weather.closestName;
+        if (closestName) {
+            closesName += ' (' + closestName + ')';
             weatherOptions.push({
-                value: station.stationId,
-                text: station.name
+                value: stationId,
+                text: closesName
             });
         }
+        // var weatherOptions = [];
+        for (var i = 0; i < AppSettings.weatherStations.length; i++) {
+            var station = AppSettings.weatherStations[i];
+            if (station.name != closesName) {
+                weatherOptions.push({
+                    value: station.stationId,
+                    text: station.name
+                });
+            }
+        }
+        console.log('Just Did', weather.siteId);
+        console.log('Closest', stationId);
 
         var toggleValue = (escape.model.Weather.getIsDegrees()) ? 1 : 0;
 
@@ -113,7 +124,7 @@ Ext.define("escape.view.page.Weather", {
                 name: 'location',
                 labelAlign: 'top',
                 options: weatherOptions,
-                value: stationId,
+                value: weather.siteId,
                 width: Ext.Viewport.getSize().width - 140
             }]
         }, {

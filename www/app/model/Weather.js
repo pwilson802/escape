@@ -13,6 +13,8 @@ Ext.define("escape.model.Weather", {
     forcatsByDay: [],
     todaysDate: null,
     translations: null,
+    closestName: null,
+    closestId: null,
     weatherTerms: [{
         icon: 1,
         term: 'Sunny'
@@ -79,6 +81,7 @@ Ext.define("escape.model.Weather", {
     checkDegrees: function(callback, scope) {
         // Check to see if the user has picked a temp measurement
         var selfRef = this;
+                    console.log('Set setting isdegrees');
         escape.model.UserSettings.getSetting('isDegrees', {
             success: function(isDegrees) {
                 if (isDegrees === null) {
@@ -178,6 +181,7 @@ Ext.define("escape.model.Weather", {
     },
 
     convert: function() {
+        console.log('Are we in degrees C', this.getIsDegrees());
         this.cache.currentTemperature = this.convertTempature(this.cache.currentTemperature);
         for (var i = this.cache.days.length - 1; i >= 0; i--) {
             if (this.cache.days[i].max) {
@@ -189,34 +193,83 @@ Ext.define("escape.model.Weather", {
         }
         return this.cache;
     },
+    distanceFormula: function(point1, point2) {
+        return Math.sqrt(Math.pow((point1.lat - point2.lat), 2) + Math.pow((point1.lon - point2.lon), 2));
+    },
+    /*
+    *   Get the users location if that was included in the options
+    */
     get: function(callback, scope) {
         var selfRef = this;
-        // Make sure we actually have a reading for degree type
+        if (callback.getClosest && callback.getClosest === true) {
+            Ext.device.Geolocation.getCurrentPosition({
+                success: function(position) {
+                    console.log('Location', position);
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    };
+                    var closestStation = AppSettings.weatherStations[0].stationId;
+                    var closestDistance = selfRef.distanceFormula(userLocation, AppSettings.weatherStations[0]);
+                    var closestName = AppSettings.weatherStations[0].name;
+                    for (var i = 1; i < AppSettings.weatherStations.length; i++) {
+                        var distance = selfRef.distanceFormula(userLocation, AppSettings.weatherStations[i]);
+                        console.log('Distance', distance, AppSettings.weatherStations[i].stationId);
+                        if (distance < closestDistance) {
+                            console.log('Save as closest');
+                            closestDistance = distance;
+                            closestStation = AppSettings.weatherStations[i].stationId;
+                            closestName = AppSettings.weatherStations[i].name;
+                        }
+                    }
+                    selfRef.closestName = closestName;
+                    selfRef.stationId = closestStation;
+                    selfRef.closestId = closestStation;
+                    selfRef.loadDegrees(callback, scope);
+                },
+                failure: function() {
+                    selfRef.loadDegrees(callback, scope);
+                }
+            }, this);
+        } else {
+            selfRef.loadDegrees(callback, scope);
+        }
+    },
+    loadDegrees: function(callback, scope) {
+        var selfRef = this;
+        console.log(this.getIsDegrees() );
         if (this.getIsDegrees() === null) {
             this.checkDegrees({
                 success: function() {
-                    selfRef.get(callback, scope);
+                    selfRef.doRequest(callback, scope);
                 },
                 scope: this
             });
+        } else {
+            selfRef.doRequest(callback, scope);
         }
-        // Are we checking geolocation
+    },
+    doRequest: function(callback, scope) {
+        var selfRef = this;
+
+        // Make sure we actually have a reading for degree type
+
         // Use our cache if we can.
-        if (new Date() - this.lastUpdated < this.reloadIn && this.cache && callback.forceUpdate !== true) {
-            console.log(this.getStationId(), this.cache);
-            if (this.getStationId() == this.cache.siteId) {
-                console.log('Use Cache');
-                Ext.callback(callback.success, scope, [this.cache]);
-                return;
-            }
-        }
+        // if (new Date() - this.lastUpdated < this.reloadIn && this.cache && callback.forceUpdate !== true) {
+        //     console.log(this.getStationId(), this.cache);
+        //     if (this.getStationId() == this.cache.siteId) {
+        //         console.log('Use Cache');
+        //         Ext.callback(callback.success, scope, [this.cache]);
+        //         return;
+        //     }
+        // }
         // Get the weather
         Ext.Ajax.useDefaultXhrHeader = false;
         Ext.Ajax.request({
             url: 'http://services.tiltandco.net/weather/forecast',
             method: "GET",
             params: {
-                "site": (selfRef.getStationId()) ? selfRef.getStationId() : AppSettings.weatherStations[0].stationId,
+                "site": (selfRef.stationId) ? selfRef.stationId : AppSettings.weatherStations[0].stationId,
                 "nocache": new Date().getTime()
             },
             success: function(response) {
@@ -228,6 +281,7 @@ Ext.define("escape.model.Weather", {
                     day.setDate(day.getDate() + 1);
                 }
                 selfRef.cache = weatherData;
+                console.log(selfRef.getIsDegrees());
                 if (selfRef.getIsDegrees() === false) {
                     weatherData = selfRef.convert();
                 }

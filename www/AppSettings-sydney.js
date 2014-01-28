@@ -194,55 +194,45 @@ AppSettings.twitter = {
 // WEATHER List of the weather station to use for the App
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 517,
+    stationId: 66062,
     lat: -33.8607,
     lon: 151.205,
     name: 'Sydney'
 }, {
-    stationId: 516,
-    lat: -33.6908,
-    lon: 151.2253,
-    name: 'Terrey Hills'
-}, {
-    stationId: 518,
-    lat: -33.7917,
-    lon: 151.0181,
-    name: 'Parramatta'
-}, {
-    stationId: 525,
-    lat: -33.9214,
-    lon: 150.8861,
-    name: 'Liverpool'
-}, {
-    stationId: 625,
-    lat: -34.0542,
-    lon: 150.8772,
-    name: 'Campbelltown'
-}, {
-    stationId: 535,
-    lat: -34.3691,
-    lon: 150.9291,
-    name: 'Wollongong'
-}, {
-    stationId: 526,
-    lat: -33.6004,
-    lon: 150.7761,
-    name: 'Richmond'
-}, {
-    stationId: 528,
-    lat: -33.7195,
-    lon: 150.6783,
-    name: 'Penrith'
-}, {
-    stationId: 479,
+    stationId: 61087,
     lat: -33.3949,
     lon: 151.3289,
     name: 'Gosford'
 }, {
-    stationId: 501,
+    stationId: 63077,
     lat: -33.7065,
     lon: 150.5848,
-    name: 'Springwood'
+    name: 'Springwood Bowl'
+}, {
+    stationId: 66059,
+    lat: -33.6908,
+    lon: 151.2253,
+    name: 'Terry Hills'
+}, {
+    stationId: 66124,
+    lat: -33.7917,
+    lon: 151.0181,
+    name: 'Parramatta'
+}, {
+    stationId: 67105,
+    lat: -33.6004,
+    lon: 150.7761,
+    name: 'Richmond'
+}, {
+    stationId: 67113,
+    lat: -33.7195,
+    lon: 150.6783,
+    name: 'Penrith'
+}, {
+    stationId: 68228,
+    lat: -34.3691,
+    lon: 150.9291,
+    name: 'Bellambi'
 }];
 //////////////////////////////////////////////////////////////////////
 // SERVICES

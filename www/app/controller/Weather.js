@@ -28,7 +28,7 @@ Ext.define('escape.controller.Weather', {
         }
     },
     reloadWeather: function() {
-        this.getWeatherPage().getTheWeather(true);
+        this.getWeatherPage().getTheWeather();
 
     },
     // a language has been selected
@@ -49,7 +49,7 @@ Ext.define('escape.controller.Weather', {
     stationChanges: function(field, newValue) {
         escape.model.Weather.setStationId(newValue.getData().value);
         try {
-            this.getWeatherPage().getTheWeather(true);
+            this.getWeatherPage().getTheWeather(newValue.getData().value);
         } catch (e) {
 
         }
