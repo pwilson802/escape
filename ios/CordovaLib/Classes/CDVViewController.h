@@ -19,7 +19,7 @@
 
 #import "CDVCordovaView.h"
 
-#import "JSONKit.h"
+#import "CORDOVA/JSONKit.h"
 #import "CDVInvokedUrlCommand.h"
 #import "CDVCommandDelegate.h"
 #import "CDVWhitelist.h"

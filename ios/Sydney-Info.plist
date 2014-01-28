@@ -8,28 +8,8 @@
 	<string>Sydney</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>syd/Icon-57.png</string>
-		<string>syd/Icon-114.png</string>
-		<string>syd/Icon-72.png</string>
-		<string>syd/Icon-72@2x.png</string>
-		<string>syd/Icon.png</string>
-		<string>Icon-57.png</string>
-		<string>Icon-114.png</string>
-	</array>
-	<key>CFBundleIcons</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array/>
-			<key>UIPrerenderedIcon</key>
-			<true/>
-		</dict>
-	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.tiltandco.dnsw.smp.sydney</string>
+	<string>au.com.dnsw.spp.sydney</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

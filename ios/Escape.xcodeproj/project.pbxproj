@@ -123,10 +123,6 @@
 		008421871804B93A00038781 /* GoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */; };
 		008421941804B94E00038781 /* Central Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 008421901804B94E00038781 /* Central Coast-Info.plist */; };
 		008421961804BD2400038781 /* cen in Resources */ = {isa = PBXBuildFile; fileRef = 008421951804BD2400038781 /* cen */; };
-		0D08B4961890DE1E000496B3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B4951890DE1E000496B3 /* FacebookSDK.framework */; };
-		0D08B4971890DE1F000496B3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B4951890DE1E000496B3 /* FacebookSDK.framework */; };
-		0D08B4981890DE1F000496B3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B4951890DE1E000496B3 /* FacebookSDK.framework */; };
-		0D08B4991890DE1F000496B3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B4951890DE1E000496B3 /* FacebookSDK.framework */; };
 		0D08B49E1890DFC4000496B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49D1890DFC3000496B3 /* AdSupport.framework */; };
 		0D08B4A01890DFCD000496B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49F1890DFCD000496B3 /* Social.framework */; };
 		0D08B4A11890DFD5000496B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49D1890DFC3000496B3 /* AdSupport.framework */; };
@@ -136,10 +132,6 @@
 		0D08B4A51890DFFD000496B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49D1890DFC3000496B3 /* AdSupport.framework */; };
 		0D08B4A61890E002000496B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D08B49F1890DFCD000496B3 /* Social.framework */; };
 		0DBDAF241897863D00541C6E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAF231897863D00541C6E /* Images.xcassets */; };
-		0DBDAF281897A1C700541C6E /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAF271897A1C700541C6E /* cmsPages.db */; };
-		0DBDAF291897A1C700541C6E /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAF271897A1C700541C6E /* cmsPages.db */; };
-		0DBDAF2A1897A1C700541C6E /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAF271897A1C700541C6E /* cmsPages.db */; };
-		0DBDAF2B1897A1C700541C6E /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAF271897A1C700541C6E /* cmsPages.db */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -149,6 +141,8 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		2F1322CF1665B8FB00CBBAE4 /* calendarPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F1322CD1665B8FB00CBBAE4 /* calendarPlugin.m */; };
 		2F1322D11665BB4100CBBAE4 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1322D01665BB4100CBBAE4 /* EventKit.framework */; };
+		2F2036FD1897A6F700C45955 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2F2036FC1897A6F700C45955 /* cmsPages.db */; };
+		2F2036FF1897A7E200C45955 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F2036FE1897A7E200C45955 /* FacebookSDK.framework */; };
 		2F3216AA180CD7D500DB76A1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F321681180CD7D500DB76A1 /* Default-568h@2x.png */; };
 		2F3216AB180CD7D500DB76A1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F321682180CD7D500DB76A1 /* Default.png */; };
 		2F3216AC180CD7D500DB76A1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F321683180CD7D500DB76A1 /* Default@2x.png */; };
@@ -277,11 +271,9 @@
 		0084218B1804B93A00038781 /* Sydney copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sydney copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008421901804B94E00038781 /* Central Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Central Coast-Info.plist"; sourceTree = "<group>"; };
 		008421951804BD2400038781 /* cen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = cen; path = "../app-icons/cen"; sourceTree = "<group>"; };
-		0D08B4951890DE1E000496B3 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		0D08B49D1890DFC3000496B3 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		0D08B49F1890DFCD000496B3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		0DBDAF231897863D00541C6E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Sydney/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		0DBDAF271897A1C700541C6E /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../cmsDownloader/cmsPages.db; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -294,6 +286,8 @@
 		2F1322CD1665B8FB00CBBAE4 /* calendarPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = calendarPlugin.m; path = ../../../plugins/ios/calendarPlugin.m; sourceTree = "<group>"; };
 		2F1322CE1665B8FB00CBBAE4 /* calendarPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = calendarPlugin.h; path = ../../../plugins/ios/calendarPlugin.h; sourceTree = "<group>"; };
 		2F1322D01665BB4100CBBAE4 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		2F2036FC1897A6F700C45955 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
+		2F2036FE1897A7E200C45955 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		2F321681180CD7D500DB76A1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2F321682180CD7D500DB76A1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2F321683180CD7D500DB76A1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -404,7 +398,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D08B4981890DE1F000496B3 /* FacebookSDK.framework in Frameworks */,
 				0D08B4A41890DFF5000496B3 /* Social.framework in Frameworks */,
 				0D08B4A31890DFE5000496B3 /* AdSupport.framework in Frameworks */,
 				000FD0871782912700A3C3B2 /* libCordova.a in Frameworks */,
@@ -426,6 +419,7 @@
 				000FD0971782912700A3C3B2 /* QuartzCore.framework in Frameworks */,
 				000FD0981782912700A3C3B2 /* SystemConfiguration.framework in Frameworks */,
 				000FD0991782912700A3C3B2 /* MobileCoreServices.framework in Frameworks */,
+				2F2036FF1897A7E200C45955 /* FacebookSDK.framework in Frameworks */,
 				000FD09A1782912700A3C3B2 /* CoreMedia.framework in Frameworks */,
 				863C8D42C6D8457B870DFF99 /* CoreData.framework in Frameworks */,
 				2FDA49EE17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */,
@@ -436,7 +430,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D08B4971890DE1F000496B3 /* FacebookSDK.framework in Frameworks */,
 				0D08B4A21890DFDB000496B3 /* Social.framework in Frameworks */,
 				0D08B4A11890DFD5000496B3 /* AdSupport.framework in Frameworks */,
 				2FAAB2A318051E1500A6F9D1 /* CoreData.framework in Frameworks */,
@@ -468,7 +461,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D08B4991890DE1F000496B3 /* FacebookSDK.framework in Frameworks */,
 				0D08B4A61890E002000496B3 /* Social.framework in Frameworks */,
 				0D08B4A51890DFFD000496B3 /* AdSupport.framework in Frameworks */,
 				008421721804B93A00038781 /* libCordova.a in Frameworks */,
@@ -500,7 +492,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D08B4961890DE1E000496B3 /* FacebookSDK.framework in Frameworks */,
 				0D08B4A01890DFCD000496B3 /* Social.framework in Frameworks */,
 				0D08B49E1890DFC4000496B3 /* AdSupport.framework in Frameworks */,
 				2FAAB2A718051E1E00A6F9D1 /* CoreData.framework in Frameworks */,
@@ -587,7 +578,7 @@
 				B73840C2160C2A83008B16F7 /* Accounts.framework */,
 				B73840C0160C2A5B008B16F7 /* Twitter.framework */,
 				B792CC4C16080EAD00BD25D7 /* libsqlite3.dylib */,
-				0D08B4951890DE1E000496B3 /* FacebookSDK.framework */,
+				2F2036FE1897A7E200C45955 /* FacebookSDK.framework */,
 				301BF56E109A69640062928A /* www */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				307C750510C5A3420062BCA9 /* Plugins */,
@@ -612,7 +603,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0DBDAF271897A1C700541C6E /* cmsPages.db */,
+				2F2036FC1897A6F700C45955 /* cmsPages.db */,
 				0DBDAF231897863D00541C6E /* Images.xcassets */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
@@ -875,7 +866,7 @@
 				LastUpgradeCheck = 420;
 				TargetAttributes = {
 					000FD06C1782912700A3C3B2 = {
-						DevelopmentTeam = ASW5WVHNWT;
+						DevelopmentTeam = ZR997G5W7J;
 					};
 					008421571804B93A00038781 = {
 						DevelopmentTeam = ASW5WVHNWT;
@@ -950,7 +941,7 @@
 				000FD0701782912700A3C3B2 /* VERSION in Resources */,
 				000FD0711782912700A3C3B2 /* Cordova.plist in Resources */,
 				000FD0721782912700A3C3B2 /* Capture.bundle in Resources */,
-				0DBDAF2A1897A1C700541C6E /* cmsPages.db in Resources */,
+				2F2036FD1897A6F700C45955 /* cmsPages.db in Resources */,
 				000FD0731782912700A3C3B2 /* Localizable.strings in Resources */,
 				000FD0751782912700A3C3B2 /* MainViewController.xib in Resources */,
 				000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */,
@@ -975,7 +966,6 @@
 				2FEF93FA1807CF8F00A230F2 /* Default-568h@2x.png in Resources */,
 				2FEF93FB1807CF8F00A230F2 /* Default.png in Resources */,
 				2FEF93FC1807CF8F00A230F2 /* Default@2x.png in Resources */,
-				0DBDAF291897A1C700541C6E /* cmsPages.db in Resources */,
 				2FEF93FD1807CF8F00A230F2 /* Icon-29.png in Resources */,
 				2FEF93FE1807CF8F00A230F2 /* Icon-40.png in Resources */,
 				2FEF93FF1807CF8F00A230F2 /* Icon-40@2x.png in Resources */,
@@ -1012,7 +1002,6 @@
 				008421941804B94E00038781 /* Central Coast-Info.plist in Resources */,
 				0084215F1804B93A00038781 /* MainViewController.xib in Resources */,
 				008421961804BD2400038781 /* cen in Resources */,
-				0DBDAF2B1897A1C700541C6E /* cmsPages.db in Resources */,
 				008421601804B93A00038781 /* ChildBrowser.bundle in Resources */,
 				008421611804B93A00038781 /* ChildBrowserViewController.xib in Resources */,
 			);
@@ -1050,7 +1039,6 @@
 				2F3216BB180CD7D500DB76A1 /* Icon-57.png in Resources */,
 				2F3216BC180CD7D500DB76A1 /* Icon-58.jpg in Resources */,
 				2F3216BD180CD7D500DB76A1 /* Icon-58.png in Resources */,
-				0DBDAF281897A1C700541C6E /* cmsPages.db in Resources */,
 				2F3216BE180CD7D500DB76A1 /* Icon-60.jpg in Resources */,
 				2F3216BF180CD7D500DB76A1 /* Icon-60.png in Resources */,
 				2F3216C0180CD7D500DB76A1 /* Icon-60@2x.jpg in Resources */,
@@ -1242,12 +1230,13 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Sydney Icon";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Sydney Launch";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
+					/Users/Tiltmac1/Documents/FacebookSDK,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1269,7 +1258,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "AF23E9E7-F12D-4CB2-8113-CFB09077C4EE";
+				PROVISIONING_PROFILE = "AFEBD337-A2C6-4D66-AF0D-DE7ACB513C1B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1282,12 +1271,13 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Sydney Icon";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Sydney Launch";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
+					/Users/Tiltmac1/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -1307,7 +1297,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "AF23E9E7-F12D-4CB2-8113-CFB09077C4EE";
+				PROVISIONING_PROFILE = "AFEBD337-A2C6-4D66-AF0D-DE7ACB513C1B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1538,8 +1528,8 @@
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1563,7 +1553,7 @@
 					"-all_load",
 					"-Obj-C",
 				);
-				PROVISIONING_PROFILE = "AF23E9E7-F12D-4CB2-8113-CFB09077C4EE";
+				PROVISIONING_PROFILE = "AFEBD337-A2C6-4D66-AF0D-DE7ACB513C1B";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1575,8 +1565,8 @@
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1600,7 +1590,7 @@
 					"-all_load",
 					"-Obj-C",
 				);
-				PROVISIONING_PROFILE = "AF23E9E7-F12D-4CB2-8113-CFB09077C4EE";
+				PROVISIONING_PROFILE = "AFEBD337-A2C6-4D66-AF0D-DE7ACB513C1B";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "";
