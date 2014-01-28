@@ -89,7 +89,7 @@ Ext.define("escape.view.page.Home", {
             var selfRef = this;
             escape.model.Weather.get({
                 success: function(weather) {
-                    console.log(weather);
+                    // console.log(weather);
                     selfRef.showWeather(weather);
                 },
                 error: function() {},

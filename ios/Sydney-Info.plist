@@ -23,15 +23,7 @@
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
 			<key>CFBundleIconFiles</key>
-			<array>
-				<string>syd/Icon-57.png</string>
-				<string>syd/Icon-114.png</string>
-				<string>syd/Icon-72.png</string>
-				<string>syd/Icon-72@2x.png</string>
-				<string>syd/Icon.png</string>
-				<string>Icon-57.png</string>
-				<string>Icon-114.png</string>
-			</array>
+			<array/>
 			<key>UIPrerenderedIcon</key>
 			<true/>
 		</dict>
@@ -69,8 +61,6 @@
 	<string></string>
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
-	<key>UILaunchImageFile</key>
-	<string>syd/Default.png</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
