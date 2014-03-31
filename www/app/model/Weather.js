@@ -204,7 +204,6 @@ Ext.define("escape.model.Weather", {
         if (callback.getClosest && callback.getClosest === true) {
             Ext.device.Geolocation.getCurrentPosition({
                 success: function(position) {
-                    // console.log('Location', position);
                     var userLocation = {
                         lat: position.coords.latitude,
                         lon: position.coords.longitude
@@ -214,9 +213,7 @@ Ext.define("escape.model.Weather", {
                     var closestName = AppSettings.weatherStations[0].name;
                     for (var i = 1; i < AppSettings.weatherStations.length; i++) {
                         var distance = selfRef.distanceFormula(userLocation, AppSettings.weatherStations[i]);
-                        // console.log('Distance', distance, AppSettings.weatherStations[i].stationId);
                         if (distance < closestDistance) {
-                            // console.log('Save as closest');
                             closestDistance = distance;
                             closestStation = AppSettings.weatherStations[i].stationId;
                             closestName = AppSettings.weatherStations[i].name;
@@ -276,12 +273,11 @@ Ext.define("escape.model.Weather", {
                 var weatherData = JSON.parse(response.responseText);
                 var day = new Date();
                 for (var i = 0; i < weatherData.days.length; i++) {
-                    weatherData.days[i].term = selfRef.weatherTerms[weatherData.days[i].icon].term;
+                    weatherData.days[i].term = selfRef.getIconName(weatherData.days[i].icon); //weatherTerms[weatherData.days[i].icon].term;
                     weatherData.days[i].day = Ext.Date.dayNames[day.getDay()];
                     day.setDate(day.getDate() + 1);
                 }
                 selfRef.cache = weatherData;
-                // console.log(selfRef.getIsDegrees());
                 if (selfRef.getIsDegrees() === false) {
                     weatherData = selfRef.convert();
                 }
