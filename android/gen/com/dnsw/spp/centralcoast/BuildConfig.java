@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.tiltandco.dnsw.spp.sydney;
+package com.dnsw.spp.centralcoast;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;
