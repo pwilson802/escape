@@ -140,7 +140,7 @@ AppSettings.appSubDestination = [{
     }]
 }];
 // The url of the squiz search
-AppSettings.searchURL = 'http://tnsw-search.squiz.net/s/search.html';
+AppSettings.searchURL = 'http://apps.visitnsw.com/s/search.html';
 // The name of the events calender in the database to serch for events in
 AppSettings.eventCalName = 'SYDNEY EVENTS CALENDAR';
 AppSettings.eventsIncludeFeatured = true;
@@ -148,9 +148,9 @@ AppSettings.eventsIncludeFeatured = true;
 // matrix destination ids for this app
 AppSettings.destinationIds = '282;283;284;285;286;287;288;289;290;291;292;294;295;296;297;298;299;300;301;302;303;304;305;306;308;309;310;311;312;313;314;315;316;317;318;319;320;321;332;406;407;408;409;410;411;4177;4178;4179;4180;4181;4182;4188;4190';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'sydney';
-AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
+AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };

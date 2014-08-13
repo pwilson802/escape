@@ -141,8 +141,8 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		2F1322CF1665B8FB00CBBAE4 /* calendarPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F1322CD1665B8FB00CBBAE4 /* calendarPlugin.m */; };
 		2F1322D11665BB4100CBBAE4 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1322D01665BB4100CBBAE4 /* EventKit.framework */; };
-		2F2036FD1897A6F700C45955 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2F2036FC1897A6F700C45955 /* cmsPages.db */; };
 		2F2036FF1897A7E200C45955 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F2036FE1897A7E200C45955 /* FacebookSDK.framework */; };
+		2F2A9DC5191317FD00D06911 /* cmsPages.db in Resources */ = {isa = PBXBuildFile; fileRef = 2F2A9DC4191317FD00D06911 /* cmsPages.db */; };
 		2F3216AA180CD7D500DB76A1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F321681180CD7D500DB76A1 /* Default-568h@2x.png */; };
 		2F3216AB180CD7D500DB76A1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F321682180CD7D500DB76A1 /* Default.png */; };
 		2F3216AC180CD7D500DB76A1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F321683180CD7D500DB76A1 /* Default@2x.png */; };
@@ -172,6 +172,11 @@
 		2F3216C8180CD7D500DB76A1 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F32169F180CD7D500DB76A1 /* Icon@2x.png */; };
 		2F3216CA180CD7D500DB76A1 /* Splash_Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F3216A1180CD7D500DB76A1 /* Splash_Portrait.png */; };
 		2F3216CB180CD7D500DB76A1 /* Splash_Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F3216A2180CD7D500DB76A1 /* Splash_Portrait@2x.png */; };
+		2F380D8018FB58AA00167020 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F380D7F18FB58AA00167020 /* FacebookSDK.framework */; };
+		2F380D8118FB58AA00167020 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F380D7F18FB58AA00167020 /* FacebookSDK.framework */; };
+		2F380D8218FB58AA00167020 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F380D7F18FB58AA00167020 /* FacebookSDK.framework */; };
+		2F380D8318FB58AA00167020 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F380D7F18FB58AA00167020 /* FacebookSDK.framework */; };
+		2F380D8618FB5ECE00167020 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DBDAF231897863D00541C6E /* Images.xcassets */; };
 		2F502BFF16CAFC9300050BE4 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F502BF816CAFB6900050BE4 /* libCordova.a */; };
 		2FA580AD1794B1C60023ADE3 /* Blue Mountains-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA580AC1794B1C60023ADE3 /* Blue Mountains-Info.plist */; };
 		2FA580B11794B57B0023ADE3 /* South Coast-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA580B01794B57B0023ADE3 /* South Coast-Info.plist */; };
@@ -286,8 +291,8 @@
 		2F1322CD1665B8FB00CBBAE4 /* calendarPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = calendarPlugin.m; path = ../../../plugins/ios/calendarPlugin.m; sourceTree = "<group>"; };
 		2F1322CE1665B8FB00CBBAE4 /* calendarPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = calendarPlugin.h; path = ../../../plugins/ios/calendarPlugin.h; sourceTree = "<group>"; };
 		2F1322D01665BB4100CBBAE4 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
-		2F2036FC1897A6F700C45955 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		2F2036FE1897A7E200C45955 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		2F2A9DC4191317FD00D06911 /* cmsPages.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = cmsPages.db; path = ../../../databases/cmsPages.db; sourceTree = "<group>"; };
 		2F321681180CD7D500DB76A1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2F321682180CD7D500DB76A1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2F321683180CD7D500DB76A1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -317,6 +322,7 @@
 		2F32169F180CD7D500DB76A1 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		2F3216A1180CD7D500DB76A1 /* Splash_Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Splash_Portrait.png; sourceTree = "<group>"; };
 		2F3216A2180CD7D500DB76A1 /* Splash_Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_Portrait@2x.png"; sourceTree = "<group>"; };
+		2F380D7F18FB58AA00167020 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		2F502BED16CAFB6900050BE4 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		2FA580AC1794B1C60023ADE3 /* Blue Mountains-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Blue Mountains-Info.plist"; sourceTree = "<group>"; };
 		2FA580B01794B57B0023ADE3 /* South Coast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "South Coast-Info.plist"; sourceTree = "<group>"; };
@@ -419,6 +425,7 @@
 				000FD0971782912700A3C3B2 /* QuartzCore.framework in Frameworks */,
 				000FD0981782912700A3C3B2 /* SystemConfiguration.framework in Frameworks */,
 				000FD0991782912700A3C3B2 /* MobileCoreServices.framework in Frameworks */,
+				2F380D8218FB58AA00167020 /* FacebookSDK.framework in Frameworks */,
 				2F2036FF1897A7E200C45955 /* FacebookSDK.framework in Frameworks */,
 				000FD09A1782912700A3C3B2 /* CoreMedia.framework in Frameworks */,
 				863C8D42C6D8457B870DFF99 /* CoreData.framework in Frameworks */,
@@ -451,6 +458,7 @@
 				00376B51178251BB00469595 /* MediaPlayer.framework in Frameworks */,
 				00376B52178251BB00469595 /* QuartzCore.framework in Frameworks */,
 				00376B53178251BB00469595 /* SystemConfiguration.framework in Frameworks */,
+				2F380D8118FB58AA00167020 /* FacebookSDK.framework in Frameworks */,
 				00376B54178251BB00469595 /* MobileCoreServices.framework in Frameworks */,
 				00376B55178251BB00469595 /* CoreMedia.framework in Frameworks */,
 				2FDA49ED17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */,
@@ -482,6 +490,7 @@
 				008421821804B93A00038781 /* QuartzCore.framework in Frameworks */,
 				008421831804B93A00038781 /* SystemConfiguration.framework in Frameworks */,
 				008421841804B93A00038781 /* MobileCoreServices.framework in Frameworks */,
+				2F380D8318FB58AA00167020 /* FacebookSDK.framework in Frameworks */,
 				008421851804B93A00038781 /* CoreMedia.framework in Frameworks */,
 				008421861804B93A00038781 /* CoreData.framework in Frameworks */,
 				008421871804B93A00038781 /* GoogleAnalytics.a in Frameworks */,
@@ -513,6 +522,7 @@
 				301BF5C1109A6A2B0062928A /* MediaPlayer.framework in Frameworks */,
 				301BF5C3109A6A2B0062928A /* QuartzCore.framework in Frameworks */,
 				301BF5C5109A6A2B0062928A /* SystemConfiguration.framework in Frameworks */,
+				2F380D8018FB58AA00167020 /* FacebookSDK.framework in Frameworks */,
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */,
 				2FDA49EC17C2F609007341F7 /* GoogleAnalytics.a in Frameworks */,
@@ -603,7 +613,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2F2036FC1897A6F700C45955 /* cmsPages.db */,
+				2F2A9DC4191317FD00D06911 /* cmsPages.db */,
 				0DBDAF231897863D00541C6E /* Images.xcassets */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
@@ -623,6 +633,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2F380D7F18FB58AA00167020 /* FacebookSDK.framework */,
 				0D08B49F1890DFCD000496B3 /* Social.framework */,
 				0D08B49D1890DFC3000496B3 /* AdSupport.framework */,
 				2FDA49EB17C2F609007341F7 /* GoogleAnalytics.a */,
@@ -866,7 +877,7 @@
 				LastUpgradeCheck = 420;
 				TargetAttributes = {
 					000FD06C1782912700A3C3B2 = {
-						DevelopmentTeam = ZR997G5W7J;
+						DevelopmentTeam = ASW5WVHNWT;
 					};
 					008421571804B93A00038781 = {
 						DevelopmentTeam = ASW5WVHNWT;
@@ -941,7 +952,7 @@
 				000FD0701782912700A3C3B2 /* VERSION in Resources */,
 				000FD0711782912700A3C3B2 /* Cordova.plist in Resources */,
 				000FD0721782912700A3C3B2 /* Capture.bundle in Resources */,
-				2F2036FD1897A6F700C45955 /* cmsPages.db in Resources */,
+				2F2A9DC5191317FD00D06911 /* cmsPages.db in Resources */,
 				000FD0731782912700A3C3B2 /* Localizable.strings in Resources */,
 				000FD0751782912700A3C3B2 /* MainViewController.xib in Resources */,
 				000FD0781782912700A3C3B2 /* ChildBrowser.bundle in Resources */,
@@ -994,6 +1005,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F380D8618FB5ECE00167020 /* Images.xcassets in Resources */,
 				0084215A1804B93A00038781 /* www in Resources */,
 				0084215B1804B93A00038781 /* VERSION in Resources */,
 				0084215C1804B93A00038781 /* Cordova.plist in Resources */,
@@ -1230,13 +1242,14 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Sydney Icon";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Sydney Launch";
-				CODE_SIGN_IDENTITY = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
 					/Users/Tiltmac1/Documents/FacebookSDK,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1258,7 +1271,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "AFEBD337-A2C6-4D66-AF0D-DE7ACB513C1B";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1271,13 +1284,14 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Sydney Icon";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Sydney Launch";
-				CODE_SIGN_IDENTITY = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution:  Destination NSW (ZR997G5W7J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
 					/Users/Tiltmac1/Documents/FacebookSDK,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -1297,7 +1311,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Sydney;
-				PROVISIONING_PROFILE = "AFEBD337-A2C6-4D66-AF0D-DE7ACB513C1B";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1313,6 +1327,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
+					/Users/Tiltmac1/Documents/FacebookSDK,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1350,6 +1366,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
+					/Users/Tiltmac1/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -1380,12 +1398,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/n/Tilt/escape/ios,
+					/Users/Tiltmac1/Sites/DNSW/escape/ios,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
+					/Users/Tiltmac1/Documents/FacebookSDK,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1399,7 +1421,7 @@
 					"$(CORDOVALIB)/Classes",
 				);
 				INFOPLIST_FILE = "Central Coast-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Sydney/Plugins/com.adobe.plugins.GAPlugin\"",
@@ -1407,8 +1429,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Sydney copy";
-				PROVISIONING_PROFILE = "91AC9BAE-BA8B-4EB8-BB5D-D4EC78A00B27";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "91AC9BAE-BA8B-4EB8-BB5D-D4EC78A00B27";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4C0B2F4E-D46F-4E1E-82B0-B9C53C709790";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1419,12 +1441,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan O'Connell (TP29H9T84L)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/n/Tilt/escape/ios,
+					/Users/Tiltmac1/Sites/DNSW/escape/ios,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
+					/Users/Tiltmac1/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -1436,7 +1462,7 @@
 					"$(CORDOVALIB)/Classes",
 				);
 				INFOPLIST_FILE = "Central Coast-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Sydney/Plugins/com.adobe.plugins.GAPlugin\"",
@@ -1444,8 +1470,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Sydney copy";
-				PROVISIONING_PROFILE = "91AC9BAE-BA8B-4EB8-BB5D-D4EC78A00B27";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "91AC9BAE-BA8B-4EB8-BB5D-D4EC78A00B27";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4C0B2F4E-D46F-4E1E-82B0-B9C53C709790";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1461,6 +1487,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
+					/Users/Tiltmac1/Documents/FacebookSDK,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1498,6 +1526,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
+					/Users/Tiltmac1/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";

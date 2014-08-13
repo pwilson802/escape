@@ -93,6 +93,8 @@ Ext.define("escape.model.Content", {
     },
     loadLocalContent: function(url, callback, scope) {
         var selfRef = this;
+        // replace new domain name with old one for referece
+        url = url.replace('apps.visitnsw.com','www.destinationnsw.com.au');
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         db.queryDB('SELECT * FROM Pages WHERE url = (?)', function(t, rs) {
             // make sure the product is not database

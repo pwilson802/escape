@@ -8,14 +8,10 @@
 	<string>Central Coast</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>cen/Icon-57.png</string>
-		<string>cen/Icon-114.png</string>
-		<string>cen/Icon-72.png</string>
-		<string>cen/Icon-72@2x.png</string>
-		<string>cen/Icon.png</string>
-	</array>
+	<key>CFBundleIcons</key>
+	<dict/>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
 	<key>CFBundleIdentifier</key>
 	<string>com.tiltandco.dnsw.spp.centralcoast</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -29,15 +25,17 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.2</string>
+	<key>FacebookAppID</key>
+	<string>1399922596928528</string>
+	<key>FacebookDisplayName</key>
+	<string>Central Coast Australia Offical Guide</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
 	<string></string>
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
-	<key>UILaunchImageFile</key>
-	<string>cen/Default.png</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
