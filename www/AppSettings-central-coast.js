@@ -81,7 +81,7 @@ AppSettings.destinationIds = '4220;371;142;145;144;4201;4146;141;189;4221;190;42
 // The smartphone cms section
 AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'central-coast';
-AppSettings.smartphoneURL = 'http://www.destinationnsw.com.au/smartphoneapps/';
+AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
 };
