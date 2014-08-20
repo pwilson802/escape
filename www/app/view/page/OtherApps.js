@@ -50,7 +50,9 @@ Ext.define("escape.view.page.OtherApps", {
             url: 'http://www.destinationnsw.com.au/smartphoneapps/global-content/other-dnsw-apps?no-cache=' + new Date(),
             success: function(response) {
                 try {
+                        console.log(response.responseText);
                     var productList = (JSON.parse(response.responseText));
+                
                     /* Parse Response */
                     var body = productList.Page.Content;
                     body = body.replace(/<.*/g, "");
@@ -89,6 +91,7 @@ Ext.define("escape.view.page.OtherApps", {
                     }]);
 
                 } catch (e) {
+                    console.log(e);
                     selfref.setItems([{
                         xtype: 'loadError'
                     }]);

@@ -79,7 +79,7 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '4220;371;142;145;144;4201;4146;141;189;4221;190;4204;4222;143;191;199;183;4202';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'central-coast';
 AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
@@ -240,7 +240,7 @@ AppSettings.attractionCats = [
     title: 'Arts, Culture and Heritage',
     subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
     imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture-and-heritage',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts-culture-and-heritage',
     relatedSearchSelection: 'The Arts'
 }, {
     title: 'Family Holidays',
@@ -465,9 +465,9 @@ AppSettings.homeMenu = [{
                 }, { // Tours
                     xtype: 'button',
                     html: "<span class='icon'></span><span>Events</span>",
-                      cls: 'eventsHome',
-                    action: 'eventsSection',
-                    sectionId: 'toursSection'
+                    cls: 'eventsHome',
+                    action: 'changeSection',
+                    sectionId: 'eventsSection'
                 }, {
                     xtype: 'button',
                     html: "<span class='icon'></span><span>My Itinerary</span>",
