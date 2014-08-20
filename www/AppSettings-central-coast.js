@@ -196,13 +196,10 @@ AppSettings.poi = [{
 /////////////////////////////////////////////////////////////////////
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: AppSettings.imgfolder+'home1.jpg',
+    imagePath: AppSettings.imgfolder+'home3.jpg',
     altText: 'Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Destination NSW'
-}, {
-    imagePath: AppSettings.imgfolder+'home3.jpg',
     altText: 'Destination NSW'
 }, {
     imagePath: AppSettings.imgfolder+'home4.jpg',
