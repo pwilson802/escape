@@ -1,0 +1,29 @@
+{
+	"Page": {
+		"Title": "Test Page",
+		"Content": "\r\n<div id=\"content_div_215675\">\r\n<pTEST gh to decide which one to go to first. For great surf, visit North Avoca and Soldiers Beach, for great views of Bouddi National Park, visit Umina Beach, or for great people watching, visit Terrigal Beach and Avoca Beach.</p>\r\n\r\n<p>If you’re TEST TEST for something to do on the water, why not learn to surf? You could also try scuba diving at the Ex-HMAS Adelaide, or take a boat out and enjoy a day of fishing.</p>\r\n\r\n<p>The Peninsula is located at the southern tip of the Central Coast area, and includes Woy Woy, Umina, Ettalong Beach, Patonga and Pearl Beach. This is a great family destination, with plenty of activities, and numerous sheltered, patrolled beaches.</p>\r\n\r\n<p>Take a ferry to see the region by water, or to travel easily between towns and beaches. Or for spectacular views, climb Mount Ettalong to see the region’s beaches, Broken Bay, and Lion Island.</p>\r\n\r\n<p>Further south is the Beach Villages region, made up of Terrigal, Avoca Beach, MacMasters Beach, Copacabana, Killcare, and Erina. The area offers beachside living at its best, with a laid-back atmosphere and stunning surroundings.Terrigal and Avoca Beach are beautiful beach towns, vibrant with shops, cafes, restaurants and bars.</p>\r\n\r\n<p>This is the perfect spot for divers, with the Ex-HMAS Adelaide offering an exciting artificial reef to discover.</p>\r\n\r\n</div>\r\n",
+		"Images": [{
+			"Full Size": "http://images2.visitnsw.com/sites/default/files/Couple-at-Terrigal_4.JPG",
+			"Thumb": "http://images2.visitnsw.com/sites/default/files/styles/medium/public/Couple-at-Terrigal_4.JPG?itok=eYlHVQyi",
+			"Alt": "Couple at Terrigal Beach, Central Coast",
+			"Modified": "2014-08-06 16:08:18"
+		}, {
+			"Full Size": "http://images2.visitnsw.com/sites/default/files/245735_1.jpg",
+			"Thumb": "http://images2.visitnsw.com/sites/default/files/styles/medium/public/245735_1.jpg?itok=P7GKUjAB",
+			"Alt": "The Haven at Terrigal, Central Coast",
+			"Modified": "2014-08-06 16:08:18"
+		}, {
+			"Full Size": "http://images2.visitnsw.com/sites/default/files/216588_1.jpg",
+			"Thumb": "http://images2.visitnsw.com/sites/default/files/styles/medium/public/216588_1.jpg?itok=PFpKDzsG",
+			"Alt": "Bouddi, National Park, Central Coast",
+			"Modified": "2014-08-06 16:08:18"
+		}]
+	},
+	"Children": [{
+		"Name": "Don't Miss",
+		"Url": "http://apps.visitnsw.com/smartphoneapps/central-coast/things-to-do/beaches/dont-miss"
+	}, {
+		"Name": "Must Do Links",
+		"Url": "http://apps.visitnsw.com/smartphoneapps/central-coast/things-to-do/beaches/must-do-links"
+	}]
+}
