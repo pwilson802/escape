@@ -56,7 +56,7 @@ Ext.define("escape.view.ui.MapDisplay", {
     },
     loadLibaries: function() {
         // check to see if the user is online or not
-        if (Ext.device.Connection.isOnline() && !escape.model.Map.getUseOffline() || this.getForceUseOffline()) {
+        if (Ext.device.Connection.isOnline() && !escape.model.Map.getUseOffline() || this.getForceUseOffline() || AppSettings.mapsTilesPath === false) {
             this.setUseOnlineMaps(true);
         } else {
             this.setUseOnlineMaps(false);

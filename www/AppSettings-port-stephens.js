@@ -4,15 +4,15 @@
 AppSettings = {};
 // The Tilt and Co App ID used for tracking, get id from glen
 AppSettings.AppID = 9;
-AppSettings.GoogleAnalyticsAccount = 'UA-1267923-61';
+AppSettings.GoogleAnalyticsAccount = 'UA-1267923-68';
 // The Apps area shown to the user
-AppSettings.appAreaName = 'Central Coast';
+AppSettings.appAreaName = 'Port Stephens';
 // path to load unqiue images for the app from
-AppSettings.imgfolder = 'resources/app-images/central-coast/';
+AppSettings.imgfolder = 'resources/app-images/port-stephens/';
 // Path to load images from
 AppSettings.regionImagePath = 'resources/region-images/blue/';
 // Path to load offile maps from
-AppSettings.mapsTilesPath = AppSettings.imgfolder +'maptiles/';
+AppSettings.mapsTilesPath = AppSettings.imgfolder + 'maptiles/';
 // offile maps max zoom level
 AppSettings.offlineMapsMaxZoom = 14;
 // Website URL sydney.com or visitnsw.com
@@ -21,10 +21,10 @@ AppSettings.websiteURL = 'http://www.visitnsw.com/';
 // The Area of the app which is used for services and faclitices searches
 AppSettings.appAddress = {
     state: 'nsw',
-    suburb: 'central coast'
+    suburb: 'port stephens'
 };
 // The default map center
-AppSettings.center = [-33.424887,151.342269];
+AppSettings.center = [-33.424887, 151.342269];
 // The bound of the app, used to find products and services
 AppSettings.bounds = {
     "left": 151.1594,
@@ -36,37 +36,14 @@ AppSettings.bounds = {
 AppSettings.radius = 40;
 // The detinations to perform all funnel back serches within
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
-AppSettings.destinationWebpath = '/central-coast/';
+AppSettings.destinationWebpath = '/north-coast/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
     name: "Gosford-Area",
     towns: [{
-        name: "Avoca Beach"
+        name: "Nelson Bay"
     }, {
-        name: "Ettalong Beach"
-    }, {
-        name: "Gosford"
-    }, {
-        name: "Killcare"
-    }, {
-        name: "Terrigal"
-    }, {
-        name: "Woy Woy"
-    }]
-}, {
-    name: "Wyong-Area",
-    towns: [{
-        name: "Bateau Bay"
-    }, {
-        name: "Norah Head"
-    }, {
-        name: "The Entrance"
-    }, {
-        name: "Toowoon Bay"
-    }, {
-        name: "Tuggerah"
-    }, {
-        name: "Wyong"
+        name: "Shoal Bay"
     }]
 }];
 // The url of the squiz search
@@ -77,10 +54,10 @@ AppSettings.eventsIncludeFeatured = false;
 // - dev url: http://tnsw-search03.squiz.net/s/search.html', // - live url http://tnsw-search.squiz.net/s/search.html
 // matrix destination ids for this app - Get DNSW to provide
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
-AppSettings.destinationIds = '4220;371;142;145;144;4201;4146;141;189;4221;190;4204;4222;143;191;199;183;4202';
+AppSettings.destinationIds = '171;186;380;4155';
 // The smartphone cms section
 AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
-AppSettings.smartphoneCMSSection = 'central-coast';
+AppSettings.smartphoneCMSSection = 'port-stephens';
 AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
     return AppSettings.smartphoneURL + AppSettings.smartphoneCMSSection;
@@ -93,13 +70,13 @@ AppSettings.defualtShareData = {
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
     description: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
     emailBody: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
-    appleStoreLink :'http://redir.tiltandco.net/escape/centralcoast/itunes',
+    appleStoreLink: 'http://redir.tiltandco.net/escape/centralcoast/itunes',
     googlePlayLink: 'http://redir.tiltandco.net/escape/centralcoast/googleplay',
     // maybe chnage picture
     picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
-   
-  
-   
+
+
+
 };
 // FACEBOOK settings
 AppSettings.facebook = {
@@ -129,10 +106,15 @@ AppSettings.twitter = {
 // Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 61425,
-    lat: -33.4351,
-    lon: 151.3614,
-    name: 'Gosford'
+    stationId: 61390,
+    lat: -32.8905,
+    long: 151.707,
+    name: 'Newcastle'
+}, {
+    stationId: 61388,
+    lat: -32.7427,
+    long: 151.5683,
+    name: 'Maitland'
 }];
 //////////////////////////////////////////////////////////////////////
 // SERVICES
@@ -196,173 +178,166 @@ AppSettings.poi = [{
 /////////////////////////////////////////////////////////////////////
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: AppSettings.imgfolder+'home3.jpg',
-    altText: 'Destination NSW'
+    imagePath: AppSettings.imgfolder + 'home1.jpg',
+    altText: 'Quad Biking, Port Stephens<br>Credit: Jason Busch Photography'
 }, {
-    imagePath: AppSettings.imgfolder+'home2.jpg',
-    altText: 'Destination NSW'
+    imagePath: AppSettings.imgfolder + 'home2.jpg',
+    altText: 'Dolphin watching with Imagine Cruises at Port Stephens<br>Credit: James Pipino; Destination NSW'
 }, {
-    imagePath: AppSettings.imgfolder+'home4.jpg',
-    altText: 'Destination NSW'
+    imagePath: AppSettings.imgfolder + 'home3.jpg',
+    altText: 'Family at the beach at Fingal Bay<br>Credit: Hamilton Lund; Destination NSW'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
-AppSettings.attractionCats = [
-{
+AppSettings.attractionCats = [{
     title: 'Beaches',
-    subheading: 'Beach lifestyle in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_a.jpg',
+    subheading: 'Explore the beaches at Port Stephens',
+    imgPath: AppSettings.imgfolder + 'beaches.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/beaches',
     relatedSearchSelection: 'beach'
 }, {
-    title: 'Nature & Parks',
-    subheading: 'Explore ' + AppSettings.appAreaName + '’s great outdoors',
-    imgPath: AppSettings.imgfolder+'home_experience_c.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-parks',
-    relatedSearchSelection: 'Nature based'
+    title: 'Whale Watching',
+    subheading: 'What wonderful creatures to see up close',
+    imgPath: AppSettings.imgfolder + 'whales.jpg',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/whale-watching',
+    relatedSearchSelection: 'Whale Watching'
 }, {
     title: 'Dining & Entertainment',
     subheading: 'Dining & entertainment in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_f.jpg',
+    imgPath: AppSettings.imgfolder + 'dinning.jpg',
     hideInSubSections: true,
     // hides this section from subsections as it has it's own section
     contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment',
     relatedSearchSelection: 'Food and Wine'
 }, {
-    title: 'Fashion & Shopping',
-    subheading: 'Shopping in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_e.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/fashion-and-shopping',
-    relatedSearchSelection: 'Shopping'
+    title: 'Relaxation',
+    subheading: 'Lay back at relax in Port Stephens',
+    imgPath: AppSettings.imgfolder + 'relaxation.jpg',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/relaxation',
+    relatedSearchSelection: 'Relaxation'
 }, {
-    title: 'Arts, Culture and Heritage',
-    subheading: 'Best of arts and culture in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_d.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts-culture-and-heritage',
-    relatedSearchSelection: 'The Arts'
-}, {
-    title: 'Family Holidays',
-    subheading: 'Family travel in ' + AppSettings.appAreaName,
-    imgPath: AppSettings.imgfolder+'home_experience_b.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/family-holidays',
-    relatedSearchSelection: 'Family Friendly'
+    title: 'Nature & Wildlife',
+    subheading: 'Explore Port Stephens great outdoors',
+    imgPath: AppSettings.imgfolder + 'nature.jpg',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/nature-and-wildlife',
+    relatedSearchSelection: 'Nature & Wildlife'
 }];
 
 
 // The main menu for this app - Should only be updated by the developer
 AppSettings.mainMenu = [{
-    title: 'Home',
-    group: 'Group 1',
-    id: 'homeSection',
-    collectionType: null,
-    firstPage: {
-        xtype: 'homePage',
-        title: AppSettings.appAreaName
-    }
-}, {
+        title: 'Home',
+        group: 'Group 1',
+        id: 'homeSection',
+        collectionType: null,
+        firstPage: {
+            xtype: 'homePage',
+            title: AppSettings.appAreaName
+        }
+    }, {
 
-    title: 'About ' + AppSettings.appAreaName,
-    group: 'Group 1',
-    id: 'aboutSection',
-    firstPage: {
-        xtype: 'contentPage',
         title: 'About ' + AppSettings.appAreaName,
-        contentPath: AppSettings.getSMPSectionURL() + '/about-central-coast-nsw'
-    }
-}, {
+        group: 'Group 1',
+        id: 'aboutSection',
+        firstPage: {
+            xtype: 'contentPage',
+            title: 'About ' + AppSettings.appAreaName,
+            contentPath: AppSettings.getSMPSectionURL() + '/about-central-coast-nsw'
+        }
+    }, {
 
-    title: 'Local Areas',
-    group: 'Group 1',
-    id: 'localSection',
-    firstPage: {
-        xtype: 'contentPage',
         title: 'Local Areas',
-        contentPath: AppSettings.getSMPSectionURL() + '/local-areas'
-    }
-}, {
-    title: 'My Itinerary',
-    group: 'Group 1',
-    id: 'myItinerarySection',
-    firstPage: {
+        group: 'Group 1',
+        id: 'localSection',
+        firstPage: {
+            xtype: 'contentPage',
+            title: 'Local Areas',
+            contentPath: AppSettings.getSMPSectionURL() + '/local-areas'
+        }
+    }, {
         title: 'My Itinerary',
-        xtype: 'myItineraryPage'
-    }
-}, {
-    title: 'My Favourites',
-    group: 'Group 1',
-    id: 'myFavouritesSection',
-    firstPage: {
+        group: 'Group 1',
+        id: 'myItinerarySection',
+        firstPage: {
+            title: 'My Itinerary',
+            xtype: 'myItineraryPage'
+        }
+    }, {
         title: 'My Favourites',
-        xtype: 'myFavouritesPage'
-    }
-}, {
-    title: 'Things to do',
-    group: 'Group 2',
-    id: 'thingsToDoSection',
-    collectionType: 'attr',
-    firstPage: {
+        group: 'Group 1',
+        id: 'myFavouritesSection',
+        firstPage: {
+            title: 'My Favourites',
+            xtype: 'myFavouritesPage'
+        }
+    }, {
         title: 'Things to do',
-        xtype: 'thingsToDoCatigoriesPage',
-        contentPath: AppSettings.getSMPSectionURL() + '/things-to-do'
-    }
-}, {
-    title: 'Dining & Entertainment',
-    group: 'Group 2',
-    id: 'foodAndWineSection',
-    collectionType: 'restaurants',
-    firstPage: {
+        group: 'Group 2',
+        id: 'thingsToDoSection',
+        collectionType: 'attr',
+        firstPage: {
+            title: 'Things to do',
+            xtype: 'thingsToDoCatigoriesPage',
+            contentPath: AppSettings.getSMPSectionURL() + '/things-to-do'
+        }
+    }, {
         title: 'Dining & Entertainment',
-        xtype: 'productSubSection',
-        contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
-    }
-}, {
-    title: 'Accommodation',
-    group: 'Group 2',
-    id: 'accommodationSection',
-    collectionType: 'accom',
-    firstPage: {
+        group: 'Group 2',
+        id: 'foodAndWineSection',
+        collectionType: 'restaurants',
+        firstPage: {
+            title: 'Dining & Entertainment',
+            xtype: 'productSubSection',
+            contentPath: AppSettings.getSMPSectionURL() + '/dining-and-entertainment'
+        }
+    }, {
         title: 'Accommodation',
+        group: 'Group 2',
+        id: 'accommodationSection',
         collectionType: 'accom',
-        xtype: 'searchPage'
-    }
-}, {
-    title: 'Events',
-    group: 'Group 2',
-    id: 'eventsSection',
-    collectionType: 'event',
-    firstPage: {
-        xtype: 'eventsPage',
+        firstPage: {
+            title: 'Accommodation',
+            collectionType: 'accom',
+            xtype: 'searchPage'
+        }
+    }, {
         title: 'Events',
-        rightBtn: 'searchBtn',
-        contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
-    }
-}, {
-    title: 'Services & Facilities',
-    group: 'Group 3',
-    id: 'servicesSection',
-    firstPage: {
+        group: 'Group 2',
+        id: 'eventsSection',
+        collectionType: 'event',
+        firstPage: {
+            xtype: 'eventsPage',
+            title: 'Events',
+            rightBtn: 'searchBtn',
+            contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
+        }
+    }, {
         title: 'Services & Facilities',
-        xtype: 'servicesAndFacilitiesPage'
-    }
-}, {
-    title: 'Hire',
-    group: 'Group 3',
-    id: 'hireSection',
-    firstPage: {
+        group: 'Group 3',
+        id: 'servicesSection',
+        firstPage: {
+            title: 'Services & Facilities',
+            xtype: 'servicesAndFacilitiesPage'
+        }
+    }, {
         title: 'Hire',
-        collectionType: 'hire',
-        xtype: 'searchPage'
-    }
-}, {
-    title: 'Tours',
-    group: 'Group 3',
-    id: 'toursSection',
-    firstPage: {
+        group: 'Group 3',
+        id: 'hireSection',
+        firstPage: {
+            title: 'Hire',
+            collectionType: 'hire',
+            xtype: 'searchPage'
+        }
+    }, {
         title: 'Tours',
-        collectionType: 'tour',
-        xtype: 'searchPage'
-    }
-},
-/**
+        group: 'Group 3',
+        id: 'toursSection',
+        firstPage: {
+            title: 'Tours',
+            collectionType: 'tour',
+            xtype: 'searchPage'
+        }
+    },
+    /**
 {
     title: 'Deals',
     group: 'Group 3',
@@ -373,111 +348,112 @@ AppSettings.mainMenu = [{
         xtype: 'searchPage'
     }
 }, **/
-{
-    title: 'Alerts',
-    group: 'Group 4',
-    id: 'alertsSection',
-    firstPage: {
+    {
         title: 'Alerts',
-        xtype: 'alertsPage'
-    }
-}, {
-    title: 'Map',
-    group: 'Group 4',
-    id: 'areaMap',
-    firstPage: {
+        group: 'Group 4',
+        id: 'alertsSection',
+        firstPage: {
+            title: 'Alerts',
+            xtype: 'alertsPage'
+        }
+    }, {
         title: 'Map',
-        xtype: 'directionsPage',
-        address: {
-            Street: '',
-            Suburb: 'Gosford',
-            State: 'NSW',
-            Postcode: 2250
-        },
-        latlon: AppSettings.center,
-        zoomLevel: 11
-    }
-}, {
-    title: 'Weather',
-    group: 'Group 4',
-    id: 'currentWeather',
-    firstPage: {
+        group: 'Group 4',
+        id: 'areaMap',
+        firstPage: {
+            title: 'Map',
+            xtype: 'directionsPage',
+            address: {
+                Street: '',
+                Suburb: 'Gosford',
+                State: 'NSW',
+                Postcode: 2250
+            },
+            latlon: AppSettings.center,
+            zoomLevel: 11
+        }
+    }, {
         title: 'Weather',
-        xtype: 'weatherPage'
-    }
-}, {
-    title: 'Currency Converter',
-    group: 'Group 4',
-    id: 'currencyConverter',
-    firstPage: {
+        group: 'Group 4',
+        id: 'currentWeather',
+        firstPage: {
+            title: 'Weather',
+            xtype: 'weatherPage'
+        }
+    }, {
         title: 'Currency Converter',
-        xtype: 'currencyConverterPage'
-    }
-}, {
-    title: 'Visitor Information Centres',
-    group: 'Group 5',
-    id: 'visitorInoSection',
-    firstPage: {
+        group: 'Group 4',
+        id: 'currencyConverter',
+        firstPage: {
+            title: 'Currency Converter',
+            xtype: 'currencyConverterPage'
+        }
+    }, {
         title: 'Visitor Information Centres',
-        collectionType: 'vic',
-        xtype: 'searchPage'
-    }
-}, {
-    title: 'About Destination NSW',
-    group: 'Group 5',
-    id: 'aboutDNSWSection',
-    firstPage: {
+        group: 'Group 5',
+        id: 'visitorInoSection',
+        firstPage: {
+            title: 'Visitor Information Centres',
+            collectionType: 'vic',
+            xtype: 'searchPage'
+        }
+    }, {
         title: 'About Destination NSW',
-        xtype: 'contentPage',
-        contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
-    }
-}, {
-    title: 'Other NSW Apps',
-    group: 'Group 5',
-    id: 'otherAppsSection',
-    firstPage: {
-        title: 'Other NSW apps',
-        xtype: 'otherAppsPage'
-    }
-}, {
-    title: 'Settings',
-    group: 'Group 6',
-    id: 'settingsSection',
-    firstPage: {
+        group: 'Group 5',
+        id: 'aboutDNSWSection',
+        firstPage: {
+            title: 'About Destination NSW',
+            xtype: 'contentPage',
+            contentPath: AppSettings.getSMPSectionURL() + '/about-destination-nsw'
+        }
+    }, {
+        title: 'Other NSW Apps',
+        group: 'Group 5',
+        id: 'otherAppsSection',
+        firstPage: {
+            title: 'Other NSW apps',
+            xtype: 'otherAppsPage'
+        }
+    }, {
         title: 'Settings',
-        xtype: 'settingsPage'
+        group: 'Group 6',
+        id: 'settingsSection',
+        firstPage: {
+            title: 'Settings',
+            xtype: 'settingsPage'
+        }
     }
-}];
+];
 
 //////////////////////////////////////////////////////////////////////
 // Home Options
 //////////////////////////////////////////////////////////////////////
 
 AppSettings.homeMenu = [{
-                    xtype: 'button',
-                    html: "<span class='icon'></span><span>Accommodation</span>",
-                    cls: 'accomHome',
-                    action: 'changeSection',
-                    sectionId: 'accommodationSection'
-                }, { // Tours
-                    xtype: 'button',
-                    html: "<span class='icon'></span><span>Events</span>",
-                    cls: 'eventsHome',
-                    action: 'changeSection',
-                    sectionId: 'eventsSection'
-                }, {
-                    xtype: 'button',
-                    html: "<span class='icon'></span><span>My Itinerary</span>",
-                    cls: 'itineraryHome',
-                    action: 'changeSection',
-                    sectionId: 'myItinerarySection'
-                }, { // Local Areas
-                    xtype: 'button',
-                    html: "<span class='icon'></span><span>Local Areas</span>",
-                    cls: 'localHome',
-                    action: 'changeSection',
-                    sectionId: 'localSection'
-                }];
+    xtype: 'button',
+    html: "<span class='icon'></span><span>Accommodation</span>",
+    cls: 'accomHome',
+    action: 'changeSection',
+    sectionId: 'accommodationSection'
+}, {
+    xtype: 'button',
+    html: "<span class='icon'></span><span>Tours</span>",
+    cls: 'toursHome',
+    action: 'changeSection',
+    sectionId: 'toursSection'
+}, { // Tours
+    xtype: 'button',
+    html: "<span class='icon'></span><span>My Itinerary</span>",
+    cls: 'itineraryHome',
+    action: 'changeSection',
+    sectionId: 'myItinerarySection'
+}, { // Local Areas
+    xtype: 'button',
+    html: "<span class='icon'></span><span>Local Areas</span>",
+    cls: 'localHome',
+    action: 'changeSection',
+    sectionId: 'localSection'
+}];
 
 //////////////////////////////////////////////////////////////////////
 // CONSTANTS
@@ -510,4 +486,3 @@ AppSettings.imageResizing = {
         remote: true
     }]
 };
-

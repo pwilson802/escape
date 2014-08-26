@@ -77,7 +77,8 @@ Ext.define("escape.view.page.Settings", {
                     labelWidth: '60%',
                     xtype: 'togglefield',
                     itemId:'offlineMap',
-                    value: offlineMapsToggleValue
+                    value: offlineMapsToggleValue,
+                    hidden: (AppSettings.mapsTilesPath) ? false : true
                 }]
             }, {
                 xtype: 'fieldset',

@@ -34,6 +34,8 @@ Ext.application({
             this.onDeviceReady();
         }, this);
         task.delay(3000);
+
+
     },
     /**
      *   Controls the back button action for android
@@ -103,6 +105,7 @@ Ext.application({
         }
     },
     startApp: function() {
+
         // create the favourites table
         var db = escape.utils.DatabaseManager.getBDConn('user');
         escape.model.Content.checkOfflineSettings();
