@@ -129,10 +129,10 @@ AppSettings.twitter = {
 // Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 61425,
-    lat: -33.4351,
-    lon: 151.3614,
-    name: 'Gosford'
+ stationId: 61425,
+ lat: -33.4351,
+ lon: 151.3614,
+ name: 'Gosford'
 }];
 //////////////////////////////////////////////////////////////////////
 // SERVICES

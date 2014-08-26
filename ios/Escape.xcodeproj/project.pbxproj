@@ -879,9 +879,6 @@
 					000FD06C1782912700A3C3B2 = {
 						DevelopmentTeam = ASW5WVHNWT;
 					};
-					008421571804B93A00038781 = {
-						DevelopmentTeam = ASW5WVHNWT;
-					};
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = ASW5WVHNWT;
 					};
