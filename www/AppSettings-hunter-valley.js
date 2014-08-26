@@ -10,7 +10,7 @@ AppSettings.appAreaName = 'Hunter Valley';
 // path to load unqiue images for the app from
 AppSettings.imgfolder = 'resources/app-images/hunter-valley/';
 // Path to load images from
-AppSettings.regionImagePath = 'resources/region-images/blue/';
+AppSettings.regionImagePath = 'resources/region-images/green/';
 // Path to load offile maps from
 AppSettings.mapsTilesPath = false;
 // offile maps max zoom level
@@ -24,13 +24,13 @@ AppSettings.appAddress = {
     suburb: 'hunter valley'
 };
 // The default map center
-AppSettings.center = [-33.424887, 151.342269];
+AppSettings.center = [-32.460350, 150.767922];
 // The bound of the app, used to find products and services
 AppSettings.bounds = {
-    "left": 151.1594,
-    "bottom": -33.0702,
-    "right": 151.6675,
-    "top": -33.5591
+    "left": 150.369873,
+    "bottom": -32.722599,
+    "right": 151.408081,
+    "top": -32.189560
 };
 // used with the center for alerts search in KM
 AppSettings.radius = 40;
@@ -82,10 +82,10 @@ AppSettings.defualtShareData = {
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
     description: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
     emailBody: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
-    appleStoreLink: 'http://redir.tiltandco.net/escape/centralcoast/itunes',
-    googlePlayLink: 'http://redir.tiltandco.net/escape/centralcoast/googleplay',
+    appleStoreLink: 'http://redir.tiltandco.net/escape/hunter/itunes',
+    googlePlayLink: 'http://redir.tiltandco.net/escape/hunter/googleplay',
     // maybe chnage picture
-    picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
+    picture: 'http://images2.visitnsw.com/sites/default/files/galleries/hot-air-ballooning.jpg'
 
 
 
@@ -96,7 +96,7 @@ AppSettings.facebook = {
     // FACEBOOK APP ID
     secret: "9079d25a28945c3d9e6ac6ec880b6197",
     // FACEBOOK APP SECRET
-    redirectUrl: "http://www.sydney.com/",
+    redirectUrl: "http://www.visitnsw.com/",
     // CHANGE THIS THE USER WILL SEE IT AFTER THEY LOGIN
     type: "user_agent",
     // LEAVE THIS
@@ -145,7 +145,7 @@ AppSettings.weatherStations = [{
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
     url: 'http://api.sensis.com.au/ob-20110511/prod/search',
-    location: "Central Coast NSW" // ** You will need to updated this
+    location: "Hunter Valley NSW" // ** You will need to updated this
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
@@ -271,7 +271,7 @@ AppSettings.mainMenu = [{
         firstPage: {
             xtype: 'contentPage',
             title: 'About ' + AppSettings.appAreaName,
-            contentPath: AppSettings.getSMPSectionURL() + '/about-central-coast-nsw'
+            contentPath: AppSettings.getSMPSectionURL() + '/about-port-stephens-nsw'
         }
     }, {
 
@@ -337,8 +337,7 @@ AppSettings.mainMenu = [{
         firstPage: {
             xtype: 'eventsPage',
             title: 'Events',
-            rightBtn: 'searchBtn',
-            contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
+            rightBtn: 'searchBtn'
         }
     }, {
         title: 'Services & Facilities',

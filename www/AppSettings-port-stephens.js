@@ -12,7 +12,7 @@ AppSettings.imgfolder = 'resources/app-images/port-stephens/';
 // Path to load images from
 AppSettings.regionImagePath = 'resources/region-images/blue/';
 // Path to load offile maps from
-AppSettings.mapsTilesPath = AppSettings.imgfolder + 'maptiles/';
+AppSettings.mapsTilesPath =false;
 // offile maps max zoom level
 AppSettings.offlineMapsMaxZoom = 14;
 // Website URL sydney.com or visitnsw.com
@@ -24,22 +24,22 @@ AppSettings.appAddress = {
     suburb: 'port stephens'
 };
 // The default map center
-AppSettings.center = [-33.424887, 151.342269];
+AppSettings.center = [-32.685383, 152.034096];
 // The bound of the app, used to find products and services
 AppSettings.bounds = {
-    "left": 151.1594,
-    "bottom": -33.0702,
-    "right": 151.6675,
-    "top": -33.5591
+    "left": 151.804962,
+    "bottom":-32.862286,
+    "right": 152.266388,
+    "top": -32.579221
 };
 // used with the center for alerts search in KM
 AppSettings.radius = 40;
 // The detinations to perform all funnel back serches within
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
-AppSettings.destinationWebpath = '/north-coast/';
+AppSettings.destinationWebpath = '/north-coast/port-stephens-area/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
-    name: "Gosford-Area",
+    name: "Port-Stephens-Area",
     towns: [{
         name: "Nelson Bay"
     }, {
@@ -70,10 +70,10 @@ AppSettings.defualtShareData = {
     defaultMessage: 'Check out the ' + AppSettings.appAreaName + ' App on the app store',
     description: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
     emailBody: 'The ' + AppSettings.appAreaName + ' App has been developed by Destination NSW to assist visitors in planning their journey to the ' + AppSettings.appAreaName + '.',
-    appleStoreLink: 'http://redir.tiltandco.net/escape/centralcoast/itunes',
-    googlePlayLink: 'http://redir.tiltandco.net/escape/centralcoast/googleplay',
+    appleStoreLink: 'http://redir.tiltandco.net/escape/portstephens/itunes',
+    googlePlayLink: 'http://redir.tiltandco.net/escape/portstephens/googleplay',
     // maybe chnage picture
-    picture: 'http://getconnected.dnsw.com.au/multimedia/GTOPromo__9131570_AF02_JWP2584.jpg'
+    picture: 'http://images2.visitnsw.com/sites/default/files/header-images/1695/zenith-beach-port-stephens.jpg'
 
 
 
@@ -84,7 +84,7 @@ AppSettings.facebook = {
     // FACEBOOK APP ID
     secret: "9079d25a28945c3d9e6ac6ec880b6197",
     // FACEBOOK APP SECRET
-    redirectUrl: "http://www.sydney.com/",
+    redirectUrl: "http://www.visitnsw.com/",
     // CHANGE THIS THE USER WILL SEE IT AFTER THEY LOGIN
     type: "user_agent",
     // LEAVE THIS
@@ -123,7 +123,7 @@ AppSettings.weatherStations = [{
 AppSettings.sensis = {
     ApiKey: 'ajjxy6c2uwu6gsr6gwtwbmr5',
     url: 'http://api.sensis.com.au/ob-20110511/prod/search',
-    location: "Central Coast NSW" // ** You will need to updated this
+    location: "Port Stephens NSW" // ** You will need to updated this
 };
 AppSettings.whereis = {
     token: '8348923927920532480',
@@ -241,7 +241,7 @@ AppSettings.mainMenu = [{
         firstPage: {
             xtype: 'contentPage',
             title: 'About ' + AppSettings.appAreaName,
-            contentPath: AppSettings.getSMPSectionURL() + '/about-central-coast-nsw'
+            contentPath: AppSettings.getSMPSectionURL() + '/about-port-stephens-nsw'
         }
     }, {
 
@@ -307,8 +307,7 @@ AppSettings.mainMenu = [{
         firstPage: {
             xtype: 'eventsPage',
             title: 'Events',
-            rightBtn: 'searchBtn',
-            contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/arts,-culture'
+            rightBtn: 'searchBtn'
         }
     }, {
         title: 'Services & Facilities',
