@@ -63,7 +63,6 @@ Ext.define('escape.controller.Search', {
             }
         }
     },
-
     querySeclected: function(list, record) {
         var newquery = record.getData().suggestion;
         this.getSearchField().setValue(newquery);
