@@ -36,7 +36,7 @@ AppSettings.bounds = {
 AppSettings.radius = 40;
 // The detinations to perform all funnel back serches within
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
-AppSettings.destinationWebpath = '/hunter-valley/';
+AppSettings.destinationWebpath = '/hunter/';
 // List of sub desinations to be used in the search. the Local areas listed at the bottom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
     name: "Hunter",
