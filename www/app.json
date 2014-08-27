@@ -74,13 +74,13 @@
      */
     "extras": [
         "resources/region-images/blue",
-        "resources/app-images/central-coast/",
+        "resources/app-images/port-stephens/",
         "resources/region-images/general",
         "resources/icons",
         "resources/fonts",
         "resources/js",
         "config.xml",
-        "AppSettings-central-coast.js"
+        "AppSettings-port-stephens.js"
     ],
 
     /**
