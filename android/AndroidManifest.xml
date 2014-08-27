@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dnsw.spp.portstephens"
+    package="com.dnsw.spp.huntervalley"
     android:versionCode="1"
     android:versionName="1" >
     <uses-sdk

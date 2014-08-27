@@ -73,14 +73,14 @@
      * Extra resources to be copied along when build
      */
     "extras": [
-        "resources/region-images/blue",
-        "resources/app-images/port-stephens/",
+        "resources/region-images/green",
+        "resources/app-images/hunter-valley/",
         "resources/region-images/general",
         "resources/icons",
         "resources/fonts",
         "resources/js",
         "config.xml",
-        "AppSettings-port-stephens.js"
+        "AppSettings-hunter-valley.js"
     ],
 
     /**

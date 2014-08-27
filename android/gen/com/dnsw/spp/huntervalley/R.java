@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.dnsw.spp.portstephens;
+package com.dnsw.spp.huntervalley;
 
 public final class R {
     public static final class attr {
