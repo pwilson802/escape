@@ -271,7 +271,7 @@ AppSettings.mainMenu = [{
         firstPage: {
             xtype: 'contentPage',
             title: 'About ' + AppSettings.appAreaName,
-            contentPath: AppSettings.getSMPSectionURL() + '/about-port-stephens-nsw'
+            contentPath: AppSettings.getSMPSectionURL() + '/about-hunter-valley'
         }
     }, {
 
