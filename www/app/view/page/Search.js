@@ -1,7 +1,7 @@
 Ext.define("escape.view.page.Search", {
     extend: 'escape.view.page.Page',
     xtype: 'searchPage',
-    requires: ['Ext.field.Select', 'Ext.form.Panel','Ext.field.DatePicker'],
+    requires: ['Ext.field.Select', 'Ext.form.Panel', 'Ext.field.DatePicker'],
     config: {
         cls: 'searchPage formPage',
         collectionType: null,
@@ -21,11 +21,17 @@ Ext.define("escape.view.page.Search", {
             var townOptions = [];
             for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
                 currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
-                if ((newValue.raw.text == AppSettings.appSubDestination[i].name)||(newValue.raw.text == 'All')) { // If we find the town we need, or are on 'All'
+                if ((newValue.raw.text == AppSettings.appSubDestination[i].name) || (newValue.raw.text == 'All')) { // If we find the town we need, or are on 'All'
                     for (var k = 0; k < AppSettings.appSubDestination[i].towns.length; k++) {
+                        var town = AppSettings.appSubDestination[i].towns[k];
+                        var valueStr = town.name.toLowerCase();
+                        if (town.value) {
+                            valueStr = town.value.toLowerCase();
+                        }
+                        console.log('valueStr', valueStr);
                         townOptions.push({
-                            text: AppSettings.appSubDestination[i].towns[k].name,
-                            value: currentTown + '/' + AppSettings.appSubDestination[i].towns[k].name.toLowerCase()
+                            text: town.name,
+                            value: currentTown + '/' + valueStr
                         });
                     }
                 }
@@ -35,7 +41,7 @@ Ext.define("escape.view.page.Search", {
                 var textB = b.text.toUpperCase();
                 return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
             });
-            
+
             townOptions.unshift({
                 text: 'All',
                 value: ''
@@ -60,154 +66,170 @@ Ext.define("escape.view.page.Search", {
         this.setPageTrackingId(this.getCollectionType());
 
 
-        if (!Ext.device.Connection.isOnline()){
+        if (!Ext.device.Connection.isOnline()) {
             // show offline messgae
-             this.setItems([{xtype:'offlineMessage'}]);
+            this.setItems([{
+                xtype: 'offlineMessage'
+            }]);
         } else {
             // build destination options
-        var destinationOptions = [{
-            text: 'All',
-            value: AppSettings.destinationWebpath
-        }];
-        for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
-            destinationOptions.push({
-                text: AppSettings.appSubDestination[i].name,
-                value: AppSettings.appSubDestination[i].name.toLowerCase()
-            });
-        }
-
-        var townOptions = [];
-        var currentTown;
-        for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
-            currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
-            for (var k = 0; k < AppSettings.appSubDestination[i].towns.length; k++) {
-                townOptions.push({
-                    text: AppSettings.appSubDestination[i].towns[k].name,
-                    value: currentTown + '/' + AppSettings.appSubDestination[i].towns[k].name.toLowerCase()
+            var destinationOptions = [{
+                text: 'All',
+                value: AppSettings.destinationWebpath
+            }];
+            for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
+                destinationOptions.push({
+                    text: AppSettings.appSubDestination[i].name,
+                    value: AppSettings.appSubDestination[i].name.toLowerCase()
                 });
             }
-        }
 
-        townOptions.sort(function(a, b) {
-            var textA = a.text.toUpperCase();
-            var textB = b.text.toUpperCase();
-            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-        });
+            var townOptions = [];
+            var currentTown;
+            for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
+                currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
+                for (var k = 0; k < AppSettings.appSubDestination[i].towns.length; k++) {
+                    var town = AppSettings.appSubDestination[i].towns[k];
+                    var valueStr = town.name.toLowerCase();
+                    if (town.value) {
+                        valueStr = town.value.toLowerCase();
+                    }
+                    console.log('valueStr', valueStr);
+                    townOptions.push({
+                        text: town.name,
+                        value: currentTown + '/' + valueStr
+                    });
+                }
+            }
 
-        townOptions.unshift({
-            text: 'All',
-            value: ''
-        });
+            townOptions.sort(function(a, b) {
+                var textA = a.text.toUpperCase();
+                var textB = b.text.toUpperCase();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            });
 
-        //
-        var savedValues =  this.getSearchValues();
-        var seachString = (savedValues) ? savedValues.search : '';
-        var aroundMeValue = (savedValues) ? savedValues.distance : -1;
-        var destinationValue = (savedValues) ? savedValues.destination : 'all';
-        this.setItems([{
-            xtype: 'formpanel',
-            layout: 'hbox',
-            width: '100%',
-            flex: 1,
-            items: [{
-                xtype: 'toolbar',
-                docked: 'top',
-                cls: 'searchBar',
+            townOptions.unshift({
+                text: 'All',
+                value: ''
+            });
+
+            //
+            var savedValues = this.getSearchValues();
+            var seachString = (savedValues) ? savedValues.search : '';
+            var aroundMeValue = (savedValues) ? savedValues.distance : -1;
+            var destinationValue = (savedValues) ? savedValues.destination : 'all';
+
+
+            console.log('destinationOptions.length: ' + destinationOptions.length);
+            console.log('townOptions.length: ' + townOptions.length);
+
+
+            this.setItems([{
+                xtype: 'formpanel',
                 layout: 'hbox',
-                items: [{
-                    xtype: 'searchfield',
-                    name: 'search',
-                    value: seachString,
-                    flex: 1
-                }]
-            }, {
-                xtype: 'container',
-                itemId: 'searchOptions',
-                cls: 'searchOptions',
+                width: '100%',
                 flex: 1,
-                padding: '10px',
-                defaults: {
-                    margin: '0 0 10px 0'
-                },
                 items: [{
-                    xtype: 'selectField',
-                    label: 'Around me',
-                    labelWidth: '100px',
-                    name: 'distance',
-                    value : aroundMeValue,
-                    options: [{
-                        text: 'Off',
-                        value: -1
-                    },{
-                        text: '1 km',
-                        value: 1
-                    }, {
-                        text: '5 km',
-                        value: 5
-                    }, {
-                        text: '10 km',
-                        value: 10
-                    }, {
-                        text: '15 km',
-                        value: 15
-                    }, {
-                        text: '25 km',
-                        value: 25
-                    }, {
-                        text: '50 km',
-                        value: 50
-                    }, {
-                        text: '75 km',
-                        value: 75
-                    }, {
-                        text: '100 km',
-                        value: 100
-                    }, {
-                        text: '150 km',
-                        value: 150
-                    }, {
-                        text: '200 km',
-                        value: 200
+                    xtype: 'toolbar',
+                    docked: 'top',
+                    cls: 'searchBar',
+                    layout: 'hbox',
+                    items: [{
+                        xtype: 'searchfield',
+                        name: 'search',
+                        value: seachString,
+                        flex: 1
                     }]
                 }, {
-                    xtype: 'selectField',
-                    label: 'Area',
-                    name: 'destination',
-                    labelWidth: '100px',
-                    options: destinationOptions,
-                    value: destinationValue,
-                    listeners:{
-                        change: this.destinationChange
-                    }
-                }, {
-                    xtype: 'selectField',
-                    label: 'Town',
-                    name: 'town',
-                    labelWidth: '100px',
-                    options: townOptions,
-                    value: 'All',
-                    listeners:{
-                        change: this.townChange
-                    }
-                }]
+                    xtype: 'container',
+                    itemId: 'searchOptions',
+                    cls: 'searchOptions',
+                    flex: 1,
+                    padding: '10px',
+                    defaults: {
+                        margin: '0 0 10px 0'
+                    },
+                    items: [{
+                        xtype: 'selectField',
+                        label: 'Around me',
+                        labelWidth: '100px',
+                        name: 'distance',
+                        value: aroundMeValue,
+                        options: [{
+                            text: 'Off',
+                            value: -1
+                        }, {
+                            text: '1 km',
+                            value: 1
+                        }, {
+                            text: '5 km',
+                            value: 5
+                        }, {
+                            text: '10 km',
+                            value: 10
+                        }, {
+                            text: '15 km',
+                            value: 15
+                        }, {
+                            text: '25 km',
+                            value: 25
+                        }, {
+                            text: '50 km',
+                            value: 50
+                        }, {
+                            text: '75 km',
+                            value: 75
+                        }, {
+                            text: '100 km',
+                            value: 100
+                        }, {
+                            text: '150 km',
+                            value: 150
+                        }, {
+                            text: '200 km',
+                            value: 200
+                        }]
+                    }, {
+                        xtype: 'selectField',
+                        label: 'Area',
+                        name: 'destination',
+                        labelWidth: '100px',
+                        options: destinationOptions,
+                        hidden: (destinationOptions.length > 2) ? false : true,
+                        value: destinationValue,
+                        listeners: {
+                            change: this.destinationChange
+                        }
+                    }, {
+                        xtype: 'selectField',
+                        label: 'Town',
+                        name: 'town',
+                        labelWidth: '100px',
+                        hidden: (townOptions.length > 2) ? false : true,
+                        options: townOptions,
+                        value: 'All',
+                        listeners: {
+                            change: this.townChange
+                        }
+                    }]
 
-            }, {
-                xtype: 'container',
-                docked: 'bottom',
-                cls: 'btnsArea',
-                padding: '10px',
-                defaults: {
-                    margin: '10px 0 0 0'
-                },
-                items: [{
-                    xtype: 'button',
-                    text: 'Search',
-                    action: 'search',
-                    cls: 'search'
+                }, {
+                    xtype: 'container',
+                    docked: 'bottom',
+                    cls: 'btnsArea',
+                    padding: '10px',
+                    defaults: {
+                        margin: '10px 0 0 0'
+                    },
+                    items: [{
+                        xtype: 'button',
+                        text: 'Search',
+                        action: 'search',
+                        cls: 'search'
+                    }]
                 }]
-            }]
-        }]);
+            }]);
         }
-        
+
     }
 });

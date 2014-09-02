@@ -36,7 +36,7 @@ AppSettings.bounds = {
 AppSettings.radius = 40;
 // The detinations to perform all funnel back serches within
 // look at the structure of the path on http://www.visitnsw.com/ Example http://www.visitnsw.com/destinations/blue-mountains
-AppSettings.destinationWebpath = 'port-stephens-area';
+AppSettings.destinationWebpath = 'port-stephens-area/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
     name: "Port-Stephens-Area",
@@ -210,7 +210,7 @@ AppSettings.attractionCats = [{
     relatedSearchSelection: 'Food and Wine'
 }, {
     title: 'Relaxation',
-    subheading: 'Lay back at relax in Port Stephens',
+    subheading: 'Lay back and relax in Port Stephen',
     imgPath: AppSettings.imgfolder + 'relaxation.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/relaxation',
     relatedSearchSelection: 'Relaxation'
