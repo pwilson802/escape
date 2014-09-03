@@ -39,23 +39,31 @@ AppSettings.radius = 40;
 AppSettings.destinationWebpath = '/hunter/';
 // List of sub desinations to be used in the search. the Local areas listed at the bottom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
-    name: "Hunter",
+    name: "hunter",
     towns: [{
-        name: "Broke"
+        name: "Broke",
+        value: "hunter-valley/Broke"
     }, {
-        name: "Cessnock"
+        name: "Cessnock",
+        value: "hunter-valley/Cessnock"
     }, {
-        name: "Maitland"
+        name: "Maitland",
+        value: "hunter-valley/Maitland"
     }, {
-        name: "Morpeth"
+        name: "Morpeth",
+        value: "hunter-valley/Morpeth"
     }, {
-        name: "Paterson"
+        name: "Paterson",
+        value: "hunter-valley/Paterson"
     }, {
-        name: "Pokolbin"
+        name: "Pokolbin",
+        value: "hunter-valley/Pokolbin"
     }, {
-        name: "Singleton"
+        name: "Singleton",
+        value: "hunter-valley/Singleton"
     }, {
-        name: "Wollombi"
+        name: "Wollombi",
+        value: "hunter-valley/Wollombi"
     }]
 }];
 // The url of the squiz search
@@ -219,6 +227,12 @@ AppSettings.attractionCats = [{
     imgPath: AppSettings.imgfolder + 'hunter-valley-wines.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/hunter-valley-wines',
     relatedSearchSelection: 'Hunter Valley Wines'
+}, {
+    title: 'Wine Tours',
+    subheading: 'Explore boutique wineries on a Hunter Valley wine tour.',
+    imgPath: AppSettings.imgfolder + 'wine-tours-dnsw.jpg',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/wine-tours',
+    relatedSearchSelection: 'Wine Tours'
 }, {
     title: 'Wineries and Vineyards',
     subheading: 'Some wineries in the Hunter date back 180 years, the Hunter is home to some of the most succesful an well known wine producers in the country.',
