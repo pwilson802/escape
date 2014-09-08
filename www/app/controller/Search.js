@@ -108,7 +108,7 @@ Ext.define('escape.controller.Search', {
                 var query = this.getSearchField().getValue();
                 var searchParams = this.getSearchParams();
                 Ext.Ajax.request({
-                    url: 'http://tnsw-search02.squiz.net/s/suggest.json',
+                    url: 'http://apps.visitnsw.com/s/suggest.json',
                     params: {
                         partial_query: query,
                         collection: searchParams.collection,
