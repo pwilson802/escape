@@ -67,6 +67,7 @@ AppSettings.appSubDestination = [{
     }]
 }];
 // The url of the squiz search
+
 AppSettings.searchURL = 'http://apps.visitnsw.com/s/search.html';
 // The name of the events calender in the database to search for events in
 AppSettings.eventCalName = 'SYDNEY EVENTS CALENDAR';
