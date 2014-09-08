@@ -1549,8 +1549,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Sydney Icon";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Sydney Launch";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1591,8 +1591,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Sydney Icon";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Sydney Launch";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1629,13 +1629,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
-					/Users/Tiltmac1/Documents/_FacebookSDK,
 					/Users/Tiltmac1/Documents/FacebookSDK,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1667,14 +1667,14 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
-					/Users/Tiltmac1/Documents/_FacebookSDK,
 					/Users/Tiltmac1/Documents/FacebookSDK,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";
@@ -1789,13 +1789,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "South Coast";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "South Coast";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
-					/Users/Tiltmac1/Documents/_FacebookSDK,
 					/Users/Tiltmac1/Documents/FacebookSDK,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1827,14 +1830,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nicholas Reynolds (P4LECR5N2F)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "South Coast";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "South Coast";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tilt and Co Pty Ltd (ASW5WVHNWT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/n/Tilt/escape/ios,
-					/Users/Tiltmac1/Documents/_FacebookSDK,
 					/Users/Tiltmac1/Documents/FacebookSDK,
+					/Users/Tiltmac1/Documents/_FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SydneyGuide/Escape-Prefix.pch";

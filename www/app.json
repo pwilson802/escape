@@ -74,13 +74,13 @@
      */
     "extras": [
         "resources/region-images/blue",
-        "resources/app-images/port-stephens/",
+        "resources/app-images/sydney/",
         "resources/region-images/general",
         "resources/icons",
         "resources/fonts",
         "resources/js",
         "config.xml",
-        "AppSettings-port-stephens.js"
+        "AppSettings-sydney.js"
     ],
 
     /**

@@ -39,7 +39,8 @@ AppSettings.radius = 40;
 AppSettings.destinationWebpath = '/central-coast/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
-    name: "Gosford-Area",
+    name: "Gosford",
+    value:'/central-coast/gosford-area',
     towns: [{
         name: "Avoca Beach"
     }, {
@@ -54,7 +55,8 @@ AppSettings.appSubDestination = [{
         name: "Woy Woy"
     }]
 }, {
-    name: "Wyong-Area",
+    name: "Wyong",
+    value:'/central-coast/wyong-area',
     towns: [{
         name: "Bateau Bay"
     }, {
@@ -79,7 +81,7 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '4220;371;142;145;144;4201;4146;141;189;4221;190;4204;4222;143;191;199;183;4202';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'central-coast';
 AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {

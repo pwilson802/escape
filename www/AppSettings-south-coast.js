@@ -40,6 +40,7 @@ AppSettings.destinationWebpath = '/south-coast/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
     name: "Batemans Bay and Eurobodalla",
+    value:"/south-coast/batemans-bay-and-eurobodalla/",
     towns: [{
         name: 'Batemans Bay'
     }, {
@@ -61,6 +62,7 @@ AppSettings.appSubDestination = [{
     }]
 }, {
     name: "Jervis Bay and Shoalhaven",
+    value:"/south-coast/jervis-bay-and-shoalhaven/",
     towns: [{
         name: 'Bawley Point'
     }, {
@@ -102,6 +104,7 @@ AppSettings.appSubDestination = [{
     }]
 }, {
     name: "Kiama Area",
+    value:"/south-coast/kiama-area/",
     towns: [{
         name: 'Gerringong'
     }, {
@@ -113,6 +116,7 @@ AppSettings.appSubDestination = [{
     }]
 }, {
     name: "Merimbula and Sapphire Coast",
+    value:"/south-coast/merimbulap-and-sapphire-coast/",
     towns: [{
         name: 'Bega'
     }, {
@@ -128,6 +132,7 @@ AppSettings.appSubDestination = [{
     }]
 }, {
     name: "Shellharbour",
+    value:"/south-coast/shellharbour-area/",
     towns: [{
         name: 'Shellharbour'
     }, {
@@ -135,6 +140,7 @@ AppSettings.appSubDestination = [{
     }]
 }, {
     name: "Wollongong and Surrounds",
+    value:"/south-coast/wollongong-and-surrounds/",
     towns: [{
         name: 'Bulli'
     }, {
@@ -155,7 +161,7 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '331;399;238;271;268;266;270;239;240;4171;269;267;400;4172;401;244;245;4212;246;247;248;4211;249;250;4213;251;252;253;254;276;255;275;4173;256;257;258;4207;259;260;261;262;403;272;241;242;243;274;4175;273;4210;4208;277;263;404;278;264;4176;279;265';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'south-coast';
 AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {

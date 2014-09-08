@@ -23,7 +23,7 @@
 		<string>Icon-58.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>au.com.dnsw.spp.tilt.bluemountains</string>
+	<string>com.tiltandco.dnsw.spp.bluemountains</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

@@ -39,14 +39,15 @@ AppSettings.radius = 50;
 AppSettings.destinationWebpath = '/blue-mountains/';
 // List of sub desinations to be used in the search. the Local areas listed at the bootom of the destinations page on visitnsw.com
 AppSettings.appSubDestination = [{
-    name: "Katoomba-Area",
+    name: "Katoomba Area",
+    value: '/blue-mountains/katoomba-area/',
     towns: [{
         name: "Blackheath"
     }, {
         name: "Faulconbridge"
     }, {
         name: "Katoomba"
-    }, { 
+    }, {
         name: "Leura"
     }, {
         name: "Megalong Valley"
@@ -58,14 +59,16 @@ AppSettings.appSubDestination = [{
         name: "Wentworth Falls"
     }]
 }, {
-    name: "Lithgow-Area",
+    name: "Lithgow Area",
+    value: '/blue-mountains/lithgow-area/',
     towns: [{
         name: "Hartley"
     }, {
         name: "Lithgow"
     }]
 }, {
-    name: "Oberon-Area",
+    name: "Oberon Area",
+    value: '/blue-mountains/oberon-area/',
     towns: [{
         name: "Jenolan Caves"
     }, {
@@ -82,7 +85,7 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '324;335;4113;9;1;3;10;11;8;4115;4;336;12;6;4116;337;2;5;4117';
 // The smartphone cms section
-AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'blue-mountains';
 AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {

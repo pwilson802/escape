@@ -8,23 +8,8 @@
 	<string>South Coast</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon-57.png</string>
-		<string>Icon-114.png</string>
-		<string>Icon-72.png</string>
-		<string>Icon-72@2x.png</string>
-		<string>Icon.png</string>
-		<string>Icon.png</string>
-		<string>Icon-60.png</string>
-		<string>Icon-60@2x.png</string>
-		<string>Icon-40.png</string>
-		<string>Icon-40@2x.png</string>
-		<string>Icon-29.png</string>
-		<string>Icon-58.png</string>
-	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.tiltandco.dnsw.spp.centralcoast</string>
+	<string>com.tiltandco.dnsw.spp.southcoast</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -37,12 +22,12 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>FacebookAppID</key>
+	<string>1399922596928528</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
-	<key>UILaunchImageFile</key>
-	<string>Default.png</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

@@ -20,7 +20,11 @@ Ext.define("escape.view.page.Search", {
             // If we have a new area, we're going to have to reload the towns.
             var townOptions = [];
             for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
-                currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
+                var subArea = AppSettings.appSubDestination[i];
+                currentTown = subArea.name.toLowerCase();
+                if (subArea.value) {
+                    currentTown = subArea.value.toLowerCase();
+                }
                 if ((newValue.raw.text == AppSettings.appSubDestination[i].name) || (newValue.raw.text == 'All')) { // If we find the town we need, or are on 'All'
                     for (var k = 0; k < AppSettings.appSubDestination[i].towns.length; k++) {
                         var town = AppSettings.appSubDestination[i].towns[k];
@@ -78,23 +82,33 @@ Ext.define("escape.view.page.Search", {
                 value: AppSettings.destinationWebpath
             }];
             for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
+                var subArea = AppSettings.appSubDestination[i];
+                var value = subArea.name.toLowerCase();
+                if (subArea.value) {
+                    value = subArea.value.toLowerCase();
+                }
                 destinationOptions.push({
-                    text: AppSettings.appSubDestination[i].name,
-                    value: AppSettings.appSubDestination[i].name.toLowerCase()
+                    text: subArea.name,
+                    value: value
                 });
             }
 
             var townOptions = [];
             var currentTown;
             for (var i = 0; i < AppSettings.appSubDestination.length; i++) {
-                currentTown = AppSettings.appSubDestination[i].name.toLowerCase();
+                var subArea = AppSettings.appSubDestination[i];
+                currentTown = subArea.name.toLowerCase();
+                if (subArea.value) {
+                    currentTown = subArea.value.toLowerCase();
+                }
+                console.log('currentTown: ' + currentTown)
                 for (var k = 0; k < AppSettings.appSubDestination[i].towns.length; k++) {
                     var town = AppSettings.appSubDestination[i].towns[k];
                     var valueStr = town.name.toLowerCase();
                     if (town.value) {
                         valueStr = town.value.toLowerCase();
                     }
-                    console.log('valueStr', valueStr);
+                    console.log('valueStr', currentTown + '/' + valueStr);
                     townOptions.push({
                         text: town.name,
                         value: currentTown + '/' + valueStr

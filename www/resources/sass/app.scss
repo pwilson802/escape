@@ -16,7 +16,7 @@ $image-path: '../region-images/blue';
 
 // APP Image locations
 
-$app-image-path: '../app-images/port-stephens/';
+$app-image-path: '../app-images/sydney/';
 $general-path: '../region-images/general';
 $footer-image: 'visitnsw_footer_logo'; // 'footer_logo'; // visitnsw_footer_logo // footer_logo // central-coast-footer
 
@@ -145,7 +145,7 @@ p {
 	}
 }
 .badge {
-	background-image: url(#{$app-image-path}/badge_home.png);
+	background-image: url(#{$app-image-path}badge_home.png);
 	background-repeat: no-repeat;
 	width:118px;
 	height:118px;
