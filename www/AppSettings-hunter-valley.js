@@ -238,7 +238,7 @@ AppSettings.attractionCats = [{
     title: 'Wineries and Vineyards',
     subheading: 'Some wineries in the Hunter date back 180 years, the Hunter is home to some of the most succesful an well known wine producers in the country.',
     imgPath: AppSettings.imgfolder + 'wineries-vineyards.jpg',
-    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/wine-tours',
+    contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/wineries-and-vineyards',
     relatedSearchSelection: 'Wineries and Vineyards'
 }, {
     title: 'Family Holidays',

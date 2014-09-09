@@ -210,7 +210,7 @@ AppSettings.attractionCats = [{
     relatedSearchSelection: 'Food and Wine'
 }, {
     title: 'Relaxation',
-    subheading: 'Lay back and relax in Port Stephen',
+    subheading: 'Lay back and relax in Port Stephens',
     imgPath: AppSettings.imgfolder + 'relaxation.jpg',
     contentPath: AppSettings.getSMPSectionURL() + '/things-to-do/relaxation',
     relatedSearchSelection: 'Relaxation'
