@@ -135,17 +135,17 @@ AppSettings.twitter = {
 // Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 499,
+    stationId: 63039,
     lat: -33.7122,
     lon: 150.3087,
     name: 'Katoomba'
 }, {
-    stationId: 501,
+    stationId: 63077,
     lat: -33.7065,
     lon: 150.5848,
     name: 'Springwood'
 }, {
-    stationId: 502,
+    stationId: 63226,
     lat: -33.4769,
     lon: 150.1303,
     name: 'Lithgow'
