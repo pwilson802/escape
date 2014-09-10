@@ -209,17 +209,17 @@ AppSettings.poi = [{
 /////////////////////////////////////////////////////////////////////
 // Home Images
 AppSettings.homeImgs = [{
-    imagePath: AppSettings.imgfolder + 'home-image1.jpg',
-    altText: 'Ballooning, Hunter Valley.<br>Credit Murray Vanderveer; Destination NSW'
+    imagePath: AppSettings.imgfolder + 'home1.jpg',
+    altText: 'Young couple relax and unwind with a glass of white wine in-hand at Audrey Wilkinson\'s winery, Pokolbin<br>Credit: Anson Smart; Destination NSW'
 }, {
-    imagePath: AppSettings.imgfolder + 'home-image2.jpg',
-    altText: 'Ballooning, Hunter Valley.<br>Credit Murray Vanderveer; Destination NSW'
+    imagePath: AppSettings.imgfolder + 'home2.jpg',
+    altText: 'Landscape of Hunter Valley vineyards with barrel.<br>Credit: James Pipino; Destination NSW'
 }, {
-    imagePath: AppSettings.imgfolder + 'home-image3.jpg',
-    altText: 'Ballooning, Hunter Valley.<br>Credit Murray Vanderveer; Destination NSW'
+    imagePath: AppSettings.imgfolder + 'home3.jpg',
+    altText: 'Friends browsing the merchandise on the verandah of the General Store, Wollombi.<br>Credit: Anson Smart; Destination NSW'
 }, {
-    imagePath: AppSettings.imgfolder + 'home-image4.jpg',
-    altText: 'Aerial view of Cypress Lakes Golf and Country Club, Hunter Valley.<br>Credit: Sydney Seaplanes'
+    imagePath: AppSettings.imgfolder + 'home4.jpg',
+    altText: 'Children interacting with marine life at Manly Sea Life Sanctuary.<br>Credit: Merlin Entertainment Group'
 }];
 // Things to do sections. This list is used on the home page as well and on the things to do page
 AppSettings.attractionCats = [{
