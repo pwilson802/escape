@@ -209,27 +209,27 @@ AppSettings.twitter = {
 // Glen to provide a list of weather stations for each app
 /////////////////////////////////////////////////////////////////////
 AppSettings.weatherStations = [{
-    stationId: 537,
+    stationId: 68241,
     lat: -34.5638,
     lon: 150.79,
     name: 'Albion Park'
 }, {
-    stationId: 535,
+    stationId: 68219,
     lat: -34.3691,
     lon: 150.9291,
     name: 'Wollongong'
 }, {
-    stationId: 545,
+    stationId: 69134,
     lat: -35.7234,
     lon: 150.1872,
     name: 'Batemans Bay'
 }, {
-    stationId: 548,
+    stationId: 69002,
     lat: -36.6722,
     lon: 149.8191,
     name: 'Bega'
 }, {
-    stationId: 549,
+    stationId: 69147,
     lat: -36.9077,
     lon: 149.8989,
     name: 'Merimbula'
