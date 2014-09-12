@@ -28,8 +28,8 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "South Coast.app"
+               BlueprintIdentifier = "2FCAAF7019C15FE600164E97"
+               BuildableName = "Port Stephens copy.app"
                BlueprintName = "South Coast"
                ReferencedContainer = "container:Escape.xcodeproj">
             </BuildableReference>

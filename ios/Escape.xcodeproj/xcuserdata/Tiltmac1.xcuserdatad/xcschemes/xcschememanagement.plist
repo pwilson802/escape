@@ -21,6 +21,11 @@
 			<key>orderHint</key>
 			<integer>6</integer>
 		</dict>
+		<key>Port Stephens copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
 		<key>Port Stephens.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -32,6 +37,11 @@
 			<true/>
 			<key>orderHint</key>
 			<integer>4</integer>
+		</dict>
+		<key>Sydney copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
 		</dict>
 		<key>Sydney.xcscheme</key>
 		<dict>
@@ -68,7 +78,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>2F41C51919C1721E00D4AC90</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2FAC450219AD8AEF008FC996</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2FCAAF7019C15FE600164E97</key>
 		<dict>
 			<key>primary</key>
 			<true/>

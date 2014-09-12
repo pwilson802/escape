@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00376B1C178251BB00469595"
-               BuildableName = "Blue Mountains.app"
+               BlueprintIdentifier = "2F41C51919C1721E00D4AC90"
+               BuildableName = "Sydney copy.app"
                BlueprintName = "Blue Mountains"
                ReferencedContainer = "container:Escape.xcodeproj">
             </BuildableReference>
@@ -32,8 +32,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "Blue Mountains.app"
+            BlueprintIdentifier = "2F41C51919C1721E00D4AC90"
+            BuildableName = "Sydney copy.app"
             BlueprintName = "Blue Mountains"
             ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
@@ -51,8 +51,8 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "Blue Mountains.app"
+            BlueprintIdentifier = "2F41C51919C1721E00D4AC90"
+            BuildableName = "Sydney copy.app"
             BlueprintName = "Blue Mountains"
             ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>
@@ -69,8 +69,8 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00376B1C178251BB00469595"
-            BuildableName = "Blue Mountains.app"
+            BlueprintIdentifier = "2F41C51919C1721E00D4AC90"
+            BuildableName = "Sydney copy.app"
             BlueprintName = "Blue Mountains"
             ReferencedContainer = "container:Escape.xcodeproj">
          </BuildableReference>

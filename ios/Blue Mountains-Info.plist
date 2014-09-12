@@ -8,20 +8,10 @@
 	<string>Blue Mountains</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon-57.png</string>
-		<string>Icon-114.png</string>
-		<string>Icon-72.png</string>
-		<string>Icon-72@2x.png</string>
-		<string>Icon.png</string>
-		<string>Icon-60.png</string>
-		<string>Icon-60@2x.png</string>
-		<string>Icon-40.png</string>
-		<string>Icon-40@2x.png</string>
-		<string>Icon-29.png</string>
-		<string>Icon-58.png</string>
-	</array>
+	<key>CFBundleIcons</key>
+	<dict/>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
 	<key>CFBundleIdentifier</key>
 	<string>com.tiltandco.dnsw.spp.bluemountains</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -31,19 +21,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>3.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
 	<string></string>
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
-	<key>UILaunchImageFile</key>
-	<string>Default.png</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

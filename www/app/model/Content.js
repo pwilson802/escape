@@ -54,6 +54,7 @@ Ext.define("escape.model.Content", {
 
     },
     loadRemoteContent: function(url, callback, scope, page) {
+        console.log('loadRemoteContent');
         var loadLocal = true;
         // load the content data
         escape.model.ContentPage.getProxy().setUrl(url);
@@ -92,13 +93,16 @@ Ext.define("escape.model.Content", {
         }
     },
     loadLocalContent: function(url, callback, scope) {
+        console.log('loadLocalContent ' + url);
         var selfRef = this;
         // replace new domain name with old one for referece
-        url = url.replace('apps.visitnsw.com','www.destinationnsw.com.au');
+       // url = url.replace('apps.visitnsw.com','www.destinationnsw.com.au');
         var db = escape.utils.DatabaseManager.getBDConn('cmsPages');
         db.queryDB('SELECT * FROM Pages WHERE url = (?)', function(t, rs) {
+            console.log('page');
             // make sure the product is not database
             var page = rs.rows.item(0);
+            console.log('page',page);
 
             // make sure the page is uptodate
             var dateNow = new Date();
@@ -123,6 +127,7 @@ Ext.define("escape.model.Content", {
             }
             // return the content
         }, function(t, e) {
+            console.log('error try loading the remote data');
             // error try loading the remote data
             selfRef.loadRemoteContent(url, callback, scope);
         }, [url]);

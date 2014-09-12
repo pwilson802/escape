@@ -77,7 +77,7 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '129;130;131;363;4140;117;118;119;120;121;122;123;124;128;364;4141;125;126;127;132;133;134;135;365;4142;326';
 // The smartphone cms section
-AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'hunter-valley';
 AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {

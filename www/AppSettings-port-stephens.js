@@ -56,7 +56,7 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '171;186;380;4155';
 // The smartphone cms section
-AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'port-stephens';
 AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {

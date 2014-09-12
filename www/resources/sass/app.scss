@@ -16,9 +16,9 @@ $image-path: '../region-images/blue';
 
 // APP Image locations
 
-$app-image-path: '../app-images/sydney/';
+$app-image-path: '../app-images/south-coast/';
 $general-path: '../region-images/general';
-$footer-image: 'visitnsw_footer_logo'; // 'footer_logo'; // visitnsw_footer_logo // footer_logo // central-coast-footer
+$footer-image: 'visitnsw_footer_logo';  //    'footer_logo'  'central-coast-footer'
 
 $base-color : #f9f7f3;
 $page-bg-color : #f9f7f3;
@@ -3163,7 +3163,7 @@ p {
 	}
 
 	.badge {
-		background-image: url(#{$app-image-path}/badge_home@2x.png);
+		background-image: url(#{$app-image-path}badge_home@2x.png);
 		@include background-size(118px 118px !important); 
 	}
 

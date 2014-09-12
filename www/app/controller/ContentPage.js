@@ -30,6 +30,7 @@ Ext.define('escape.controller.ContentPage', {
         });
     },
     loadContent: function(contentPage) {
+        console.log('loadContent');
         var linkbreakDown = contentPage.getContentPath().split('smartphoneapps');
         contentPage.setPageTrackingId('smartphoneapps' + linkbreakDown[linkbreakDown.length - 1]);
         contentPage.setItems({
