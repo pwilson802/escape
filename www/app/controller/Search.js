@@ -775,12 +775,18 @@ Ext.define('escape.controller.Search', {
     },
 
     showProduct: function(data) {
+        console.log(data)
         var funnelbackCollection = this.getSearchPage().getCollectionType();
+        console.log('funnelbackCollection: ',funnelbackCollection);
 
         if (!funnelbackCollection || funnelbackCollection == 'deals') {
             funnelbackCollection = data.Product_Type;
         }
-
+         console.log('funnelbackCollection: ' + funnelbackCollection);
+        if (funnelbackCollection === 'attractions'){
+            funnelbackCollection = 'attr';
+        }
+        console.log('funnelbackCollection: ' + funnelbackCollection);
         if (funnelbackCollection === 'centres') {
             funnelbackCollection = 'vic';
         }
@@ -788,6 +794,7 @@ Ext.define('escape.controller.Search', {
         // map funnel back collection to matrix collection
         for (var i = escape.utils.AppVars.collectionMapping.length - 1; i >= 0; i--) {
             var collectionMap = escape.utils.AppVars.collectionMapping[i];
+            console.log('collectionMap: ' + collectionMap.funnelback + ' |  funnelbackCollection ' + funnelbackCollection);
             if (funnelbackCollection == collectionMap.funnelback) {
                 collection = collectionMap;
                 break;
@@ -797,8 +804,10 @@ Ext.define('escape.controller.Search', {
         var webpathBreakdown = data.Webpath.split('/');
         var productId = webpathBreakdown[webpathBreakdown.length - 1];
         // load the map page
+        console.log('collection:' + collection);
+          console.log('productId:' + productId);
         this.getApplication().getController('Section').pushPage({
-            pageTitle: collection.name,
+            pageTitle:  (collection) ? collection.name : data.Name,
             xtype: 'productPage',
             productId: productId,
             productType: collection.matrix
