@@ -34,7 +34,10 @@ Ext.define('escape.controller.Section', {
     pushPage: function(config) {
         console.log(config);
         var currentPage = escape.utils.AppVars.currentSection.getNavigationView().getActiveItem();
-        if (currentPage.xtype != config.xtype || (config.xtype == 'contentPage' && currentPage.contentPath != config.contentPath)) {
+         console.log('currentPage.xtype',currentPage.xtype);
+         console.log('config.xtype',config.xtype);
+        if (currentPage.xtype != config.xtype || (config.xtype == 'contentPage' && currentPage.contentPath != config.contentPath) || currentPage.xtype == 'productSubSection') {
+            console.log('push page');
             var pages = escape.utils.AppVars.currentSection.getNavigationView().getItems();
             escape.utils.AppVars.currentSection.getNavigationView().push(config);
         }

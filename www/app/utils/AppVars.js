@@ -23,6 +23,10 @@ Ext.define('escape.utils.AppVars', {
         funnelback: 'hire',
         matrix: 'hire'
     }, {
+        name: 'Deals',
+        funnelback: 'deals',
+        matrix: 'deals'
+    }, {
         name: 'Restaurant',
         funnelback: 'restaurants',
         matrix: 'restaurant'
