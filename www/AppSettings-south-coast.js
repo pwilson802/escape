@@ -161,7 +161,7 @@ AppSettings.eventsIncludeFeatured = false;
 // Or get list from http://www.visitnsw.com/widgets/mobile-app-platform-feeds/listings/destinations/_nocache
 AppSettings.destinationIds = '331;399;238;271;268;266;270;239;240;4171;269;267;400;4172;401;244;245;4212;246;247;248;4211;249;250;4213;251;252;253;254;276;255;275;4173;256;257;258;4207;259;260;261;262;403;272;241;242;243;274;4175;273;4210;4208;277;263;404;278;264;4176;279;265';
 // The smartphone cms section
-AppSettings.forceRemoteContent = true; // should always be set to false. Just for testing while the backend is been built
+AppSettings.forceRemoteContent = false; // should always be set to false. Just for testing while the backend is been built
 AppSettings.smartphoneCMSSection = 'south-coast';
 AppSettings.smartphoneURL = 'http://apps.visitnsw.com/smartphoneapps/';
 AppSettings.getSMPSectionURL = function() {
@@ -213,21 +213,21 @@ AppSettings.weatherStations = [{
     lat: -34.5638,
     lon: 150.79,
     name: 'Albion Park'
-}, {
-    stationId: 68219,
-    lat: -34.3691,
-    lon: 150.9291,
-    name: 'Wollongong'
+// }, {
+//     stationId: 68219,
+//     lat: -34.3691,
+//     lon: 150.9291,
+//     name: 'Wollongong'
 }, {
     stationId: 69134,
     lat: -35.7234,
     lon: 150.1872,
     name: 'Batemans Bay'
-}, {
-    stationId: 69002,
-    lat: -36.6722,
-    lon: 149.8191,
-    name: 'Bega'
+// }, {
+//     stationId: 69002,
+//     lat: -36.6722,
+//     lon: 149.8191,
+//     name: 'Bega'
 }, {
     stationId: 69147,
     lat: -36.9077,

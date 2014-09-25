@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.dnsw.spp.bluemountains;
+package com.dnsw.spp.southcoast;
 
 public final class R {
     public static final class attr {
