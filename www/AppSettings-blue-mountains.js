@@ -140,11 +140,11 @@ AppSettings.weatherStations = [{
     lon: 150.3087,
     name: 'Katoomba'
 }, {
-    stationId: 63077,
-    lat: -33.7065,
-    lon: 150.5848,
-    name: 'Springwood'
-}, {
+//     stationId: 63077,
+//     lat: -33.7065,
+//     lon: 150.5848,
+//     name: 'Springwood'
+// }, {
     stationId: 63226,
     lat: -33.4769,
     lon: 150.1303,
