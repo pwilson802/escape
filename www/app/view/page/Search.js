@@ -101,14 +101,12 @@ Ext.define("escape.view.page.Search", {
                 if (subArea.value) {
                     currentTown = subArea.value.toLowerCase();
                 }
-                console.log('currentTown: ' + currentTown)
                 for (var k = 0; k < AppSettings.appSubDestination[i].towns.length; k++) {
                     var town = AppSettings.appSubDestination[i].towns[k];
                     var valueStr = town.name.toLowerCase();
                     if (town.value) {
                         valueStr = town.value.toLowerCase();
                     }
-                    console.log('valueStr', currentTown + '/' + valueStr);
                     townOptions.push({
                         text: town.name,
                         value: currentTown + '/' + valueStr

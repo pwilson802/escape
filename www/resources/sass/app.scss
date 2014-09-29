@@ -1676,6 +1676,8 @@ p {
 			}
 			span {
 				padding: 0 5px 0 0;
+				display: inline-block;
+				text-align: left;
 			}
 			
 		}
@@ -1731,6 +1733,21 @@ p {
 			.x-button-label {
 				span.icon  {
 					background-image:url(#{$image-path}/ico_home_btn_deal.png);
+				}
+			}
+		}
+		&.dinningHome {
+			border-bottom: none !important;
+			border-right: none !important;
+			.x-button-label {
+				padding: 20px 0 16px;
+				span.icon  {
+					background-image:url(#{$image-path}/ico_home_btn_restaurant.png);
+					padding:0 !important;
+					background-position: left top;
+				}
+				span {
+					padding: 0 0 0 10px;
 				}
 			}
 		}
@@ -3119,6 +3136,14 @@ p {
 				span.icon  {
 					background-image:url(#{$image-path}/ico_home_btn_deal@2x.png);
 					@include background-size(22px 18px !important);
+				}
+			}
+		}
+		&.dinningHome {
+			.x-button-label {
+				span.icon  {
+					background-image:url(#{$image-path}/ico_home_btn_restaurant@2x.png);
+					@include background-size(18px 15px !important);
 				}
 			}
 		}

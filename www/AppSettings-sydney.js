@@ -557,10 +557,10 @@ AppSettings.homeMenu = [{
     sectionId: 'myItinerarySection'
 }, {
     xtype: 'button',
-    html: "<span class='icon'></span><span>Deals</span>",
-    cls: 'dealsHome',
+    html: "<span class='icon'></span><span>Dining and<br>Entertainment</span>",
+    cls: 'dinningHome',
     action: 'changeSection',
-    sectionId: 'dealsSection'
+    sectionId: 'foodAndWineSection'
 }];
 
 //////////////////////////////////////////////////////////////////////

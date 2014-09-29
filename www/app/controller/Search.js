@@ -287,6 +287,7 @@ Ext.define('escape.controller.Search', {
                 // only request one result
                 optionsSearch.setPageSize(1);
                 console.log(optionsSearch);
+                console.log('params',params);
                 // request results
                 console.log('loadPage');
                 optionsSearch.loadPage(1, {
