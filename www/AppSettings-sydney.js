@@ -445,15 +445,15 @@ AppSettings.mainMenu = [{
         collectionType: 'tour',
         xtype: 'searchPage'
     }
-}, {
-    title: 'Deals',
-    group: 'Group 3',
-    id: 'dealsSection',
-    firstPage: {
-        title: 'Deals',
-        collectionType: 'deals',
-        xtype: 'searchPage'
-    }
+// }, {
+//     title: 'Deals',
+//     group: 'Group 3',
+//     id: 'dealsSection',
+//     firstPage: {
+//         title: 'Deals',
+//         collectionType: 'deals',
+//         xtype: 'searchPage'
+//     }
 }, {
     title: 'Alerts',
     group: 'Group 4',
