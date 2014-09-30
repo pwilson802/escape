@@ -35,7 +35,6 @@ Ext.define("escape.view.page.Home", {
         var selfRef = this;
         escape.model.Weather.get({
             success: function(weather) {
-                // console.log(weather);
                 selfRef.showWeather(weather);
             },
             error: function() {},
@@ -89,10 +88,10 @@ Ext.define("escape.view.page.Home", {
             var selfRef = this;
             escape.model.Weather.get({
                 success: function(weather) {
-                    // console.log(weather);
                     selfRef.showWeather(weather);
                 },
-                error: function() {},
+                error: function() {
+                },
                 scope: this,
                 forceUpdate: false,
                 getClosest: true
@@ -116,6 +115,7 @@ Ext.define("escape.view.page.Home", {
                         cls: 'weatherBtn iconBtn',
                         action: 'showWeather',
                         itemId: 'weatherBtn',
+                        text:' ',
                         top: -2,
                         right: 36,
                         width: 40,

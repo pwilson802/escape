@@ -81,7 +81,6 @@ Ext.define("escape.model.Weather", {
     checkDegrees: function(callback, scope) {
         // Check to see if the user has picked a temp measurement
         var selfRef = this;
-                    // console.log('Set setting isdegrees');
         escape.model.UserSettings.getSetting('isDegrees', {
             success: function(isDegrees) {
                 if (isDegrees === null) {
@@ -181,7 +180,6 @@ Ext.define("escape.model.Weather", {
     },
 
     convert: function() {
-        // console.log('Are we in degrees C', this.getIsDegrees());
         this.cache.currentTemperature = this.convertTempature(this.cache.currentTemperature);
         for (var i = this.cache.days.length - 1; i >= 0; i--) {
             if (this.cache.days[i].max) {
@@ -203,6 +201,7 @@ Ext.define("escape.model.Weather", {
         var selfRef = this;
         if (callback.getClosest && callback.getClosest === true) {
             Ext.device.Geolocation.getCurrentPosition({
+                timeout : 10000,
                 success: function(position) {
                     var userLocation = {
                         lat: position.coords.latitude,
@@ -234,7 +233,6 @@ Ext.define("escape.model.Weather", {
     },
     loadDegrees: function(callback, scope) {
         var selfRef = this;
-        // console.log(this.getIsDegrees() );
         if (this.getIsDegrees() === null) {
             this.checkDegrees({
                 success: function() {
@@ -260,13 +258,14 @@ Ext.define("escape.model.Weather", {
         //         return;
         //     }
         // }
+        var site = (selfRef.stationId) ? selfRef.stationId : AppSettings.weatherStations[0].stationId;
         // Get the weather
         Ext.Ajax.useDefaultXhrHeader = false;
         Ext.Ajax.request({
             url: 'http://services.tiltandco.net/weather/forecast',
             method: "GET",
             params: {
-                "site": (selfRef.stationId) ? selfRef.stationId : AppSettings.weatherStations[0].stationId,
+                "site": site,
                 "nocache": new Date().getTime()
             },
             success: function(response) {
