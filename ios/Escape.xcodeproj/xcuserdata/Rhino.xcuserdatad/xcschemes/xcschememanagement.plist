@@ -4,15 +4,75 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>SydneyGuide.xcscheme</key>
+		<key>Blue Mountains.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>Central Coast.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>Hunter Valley.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>Port Stephens.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>South Coast.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>Sydney.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>SydneyGuide.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>000FD06C1782912700A3C3B2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>008421571804B93A00038781</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1D6058900D05DD3D006BFB54</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2F0FDD2519AD828100A990DD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2F41C51919C1721E00D4AC90</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2FAC450219AD8AEF008FC996</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2FCAAF7019C15FE600164E97</key>
 		<dict>
 			<key>primary</key>
 			<true/>

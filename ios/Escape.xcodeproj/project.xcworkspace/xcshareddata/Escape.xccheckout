@@ -10,29 +10,29 @@
 	<string>Escape</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>B390CB57-5E71-4190-B11E-B89041C2C53C</key>
-		<string>https://bitbucket.org/tiltandco/escape</string>
+		<key>984F8A577161C14E18C61D569C9AF6580DC775EF</key>
+		<string>bitbucket.org:tiltandco/escape.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ios/Escape.xcodeproj/project.xcworkspace</string>
+	<string>ios/Escape.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>B390CB57-5E71-4190-B11E-B89041C2C53C</key>
+		<key>984F8A577161C14E18C61D569C9AF6580DC775EF</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://bitbucket.org/tiltandco/escape</string>
+	<string>bitbucket.org:tiltandco/escape.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>B390CB57-5E71-4190-B11E-B89041C2C53C</string>
+	<string>984F8A577161C14E18C61D569C9AF6580DC775EF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>B390CB57-5E71-4190-B11E-B89041C2C53C</string>
+			<string>984F8A577161C14E18C61D569C9AF6580DC775EF</string>
 			<key>IDESourceControlWCCName</key>
 			<string>escape</string>
 		</dict>
